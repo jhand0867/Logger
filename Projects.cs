@@ -16,7 +16,7 @@ namespace Logger
 
         private void listView1_DoubleClick(object sender, EventArgs e)
         {
-            MessageBox.Show(listView1.SelectedItems[0].SubItems[0].Text);
+            //MessageBox.Show(listView1.SelectedItems[0].SubItems[0].Text);
         }
 
         internal void Projects_Load(object sender, EventArgs e)
@@ -49,8 +49,11 @@ namespace Logger
 
 
             }
-            if (prjList.Count > 0) 
+            if (prjList.Count > 0)
+            {
+                treeView1.Nodes.Clear();
                 listView1_Load(listView1.Items[0]);
+            }
 
         }
 
@@ -95,66 +98,8 @@ namespace Logger
                 {
                     if (item.Bounds.Contains(new Point(e.X, e.Y)))
                     {
-                        Project pr = (Project)item.Tag;
-                        DataTable dt = pr.getAllLogs(pr.Key);
-
-                        if (dt.Rows.Count == 0)
-                            continue;
-                        foreach (DataRow dr in dt.Rows)
-                        {
-                            TreeNode tn = new TreeNode();
-                            tn.Nodes.Clear();
-
-                            string logLocation = dr["logFile"].ToString();
-
-                            int logIndex = logLocation.LastIndexOf(@"\") + 1;
-                            tn.Text = logLocation.Substring(logIndex, logLocation.Length - logIndex);
-                            tn.ToolTipText = logLocation;
-
-                            for (int x = 4; x < 14; x++)
-                            {
-                                if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
-                                {
-                                    switch (x)
-                                    {
-                                        case 4:
-                                            tn.Nodes.Add("Screens");
-                                            break;
-                                        case 5:
-                                            tn.Nodes.Add("States");
-                                            break;
-                                        case 6:
-                                            tn.Nodes.Add("Configuration Parameters");
-                                            break;
-                                        case 7:
-                                            tn.Nodes.Add("FIT");
-                                            break;
-                                        case 8:
-                                            tn.Nodes.Add("Configuration ID");
-                                            break;
-                                        case 9:
-                                            tn.Nodes.Add("Enhanced Parameters");
-                                            break;
-                                        case 10:
-                                            tn.Nodes.Add("MAC");
-                                            break;
-                                        case 11:
-                                            tn.Nodes.Add("Date and Time");
-                                            break;
-                                        case 12:
-                                            tn.Nodes.Add("Transaction Request");
-                                            break;
-                                        case 13:
-                                            tn.Nodes.Add("Transaction Reply");
-                                            break;
-                                    }
-                                }
-                            }
-                            treeView1.Nodes.Add(tn);
-                        }
+                        listView1_Load(item);
                     }
-
-
                     match = true;
                     continue;
                 }
@@ -175,11 +120,7 @@ namespace Logger
                 {
                     listView1.ContextMenuStrip.Show(listView1, new Point(e.X, e.Y));
                 }
-                else
-                {
-                    // show
-                }
-            }
+             }
 
         }
 
@@ -190,10 +131,7 @@ namespace Logger
 
         private void listView1_Load(ListViewItem item)
         {
-
-            treeView1.Nodes.Clear();
-
-            Project pr = (Project)item.Tag;
+             Project pr = (Project)item.Tag;
             DataTable dt = pr.getAllLogs(pr.Key);
 
             if (dt.Rows.Count == 0)
@@ -210,41 +148,43 @@ namespace Logger
                 tn.Text = logLocation.Substring(logIndex, logLocation.Length - logIndex);
                 tn.ToolTipText = logLocation;
 
-                for (int x = 4; x < 14; x++)
+                Dictionary<string, int> dicBits = pr.showRecordBits(dr["id"].ToString());
+
+                for (int x = 4; x < 15; x++)
                 {
                     if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
                     {
                         switch (x)
                         {
                             case 4:
-                                tn.Nodes.Add("Screens");
+                                tn.Nodes.Add("Screens " + dicBits["screens"]);
                                 break;
                             case 5:
-                                tn.Nodes.Add("States");
+                                tn.Nodes.Add("States " + dicBits["states"]);
                                 break;
                             case 6:
-                                tn.Nodes.Add("Configuration Parameters");
+                                tn.Nodes.Add("Configuration Parameters " + dicBits["configParams"]);
                                 break;
                             case 7:
-                                tn.Nodes.Add("FIT");
+                                tn.Nodes.Add("FIT " + dicBits["fit"]);
                                 break;
                             case 8:
-                                tn.Nodes.Add("Configuration ID");
+                                tn.Nodes.Add("Configuration ID " + dicBits["configId"]);
                                 break;
                             case 9:
-                                tn.Nodes.Add("Enhanced Parameters");
+                                tn.Nodes.Add("Enhanced Parameters " + dicBits["enhancedParams"]);
                                 break;
                             case 10:
-                                tn.Nodes.Add("MAC");
+                                tn.Nodes.Add("MAC " );
                                 break;
                             case 11:
-                                tn.Nodes.Add("Date and Time");
-                                break;
-                            case 12:
-                                tn.Nodes.Add("Transaction Request");
+                                tn.Nodes.Add("Date and Time " + dicBits["dateTime"]);
                                 break;
                             case 13:
-                                tn.Nodes.Add("Transaction Reply");
+                                tn.Nodes.Add("Transaction Request " + dicBits["treq"]);
+                                break;
+                            case 14:
+                                tn.Nodes.Add("Transaction Reply " + dicBits["treply"]);
                                 break;
                         }
                     }

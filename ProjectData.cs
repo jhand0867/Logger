@@ -27,8 +27,6 @@ namespace Logger
         {
             dataGridView1.DataSource = buildDataGridView1();
 
-            //dataGridView1.Rows[0].Cells[0].Value = "New Value";
-
             fixLogNames(dataGridView1);
 
             dataGridView1.Columns[0].HeaderText = "File Name";
@@ -199,6 +197,9 @@ namespace Logger
             string logID = dgvr.Cells[2].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
+            dataGridView1.DataSource = buildDataGridView1();
+            fixLogNames(dataGridView1);
+
 
         }
 
@@ -212,7 +213,8 @@ namespace Logger
             string logID = dgvr.Cells[2].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
-
+            dataGridView1.DataSource = buildDataGridView1();
+            fixLogNames(dataGridView1);
         }
 
         private void configurationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -225,6 +227,8 @@ namespace Logger
             string logID = dgvr.Cells[2].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
+            dataGridView1.DataSource = buildDataGridView1();
+            fixLogNames(dataGridView1);
         }
 
         private void fITToolStripMenuItem_Click(object sender, EventArgs e)
@@ -237,8 +241,8 @@ namespace Logger
             string logID = dgvr.Cells[2].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
-
-
+            dataGridView1.DataSource = buildDataGridView1();
+            fixLogNames(dataGridView1);
         }
 
         private void configurationIDToolStripMenuItem_Click(object sender, EventArgs e)
@@ -251,6 +255,8 @@ namespace Logger
             string logID = dgvr.Cells[2].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
+            dataGridView1.DataSource = buildDataGridView1();
+            fixLogNames(dataGridView1);
         }
 
         private void enhancedConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -263,6 +269,8 @@ namespace Logger
             string logID = dgvr.Cells[2].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
+            dataGridView1.DataSource = buildDataGridView1();
+            fixLogNames(dataGridView1);
         }
 
         private void dateAndTimeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -275,6 +283,8 @@ namespace Logger
             string logID = dgvr.Cells[2].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
+            dataGridView1.DataSource = buildDataGridView1();
+            fixLogNames(dataGridView1);
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -284,15 +294,17 @@ namespace Logger
 
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            MessageBox.Show(e.RowIndex.ToString());
+            //MessageBox.Show(e.RowIndex.ToString());
         }
 
         private void scanToolStripMenuItem_MouseDown(object sender, MouseEventArgs e)
         {
+            //DataTable dt = buildDataGridView1();
+            //dataGridView1.DataSource = dt;
+
             
             if (dataGridView1.Rows.Count == 0)
                 return;
-
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
             for (int x = 1, i = 3; i < 14; i++, x++)
             {

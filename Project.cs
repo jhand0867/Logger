@@ -749,7 +749,6 @@ namespace Logger
             try
             {
                 cnn.Open();
-
                 SqlCommand command;
                 SqlDataAdapter dataAdapter = new SqlDataAdapter();
 
@@ -759,7 +758,6 @@ namespace Logger
 
                 command.Dispose();
                 cnn.Close();
-
             }
             catch (SqlException sqlEx)
             {
@@ -784,14 +782,76 @@ namespace Logger
 
                     return dt;
                 }
-
-                //return dicData;
             }
             catch (Exception dbEx)
             {
                 Console.WriteLine(dbEx.ToString());
                 return null;
             }
+        }
+
+        public Dictionary<string, int> showRecordBits(string logID)
+        {
+            ///Return a Dictionary with type of record and amount
+
+            string connectionString;
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+
+
+            Dictionary<string, int> dicBits = new Dictionary<string, int>();
+
+            SqlConnection cnn = new SqlConnection(connectionString);
+
+            try {
+                using (SqlCommand cmd = new SqlCommand(@"SELECT COUNT(*) FROM screeninfo WHERE logID =" + logID, cnn))
+                {
+                    cnn.Open();
+
+                    int count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("screens", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM stateinfo WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("states", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM configParamsInfo WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("configParams", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM fitinfo WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("fit", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM configId WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("configId", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM enhancedParamsInfo WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("enhancedParams", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM dateTime WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("dateTime", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM treq WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("treq", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM treply WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("treply", count);
+
+                }
+
+                return dicBits;
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+
         }
         public new Dictionary<string, string> readData(string sql)
         {
