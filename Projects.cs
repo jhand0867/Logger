@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 
 namespace Logger
 {
@@ -14,24 +13,12 @@ namespace Logger
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //Project pr = (Project)listView1.SelectedItems[0].SubItems[0].;
-
-        }
 
         private void listView1_DoubleClick(object sender, EventArgs e)
         {
             MessageBox.Show(listView1.SelectedItems[0].SubItems[0].Text);
         }
 
-        //lore 
-        // private void Projects_Load(object sender, EventArgs e)
         internal void Projects_Load(object sender, EventArgs e)
         {
 
@@ -40,17 +27,9 @@ namespace Logger
             listView1.Columns.Add("Project Name", 120, HorizontalAlignment.Center);
             listView1.Columns.Add("Project Description", 240, HorizontalAlignment.Center);
             listView1.Columns.Add("Logs", 40, HorizontalAlignment.Center);
-
-            // setup listview
-            // imageList1.ImageSize = new Size(32, 32);
             listView1.SmallImageList = imageList1;
 
-            
-
             listView1.LargeImageList = imageList1;
-
-
-
 
             Projects prForm = new Projects();
             prForm.TopMost = true;
@@ -63,13 +42,16 @@ namespace Logger
                 var lvi = new ListViewItem(new string[] { p.Name, p.Brief, p.Logs.ToString().Trim() });
                 lvi.Tag = p;
                 lvi.ImageIndex = 1;
-
-
                 listView1.Items.Add(lvi);
+                listView1.Items[0].Selected = true;
+
                 listView1.Refresh();
 
 
             }
+            if (prjList.Count > 0) 
+                listView1_Load(listView1.Items[0]);
+
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -122,7 +104,7 @@ namespace Logger
                         {
                             TreeNode tn = new TreeNode();
                             tn.Nodes.Clear();
-                            
+
                             string logLocation = dr["logFile"].ToString();
 
                             int logIndex = logLocation.LastIndexOf(@"\") + 1;
@@ -131,8 +113,8 @@ namespace Logger
 
                             for (int x = 4; x < 14; x++)
                             {
-                                if (dr[x].ToString() == "True")
-                                    {
+                                if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
+                                {
                                     switch (x)
                                     {
                                         case 4:
@@ -172,14 +154,10 @@ namespace Logger
                         }
                     }
 
-                    
+
                     match = true;
                     continue;
                 }
-            }
-            if (match)
-            {
-                //listView1.ContextMenuStrip.Show(listView1, new Point(e.X, e.Y));
             }
 
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
@@ -192,7 +170,7 @@ namespace Logger
                         match = true;
                         break;
                     }
-}
+                }
                 if (match)
                 {
                     listView1.ContextMenuStrip.Show(listView1, new Point(e.X, e.Y));
@@ -206,83 +184,150 @@ namespace Logger
         }
 
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
-{
-    this.Hide();
-}
-
-private void hToolStripMenuItem_Click(object sender, EventArgs e)
-{
-
-}
-
-private void listToolStripMenuItem_Click(object sender, EventArgs e)
-{
-    listView1.View = View.Details;
-}
-
-private void listToolStripMenuItem1_Click(object sender, EventArgs e)
-{
-    listView1.View = View.List;
-}
-
-private void iconsToolStripMenuItem_Click(object sender, EventArgs e)
-{
-    listView1.View = View.LargeIcon;
-}
-
-private void attachToolStripMenuItem_Click(object sender, EventArgs e)
-{
-    using (OpenFileDialog fd = new OpenFileDialog())
-    {
-        fd.Title = "Upload Log to Project ";
-
-        if (fd.ShowDialog() == DialogResult.OK)
         {
-            string filename = fd.FileName;
-            Project pr = new Project();
-            pr.uploadLog(filename);
+            this.Hide();
         }
-    }
 
-}
+        private void listView1_Load(ListViewItem item)
+        {
 
-private void editToolStripMenuItem1_Click(object sender, EventArgs e)
-{
-    editProject();
-}
+            treeView1.Nodes.Clear();
 
-private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
-{
-    MessageBox.Show("This is Delete");
-}
+            Project pr = (Project)item.Tag;
+            DataTable dt = pr.getAllLogs(pr.Key);
 
-private void editToolStripMenuItem_Click(object sender, EventArgs e)
-{
-    editProject();
-}
+            if (dt.Rows.Count == 0)
+                return;
 
-private void editProject()
-{
-    string prjName = listView1.SelectedItems[0].Text;
+            foreach (DataRow dr in dt.Rows)
+            {
+                TreeNode tn = new TreeNode();
+                tn.Nodes.Clear();
 
-    Dictionary<string, Project> dicData = new Dictionary<string, Project>();
+                string logLocation = dr["logFile"].ToString();
 
-    dicData = App.Prj.getProjectByName(prjName);
+                int logIndex = logLocation.LastIndexOf(@"\") + 1;
+                tn.Text = logLocation.Substring(logIndex, logLocation.Length - logIndex);
+                tn.ToolTipText = logLocation;
 
-    ProjectInfo prjInfo = new ProjectInfo();
-    Control[] formControls = prjInfo.Controls.Find("btnUpdate", false);
-    if (formControls.Length > 0)
-    {
-        Button btn = (Button)formControls[0];
-        btn.Enabled = true;
-    }
-    foreach (Project pr in dicData.Values)
-    {
-        App.Prj = pr;
-        prjInfo.displayProjectInfo(pr.Name.ToString(), pr.Brief.ToString());
-    }
-    prjInfo.TopMost = true;
-    prjInfo.Show();
-}
+                for (int x = 4; x < 14; x++)
+                {
+                    if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
+                    {
+                        switch (x)
+                        {
+                            case 4:
+                                tn.Nodes.Add("Screens");
+                                break;
+                            case 5:
+                                tn.Nodes.Add("States");
+                                break;
+                            case 6:
+                                tn.Nodes.Add("Configuration Parameters");
+                                break;
+                            case 7:
+                                tn.Nodes.Add("FIT");
+                                break;
+                            case 8:
+                                tn.Nodes.Add("Configuration ID");
+                                break;
+                            case 9:
+                                tn.Nodes.Add("Enhanced Parameters");
+                                break;
+                            case 10:
+                                tn.Nodes.Add("MAC");
+                                break;
+                            case 11:
+                                tn.Nodes.Add("Date and Time");
+                                break;
+                            case 12:
+                                tn.Nodes.Add("Transaction Request");
+                                break;
+                            case 13:
+                                tn.Nodes.Add("Transaction Reply");
+                                break;
+                        }
+                    }
+                }
+                treeView1.Nodes.Add(tn);
+            }
+
+        }
+
+
+        private void hToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.View = View.Details;
+        }
+
+        private void listToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            listView1.View = View.List;
+        }
+
+        private void iconsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.View = View.LargeIcon;
+        }
+
+        private void attachToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog fd = new OpenFileDialog())
+            {
+                fd.Title = "Upload Log to Project ";
+
+                if (fd.ShowDialog() == DialogResult.OK)
+                {
+                    string filename = fd.FileName;
+                    Project pr = new Project();
+                    pr.uploadLog(filename);
+                }
+            }
+
+        }
+
+        private void editToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            editProject();
+        }
+
+        private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This is Delete");
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            editProject();
+        }
+
+        private void editProject()
+        {
+            string prjName = listView1.SelectedItems[0].Text;
+
+            Dictionary<string, Project> dicData = new Dictionary<string, Project>();
+
+            dicData = App.Prj.getProjectByName(prjName);
+
+            ProjectInfo prjInfo = new ProjectInfo();
+            Control[] formControls = prjInfo.Controls.Find("btnUpdate", false);
+            if (formControls.Length > 0)
+            {
+                Button btn = (Button)formControls[0];
+                btn.Enabled = true;
+            }
+            foreach (Project pr in dicData.Values)
+            {
+                App.Prj = pr;
+                prjInfo.displayProjectInfo(pr.Name.ToString(), pr.Brief.ToString());
+            }
+            prjInfo.TopMost = true;
+            prjInfo.Show();
+        }
     }
 }

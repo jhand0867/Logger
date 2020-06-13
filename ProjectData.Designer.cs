@@ -48,8 +48,8 @@
             this.dateAndTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transactionRequestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transactionReplyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dispenseCurrencyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -134,9 +134,9 @@
             this.enhancedConfigurationToolStripMenuItem,
             this.mACToolStripMenuItem,
             this.dateAndTimeToolStripMenuItem,
+            this.dispenseCurrencyToolStripMenuItem,
             this.transactionRequestToolStripMenuItem,
-            this.transactionReplyToolStripMenuItem,
-            this.dispenseCurrencyToolStripMenuItem});
+            this.transactionReplyToolStripMenuItem});
             this.scanToolStripMenuItem.Name = "scanToolStripMenuItem";
             this.scanToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
             this.scanToolStripMenuItem.Text = "Scan";
@@ -218,6 +218,12 @@
             this.transactionReplyToolStripMenuItem.Text = "Transaction Reply";
             this.transactionReplyToolStripMenuItem.Click += new System.EventHandler(this.transactionReplyToolStripMenuItem_Click);
             // 
+            // dispenseCurrencyToolStripMenuItem
+            // 
+            this.dispenseCurrencyToolStripMenuItem.Name = "dispenseCurrencyToolStripMenuItem";
+            this.dispenseCurrencyToolStripMenuItem.Size = new System.Drawing.Size(315, 34);
+            this.dispenseCurrencyToolStripMenuItem.Text = "Dispense Currency";
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
@@ -236,12 +242,6 @@
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
-            // 
-            // dispenseCurrencyToolStripMenuItem
-            // 
-            this.dispenseCurrencyToolStripMenuItem.Name = "dispenseCurrencyToolStripMenuItem";
-            this.dispenseCurrencyToolStripMenuItem.Size = new System.Drawing.Size(315, 34);
-            this.dispenseCurrencyToolStripMenuItem.Text = "Dispense Currency";
             // 
             // ProjectData
             // 

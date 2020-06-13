@@ -778,7 +778,7 @@ namespace Logger
             try
             {
                 cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dbo].[logs] WHERE prjKey = '" + prjID +  "'", cnn))
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dbo].[logs] WHERE prjKey = '" + prjID + "'", cnn))
                 {
                     sda.Fill(dt);
 

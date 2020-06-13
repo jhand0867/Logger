@@ -49,8 +49,8 @@ namespace Logger
 
             dataGridView1.Refresh();
 
-            
-            
+
+
         }
 
         private void attachToolStripMenuItem_Click(object sender, EventArgs e)
@@ -98,7 +98,7 @@ namespace Logger
             string cnnString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
 
             string sql = @"SELECT logFile, uploadDate, id, screens, states, configParametersLoad
-                        ,fit,configID,enhancedParametersLoad,mac,dateandtime,treq,treply 
+                        ,fit,configID,enhancedParametersLoad,mac,dateandtime,dispenserCurrency,treq,treply 
                         FROM logs WHERE prjKey ='" + App.Prj.Key + "'";
 
             using (SqlConnection conn = new SqlConnection(cnnString))
@@ -279,7 +279,7 @@ namespace Logger
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
 
         private void dataGridView1_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -289,11 +289,14 @@ namespace Logger
 
         private void scanToolStripMenuItem_MouseDown(object sender, MouseEventArgs e)
         {
-            DataTable dt = App.Prj.getAllLogs(App.Prj.Key);
+            
+            if (dataGridView1.Rows.Count == 0)
+                return;
+
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            for (int x = 1, i = 3; i < 13; i++, x++)
+            for (int x = 1, i = 3; i < 14; i++, x++)
             {
-                if (dgvr.Cells[i].Value.ToString() == "True")
+                if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
                 {
                     scanToolStripMenuItem.DropDownItems[x].Enabled = false;
                 }
@@ -302,7 +305,7 @@ namespace Logger
                     scanToolStripMenuItem.DropDownItems[x].Enabled = true;
                 }
             }
-            
+
         }
 
         private void scanToolStripMenuItem_Click(object sender, EventArgs e)
