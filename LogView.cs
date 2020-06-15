@@ -46,10 +46,10 @@ namespace Logger
             Point loc;
             // header group4
             ComboBox cmbColumHeader2 = new ComboBox();
+            cmbColumHeader2.DataSource = App.Prj.getGroup8Options("1");
+            cmbColumHeader2.DisplayMember = "group4";
             cmbColumHeader2.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbColumHeader2.Items.Add("Option 1");
-            cmbColumHeader2.Items.Add("Option 2");
-            cmbColumHeader2.Items.Add("Option 3");
+            
             loc = dgvLog.GetCellDisplayRectangle(2, -1, true).Location;
             cmbColumHeader2.Location = new Point(loc.X + dgvLog.Columns[2].Width, 1);
             cmbColumHeader2.Size = dgvLog.Columns[2].HeaderCell.Size;
@@ -85,14 +85,11 @@ namespace Logger
 
             // header group8
             ComboBox cmbColumHeader6 = new ComboBox();
-            
-            cmbColumHeader6.DataSource = App.Prj.getGroup8Options("1");
-            cmbColumHeader6.DisplayMember = "group4";
             cmbColumHeader6.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbColumHeader6.Items.Add("ATM2HOST");
+            cmbColumHeader6.Items.Add("HOST2ATM");
+            cmbColumHeader6.Items.Add("Host Connected");
 
- //           cmbColumHeader6.Items.Add("Choooooseeeee     1            ");
- //           cmbColumHeader6.Items.Add("Choooooseeeee     2            ");
- //           cmbColumHeader6.Items.Add("Choooooseeeee     3            ");
             loc = dgvLog.GetCellDisplayRectangle(5, -1, true).Location;
             cmbColumHeader6.Location = new Point(loc.X + dgvLog.Columns[5].Width, 1);
             cmbColumHeader6.Width = 660;
