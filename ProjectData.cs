@@ -8,6 +8,7 @@ namespace Logger
 {
     public partial class ProjectData : Form
     {
+        internal static string logID = "";
         public ProjectData()
         {
             InitializeComponent();
@@ -322,6 +323,19 @@ namespace Logger
 
         private void scanToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+        }
+        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // MessageBox.Show(e.RowIndex.ToString());
+            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            logID = dgvr.Cells["id"].Value.ToString();
+
+            LogView logView = new LogView();
+            //logView.MdiParent = "";
+            logView.Show();
+
+
 
         }
     }

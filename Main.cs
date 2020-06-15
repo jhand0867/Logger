@@ -33,5 +33,9 @@ namespace Logger
             prForm.ShowDialog();
         }
 
+        private void MainW_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

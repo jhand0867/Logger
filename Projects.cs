@@ -33,6 +33,8 @@ namespace Logger
 
             Projects prForm = new Projects();
             prForm.TopMost = true;
+            //prForm.MdiParent = MainW;
+
             Project pr = new Project();
             Dictionary<string, Project> prjList = pr.getAllProjects();
 

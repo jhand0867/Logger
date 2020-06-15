@@ -46,9 +46,9 @@
             this.enhancedConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mACToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dateAndTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dispenseCurrencyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transactionRequestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transactionReplyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dispenseCurrencyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -81,7 +81,7 @@
             this.scanToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1393, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1393, 36);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -204,6 +204,12 @@
             this.dateAndTimeToolStripMenuItem.Text = "Date and Time";
             this.dateAndTimeToolStripMenuItem.Click += new System.EventHandler(this.dateAndTimeToolStripMenuItem_Click);
             // 
+            // dispenseCurrencyToolStripMenuItem
+            // 
+            this.dispenseCurrencyToolStripMenuItem.Name = "dispenseCurrencyToolStripMenuItem";
+            this.dispenseCurrencyToolStripMenuItem.Size = new System.Drawing.Size(315, 34);
+            this.dispenseCurrencyToolStripMenuItem.Text = "Dispense Currency";
+            // 
             // transactionRequestToolStripMenuItem
             // 
             this.transactionRequestToolStripMenuItem.Name = "transactionRequestToolStripMenuItem";
@@ -218,12 +224,6 @@
             this.transactionReplyToolStripMenuItem.Text = "Transaction Reply";
             this.transactionReplyToolStripMenuItem.Click += new System.EventHandler(this.transactionReplyToolStripMenuItem_Click);
             // 
-            // dispenseCurrencyToolStripMenuItem
-            // 
-            this.dispenseCurrencyToolStripMenuItem.Name = "dispenseCurrencyToolStripMenuItem";
-            this.dispenseCurrencyToolStripMenuItem.Size = new System.Drawing.Size(315, 34);
-            this.dispenseCurrencyToolStripMenuItem.Text = "Dispense Currency";
-            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
@@ -231,16 +231,17 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 33);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 36);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1393, 734);
+            this.dataGridView1.Size = new System.Drawing.Size(1393, 731);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_CellMouseDown);
             // 
             // ProjectData
@@ -257,6 +258,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProjectData";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ProjectData";
             this.Load += new System.EventHandler(this.ProjectData_Load);

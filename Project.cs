@@ -764,7 +764,56 @@ namespace Logger
                 Console.WriteLine(sqlEx.ToString());
             }
         }
+        public DataTable getGroup8Options(string logID)
+        {
+            string connectionString;
+            SqlConnection cnn;
 
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT DISTINCT group4 FROM loginfo WHERE logID =" +
+                                                               logID + "ORDER BY group4 ASC" , cnn))
+                {
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+        }
+
+        public DataTable getALogByID(string logID)
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [loginfo] WHERE logID =" + logID , cnn))
+                {
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+        }
         public DataTable getAllLogs(string prjID)
         {
             string connectionString;
