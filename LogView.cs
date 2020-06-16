@@ -39,17 +39,22 @@ namespace Logger
             }            
         }
 
+        //ComboBox cmbColumHeader2 = new ComboBox();
+
         private void AddHeaders(DataGridView dataGridView)
         {
-            //dataGridView.AutoResizeColumns();
-
             Point loc;
+            string logID = dgvLog.Rows[0].Cells["LogID"].Value.ToString();
+
             // header group4
             ComboBox cmbColumHeader2 = new ComboBox();
-            cmbColumHeader2.DataSource = App.Prj.getGroup8Options("1");
+            cmbColumHeader2.SelectedIndexChanged += delegate (object sender, EventArgs e)
+            {
+                cmbColumHeader2_SelectedIndexChanged(sender, e, cmbColumHeader2, logID);
+            };
+            cmbColumHeader2.DataSource = App.Prj.getGroupOptions(logID, "group4");
             cmbColumHeader2.DisplayMember = "group4";
-            cmbColumHeader2.DropDownStyle = ComboBoxStyle.DropDownList;
-            
+            cmbColumHeader2.DropDownStyle = ComboBoxStyle.DropDownList;            
             loc = dgvLog.GetCellDisplayRectangle(2, -1, true).Location;
             cmbColumHeader2.Location = new Point(loc.X + dgvLog.Columns[2].Width, 1);
             cmbColumHeader2.Size = dgvLog.Columns[2].HeaderCell.Size;
@@ -59,10 +64,13 @@ namespace Logger
 
             // header group5
             ComboBox cmbColumHeader4 = new ComboBox();
+            cmbColumHeader4.SelectedIndexChanged += delegate (object sender, EventArgs e) 
+            { 
+                cmbColumHeader4_SelectedIndexChanged(sender, e, cmbColumHeader4, logID); 
+            };
+            cmbColumHeader4.DataSource = App.Prj.getGroupOptions(logID, "group5");
+            cmbColumHeader4.DisplayMember = "group5";
             cmbColumHeader4.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbColumHeader4.Items.Add("Option I");
-            cmbColumHeader4.Items.Add("Option II");
-            cmbColumHeader4.Items.Add("Option III");
             loc = dgvLog.GetCellDisplayRectangle(3, -1, true).Location;
             cmbColumHeader4.Location = new Point(loc.X + dgvLog.Columns[3].Width, 1);
             cmbColumHeader4.Size = dgvLog.Columns[3].HeaderCell.Size;
@@ -73,9 +81,14 @@ namespace Logger
             // header group6
             ComboBox cmbColumHeader5 = new ComboBox();
             cmbColumHeader5.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbColumHeader5.Items.Add("Option a");
-            cmbColumHeader5.Items.Add("Option b");
-            cmbColumHeader5.Items.Add("Option c");
+            cmbColumHeader5.Items.Add("NORMAL");
+            cmbColumHeader5.Items.Add("RECV");
+            cmbColumHeader5.Items.Add("SEND");
+            cmbColumHeader5.SelectedIndexChanged += delegate (object sender, EventArgs e)
+            {
+                cmbColumHeader5_SelectedIndexChanged(sender, e, cmbColumHeader5, logID);
+            };
+
             loc = dgvLog.GetCellDisplayRectangle(4, -1, true).Location;
             cmbColumHeader5.Location = new Point(loc.X + dgvLog.Columns[4].Width, 1);
             cmbColumHeader5.Size = dgvLog.Columns[4].HeaderCell.Size;
@@ -90,6 +103,11 @@ namespace Logger
             cmbColumHeader6.Items.Add("HOST2ATM");
             cmbColumHeader6.Items.Add("Host Connected");
 
+            cmbColumHeader6.SelectedIndexChanged += delegate (object sender, EventArgs e)
+            {
+                cmbColumHeader6_SelectedIndexChanged(sender, e, cmbColumHeader6, logID);
+            };
+
             loc = dgvLog.GetCellDisplayRectangle(5, -1, true).Location;
             cmbColumHeader6.Location = new Point(loc.X + dgvLog.Columns[5].Width, 1);
             cmbColumHeader6.Width = 660;
@@ -97,6 +115,45 @@ namespace Logger
             dgvLog.Controls.Add(cmbColumHeader6);
             cmbColumHeader6.SelectedIndex = -1;
             cmbColumHeader6.Visible = true;
+        }
+
+        private void cmbColumHeader2_SelectedIndexChanged(object sender, System.EventArgs e, ComboBox c, string logID)
+        {
+            if (c.Text != "")
+            {
+                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group4", c.Text);
+                this.dgvLog.Refresh();
+            }
+        }
+
+        private void cmbColumHeader4_SelectedIndexChanged(object sender, System.EventArgs e, ComboBox c, string logID)
+        {
+            if (c.Text != "")
+            {
+                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group5", c.Text);
+                this.dgvLog.Refresh();
+            }
+
+        }
+
+        private void cmbColumHeader5_SelectedIndexChanged(object sender, System.EventArgs e, ComboBox c, string logID)
+        {
+            if (c.Text != "")
+            {
+                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group6", c.Text);
+                this.dgvLog.Refresh();
+            }
+
+        }
+
+        private void cmbColumHeader6_SelectedIndexChanged(object sender, System.EventArgs e, ComboBox c, string logID)
+        {
+            if (c.Text != "")
+            {
+                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", c.Text);
+                this.dgvLog.Refresh();
+            }
+
         }
 
         private void dgvLog_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)

@@ -21,7 +21,7 @@ namespace Logger
         {
             Projects obj = (Projects)Application.OpenForms["Projects"];
 
-            obj.Projects_Load(null, null);
+            obj.Projects_Load(sender, e);
         }
 
         private void ProjectData_Load(object sender, EventArgs e)

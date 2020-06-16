@@ -764,7 +764,7 @@ namespace Logger
                 Console.WriteLine(sqlEx.ToString());
             }
         }
-        public DataTable getGroup8Options(string logID)
+        public DataTable getGroupOptions(string logID, string fieldName)
         {
             string connectionString;
             SqlConnection cnn;
@@ -775,8 +775,8 @@ namespace Logger
             try
             {
                 cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT DISTINCT group4 FROM loginfo WHERE logID =" +
-                                                               logID + "ORDER BY group4 ASC" , cnn))
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT DISTINCT " + fieldName + " FROM loginfo WHERE logID =" +
+                                                               logID + " ORDER BY " + fieldName + " ASC" , cnn))
                 {
                     sda.Fill(dt);
 
@@ -790,6 +790,39 @@ namespace Logger
             }
         }
 
+        public DataTable getALogByIDWithCriteria(string logID, string columnName, string columnValue)
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+            string sql = "";
+            if (columnName != "group6" && columnName != "group8")
+                sql = @"SELECT * FROM [loginfo] WHERE logID =" + logID +
+                        " AND " + columnName + "='" + columnValue + "'";
+            else
+                sql = @"SELECT * FROM [loginfo] WHERE logID =" + logID +
+                        " AND " + columnName + " LIKE '%[[]" + columnValue + "%'";
+
+           
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(sql, cnn))
+                {
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+        }
         public DataTable getALogByID(string logID)
         {
             string connectionString;
@@ -801,7 +834,7 @@ namespace Logger
             try
             {
                 cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [loginfo] WHERE logID =" + logID , cnn))
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [loginfo] WHERE logID =" + logID, cnn))
                 {
                     sda.Fill(dt);
 
