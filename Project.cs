@@ -799,12 +799,23 @@ namespace Logger
             cnn = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
             string sql = "";
-            if (columnName != "group6" && columnName != "group8")
-                sql = @"SELECT * FROM [loginfo] WHERE logID =" + logID +
-                        " AND " + columnName + "='" + columnValue + "'";
-            else
-                sql = @"SELECT * FROM [loginfo] WHERE logID =" + logID +
+
+            switch (columnName)
+            {
+                case "group6":
+                    sql = @"SELECT * FROM [loginfo] WHERE logID =" + logID +
                         " AND " + columnName + " LIKE '%[[]" + columnValue + "%'";
+                    break;
+                case "group8":
+                    sql = @"SELECT * FROM [loginfo] WHERE logID=" + logID +
+                        " AND " + columnName + " LIKE '%" + columnValue + "%'";
+                    break;
+                default:
+                    sql = @"SELECT * FROM [loginfo] WHERE logID =" + logID +
+                        " AND " + columnName + "='" + columnValue + "'";
+                    break;
+            }
+
 
            
             try

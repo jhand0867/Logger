@@ -70,6 +70,7 @@
             this.menuStrip1.Size = new System.Drawing.Size(1761, 33);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.menuStrip1_MouseClick);
             // 
             // searchToolStripMenuItem
             // 
@@ -77,20 +78,21 @@
             this.serchOneToolStripMenuItem,
             this.searchTwoToolStripMenuItem});
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(80, 29);
-            this.searchToolStripMenuItem.Text = "Search";
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
+            this.searchToolStripMenuItem.Text = "Filter";
             // 
             // serchOneToolStripMenuItem
             // 
             this.serchOneToolStripMenuItem.Name = "serchOneToolStripMenuItem";
-            this.serchOneToolStripMenuItem.Size = new System.Drawing.Size(201, 34);
-            this.serchOneToolStripMenuItem.Text = "Search one";
+            this.serchOneToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.serchOneToolStripMenuItem.Text = "Advanced";
             // 
             // searchTwoToolStripMenuItem
             // 
             this.searchTwoToolStripMenuItem.Name = "searchTwoToolStripMenuItem";
-            this.searchTwoToolStripMenuItem.Size = new System.Drawing.Size(201, 34);
-            this.searchTwoToolStripMenuItem.Text = "Search two";
+            this.searchTwoToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.searchTwoToolStripMenuItem.Text = "Clear";
+            this.searchTwoToolStripMenuItem.Click += new System.EventHandler(this.searchTwoToolStripMenuItem_Click);
             // 
             // option2ToolStripMenuItem
             // 
@@ -116,6 +118,7 @@
             this.Name = "LogView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "LogView";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.LogView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLog)).EndInit();
             this.menuStrip1.ResumeLayout(false);

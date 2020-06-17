@@ -93,7 +93,7 @@
             this.deleteToolStripMenuItem,
             this.projectsToolStripMenuItem});
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(66, 30);
             this.logsToolStripMenuItem.Text = "Logs";
             // 
             // attachToolStripMenuItem
@@ -138,7 +138,7 @@
             this.transactionRequestToolStripMenuItem,
             this.transactionReplyToolStripMenuItem});
             this.scanToolStripMenuItem.Name = "scanToolStripMenuItem";
-            this.scanToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
+            this.scanToolStripMenuItem.Size = new System.Drawing.Size(65, 30);
             this.scanToolStripMenuItem.Text = "Scan";
             this.scanToolStripMenuItem.Click += new System.EventHandler(this.scanToolStripMenuItem_Click);
             this.scanToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.scanToolStripMenuItem_MouseDown);

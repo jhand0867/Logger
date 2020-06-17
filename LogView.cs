@@ -31,6 +31,7 @@ namespace Logger
             dgvLog.Columns["group8"].Width = 660;
             dgvLog.RowsDefaultCellStyle.BackColor = Color.LightBlue;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.Aquamarine;
+            
 
             using (Font font = new Font(
                 dgvLog.DefaultCellStyle.Font.FontFamily, 10, FontStyle.Regular))
@@ -41,13 +42,14 @@ namespace Logger
 
         //ComboBox cmbColumHeader2 = new ComboBox();
 
-        private void AddHeaders(DataGridView dataGridView)
+        internal void AddHeaders(DataGridView dataGridView)
         {
             Point loc;
             string logID = dgvLog.Rows[0].Cells["LogID"].Value.ToString();
 
             // header group4
             ComboBox cmbColumHeader2 = new ComboBox();
+              
             cmbColumHeader2.SelectedIndexChanged += delegate (object sender, EventArgs e)
             {
                 cmbColumHeader2_SelectedIndexChanged(sender, e, cmbColumHeader2, logID);
@@ -102,6 +104,9 @@ namespace Logger
             cmbColumHeader6.Items.Add("ATM2HOST");
             cmbColumHeader6.Items.Add("HOST2ATM");
             cmbColumHeader6.Items.Add("Host Connected");
+            cmbColumHeader6.Items.Add("Host Disconnected");
+            cmbColumHeader6.Items.Add("CashDispenser");
+            cmbColumHeader6.Items.Add("Created state");
 
             cmbColumHeader6.SelectedIndexChanged += delegate (object sender, EventArgs e)
             {
@@ -158,13 +163,24 @@ namespace Logger
 
         private void dgvLog_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // MessageBox.Show(e.X.ToString(), e.Y.ToString()) ;
+            DataGridViewCell logKeyCell = dgvLog.Rows[e.RowIndex].Cells["logKey"];
+            DataGridViewCell dgvc = dgvLog.Rows[e.RowIndex].Cells["group8"];
+            // get the record type
+            // get the content for a new form 
+            // display the content of record
+            MessageBox.Show(dgvc.Value.ToString());
 
-            //DataGridViewRow dgvr = dgvLog.SelectedRows[0];
-            //string cellContent = dgvr.Cells["group8"].Value.ToString();
+            
+        }
 
-            //MessageBox.Show(cellContent);
+        private void searchTwoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LogView_Load(sender, e);
+        }
 
+        private void menuStrip1_MouseClick(object sender, MouseEventArgs e)
+        {
+            
         }
     }
 }
