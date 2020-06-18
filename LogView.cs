@@ -17,6 +17,10 @@ namespace Logger
 
         private void LogView_Load(object sender, EventArgs e)
         {
+
+            //LogData frmLogData = new LogData();
+            //this.setData += new passLogData(frmLogData.setData);
+
             dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
             AddHeaders(dgvLog);
             
@@ -42,11 +46,13 @@ namespace Logger
 
         //ComboBox cmbColumHeader2 = new ComboBox();
 
-        internal void AddHeaders(DataGridView dataGridView)
+        private void AddHeaders(DataGridView dataGridView)
         {
             Point loc;
             string logID = dgvLog.Rows[0].Cells["LogID"].Value.ToString();
 
+            
+           
             // header group4
             ComboBox cmbColumHeader2 = new ComboBox();
               
@@ -60,11 +66,12 @@ namespace Logger
             loc = dgvLog.GetCellDisplayRectangle(2, -1, true).Location;
             cmbColumHeader2.Location = new Point(loc.X + dgvLog.Columns[2].Width, 1);
             cmbColumHeader2.Size = dgvLog.Columns[2].HeaderCell.Size;
+            dgvLog.Controls.Clear();
             dgvLog.Controls.Add(cmbColumHeader2);
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.Visible = true;
 
-            // header group5
+           /* // header group5
             ComboBox cmbColumHeader4 = new ComboBox();
             cmbColumHeader4.SelectedIndexChanged += delegate (object sender, EventArgs e) 
             { 
@@ -119,8 +126,13 @@ namespace Logger
             cmbColumHeader6.Height = 21;
             dgvLog.Controls.Add(cmbColumHeader6);
             cmbColumHeader6.SelectedIndex = -1;
-            cmbColumHeader6.Visible = true;
+            cmbColumHeader6.Visible = true;*/
         }
+
+        public delegate void passLogData(DataGridViewRow dgvr);
+        public passLogData setData;
+
+
 
         private void cmbColumHeader2_SelectedIndexChanged(object sender, System.EventArgs e, ComboBox c, string logID)
         {
@@ -163,13 +175,11 @@ namespace Logger
 
         private void dgvLog_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            DataGridViewCell logKeyCell = dgvLog.Rows[e.RowIndex].Cells["logKey"];
-            DataGridViewCell dgvc = dgvLog.Rows[e.RowIndex].Cells["group8"];
-            // get the record type
-            // get the content for a new form 
-            // display the content of record
-            MessageBox.Show(dgvc.Value.ToString());
-
+            LogData frmLogData = new LogData();
+            this.setData += new passLogData(frmLogData.setData);
+            
+            setData(dgvLog.Rows[e.RowIndex]);
+            frmLogData.Show();
             
         }
 
@@ -181,6 +191,19 @@ namespace Logger
         private void menuStrip1_MouseClick(object sender, MouseEventArgs e)
         {
             
+        }
+
+        private void dgvLog_MouseDown(object sender, MouseEventArgs e)
+        {
+/*           if( e.Button == System.Windows.Forms.MouseButtons.Left)
+           {
+                foreach (DataGridViewRow item in dgvLog.Rows)
+                {
+                    if (item.
+
+                }
+           }*/
+
         }
     }
 }

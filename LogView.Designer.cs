@@ -53,9 +53,11 @@
             this.dgvLog.RowHeadersVisible = false;
             this.dgvLog.RowHeadersWidth = 62;
             this.dgvLog.RowTemplate.Height = 28;
+            this.dgvLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvLog.Size = new System.Drawing.Size(1761, 434);
             this.dgvLog.TabIndex = 0;
             this.dgvLog.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvLog_CellMouseDown);
+            this.dgvLog.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvLog_MouseDown);
             // 
             // menuStrip1
             // 
@@ -78,32 +80,32 @@
             this.serchOneToolStripMenuItem,
             this.searchTwoToolStripMenuItem});
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(66, 30);
             this.searchToolStripMenuItem.Text = "Filter";
             // 
             // serchOneToolStripMenuItem
             // 
             this.serchOneToolStripMenuItem.Name = "serchOneToolStripMenuItem";
-            this.serchOneToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.serchOneToolStripMenuItem.Size = new System.Drawing.Size(193, 34);
             this.serchOneToolStripMenuItem.Text = "Advanced";
             // 
             // searchTwoToolStripMenuItem
             // 
             this.searchTwoToolStripMenuItem.Name = "searchTwoToolStripMenuItem";
-            this.searchTwoToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.searchTwoToolStripMenuItem.Size = new System.Drawing.Size(193, 34);
             this.searchTwoToolStripMenuItem.Text = "Clear";
             this.searchTwoToolStripMenuItem.Click += new System.EventHandler(this.searchTwoToolStripMenuItem_Click);
             // 
             // option2ToolStripMenuItem
             // 
             this.option2ToolStripMenuItem.Name = "option2ToolStripMenuItem";
-            this.option2ToolStripMenuItem.Size = new System.Drawing.Size(99, 29);
+            this.option2ToolStripMenuItem.Size = new System.Drawing.Size(99, 30);
             this.option2ToolStripMenuItem.Text = "Option 2";
             // 
             // option3ToolStripMenuItem
             // 
             this.option3ToolStripMenuItem.Name = "option3ToolStripMenuItem";
-            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(99, 29);
+            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(99, 30);
             this.option3ToolStripMenuItem.Text = "Option 3";
             // 
             // LogView

@@ -56,6 +56,12 @@
     <Compile Include="EnhancedParamsRec.cs" />
     <Compile Include="ExtEncryptionRec.cs" />
     <Compile Include="FitRec.cs" />
+    <Compile Include="LogData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogData.Designer.cs">
+      <DependentUpon>LogData.cs</DependentUpon>
+    </Compile>
     <Compile Include="loggerDataSet.cs">
       <DependentUpon>loggerDataSet.xsd</DependentUpon>
     </Compile>
@@ -111,6 +117,9 @@
     <Compile Include="StateZ.cs" />
     <Compile Include="TRec.cs" />
     <Compile Include="TReply.cs" />
+    <EmbeddedResource Include="LogData.resx">
+      <DependentUpon>LogData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LogView.resx">
       <DependentUpon>LogView.cs</DependentUpon>
     </EmbeddedResource>

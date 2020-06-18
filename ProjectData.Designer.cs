@@ -81,7 +81,7 @@
             this.scanToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1393, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(1393, 33);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -93,7 +93,7 @@
             this.deleteToolStripMenuItem,
             this.projectsToolStripMenuItem});
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(66, 30);
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(66, 29);
             this.logsToolStripMenuItem.Text = "Logs";
             // 
             // attachToolStripMenuItem
@@ -138,7 +138,7 @@
             this.transactionRequestToolStripMenuItem,
             this.transactionReplyToolStripMenuItem});
             this.scanToolStripMenuItem.Name = "scanToolStripMenuItem";
-            this.scanToolStripMenuItem.Size = new System.Drawing.Size(65, 30);
+            this.scanToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
             this.scanToolStripMenuItem.Text = "Scan";
             this.scanToolStripMenuItem.Click += new System.EventHandler(this.scanToolStripMenuItem_Click);
             this.scanToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.scanToolStripMenuItem_MouseDown);
@@ -231,14 +231,14 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 36);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 33);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1393, 731);
+            this.dataGridView1.Size = new System.Drawing.Size(1393, 734);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
