@@ -18,9 +18,6 @@ namespace Logger
         private void LogView_Load(object sender, EventArgs e)
         {
 
-            //LogData frmLogData = new LogData();
-            //this.setData += new passLogData(frmLogData.setData);
-
             dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
             AddHeaders(dgvLog);
             
@@ -32,7 +29,7 @@ namespace Logger
             dgvLog.Columns["group9"].Visible = false;
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
-            dgvLog.Columns["group8"].Width = 660;
+            dgvLog.Columns["Log Data"].Width = 660;
             dgvLog.RowsDefaultCellStyle.BackColor = Color.LightBlue;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.Aquamarine;
             
@@ -40,12 +37,43 @@ namespace Logger
             using (Font font = new Font(
                 dgvLog.DefaultCellStyle.Font.FontFamily, 10, FontStyle.Regular))
             {
-                dgvLog.Columns["group8"].DefaultCellStyle.Font = font;
+                dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
             }            
         }
 
-        //ComboBox cmbColumHeader2 = new ComboBox();
+        ComboBox cmbColumHeader2 = new ComboBox();
+       
 
+        private void LogView_reLoad(object sender, EventArgs e)
+        {
+
+            dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
+
+            dgvLog.Dock = DockStyle.Fill;
+            dgvLog.ColumnHeadersVisible = true;
+            dgvLog.Columns["id"].Visible = false;
+            dgvLog.Columns["logKey"].Visible = false;
+            dgvLog.Columns["group7"].Visible = false;
+            dgvLog.Columns["group9"].Visible = false;
+            dgvLog.Columns["LogID"].Visible = false;
+            dgvLog.Columns["prjKey"].Visible = false;
+            dgvLog.Columns["Log Data"].Width = 660;
+            dgvLog.RowsDefaultCellStyle.BackColor = Color.LightBlue;
+            dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.Aquamarine;
+
+            cmbColumHeader2.SelectedItem = null ;
+
+            
+            
+
+            
+
+            using (Font font = new Font(
+                dgvLog.DefaultCellStyle.Font.FontFamily, 10, FontStyle.Regular))
+            {
+                dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
+            }
+        }
         private void AddHeaders(DataGridView dataGridView)
         {
             Point loc;
@@ -54,7 +82,7 @@ namespace Logger
             
            
             // header group4
-            ComboBox cmbColumHeader2 = new ComboBox();
+            // ComboBox cmbColumHeader2 = new ComboBox();
               
             cmbColumHeader2.SelectedIndexChanged += delegate (object sender, EventArgs e)
             {
@@ -71,7 +99,7 @@ namespace Logger
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.Visible = true;
 
-           /* // header group5
+           // header group5
             ComboBox cmbColumHeader4 = new ComboBox();
             cmbColumHeader4.SelectedIndexChanged += delegate (object sender, EventArgs e) 
             { 
@@ -105,7 +133,7 @@ namespace Logger
             cmbColumHeader5.SelectedIndex = -1;
             cmbColumHeader5.Visible = true;
 
-            // header group8
+            // header Log Data
             ComboBox cmbColumHeader6 = new ComboBox();
             cmbColumHeader6.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbColumHeader6.Items.Add("ATM2HOST");
@@ -126,7 +154,7 @@ namespace Logger
             cmbColumHeader6.Height = 21;
             dgvLog.Controls.Add(cmbColumHeader6);
             cmbColumHeader6.SelectedIndex = -1;
-            cmbColumHeader6.Visible = true;*/
+            cmbColumHeader6.Visible = true;
         }
 
         public delegate void passLogData(DataGridViewRow dgvr);
@@ -175,17 +203,19 @@ namespace Logger
 
         private void dgvLog_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            LogData frmLogData = new LogData();
-            this.setData += new passLogData(frmLogData.setData);
-            
-            setData(dgvLog.Rows[e.RowIndex]);
-            frmLogData.Show();
-            
+            if (e.Clicks == 2)
+            {
+                LogData frmLogData = new LogData();
+                this.setData += new passLogData(frmLogData.setData);
+
+                setData(dgvLog.Rows[e.RowIndex]);
+                frmLogData.Show();
+            }
         }
 
         private void searchTwoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LogView_Load(sender, e);
+            LogView_reLoad(sender, e);
         }
 
         private void menuStrip1_MouseClick(object sender, MouseEventArgs e)

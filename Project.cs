@@ -803,15 +803,30 @@ namespace Logger
             switch (columnName)
             {
                 case "group6":
-                    sql = @"SELECT * FROM [loginfo] WHERE logID =" + logID +
+                    sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+                            [group2] as 'Log Level',[group3] as 'File Name',
+                            [group4] as 'Class',[group5] as 'Method',
+                            [group6] as 'Type',[group7],
+                            [group8] as 'Log Data',[group9],
+                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
                         " AND " + columnName + " LIKE '%[[]" + columnValue + "%'";
                     break;
                 case "group8":
-                    sql = @"SELECT * FROM [loginfo] WHERE logID=" + logID +
+                    sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+                            [group2] as 'Log Level',[group3] as 'File Name',
+                            [group4] as 'Class',[group5] as 'Method',
+                            [group6] as 'Type',[group7],
+                            [group8] as 'Log Data',[group9],
+                            [prjKey],[logID] FROM [loginfo] WHERE logID=" + logID +
                         " AND " + columnName + " LIKE '%" + columnValue + "%'";
                     break;
                 default:
-                    sql = @"SELECT * FROM [loginfo] WHERE logID =" + logID +
+                    sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+                            [group2] as 'Log Level',[group3] as 'File Name',
+                            [group4] as 'Class',[group5] as 'Method',
+                            [group6] as 'Type',[group7],
+                            [group8] as 'Log Data',[group9],
+                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
                         " AND " + columnName + "='" + columnValue + "'";
                     break;
             }
@@ -845,7 +860,13 @@ namespace Logger
             try
             {
                 cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [loginfo] WHERE logID =" + logID, cnn))
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT [id],[logkey],[group1] as 'Timestamp',
+                                                              [group2] as 'Log Level',[group3] as 'File Name',
+                                                              [group4] as 'Class',[group5] as 'Method',
+                                                              [group6] as 'Type',[group7],
+                                                              [group8] as 'Log Data',[group9],
+                                                              [prjKey],[logID] FROM [loginfo] 
+                                                              WHERE logID =" + logID, cnn))
                 {
                     sda.Fill(dt);
 
