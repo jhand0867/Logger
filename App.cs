@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Text;
 
 namespace Logger
 {
@@ -14,6 +16,82 @@ namespace Logger
 
         }
 
+        public DataTable getRecord(string logKey, string logID, string projectKey, string recValue)
+        {
+            List<typeRec> typeList = new List<typeRec>();
+            string[] tmpTypes;
+            int recCount = 0;
+            string recType = "";
+            DataTable dataTable = new DataTable();
+
+            foreach (string recordType in App.Prj.RecordTypes)
+            {
+                if (recValue.Contains(recordType))
+                {
+                    if (recCount == 0 || recCount == 1)
+                    {
+                        recType = recCount.ToString();
+                    }
+                    else
+                    {
+                        tmpTypes = recValue.Split((char)0x1c);
+
+                        foreach (string subRecordType in App.Prj.SubRecordTypes)
+                        {
+                            if (tmpTypes[3] == subRecordType)
+                            {
+                                recType = subRecordType;
+                                break;
+                            }
+
+                        }
+                    }
+                    break;
+                }
+                recCount++;
+            }
+            switch (recType)
+            {
+                case "00":
+                    TRec tr = new TRec();
+                    break;
+                case "01":
+                    TReply treply = new TReply();
+                    break;
+                case "11":
+                    screenRec scrRec = new screenRec();
+                    break;
+                case "12":
+                    stateRec staRec = new stateRec();
+                    break;
+                case "13":
+                    configParamsRec cpRec = new configParamsRec();
+                    break;
+                case "15":
+                    FitRec fitRec = new FitRec();
+                    break;
+                case "16":
+                    ConfigIdRec cir = new ConfigIdRec();
+                    dataTable = cir.getRecord(logKey, logID, projectKey);
+                    break;
+                case "1A":
+                    EnhancedParamsRec epRec = new EnhancedParamsRec();
+                    break;
+                case "1B":
+                    //writeMAC(typeList);
+                    break;
+                case "1C":
+                    DateAndTimeRec dt = new DateAndTimeRec();
+                    break;
+                case "1E":
+                    //writeDispenser(typeList);
+                    break;
+                case "42":
+                    ExtEncryptionRec xer = new ExtEncryptionRec();
+                    break;
+            }
+            return dataTable;
+        }
         public void WriteLog(string filePath, string fileName, string logLine)
         {
             string f = filePath + fileName;
@@ -101,6 +179,31 @@ namespace Logger
                 Console.WriteLine(dbEx.ToString());
                 return null;
             }
+        }
+
+        public string showBytes(byte[] data)
+        {
+            //string fileBytes = data;
+            string stringData = Encoding.ASCII.GetString(data);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char b in stringData)
+            {
+                if (b == 0x1C)
+                {
+                    sb.Append("[FS]");
+                }
+                else if (b == 0x1D)
+                {
+                    sb.Append("[GS]");
+                }
+                else
+                {
+                    sb.Append(b);
+                }
+            }
+
+            return sb.ToString();
         }
     }
 }

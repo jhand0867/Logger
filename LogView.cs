@@ -62,8 +62,7 @@ namespace Logger
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.Aquamarine;
 
             cmbColumHeader2.SelectedItem = null ;
-
-            
+                     
             
 
             
@@ -205,10 +204,15 @@ namespace Logger
         {
             if (e.Clicks == 2)
             {
-                LogData frmLogData = new LogData();
+                LogData frmLogData = (LogData)Application.OpenForms["LogData"];
+                if (frmLogData == null)
+                {
+                    frmLogData = new LogData();
+                }
                 this.setData += new passLogData(frmLogData.setData);
 
                 setData(dgvLog.Rows[e.RowIndex]);
+                frmLogData.TopMost = true;
                 frmLogData.Show();
             }
         }

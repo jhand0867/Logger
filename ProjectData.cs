@@ -20,8 +20,10 @@ namespace Logger
         private void ProjectData_FormClosing(object sender, FormClosingEventArgs e)
         {
             Projects obj = (Projects)Application.OpenForms["Projects"];
-
-            obj.Projects_Load(sender, e);
+            if (obj != null)
+                obj.Projects_Load(sender, e);
+            else
+                Application.Exit();
         }
 
         private void ProjectData_Load(object sender, EventArgs e)

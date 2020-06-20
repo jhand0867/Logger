@@ -1,12 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Logger
 {
     class ConfigIdRec : App
     {
+        public DataTable getRecord(string logKey, string logID, string projectKey)
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT TOP 1 * FROM configId WHERE prjkey = '" +
+                                                               projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
+                                                               logKey + "%'", cnn))
+                {
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+
+        }
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
             string connectionString;

@@ -34,6 +34,18 @@ namespace Logger
         private string pBrief;
         private int pLogs;
 
+        // Initialize all record types
+        private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 3" };
+        private string[] subRecordTypes = { "11","12","13","15","16","1A","1B","1C","1E" };
+        public string[] RecordTypes
+        {
+            get { return recordTypes; }
+        }
+        public string[] SubRecordTypes
+        {
+            get { return subRecordTypes; }
+        }
+
         public Project()
         {
             pKey = "";
@@ -584,6 +596,7 @@ namespace Logger
                           "WHERE group8 like '" + regExStr + "' " +
                           "AND logID =" + logID;
             Dictionary<string, string> data = readData(sql);
+
             string[] dataTypes = null;
             List<typeRec> typeList = new List<typeRec>();
             string[] tmpTypes;
