@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 
@@ -19,6 +20,58 @@ namespace Logger
         private string pSta6;
         private string pSta7;
         private string pSta8;
+     
+
+        public string StateNumber
+        {
+            get { return pStateNum; }
+            set { pStateNum = value; }
+        }
+        public string StateType
+        {
+            get { return pStateType; }
+            set { pStateType = value; }
+        }
+        public string Val1
+        {
+            get { return pSta1; }
+            set { pSta1 = value; }
+        }
+        public string Val2
+        {
+            get { return pSta2; }
+            set { pSta2 = value; }
+        }
+        public string Val3
+        {
+            get { return pSta3; }
+            set { pSta3 = value; }
+        }
+        public string Val4
+        {
+            get { return pSta4; }
+            set { pSta4 = value; }
+        }
+        public string Val5
+        {
+            get { return pSta5; }
+            set { pSta5 = value; }
+        }
+        public string Val6
+        {
+            get { return pSta6; }
+            set { pSta6 = value; }
+        }
+        public string Val7
+        {
+            get { return pSta7; }
+            set { pSta7 = value; }
+        }
+        public string Val8
+        {
+            get { return pSta8; }
+            set { pSta8 = value; }
+        }
 
 
         public string stateNum   // property
@@ -107,18 +160,18 @@ namespace Logger
                 {
 
                     stateRec sr = new stateRec();
-                    sr.pStateNum = dataReader.GetString(4);
-                    sr.pStateType = dataReader.GetString(5);
-                    sr.pSta1 = dataReader.GetString(6);
-                    sr.pSta2 = dataReader.GetString(7);
-                    sr.pSta3 = dataReader.GetString(8);
-                    sr.pSta4 = dataReader.GetString(9);
-                    sr.pSta5 = dataReader.GetString(10);
-                    sr.pSta6 = dataReader.GetString(11);
-                    sr.pSta7 = dataReader.GetString(12);
-                    sr.pSta8 = dataReader.GetString(13);
+                    sr.pStateNum = dataReader.GetString(3);
+                    sr.pStateType = dataReader.GetString(4);
+                    sr.pSta1 = dataReader.GetString(5);
+                    sr.pSta2 = dataReader.GetString(6);
+                    sr.pSta3 = dataReader.GetString(7);
+                    sr.pSta4 = dataReader.GetString(8);
+                    sr.pSta5 = dataReader.GetString(9);
+                    sr.pSta6 = dataReader.GetString(10);
+                    sr.pSta7 = dataReader.GetString(11);
+                    sr.pSta8 = dataReader.GetString(12);
 
-                    dicData.Add(dataReader.GetString(2) + dataReader.GetInt64(0).ToString(), sr);
+                    dicData.Add(dataReader.GetString(1) + dataReader.GetInt64(0).ToString(), sr);
                 }
 
                 dataReader.Close();
@@ -196,6 +249,34 @@ namespace Logger
             }
 
         }
+        public DataTable getRecord(string logKey, string logID, string projectKey)
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM stateInfo WHERE prjkey = '" +
+                                                               projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
+                                                               logKey + "%'", cnn))
+                {
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+
+        }
+
 
     };
 }

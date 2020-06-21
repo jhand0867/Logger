@@ -63,6 +63,7 @@ namespace Logger
                     break;
                 case "12":
                     stateRec staRec = new stateRec();
+                    dataTable = staRec.getRecord(logKey, logID, projectKey);
                     break;
                 case "13":
                     configParamsRec cpRec = new configParamsRec();

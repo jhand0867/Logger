@@ -75,5 +75,23 @@ namespace Logger
 
             }
         }
+        public string getInfo(stateRec stRec)
+        {
+            string fieldData = "State Number: " + stRec.StateNumber + System.Environment.NewLine;
+            fieldData += "  State Type: " + stRec.StateType + System.Environment.NewLine;
+            fieldData += "  Screen Number: " + stRec.Val1 + System.Environment.NewLine;
+            fieldData += "  Good Read:" + stRec.Val2 + System.Environment.NewLine;
+            fieldData += "  Missread: " + stRec.Val3 + System.Environment.NewLine;
+            fieldData += "  Read Condition 1: " + stRec.Val4 + System.Environment.NewLine;
+            fieldData += "  Read Condition 2: " + stRec.Val5 + System.Environment.NewLine;
+            fieldData += "  Read Condition 3: " + stRec.Val6 + System.Environment.NewLine;
+            fieldData += "  Card Return Flag: " + stRec.Val7 + System.Environment.NewLine;
+            fieldData += "  No FIT Match: " + stRec.Val8 + System.Environment.NewLine;
+            fieldData += System.Environment.NewLine;
+
+            return fieldData;
+
+        }
+
     }
 }

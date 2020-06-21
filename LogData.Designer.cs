@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogData));
             this.label1 = new System.Windows.Forms.Label();
             this.txtTimestamp = new System.Windows.Forms.Label();
             this.txtMethod = new System.Windows.Forms.Label();
@@ -44,8 +45,8 @@
             this.txtFieldData = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.rtbRawData = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnPrev = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -196,10 +197,12 @@
             // txtFieldData
             // 
             this.txtFieldData.BackColor = System.Drawing.Color.White;
+            this.txtFieldData.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFieldData.Location = new System.Drawing.Point(16, 451);
             this.txtFieldData.Multiline = true;
             this.txtFieldData.Name = "txtFieldData";
             this.txtFieldData.ReadOnly = true;
+            this.txtFieldData.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtFieldData.Size = new System.Drawing.Size(841, 234);
             this.txtFieldData.TabIndex = 14;
             // 
@@ -225,33 +228,33 @@
             this.rtbRawData.TabIndex = 16;
             this.rtbRawData.Text = "";
             // 
-            // button1
+            // btnPrev
             // 
-            this.button1.Location = new System.Drawing.Point(805, 30);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(52, 34);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Prev";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnPrev.Image = ((System.Drawing.Image)(resources.GetObject("btnPrev.Image")));
+            this.btnPrev.Location = new System.Drawing.Point(805, 30);
+            this.btnPrev.Name = "btnPrev";
+            this.btnPrev.Size = new System.Drawing.Size(52, 34);
+            this.btnPrev.TabIndex = 17;
+            this.btnPrev.UseVisualStyleBackColor = true;
+            this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
             // 
-            // button2
+            // btnNext
             // 
-            this.button2.Location = new System.Drawing.Point(805, 105);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(52, 34);
-            this.button2.TabIndex = 18;
-            this.button2.Text = "Next";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnNext.Image = ((System.Drawing.Image)(resources.GetObject("btnNext.Image")));
+            this.btnNext.Location = new System.Drawing.Point(805, 105);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(52, 34);
+            this.btnNext.TabIndex = 18;
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // LogData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 697);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnNext);
+            this.Controls.Add(this.btnPrev);
             this.Controls.Add(this.rtbRawData);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtFieldData);
@@ -296,7 +299,7 @@
         private System.Windows.Forms.TextBox txtFieldData;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RichTextBox rtbRawData;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnPrev;
+        private System.Windows.Forms.Button btnNext;
     }
 }
