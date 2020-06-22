@@ -71,27 +71,50 @@ namespace Logger
 
 
                         }
+                        stateRec stRec = new stateRec();
+                        stRec.StateNumber = dt.Rows[rowNum][3].ToString();
+                        stRec.StateType = dt.Rows[rowNum][4].ToString();
+                        stRec.Val1 = dt.Rows[rowNum][5].ToString();
+                        stRec.Val2 = dt.Rows[rowNum][6].ToString();
+                        stRec.Val3 = dt.Rows[rowNum][7].ToString();
+                        stRec.Val4 = dt.Rows[rowNum][8].ToString();
+                        stRec.Val5 = dt.Rows[rowNum][9].ToString();
+                        stRec.Val6 = dt.Rows[rowNum][10].ToString();
+                        stRec.Val7 = dt.Rows[rowNum][11].ToString();
+                        stRec.Val8 = dt.Rows[rowNum][12].ToString();
                         txtFieldData.Text += System.Environment.NewLine;
+                        txtFieldData.Text += System.Environment.NewLine;
+
                         switch (stateType)
                         {
                             case "A":
                                 StateA sa = new StateA();
-                                stateRec stRec = new stateRec();
-
-                                stRec.StateNumber = dt.Rows[rowNum][3].ToString();
-                                stRec.StateType = dt.Rows[rowNum][4].ToString();
-                                stRec.Val1 = dt.Rows[rowNum][5].ToString();
-                                stRec.Val2 = dt.Rows[rowNum][6].ToString();
-                                stRec.Val3 = dt.Rows[rowNum][7].ToString();
-                                stRec.Val4 = dt.Rows[rowNum][8].ToString();
-                                stRec.Val5 = dt.Rows[rowNum][9].ToString();
-                                stRec.Val6 = dt.Rows[rowNum][10].ToString();
-                                stRec.Val7 = dt.Rows[rowNum][11].ToString();
-                                stRec.Val8 = dt.Rows[rowNum][12].ToString();
-                                
-                                txtFieldData.Text += System.Environment.NewLine;
                                 txtFieldData.Text += sa.getInfo(stRec);
                                 break;
+                            case "B":
+                                StateB sB = new StateB();
+                                txtFieldData.Text += sB.getInfo(stRec);
+                                break;
+                            case "D":
+                                StateD sD = new StateD();
+                                txtFieldData.Text += sD.getInfo(stRec);
+                                break;
+                            case "E":
+                                StateE sE = new StateE();
+                                txtFieldData.Text += sE.getInfo(stRec);
+                                break;
+                            case "J":
+                                StateJ sJ = new StateJ();
+                                txtFieldData.Text += sJ.getInfo(stRec);
+                                break;
+                            case "K":
+                                StateK sK = new StateK();
+                                txtFieldData.Text += sK.getInfo(stRec);
+                                break;
+
+                            
+
+
                             default:
                                 break;
                         }

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Logger
 {
@@ -77,16 +80,37 @@ namespace Logger
         }
         public string getInfo(stateRec stRec)
         {
-            string fieldData = "State Number: " + stRec.StateNumber + System.Environment.NewLine;
-            fieldData += "  State Type: " + stRec.StateType + System.Environment.NewLine;
-            fieldData += "  Screen Number: " + stRec.Val1 + System.Environment.NewLine;
-            fieldData += "  Good Read:" + stRec.Val2 + System.Environment.NewLine;
-            fieldData += "  Missread: " + stRec.Val3 + System.Environment.NewLine;
-            fieldData += "  Read Condition 1: " + stRec.Val4 + System.Environment.NewLine;
-            fieldData += "  Read Condition 2: " + stRec.Val5 + System.Environment.NewLine;
-            fieldData += "  Read Condition 3: " + stRec.Val6 + System.Environment.NewLine;
-            fieldData += "  Card Return Flag: " + stRec.Val7 + System.Environment.NewLine;
-            fieldData += "  No FIT Match: " + stRec.Val8 + System.Environment.NewLine;
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "S" 
+                    + "' AND subRecType = '" + "A" + "'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+
+            string fieldData = dt.Rows[0][4].ToString() + stRec.StateNumber + System.Environment.NewLine;
+            fieldData += dt.Rows[1][4].ToString() + ":\t" + stRec.StateType + System.Environment.NewLine;
+            fieldData += dt.Rows[2][4].ToString() + ":\t" + stRec.Val1 + System.Environment.NewLine;
+            fieldData += dt.Rows[3][4].ToString() + ":\t" + stRec.Val2 + System.Environment.NewLine;
+            fieldData += dt.Rows[4][4].ToString() + ":\t" + stRec.Val3 + System.Environment.NewLine;
+            fieldData += dt.Rows[5][4].ToString() + ":\t" + stRec.Val4 + System.Environment.NewLine;
+            fieldData += dt.Rows[6][4].ToString() + ":\t" + stRec.Val5 + System.Environment.NewLine;
+            fieldData += dt.Rows[7][4].ToString() + ":\t" + stRec.Val6 + System.Environment.NewLine;
+            fieldData += dt.Rows[8][4].ToString() + ":\t" + stRec.Val7 + System.Environment.NewLine;
+            fieldData += dt.Rows[9][4].ToString() + ":\t" + stRec.Val8 + System.Environment.NewLine;
             fieldData += System.Environment.NewLine;
 
             return fieldData;

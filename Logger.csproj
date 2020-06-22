@@ -112,7 +112,12 @@
     <Compile Include="ScreenRec.cs" />
     <Compile Include="StateA.cs" />
     <Compile Include="StateAll.cs" />
+    <Compile Include="StateB.cs" />
+    <Compile Include="StateD.cs" />
+    <Compile Include="StateE.cs" />
     <Compile Include="StateI.cs" />
+    <Compile Include="StateJ.cs" />
+    <Compile Include="StateK.cs" />
     <Compile Include="StateRec.cs" />
     <Compile Include="StateZ.cs" />
     <Compile Include="TRec.cs" />
