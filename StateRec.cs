@@ -277,6 +277,51 @@ namespace Logger
 
         }
 
+        public string getInfo(stateRec stRec, string stateType)
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "S"
+                    + "' AND subRecType = '" + stateType + "'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+
+            if (dt.Rows.Count > 0)
+            {
+                string fieldData = dt.Rows[0][3].ToString().Trim() + ":\t" + stRec.StateNumber + System.Environment.NewLine;
+                fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType + System.Environment.NewLine;
+                fieldData += dt.Rows[2][3].ToString().Substring(0, 40) +  stRec.Val1 + System.Environment.NewLine;
+                fieldData += dt.Rows[3][3].ToString().Substring(0, 40) +  stRec.Val2 + System.Environment.NewLine;
+                fieldData += dt.Rows[4][3].ToString().Substring(0, 40) +  stRec.Val3 + System.Environment.NewLine;
+                fieldData += dt.Rows[5][3].ToString().Substring(0, 40) +  stRec.Val4 + System.Environment.NewLine;
+                fieldData += dt.Rows[6][3].ToString().Substring(0, 40) +  stRec.Val5 + System.Environment.NewLine;
+                fieldData += dt.Rows[7][3].ToString().Substring(0, 40) +  stRec.Val6 + System.Environment.NewLine;
+                fieldData += dt.Rows[8][3].ToString().Substring(0, 40) +  stRec.Val7 + System.Environment.NewLine;
+                fieldData += dt.Rows[9][3].ToString().Substring(0, 40) +  stRec.Val8 + System.Environment.NewLine;
+                fieldData += System.Environment.NewLine;
+
+                return fieldData;
+            }
+            else
+            {
+                return "";
+            }
+
+        }
 
     };
 }

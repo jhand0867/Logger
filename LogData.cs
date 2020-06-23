@@ -41,7 +41,9 @@ namespace Logger
             DataTable dt = App.Prj.getRecord(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             txtFieldData.Text = "";
             string stateType = "";
-            int fieldNum = -1; 
+            int fieldNum = -1;
+            string prevStateType = "";
+
             if (dt.Rows.Count > 0)
             {
                 for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
@@ -84,40 +86,35 @@ namespace Logger
                         stRec.Val8 = dt.Rows[rowNum][12].ToString();
                         txtFieldData.Text += System.Environment.NewLine;
                         txtFieldData.Text += System.Environment.NewLine;
-
-                        switch (stateType)
+                        
+                        if (stateType == "Z")
                         {
-                            case "A":
-                                StateA sa = new StateA();
-                                txtFieldData.Text += sa.getInfo(stRec);
-                                break;
-                            case "B":
-                                StateB sB = new StateB();
-                                txtFieldData.Text += sB.getInfo(stRec);
-                                break;
-                            case "D":
-                                StateD sD = new StateD();
-                                txtFieldData.Text += sD.getInfo(stRec);
-                                break;
-                            case "E":
-                                StateE sE = new StateE();
-                                txtFieldData.Text += sE.getInfo(stRec);
-                                break;
-                            case "J":
-                                StateJ sJ = new StateJ();
-                                txtFieldData.Text += sJ.getInfo(stRec);
-                                break;
-                            case "K":
-                                StateK sK = new StateK();
-                                txtFieldData.Text += sK.getInfo(stRec);
-                                break;
+                            switch (prevStateType)
+                            {
+                                case "J":
+                                    stateType = "J1";
+                                    break;
+                                case "Y":
+                                    stateType = "Y1";
+                                    break;
+                                case "D":
+                                    stateType = "D1";
+                                    break;
+                                case "J1":
+                                    stateType = "J2";
+                                    break;
+                                case "Y1":
+                                    stateType = "Y2";
+                                    break;
+                                case "D1":
+                                    stateType = "D2";
+                                    break;
 
-                            
-
-
-                            default:
-                                break;
+                            }
                         }
+                        txtFieldData.Text += stRec.getInfo(stRec, stateType);
+                        prevStateType = stateType;
+
                     }
                 }
 

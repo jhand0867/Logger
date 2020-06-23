@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,23 +23,5 @@ namespace Logger
 
             }
         }
-        public string getInfo(stateRec stRec)
-        {
-            string fieldData = "State Number: " + stRec.StateNumber + System.Environment.NewLine;
-            fieldData += "  State Type: " + stRec.StateType + System.Environment.NewLine;
-            fieldData += "  Screen Number:         " + stRec.Val1 + System.Environment.NewLine;
-            fieldData += "  Time-Out State Number: " + stRec.Val2 + System.Environment.NewLine;
-            fieldData += "  Cancel  State Number:  " + stRec.Val3 + System.Environment.NewLine;
-            fieldData += "  FDK 'A' State Number:  " + stRec.Val4 + System.Environment.NewLine;
-            fieldData += "  FDK 'B' State Number:  " + stRec.Val5 + System.Environment.NewLine;
-            fieldData += "  FDK 'C' State Number:  " + stRec.Val6 + System.Environment.NewLine;
-            fieldData += "  FDK 'D' State Number:  " + stRec.Val7 + System.Environment.NewLine;
-            fieldData += "  Buffer Location:       " + stRec.Val8 + System.Environment.NewLine;
-            fieldData += System.Environment.NewLine;
-
-            return fieldData;
-
-        }
-
     }
 }
