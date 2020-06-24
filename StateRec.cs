@@ -306,8 +306,16 @@ namespace Logger
                 fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType + System.Environment.NewLine;
                 fieldData += dt.Rows[2][3].ToString().Substring(0, 40) +  stRec.Val1 + System.Environment.NewLine;
                 fieldData += dt.Rows[3][3].ToString().Substring(0, 40) +  stRec.Val2 + System.Environment.NewLine;
-                fieldData += dt.Rows[4][3].ToString().Substring(0, 40) +  stRec.Val3 + System.Environment.NewLine;
-                fieldData += dt.Rows[5][3].ToString().Substring(0, 40) +  stRec.Val4 + System.Environment.NewLine;
+                fieldData += dt.Rows[4][3].ToString().Substring(0, 40) + stRec.Val3;
+                if (dt.Rows[4][4].ToString() != null)
+                {
+                    fieldData += System.Environment.NewLine + dt.Rows[4][4].ToString().Trim() + System.Environment.NewLine;
+                }
+                else
+                {
+                    fieldData += dt.Rows[4][4].ToString().Trim() + System.Environment.NewLine;
+                }
+                fieldData += dt.Rows[5][3].ToString().Substring(0, 40) +  stRec.Val4 + System.Environment.NewLine + dt.Rows[5][4].ToString().Trim() + System.Environment.NewLine;
                 fieldData += dt.Rows[6][3].ToString().Substring(0, 40) +  stRec.Val5 + System.Environment.NewLine;
                 fieldData += dt.Rows[7][3].ToString().Substring(0, 40) +  stRec.Val6 + System.Environment.NewLine;
                 fieldData += dt.Rows[8][3].ToString().Substring(0, 40) +  stRec.Val7 + System.Environment.NewLine;
