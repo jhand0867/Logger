@@ -89,28 +89,40 @@ namespace Logger
                         
                         if (stateType == "Z")
                         {
-                            switch (prevStateType)
+                            foreach (string item in App.Prj.ExtensionsLst)
                             {
-                                case "J":
-                                    stateType = "J1";
-                                    break;
-                                case "Y":
-                                    stateType = "Y1";
-                                    break;
-                                case "D":
-                                    stateType = "D1";
-                                    break;
-                                case "J1":
-                                    stateType = "J2";
-                                    break;
-                                case "Y1":
-                                    stateType = "Y2";
-                                    break;
-                                case "D1":
-                                    stateType = "D2";
-                                    break;
+                                if (item.Substring(item.Length-3, 3) == stRec.stateNum)
+                                {
+                                    stateType = item.Substring(0, item.Length - 3);
+                                    App.Prj.ExtensionsLst.Remove(item);
 
+
+                                    switch (stateType)
+                                    {
+                                        case "J":
+                                            stateType = "J1";
+                                            break;
+                                        case "Y":
+                                            stateType = "Y1";
+                                            break;
+                                        case "D":
+                                            stateType = "D1";
+                                            break;
+                                        case "J1":
+                                            stateType = "J2";
+                                            break;
+                                        case "Y1":
+                                            stateType = "Y2";
+                                            break;
+                                        case "D1":
+                                            stateType = "D2";
+                                            break;
+
+                                    }
+                                    break;
+                                }
                             }
+
                         }
                         txtFieldData.Text += stRec.getInfo(stRec, stateType);
                         prevStateType = stateType;
