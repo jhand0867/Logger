@@ -37,6 +37,12 @@ namespace Logger
         // Initialize all record types
         private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 3" };
         private string[] subRecordTypes = { "11","12","13","15","16","1A","1B","1C","1E" };
+        private List<string> extensionsLst = new List<string>();
+        public List<string> ExtensionsLst 
+        {
+            get { return extensionsLst; } 
+            set { extensionsLst = value; }
+        }
         public string[] RecordTypes
         {
             get { return recordTypes; }
