@@ -366,13 +366,13 @@ namespace Logger
                 else
                     fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType  + " ext: " + stateType.Substring(0,1) + " " + stateNum + System.Environment.NewLine;
 
-                fieldData += dt.Rows[2][3].ToString().Substring(0, 40) +  stRec.Val1 + getDescription(dt.Rows[2][4].ToString());
-                fieldData += dt.Rows[3][3].ToString().Substring(0, 40) +  stRec.Val2 + getDescription(dt.Rows[3][4].ToString());
+                fieldData += dt.Rows[2][3].ToString().Substring(0, 40) + stRec.Val1 + getDescription(dt.Rows[2][4].ToString());
+                fieldData += dt.Rows[3][3].ToString().Substring(0, 40) + stRec.Val2 + getDescription(dt.Rows[3][4].ToString());
                 fieldData += dt.Rows[4][3].ToString().Substring(0, 40) + stRec.Val3 + getDescription(dt.Rows[4][4].ToString());
                 fieldData += dt.Rows[5][3].ToString().Substring(0, 40) + stRec.Val4 + getDescription(dt.Rows[5][4].ToString());
                 fieldData += dt.Rows[6][3].ToString().Substring(0, 40) + stRec.Val5 + getDescription(dt.Rows[6][4].ToString());
-                fieldData += dt.Rows[7][3].ToString().Substring(0, 40) +  stRec.Val6 + getDescription(dt.Rows[7][4].ToString());
-                fieldData += dt.Rows[8][3].ToString().Substring(0, 40) +  stRec.Val7 + getDescription(dt.Rows[8][4].ToString());
+                fieldData += dt.Rows[7][3].ToString().Substring(0, 40) + stRec.Val6 + getDescription(dt.Rows[7][4].ToString());
+                fieldData += dt.Rows[8][3].ToString().Substring(0, 40) + stRec.Val7 + getDescription(dt.Rows[8][4].ToString());
                 fieldData += dt.Rows[9][3].ToString().Substring(0, 40) + stRec.Val8 + getDescription(dt.Rows[9][4].ToString());
                 fieldData += System.Environment.NewLine;
 
