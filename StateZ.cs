@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Logger
 {
@@ -44,5 +45,103 @@ namespace Logger
                 resultData = this.ValidateStateNumber(stateData.sta8);
             }
         }
+
+        public new DataTable checkZExtensions(stateRec st)
+        {
+            // st holds the Z state
+            DataTable dt = new DataTable();
+            foreach (stateRec state in App.Prj.ExtensionsLst)
+            {
+                // state holds the state waiting for extension
+                if (state.StateType == "J")
+                {
+                    if (state.Val8 == st.StateNumber)
+                    {
+                        // this is the extension
+                        dt = st.getStateDescription("J1");
+                        break;
+                    }
+                 }
+                if (state.StateType == "J1")
+                {
+                    if (state.Val4 == st.StateNumber)
+                    {
+                        dt = st.getStateDescription("J11");
+                        break;
+                    }
+                }
+                if (state.StateType == "Y")
+                {
+                    if (state.Val5 == st.StateNumber)
+                    {
+                        // this is the extension
+                        dt = st.getStateDescription("Y1");
+                        break;
+                    }
+                    if (state.Val8 == st.StateNumber)
+                    {
+                        dt = st.getStateDescription("Y2");
+                        break;
+                    }
+                }
+                if (state.StateType == "I")
+                {
+                    if (state.Val8 == st.StateNumber)
+                    {
+                        dt = st.getStateDescription("I1");
+                        break;
+                    }
+                }
+                if (state.StateType == "I1")
+                {
+                    if (state.Val8 == st.StateNumber)
+                    {
+                        dt = st.getStateDescription("I11");
+                        break;
+                    }
+                }
+
+                continue;
+
+            }
+            return dt;
+        }
+
+        public override void checkExtensions(stateRec st)
+        {
+            bool stateExtension = false;
+
+            // extension state is on field 6 (Val5)
+            // language extension is on field 9 (Val8)
+
+            DataTable dt = new DataTable();
+
+            if ((st.stateType == "J1" && st.Val4 != "000" && st.Val5 != "255") ||
+                (st.stateType == "J11" && st.Val4 != "000" && st.Val8 != "255") ||
+                (st.stateType == "I1" && st.Val8 != "000" && st.Val8 != "255"))
+            {
+                stateExtension = true;
+            }
+
+            if (stateExtension)
+                App.Prj.ExtensionsLst.Add(st);
+        }
+
+        /*        public override DataTable checkExtensions(stateRec st)
+                {
+                    DataTable dt = new DataTable();
+                    List<stateRec> stw = App.Prj.ExtensionsLst;
+                    for (int x=stw.Count; x>0; x--)
+                    {
+                        if (stw[x-1].StateNumber == st.StateNumber)
+                        {
+
+                        } 
+
+                    }
+
+                    return dt;
+                }
+        */
     }
 }

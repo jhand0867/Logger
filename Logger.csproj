@@ -119,6 +119,7 @@
     <Compile Include="StateJ.cs" />
     <Compile Include="StateK.cs" />
     <Compile Include="StateRec.cs" />
+    <Compile Include="StateY.cs" />
     <Compile Include="StateZ.cs" />
     <Compile Include="TRec.cs" />
     <Compile Include="TReply.cs" />

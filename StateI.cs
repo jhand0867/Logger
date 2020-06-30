@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Logger
 {
@@ -84,5 +87,24 @@ namespace Logger
                 }
             }
         }
+
+        public override void checkExtensions(stateRec st)
+        {
+            bool stateExtension = false;
+
+            // extension state is on field 6 (Val5)
+            // language extension is on field 9 (Val8)
+
+            if (st.Val8 != "000" && st.Val8 != "255")
+            {
+                stateExtension = true;
+            }
+
+            if (stateExtension)
+                App.Prj.ExtensionsLst.Add(st);
+        }
+
+
     }
 }
+

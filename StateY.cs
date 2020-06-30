@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Logger
 {
-    class StateJ : stateRec
+    class StateY : stateRec
     {
         public override void ValidateState(stateRec stateData)
         {
@@ -15,7 +19,7 @@ namespace Logger
 
             base.ValidateState(stateData);
 
-            if (stateData.stateType == "J")
+            if (stateData.stateType == "Y")
             {
 
             }
@@ -28,6 +32,12 @@ namespace Logger
             // extension state is on field 6 (Val5)
             // language extension is on field 9 (Val8)
 
+            DataTable dt = new DataTable();
+
+            if (st.Val5 != "000" && st.Val5 != "255")
+            {
+                stateExtension = true;
+            }
             if (st.Val8 != "000" && st.Val8 != "255")
             {
                 stateExtension = true;

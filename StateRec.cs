@@ -277,7 +277,7 @@ namespace Logger
 
         }
 
-        public string getInfo(stateRec stRec)
+       /* public virtual string getInfo1(stateRec stRec)
         {
             string connectionString;
             SqlConnection cnn;
@@ -294,7 +294,7 @@ namespace Logger
 
             if ( stateType == "Z")
             {
-                foreach (string item in App.Prj.ExtensionsLst)
+                foreach (stateRec item in App.Prj.ExtensionsLst)
                 {
                     if (item.Substring(5, 3) == stRec.stateNum)
                     {
@@ -366,23 +366,26 @@ namespace Logger
                 else
                     fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType  + " ext: " + stateType.Substring(0,1) + " " + stateNum + System.Environment.NewLine;
 
-                fieldData += dt.Rows[2][3].ToString().Substring(0, 40) +  stRec.Val1 + getDescription(dt.Rows[2][4].ToString());
-                fieldData += dt.Rows[3][3].ToString().Substring(0, 40) +  stRec.Val2 + getDescription(dt.Rows[3][4].ToString());
+                fieldData += dt.Rows[2][3].ToString().Substring(0, 40) + stRec.Val1 + getDescription(dt.Rows[2][4].ToString());
+                fieldData += dt.Rows[3][3].ToString().Substring(0, 40) + stRec.Val2 + getDescription(dt.Rows[3][4].ToString());
                 fieldData += dt.Rows[4][3].ToString().Substring(0, 40) + stRec.Val3 + getDescription(dt.Rows[4][4].ToString());
                 fieldData += dt.Rows[5][3].ToString().Substring(0, 40) + stRec.Val4 + getDescription(dt.Rows[5][4].ToString());
                 fieldData += dt.Rows[6][3].ToString().Substring(0, 40) + stRec.Val5 + getDescription(dt.Rows[6][4].ToString());
-                fieldData += dt.Rows[7][3].ToString().Substring(0, 40) +  stRec.Val6 + getDescription(dt.Rows[7][4].ToString());
-                fieldData += dt.Rows[8][3].ToString().Substring(0, 40) +  stRec.Val7 + getDescription(dt.Rows[8][4].ToString());
+                fieldData += dt.Rows[7][3].ToString().Substring(0, 40) + stRec.Val6 + getDescription(dt.Rows[7][4].ToString());
+                fieldData += dt.Rows[8][3].ToString().Substring(0, 40) + stRec.Val7 + getDescription(dt.Rows[8][4].ToString());
                 fieldData += dt.Rows[9][3].ToString().Substring(0, 40) + stRec.Val8 + getDescription(dt.Rows[9][4].ToString());
                 fieldData += System.Environment.NewLine;
 
                 // check if an extension in the current state exist
 
+                int j = 1;
                 for (int i = 0; i < 10; i++)
                 {
                     if (dt.Rows[i][3].ToString().Contains("Extension") && stRecVal[i] != "000")
                     {
                         App.Prj.ExtensionsLst.Add(stRecVal[1] + stRec.StateNumber + stRecVal[i] );
+                        // App.Prj.ExtensionsLst.Add(stRecVal[1] + j.ToString() + stRec.StateNumber + stRecVal[i]);
+                        j++;
                     }
                 }
 
@@ -394,8 +397,144 @@ namespace Logger
             }
 
         }
+*/
+        public virtual string getInfo(stateRec stRec)
+        {
+            string stateType = stRec.StateType;
+            string stateNum = "";
 
-        private string getDescription(string fieldDescription)
+            
+
+            DataTable dt = new DataTable();
+            stateRec currentState = new stateRec();
+
+            switch (stRec.StateType)
+            {
+                case "A":
+                    currentState = new StateA();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "B":
+                    currentState = new StateB();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "D":
+                    currentState = new StateD();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "E":
+                    currentState = new StateE();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "I":
+                    currentState = new StateI();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "J":
+                    currentState = new StateJ();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "Y":
+                    currentState = new StateY();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "Z":
+                    dt = new StateZ().checkZExtensions(stRec);
+                    currentState = new StateZ();
+
+                    //dt = new StateZ().checkExtensions(stRec);
+                    break;
+                default:
+                    break;
+            }
+
+            string stateTypetmp = "";
+
+
+            if (dt.Rows.Count > 0)
+            {
+                stateTypetmp = dt.Rows[0]["subRecType"].ToString().Trim();
+
+                string fieldData = dt.Rows[0][3].ToString().Trim() + ":\t" + stRec.StateNumber + System.Environment.NewLine;
+
+                if (stateTypetmp == stRec.StateType)
+                    fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType + System.Environment.NewLine;
+                else
+                    fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType + " ext: " + stateTypetmp.Substring(0, 1) + " " + stateNum + System.Environment.NewLine;
+
+                fieldData += dt.Rows[2][3].ToString().Substring(0, 40) + stRec.Val1 + insertDescription(dt.Rows[2][4].ToString());
+                fieldData += dt.Rows[3][3].ToString().Substring(0, 40) + stRec.Val2 + insertDescription(dt.Rows[3][4].ToString());
+                fieldData += dt.Rows[4][3].ToString().Substring(0, 40) + stRec.Val3 + insertDescription(dt.Rows[4][4].ToString());
+                fieldData += dt.Rows[5][3].ToString().Substring(0, 40) + stRec.Val4 + insertDescription(dt.Rows[5][4].ToString());
+                fieldData += dt.Rows[6][3].ToString().Substring(0, 40) + stRec.Val5 + insertDescription(dt.Rows[6][4].ToString());
+                fieldData += dt.Rows[7][3].ToString().Substring(0, 40) + stRec.Val6 + insertDescription(dt.Rows[7][4].ToString());
+                fieldData += dt.Rows[8][3].ToString().Substring(0, 40) + stRec.Val7 + insertDescription(dt.Rows[8][4].ToString());
+                fieldData += dt.Rows[9][3].ToString().Substring(0, 40) + stRec.Val8 + insertDescription(dt.Rows[9][4].ToString());
+                fieldData += System.Environment.NewLine;
+
+                // check if there is an extension in the current state exist
+
+                //int j = 1;
+                /*for (int i = 0; i < 10; i++)
+                {
+                    if (dt.Rows[i][3].ToString().Contains("Extension") && stRecVal[i] != "000")
+                    {
+                        // add state to waiting for extension list
+                        
+                        App.Prj.ExtensionsLst.Add(stRec);
+                        // App.Prj.ExtensionsLst.Add(stRecVal[1] + j.ToString() + stRec.StateNumber + stRecVal[i]);
+                        // j++;
+                    }
+                }*/
+                // is there extension information on the val
+                //
+
+                stateTypetmp = stRec.StateType;
+                stRec.StateType = dt.Rows[0]["subRecType"].ToString();
+                currentState.checkExtensions(stRec);
+                stRec.StateType = stateTypetmp;
+
+                return fieldData;
+            }
+            else
+            {
+                return "";
+            }
+
+        }
+
+        public DataTable getStateDescription(string stateType)
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+
+            
+                // is the calling state a Y
+                // get the info from DataDescription
+                // send it back in a string 
+                try
+                {
+                    cnn.Open();
+                    using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "S"
+                        + "' AND subRecType = '" + stateType + "'", cnn))
+                    {
+                        sda.Fill(dt);
+                    }
+                }
+                catch (Exception dbEx)
+                {
+                    Console.WriteLine(dbEx.ToString());
+                    return null;
+                }
+            
+            return dt;
+        }
+
+        private string insertDescription(string fieldDescription)
         {
             string description = "";
 
@@ -410,6 +549,14 @@ namespace Logger
             return description;
         }
 
+        public virtual void checkExtensions(stateRec st)
+        {
+        }
+
+        public virtual DataTable checkZExtensions(stateRec st)
+        {
+            return null;
+        }
     };
 }
 
