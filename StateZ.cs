@@ -53,6 +53,8 @@ namespace Logger
             foreach (stateRec state in App.Prj.ExtensionsLst)
             {
                 // state holds the state waiting for extension
+                //if (st.StateNumber == state.StateNumber)
+
                 if (state.StateType == "J")
                 {
                     if (state.Val8 == st.StateNumber)
@@ -67,6 +69,14 @@ namespace Logger
                     if (state.Val4 == st.StateNumber)
                     {
                         dt = st.getStateDescription("J11");
+                        break;
+                    }
+                }
+                if (state.StateType == "J11")
+                {
+                    if (state.Val4 == st.StateNumber)
+                    {
+                        dt = st.getStateDescription("J111");
                         break;
                     }
                 }

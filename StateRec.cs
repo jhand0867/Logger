@@ -450,7 +450,6 @@ namespace Logger
 
             string stateTypetmp = "";
 
-
             if (dt.Rows.Count > 0)
             {
                 stateTypetmp = dt.Rows[0]["subRecType"].ToString().Trim();
@@ -462,14 +461,14 @@ namespace Logger
                 else
                     fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType + " ext: " + stateTypetmp.Substring(0, 1) + " " + stateNum + System.Environment.NewLine;
 
-                fieldData += dt.Rows[2][3].ToString().Substring(0, 40) + stRec.Val1 + insertDescription(dt.Rows[2][4].ToString());
-                fieldData += dt.Rows[3][3].ToString().Substring(0, 40) + stRec.Val2 + insertDescription(dt.Rows[3][4].ToString());
-                fieldData += dt.Rows[4][3].ToString().Substring(0, 40) + stRec.Val3 + insertDescription(dt.Rows[4][4].ToString());
-                fieldData += dt.Rows[5][3].ToString().Substring(0, 40) + stRec.Val4 + insertDescription(dt.Rows[5][4].ToString());
-                fieldData += dt.Rows[6][3].ToString().Substring(0, 40) + stRec.Val5 + insertDescription(dt.Rows[6][4].ToString());
-                fieldData += dt.Rows[7][3].ToString().Substring(0, 40) + stRec.Val6 + insertDescription(dt.Rows[7][4].ToString());
-                fieldData += dt.Rows[8][3].ToString().Substring(0, 40) + stRec.Val7 + insertDescription(dt.Rows[8][4].ToString());
-                fieldData += dt.Rows[9][3].ToString().Substring(0, 40) + stRec.Val8 + insertDescription(dt.Rows[9][4].ToString());
+                fieldData += dt.Rows[2][3].ToString().Substring(0, 40) + " " + stRec.Val1 + insertDescription(dt.Rows[2][4].ToString());
+                fieldData += dt.Rows[3][3].ToString().Substring(0, 40) + " " + stRec.Val2 + insertDescription(dt.Rows[3][4].ToString());
+                fieldData += dt.Rows[4][3].ToString().Substring(0, 40) + " " + stRec.Val3 + insertDescription(dt.Rows[4][4].ToString());
+                fieldData += dt.Rows[5][3].ToString().Substring(0, 40) + " " + stRec.Val4 + insertDescription(dt.Rows[5][4].ToString());
+                fieldData += dt.Rows[6][3].ToString().Substring(0, 40) + " " + stRec.Val5 + insertDescription(dt.Rows[6][4].ToString());
+                fieldData += dt.Rows[7][3].ToString().Substring(0, 40) + " " + stRec.Val6 + insertDescription(dt.Rows[7][4].ToString());
+                fieldData += dt.Rows[8][3].ToString().Substring(0, 40) + " " + stRec.Val7 + insertDescription(dt.Rows[8][4].ToString());
+                fieldData += dt.Rows[9][3].ToString().Substring(0, 40) + " " + stRec.Val8 + insertDescription(dt.Rows[9][4].ToString());
                 fieldData += System.Environment.NewLine;
 
                 // check if there is an extension in the current state exist
@@ -489,11 +488,11 @@ namespace Logger
                 // is there extension information on the val
                 //
 
-                stateTypetmp = stRec.StateType;
-                stRec.StateType = dt.Rows[0]["subRecType"].ToString();
-                currentState.checkExtensions(stRec);
-                stRec.StateType = stateTypetmp;
-
+                stateRec stRecTmp = new stateRec();
+                stRecTmp = stRec;
+                stRecTmp.StateType = dt.Rows[0]["subRecType"].ToString().Trim();
+                currentState.checkExtensions(stRecTmp);
+                //App.Prj.ExtensionsLst
                 return fieldData;
             }
             else
