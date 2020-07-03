@@ -46,29 +46,38 @@ namespace Logger
             }
         }
 
-        public new DataTable checkZExtensions(stateRec st)
+        public override string checkZExtensions(stateRec st)
         {
             // st holds the Z state
-            DataTable dt = new DataTable();
+
+            string stateFound = "";
             foreach (stateRec state in App.Prj.ExtensionsLst)
             {
                 // state holds the state waiting for extension
                 //if (st.StateNumber == state.StateNumber)
-
+                if (state.StateType == "D")
+                {
+                    if (state.Val8 == st.StateNumber)
+                    {
+                        // this is the extension
+                        stateFound = state.stateNum + "D1";
+                        break;
+                    }
+                }
                 if (state.StateType == "J")
                 {
                     if (state.Val8 == st.StateNumber)
                     {
                         // this is the extension
-                        dt = st.getStateDescription("J1");
+                        stateFound = state.stateNum + "J1";
                         break;
                     }
-                 }
+                }
                 if (state.StateType == "J1")
                 {
                     if (state.Val4 == st.StateNumber)
                     {
-                        dt = st.getStateDescription("J11");
+                        stateFound = state.stateNum + "J11";
                         break;
                     }
                 }
@@ -76,7 +85,7 @@ namespace Logger
                 {
                     if (state.Val4 == st.StateNumber)
                     {
-                        dt = st.getStateDescription("J111");
+                        stateFound = state.stateNum + "J111";
                         break;
                     }
                 }
@@ -85,12 +94,12 @@ namespace Logger
                     if (state.Val5 == st.StateNumber)
                     {
                         // this is the extension
-                        dt = st.getStateDescription("Y1");
+                        stateFound = state.stateNum + "Y1";
                         break;
                     }
                     if (state.Val8 == st.StateNumber)
                     {
-                        dt = st.getStateDescription("Y2");
+                        stateFound = state.stateNum + "Y2";
                         break;
                     }
                 }
@@ -98,7 +107,7 @@ namespace Logger
                 {
                     if (state.Val8 == st.StateNumber)
                     {
-                        dt = st.getStateDescription("I1");
+                        stateFound = state.stateNum + "I1";
                         break;
                     }
                 }
@@ -106,7 +115,7 @@ namespace Logger
                 {
                     if (state.Val8 == st.StateNumber)
                     {
-                        dt = st.getStateDescription("I11");
+                        stateFound = state.stateNum + "I11";
                         break;
                     }
                 }
@@ -114,9 +123,8 @@ namespace Logger
                 continue;
 
             }
-            return dt;
+            return stateFound;
         }
-
         public override void checkExtensions(stateRec st)
         {
             bool stateExtension = false;
@@ -136,22 +144,5 @@ namespace Logger
             if (stateExtension)
                 App.Prj.ExtensionsLst.Add(st);
         }
-
-        /*        public override DataTable checkExtensions(stateRec st)
-                {
-                    DataTable dt = new DataTable();
-                    List<stateRec> stw = App.Prj.ExtensionsLst;
-                    for (int x=stw.Count; x>0; x--)
-                    {
-                        if (stw[x-1].StateNumber == st.StateNumber)
-                        {
-
-                        } 
-
-                    }
-
-                    return dt;
-                }
-        */
     }
 }

@@ -401,13 +401,13 @@ namespace Logger
         public virtual string getInfo(stateRec stRec)
         {
             string stateType = stRec.StateType;
-            string stateNum = "";
+            string stateNum = stRec.StateNumber;
 
             
 
             DataTable dt = new DataTable();
             stateRec currentState = new stateRec();
-
+            
             switch (stRec.StateType)
             {
                 case "A":
@@ -439,28 +439,36 @@ namespace Logger
                     dt = currentState.getStateDescription(stRec.StateType);
                     break;
                 case "Z":
-                    dt = new StateZ().checkZExtensions(stRec);
                     currentState = new StateZ();
+                    string extensionFound = currentState.checkZExtensions(stRec);
 
-                    //dt = new StateZ().checkExtensions(stRec);
+                    if (extensionFound.Length > 0)
+                    {
+                        dt = currentState.getStateDescription(extensionFound.Substring(3, extensionFound.Length - 3));
+                        stateNum = extensionFound.Substring(0, 3); 
+                    }
                     break;
+
                 default:
                     break;
             }
 
             string stateTypetmp = "";
-
+            
             if (dt.Rows.Count > 0)
             {
                 stateTypetmp = dt.Rows[0]["subRecType"].ToString().Trim();
+
 
                 string fieldData = dt.Rows[0][3].ToString().Trim() + ":\t" + stRec.StateNumber + System.Environment.NewLine;
 
                 if (stateTypetmp == stRec.StateType)
                     fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType + System.Environment.NewLine;
                 else
-                    fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType + " ext: " + stateTypetmp.Substring(0, 1) + " " + stateNum + System.Environment.NewLine;
-
+                {
+                    if (stateTypetmp.Length > 2) stateTypetmp = stRec.StateType;
+                    fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType + " extension of " + stateTypetmp.Substring(0, 1) + " " + stateNum + System.Environment.NewLine;
+                }
                 fieldData += dt.Rows[2][3].ToString().Substring(0, 40) + " " + stRec.Val1 + insertDescription(dt.Rows[2][4].ToString());
                 fieldData += dt.Rows[3][3].ToString().Substring(0, 40) + " " + stRec.Val2 + insertDescription(dt.Rows[3][4].ToString());
                 fieldData += dt.Rows[4][3].ToString().Substring(0, 40) + " " + stRec.Val3 + insertDescription(dt.Rows[4][4].ToString());
@@ -471,20 +479,6 @@ namespace Logger
                 fieldData += dt.Rows[9][3].ToString().Substring(0, 40) + " " + stRec.Val8 + insertDescription(dt.Rows[9][4].ToString());
                 fieldData += System.Environment.NewLine;
 
-                // check if there is an extension in the current state exist
-
-                //int j = 1;
-                /*for (int i = 0; i < 10; i++)
-                {
-                    if (dt.Rows[i][3].ToString().Contains("Extension") && stRecVal[i] != "000")
-                    {
-                        // add state to waiting for extension list
-                        
-                        App.Prj.ExtensionsLst.Add(stRec);
-                        // App.Prj.ExtensionsLst.Add(stRecVal[1] + j.ToString() + stRec.StateNumber + stRecVal[i]);
-                        // j++;
-                    }
-                }*/
                 // is there extension information on the val
                 //
 
@@ -492,7 +486,6 @@ namespace Logger
                 stRecTmp = stRec;
                 stRecTmp.StateType = dt.Rows[0]["subRecType"].ToString().Trim();
                 currentState.checkExtensions(stRecTmp);
-                //App.Prj.ExtensionsLst
                 return fieldData;
             }
             else
@@ -552,7 +545,7 @@ namespace Logger
         {
         }
 
-        public virtual DataTable checkZExtensions(stateRec st)
+        public virtual string checkZExtensions(stateRec st)
         {
             return null;
         }

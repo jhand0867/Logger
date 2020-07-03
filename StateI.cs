@@ -14,7 +14,6 @@ namespace Logger
 
             base.ValidateState(stateData);
 
-
             // validate state data
             /*
              validate statNum is 000 - 999
@@ -81,9 +80,7 @@ namespace Logger
                     {
                         resp = this.ValidateRange(stateData.sta8, 0, 999);
                         resultData = this.ValidateStateNumber(stateData.sta8);
-
                     }
-
                 }
             }
         }
@@ -92,8 +89,8 @@ namespace Logger
         {
             bool stateExtension = false;
 
-            // extension state is on field 6 (Val5)
-            // language extension is on field 9 (Val8)
+            // extension state is on field 9 (Val8)
+            // Depeds on Val7 to be extension
 
             if (st.Val7 == "128" || st.Val7 == "129")
             {
@@ -103,8 +100,6 @@ namespace Logger
             if (stateExtension)
                 App.Prj.ExtensionsLst.Add(st);
         }
-
-
     }
 }
 

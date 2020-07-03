@@ -20,5 +20,20 @@ namespace Logger
 
             }
         }
+
+        public override void checkExtensions(stateRec st)
+        {
+            bool stateExtension = false;
+
+            // extension state is on field 9 (Val8)
+            
+            if (st.Val8 != "000" && st.Val8 != "255")
+            {
+                stateExtension = true;
+            }
+
+            if (stateExtension)
+                App.Prj.ExtensionsLst.Add(st);
+        }
     }
 }
