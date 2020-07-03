@@ -95,7 +95,7 @@ namespace Logger
             // extension state is on field 6 (Val5)
             // language extension is on field 9 (Val8)
 
-            if (st.Val8 != "000" && st.Val8 != "255")
+            if (st.Val7 == "128" || st.Val7 == "129")
             {
                 stateExtension = true;
             }
