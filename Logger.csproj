@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Class2C.cs" />
     <Compile Include="ConfigIdRec.cs" />
     <Compile Include="ConfigParamsRec.cs" />
     <Compile Include="DateAndTimeRec.cs" />
@@ -110,15 +111,34 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenRec.cs" />
+    <Compile Include="State26.cs" />
+    <Compile Include="State2B.cs" />
+    <Compile Include="State2C.cs" />
+    <Compile Include="State2D.cs" />
+    <Compile Include="State2E.cs" />
+    <Compile Include="State2F.cs" />
+    <Compile Include="State3B.cs" />
+    <Compile Include="State3E.cs" />
+    <Compile Include="State3F.cs" />
+    <Compile Include="State5F.cs" />
+    <Compile Include="State6B.cs" />
+    <Compile Include="State77.cs" />
     <Compile Include="StateA.cs" />
     <Compile Include="StateAll.cs" />
     <Compile Include="StateB.cs" />
     <Compile Include="StateD.cs" />
     <Compile Include="StateE.cs" />
+    <Compile Include="StateF.cs" />
+    <Compile Include="StateG.cs" />
+    <Compile Include="StateH.cs" />
     <Compile Include="StateI.cs" />
     <Compile Include="StateJ.cs" />
     <Compile Include="StateK.cs" />
+    <Compile Include="StateM.cs" />
+    <Compile Include="StateN.cs" />
     <Compile Include="StateRec.cs" />
+    <Compile Include="StateW.cs" />
+    <Compile Include="StateX.cs" />
     <Compile Include="StateY.cs" />
     <Compile Include="StateZ.cs" />
     <Compile Include="TRec.cs" />

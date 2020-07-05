@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 
@@ -27,6 +28,35 @@ namespace Logger
             return true;
 
         }
+
+        public DataTable getRecord(string logKey, string logID, string projectKey)
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM fitInfo WHERE prjkey = '" +
+                                                               projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
+                                                               logKey + "%'", cnn))
+                {
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+
+        }
+
 
         public new Dictionary<string, FitRec> readData(string sql)
         {
@@ -166,6 +196,36 @@ namespace Logger
 
         }
 
+        public DataTable getDescription()
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+
+
+            // is the calling state a Y
+            // get the info from DataDescription
+            // send it back in a string 
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "F"
+                    + "'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+
+            return dt;
+        }
     }
 }
 

@@ -70,6 +70,7 @@ namespace Logger
                     break;
                 case "15":
                     FitRec fitRec = new FitRec();
+                    dataTable = fitRec.getRecord(logKey, logID, projectKey);
                     break;
                 case "16":
                     ConfigIdRec cir = new ConfigIdRec();

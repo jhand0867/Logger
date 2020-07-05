@@ -51,7 +51,7 @@ namespace Logger
                     {
                         txtFieldData.Text = dt.Columns[3].ColumnName + " = " + dt.Rows[0][3].ToString();
                     }
-
+                    // if the row data is for a State
                     if (dt.Rows[rowNum][2].ToString() == "S")
                     {
                         for (fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
@@ -84,6 +84,27 @@ namespace Logger
                         txtFieldData.Text += System.Environment.NewLine;
                         txtFieldData.Text += System.Environment.NewLine;
                         txtFieldData.Text += stRec.getInfo(stRec);
+                    }
+                    // if the row data is for a FIT
+                    if (dt.Rows[rowNum][2].ToString() == "F")
+                    {
+                        FitRec fitRec = new FitRec();
+                        DataTable fitdt = fitRec.getDescription();
+
+                        for (fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
+                        {
+                            if (fieldNum == 3)
+                            {
+                                txtFieldData.Text += @"==================================================" + System.Environment.NewLine;
+                                txtFieldData.Text += dt.Columns[fieldNum].ColumnName.ToUpper() + " = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
+                                txtFieldData.Text += @"==================================================" + System.Environment.NewLine;
+                            }
+                            else
+                            {
+                                txtFieldData.Text += dt.Columns[fieldNum].ColumnName.ToUpper() + " = " + dt.Rows[rowNum][fieldNum].ToString() + "\t\t" + fitdt.Rows[fieldNum-3][3].ToString().Trim()  + System.Environment.NewLine;
+                            }
+
+                        }
                     }
                 }
 

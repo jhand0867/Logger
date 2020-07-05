@@ -276,128 +276,6 @@ namespace Logger
             }
 
         }
-
-       /* public virtual string getInfo1(stateRec stRec)
-        {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            DataTable dt = new DataTable();
-
-            string stateType = stRec.StateType;
-            string stateNum = "";
-
-            // if current state is an extension, find the state number in the extension list and 
-            // get the parent state
-
-            if ( stateType == "Z")
-            {
-                foreach (stateRec item in App.Prj.ExtensionsLst)
-                {
-                    if (item.Substring(5, 3) == stRec.stateNum)
-                    {
-                        stateType = item.Substring(0, 2);
-                        stateNum = item.Substring(2, 3);
-                        App.Prj.ExtensionsLst.Remove(item);
-
-                        switch (stateType)
-                        {
-                            case "J ":
-                                stateType = "J1";
-                                break;
-                            case "Y ":
-                                stateType = "Y1";
-                                break;
-                            case "D ":
-                                stateType = "D1";
-                                break;
-                            case "J1":
-                                stateType = "J2";
-                                break;
-                            case "Y1":
-                                stateType = "Y2";
-                                break;
-                            case "D1":
-                                stateType = "D2";
-                                break;
-
-                        }
-                        break;
-                    }
-                }
-
-            }
-
-            try
-            {
-                cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "S"
-                    + "' AND subRecType = '" + stateType + "'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
-            string[] stRecVal = new string[10];
-
-            stRecVal[0] = stRec.StateNumber;
-            stRecVal[1] = stateType.PadRight(2);
-            stRecVal[2] = stRec.Val1;
-            stRecVal[3] = stRec.Val2;
-            stRecVal[4] = stRec.Val3;
-            stRecVal[5] = stRec.Val4;
-            stRecVal[6] = stRec.Val5;
-            stRecVal[7] = stRec.Val6;
-            stRecVal[8] = stRec.Val7;
-            stRecVal[9] = stRec.Val8;
-
-            if (dt.Rows.Count > 0)
-            {
-                string fieldData = dt.Rows[0][3].ToString().Trim() + ":\t" + stRec.StateNumber + System.Environment.NewLine;
-
-                if (stateType == stRec.StateType)                
-                    fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType + System.Environment.NewLine;
-                else
-                    fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType  + " ext: " + stateType.Substring(0,1) + " " + stateNum + System.Environment.NewLine;
-
-                fieldData += dt.Rows[2][3].ToString().Substring(0, 40) + stRec.Val1 + getDescription(dt.Rows[2][4].ToString());
-                fieldData += dt.Rows[3][3].ToString().Substring(0, 40) + stRec.Val2 + getDescription(dt.Rows[3][4].ToString());
-                fieldData += dt.Rows[4][3].ToString().Substring(0, 40) + stRec.Val3 + getDescription(dt.Rows[4][4].ToString());
-                fieldData += dt.Rows[5][3].ToString().Substring(0, 40) + stRec.Val4 + getDescription(dt.Rows[5][4].ToString());
-                fieldData += dt.Rows[6][3].ToString().Substring(0, 40) + stRec.Val5 + getDescription(dt.Rows[6][4].ToString());
-                fieldData += dt.Rows[7][3].ToString().Substring(0, 40) + stRec.Val6 + getDescription(dt.Rows[7][4].ToString());
-                fieldData += dt.Rows[8][3].ToString().Substring(0, 40) + stRec.Val7 + getDescription(dt.Rows[8][4].ToString());
-                fieldData += dt.Rows[9][3].ToString().Substring(0, 40) + stRec.Val8 + getDescription(dt.Rows[9][4].ToString());
-                fieldData += System.Environment.NewLine;
-
-                // check if an extension in the current state exist
-
-                int j = 1;
-                for (int i = 0; i < 10; i++)
-                {
-                    if (dt.Rows[i][3].ToString().Contains("Extension") && stRecVal[i] != "000")
-                    {
-                        App.Prj.ExtensionsLst.Add(stRecVal[1] + stRec.StateNumber + stRecVal[i] );
-                        // App.Prj.ExtensionsLst.Add(stRecVal[1] + j.ToString() + stRec.StateNumber + stRecVal[i]);
-                        j++;
-                    }
-                }
-
-                return fieldData;
-            }
-            else
-            {
-                return "";
-            }
-
-        }
-*/
         public virtual string getInfo(stateRec stRec)
         {
             string stateType = stRec.StateType;
@@ -426,6 +304,18 @@ namespace Logger
                     currentState = new StateE();
                     dt = currentState.getStateDescription(stRec.StateType);
                     break;
+                case "F":
+                    currentState = new StateF();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "G":
+                    currentState = new StateG();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "H":
+                    currentState = new StateH();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
                 case "I":
                     currentState = new StateI();
                     dt = currentState.getStateDescription(stRec.StateType);
@@ -434,8 +324,76 @@ namespace Logger
                     currentState = new StateJ();
                     dt = currentState.getStateDescription(stRec.StateType);
                     break;
+                case "K":
+                    currentState = new StateK();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "M":
+                    currentState = new StateM();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "N":
+                    currentState = new StateN();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "W":
+                    currentState = new StateW();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "X":
+                    currentState = new StateX();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
                 case "Y":
                     currentState = new StateY();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "_":
+                    currentState = new State5F();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "+":
+                    currentState = new State2B();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "&":
+                    currentState = new State26();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case ",":
+                    currentState = new State2C();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "-":
+                    currentState = new State2D();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case ".":
+                    currentState = new State2E();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "/":
+                    currentState = new State2F();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case ";":
+                    currentState = new State3B();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case ">":
+                    currentState = new State3E();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "?":
+                    currentState = new State3F();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "k":
+                    currentState = new State6B();
+                    dt = currentState.getStateDescription(stRec.StateType);
+                    break;
+                case "w":
+                    currentState = new State77();
                     dt = currentState.getStateDescription(stRec.StateType);
                     break;
                 case "Z":

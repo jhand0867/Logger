@@ -119,6 +119,71 @@ namespace Logger
                         break;
                     }
                 }
+                if (state.StateType == ".")
+                {
+                    if (state.Val2 == st.StateNumber)
+                    {
+                        // this is the extension
+                        stateFound = state.stateNum + ".1";
+                        break;
+                    }
+                    if (state.Val3 == st.StateNumber)
+                    {
+                        stateFound = state.stateNum + ".2";
+                        break;
+                    }
+                    if (state.Val4 == st.StateNumber)
+                    {
+                        stateFound = state.stateNum + ".3";
+                        break;
+                    }
+
+                }
+                if (state.StateType == "/")
+                {
+                    if (state.Val4 == st.StateNumber)
+                    {
+                        stateFound = state.stateNum + "/1";
+                        break;
+                    }
+                }
+                if (state.StateType == "&")
+                {
+                    if (state.Val8 == st.StateNumber)
+                    {
+                        stateFound = state.stateNum + "&1";
+                        break;
+                    }
+                }
+                if (state.StateType == "&1")
+                {
+                    if (state.Val8 == st.StateNumber)
+                    {
+                        stateFound = state.stateNum + "&11";
+                        break;
+                    }
+                }
+                if (state.StateType == ">")
+                {
+                    if (state.Val5 == st.StateNumber)
+                    {
+                        // this is the extension
+                        stateFound = state.stateNum + ">1";
+                        break;
+                    }
+                    if (state.Val6 == st.StateNumber)
+                    {
+                        stateFound = state.stateNum + ">2";
+                        break;
+                    }
+                    if (state.Val7 == st.StateNumber)
+                    {
+                        stateFound = state.stateNum + ">3";
+                        break;
+                    }
+                }
+
+
 
                 continue;
 
