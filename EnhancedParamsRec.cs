@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Logger
@@ -149,6 +150,75 @@ namespace Logger
 
             }
 
+        }
+
+        internal List<DataTable> getRecord(string logKey, string logID, string projectKey)
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+            List<DataTable> dts = new List<DataTable>();
+            try
+            {
+                cnn.Open();
+
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT id, logkey, rectype, optionNum as Num, optionCode as Code, '1' as type from enhancedParams
+                                                        WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+
+                {
+                    sda.Fill(dt);
+                }
+                dts.Add(dt);
+                dt = new DataTable();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT id, logkey, rectype, timerNum as Num, timerSeconds as Code, '2' as type from enhancedTimers
+                                                        WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+
+                {
+                    sda.Fill(dt);
+
+                }
+                dts.Add(dt);
+                return dts;
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+        }
+
+        internal DataTable getDescription()
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+
+
+            // is the calling state a Y
+            // get the info from DataDescription
+            // send it back in a string 
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "C"
+                    + "'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+
+            return dt; ;
         }
     }
 }

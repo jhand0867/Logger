@@ -16,13 +16,14 @@ namespace Logger
 
         }
 
-        public DataTable getRecord(string logKey, string logID, string projectKey, string recValue)
+        public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recValue)
         {
             List<typeRec> typeList = new List<typeRec>();
             string[] tmpTypes;
             int recCount = 0;
             string recType = "";
             DataTable dataTable = new DataTable();
+            List<DataTable> dts = new List<DataTable>();
 
             foreach (string recordType in App.Prj.RecordTypes)
             {
@@ -30,7 +31,7 @@ namespace Logger
                 {
                     if (recCount == 0 || recCount == 1)
                     {
-                        recType = recCount.ToString();
+                        recType = recCount.ToString("00");
                     }
                     else
                     {
@@ -57,27 +58,29 @@ namespace Logger
                     break;
                 case "01":
                     TReply treply = new TReply();
+                    dts = treply.getRecord(logKey, logID, projectKey);
                     break;
                 case "11":
                     screenRec scrRec = new screenRec();
                     break;
                 case "12":
                     stateRec staRec = new stateRec();
-                    dataTable = staRec.getRecord(logKey, logID, projectKey);
+                    dts = staRec.getRecord(logKey, logID, projectKey);
                     break;
                 case "13":
                     configParamsRec cpRec = new configParamsRec();
                     break;
                 case "15":
                     FitRec fitRec = new FitRec();
-                    dataTable = fitRec.getRecord(logKey, logID, projectKey);
+                    dts = fitRec.getRecord(logKey, logID, projectKey);
                     break;
                 case "16":
                     ConfigIdRec cir = new ConfigIdRec();
-                    dataTable = cir.getRecord(logKey, logID, projectKey);
+                    dts = cir.getRecord(logKey, logID, projectKey);
                     break;
                 case "1A":
                     EnhancedParamsRec epRec = new EnhancedParamsRec();
+                    dts = epRec.getRecord(logKey, logID, projectKey);
                     break;
                 case "1B":
                     //writeMAC(typeList);
@@ -92,7 +95,7 @@ namespace Logger
                     ExtEncryptionRec xer = new ExtEncryptionRec();
                     break;
             }
-            return dataTable;
+            return dts;
         }
         public void WriteLog(string filePath, string fileName, string logLine)
         {

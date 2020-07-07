@@ -209,8 +209,7 @@ namespace Logger
                 {
                     frmLogData = new LogData();
                 }
-                this.setData += new passLogData(frmLogData.setData);
-
+                this.setData += new passLogData(frmLogData.setData);              
                 setData(dgvLog.Rows[e.RowIndex]);
                 frmLogData.TopMost = true;
                 frmLogData.Show();

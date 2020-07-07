@@ -29,7 +29,7 @@ namespace Logger
 
         }
 
-        public DataTable getRecord(string logKey, string logID, string projectKey)
+        public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
             string connectionString;
             SqlConnection cnn;
@@ -37,6 +37,7 @@ namespace Logger
             connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
             cnn = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
+            List<DataTable> dts = new List<DataTable>();
             try
             {
                 cnn.Open();
@@ -45,9 +46,9 @@ namespace Logger
                                                                logKey + "%'", cnn))
                 {
                     sda.Fill(dt);
-
-                    return dt;
                 }
+                dts.Add(dt);
+                return dts;
             }
             catch (Exception dbEx)
             {

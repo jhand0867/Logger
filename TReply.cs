@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Logger
@@ -113,8 +114,78 @@ namespace Logger
         public string MACData;
     };
 
-    class TReply : App
+    class TReply : App, IMessage
     {
+        public DataTable getDescription()
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+
+
+            // is the calling state a Y
+            // get the info from DataDescription
+            // send it back in a string 
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "R" + "'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+
+            return dt; ;
+        }
+
+        public List<DataTable> getRecord(string logKey, string logID, string projectKey)
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            List<DataTable> dts = new List<DataTable>();
+            DataTable dt = new DataTable();
+
+            try
+            {
+                cnn.Open();
+
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treply WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+                dts.Add(dt);
+                dt = new DataTable();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treplyPrinterData WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+                dts.Add(dt);
+                dt = new DataTable();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treplyCheckProcessing WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+                dts.Add(dt);
+                return dts;
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+        }
+
         // get 4's from database
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
@@ -131,8 +202,7 @@ namespace Logger
                 SqlCommand command;
                 SqlDataAdapter dataAdapter = new SqlDataAdapter();
                 String sql = "";
-                int loadNum = 0;
-
+                
                 string[] tmpTypes;
 
                 foreach (typeRec r in typeRecs)
