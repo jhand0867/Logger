@@ -212,12 +212,12 @@ namespace Logger
 
         private string getCheckProccessing(DataTable dataTable)
         {
-            throw new NotImplementedException();
+            return "";
         }
 
         private string getPrinterData(DataTable dataTable)
         {
-            throw new NotImplementedException();
+            return "";
         }
 
         private void label7_Click(object sender, EventArgs e)
