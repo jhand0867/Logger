@@ -140,7 +140,7 @@ namespace Logger
             cmbColumHeader6.Items.Add("Host Connected");
             cmbColumHeader6.Items.Add("Host Disconnected");
             cmbColumHeader6.Items.Add("CashDispenser");
-            cmbColumHeader6.Items.Add("Created state");
+            cmbColumHeader6.Items.Add("State Created");
 
             cmbColumHeader6.SelectedIndexChanged += delegate (object sender, EventArgs e)
             {

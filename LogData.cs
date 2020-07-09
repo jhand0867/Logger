@@ -172,13 +172,21 @@ namespace Logger
                             {
                                 if (field == 24)
                                 {
-                                    string printerData = getPrinterData(dts[1]);
+                                    if (dts[1].Rows.Count > 0) {
+                                        txtFieldData.Text += getPrinterData(dts[1]);
+                                    }
+                                    continue;
                                 }
 
                                 if (field == 62)
                                 {
-                                    string checkProcessingData = getCheckProccessing(dts[2]);
+                                    if (dts[2].Rows.Count > 0)
+                                    {
+                                        string checkProcessingData = getCheckProccessing(dts[2]);                                       
+                                    }
+                                    continue;
                                 }
+
                                 string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
                                 if (fieldContent == "")
                                     continue;
@@ -186,6 +194,8 @@ namespace Logger
                                 {
                                     txtFieldData.Text += dt.Columns[field].ColumnName.ToUpper() + " = ";
                                     txtFieldData.Text += fieldContent;
+                                    //if (field < 13)
+                                    //    txtFieldData.Text += "\t" + tReplyDt.Rows[field - 3][3].ToString().Trim();
                                     txtFieldData.Text += System.Environment.NewLine;
                                 }
 
