@@ -123,15 +123,7 @@ namespace Logger
                                     txtFieldData.Text += @"==================================================" + System.Environment.NewLine;
                                 }
                                 txtFieldData.Text += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-                                // what's the description of the field
-                                foreach (DataRow item in paramRecDt.Rows)
-                                {
-                                    if (item[2].ToString().Substring(0, 1) == "O" && item[2].ToString().Substring(1, 2) == dt.Rows[rowNum][3].ToString())
-                                    {
-                                        optionDesc = item[3].ToString().Trim();
-                                        break;
-                                    }
-                                }
+                                optionDesc = getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString());
                                 txtFieldData.Text += "\t" + optionDesc + System.Environment.NewLine;
                             }
                             if (dt.Rows[rowNum][5].ToString() == "2")
@@ -144,15 +136,7 @@ namespace Logger
                                     timerNum = 1;
                                 }
                                 txtFieldData.Text += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-                                // what's the description of the field
-                                foreach (DataRow item in paramRecDt.Rows)
-                                {
-                                    if (item[2].ToString().Substring(0, 1) == "T" && item[2].ToString().Substring(1, 2) == dt.Rows[rowNum][3].ToString())
-                                    {
-                                        optionDesc = item[3].ToString().Trim();
-                                        break;
-                                    }
-                                }
+                                optionDesc = getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString());
                                 txtFieldData.Text += "\t" + optionDesc + System.Environment.NewLine;
                             }
                         }
@@ -160,7 +144,7 @@ namespace Logger
                         {
                             DataTable tReplyDt = new TReply().getDescription();
                             int x = 0;
-                            for (int field =3; field <= dt.Rows[rowNum].ItemArray.Length-5; field++)
+                            for (int field =3; field <= dt.Rows[rowNum].ItemArray.Length-3; field++)
                             {
                                 if (field == 24)
                                 {
