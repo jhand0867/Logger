@@ -106,7 +106,6 @@ namespace Logger
                                 {
                                     txtFieldData.Text += dt.Columns[fieldNum].ColumnName.ToUpper() + " = " + dt.Rows[rowNum][fieldNum].ToString() + "\t\t" + fitdt.Rows[fieldNum - 3][3].ToString().Trim() + System.Environment.NewLine;
                                 }
-
                             }
                         }
                         if (dt.Rows[rowNum][2].ToString() == "C")
@@ -122,10 +121,8 @@ namespace Logger
                                     txtFieldData.Text += @"==================================================" + System.Environment.NewLine;
                                     txtFieldData.Text += @"OPTIONS" + System.Environment.NewLine;
                                     txtFieldData.Text += @"==================================================" + System.Environment.NewLine;
-
                                 }
                                 txtFieldData.Text += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-
                                 // what's the description of the field
                                 foreach (DataRow item in paramRecDt.Rows)
                                 {
@@ -134,13 +131,9 @@ namespace Logger
                                         optionDesc = item[3].ToString().Trim();
                                         break;
                                     }
-
                                 }
-
-
                                 txtFieldData.Text += "\t" + optionDesc + System.Environment.NewLine;
                             }
-
                             if (dt.Rows[rowNum][5].ToString() == "2")
                             {
                                 if (timerNum == 0)
@@ -151,7 +144,6 @@ namespace Logger
                                     timerNum = 1;
                                 }
                                 txtFieldData.Text += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-
                                 // what's the description of the field
                                 foreach (DataRow item in paramRecDt.Rows)
                                 {
@@ -177,47 +169,74 @@ namespace Logger
                                     }
                                     continue;
                                 }
-
                                 if (field == 62)
                                 {
-                                    if (dts[2].Rows.Count > 0)
+                                    if (dts[2].Rows.Count > -1)
                                     {
                                         string checkProcessingData = getCheckProccessing(dts[2]);                                       
                                     }
                                     continue;
                                 }
-
+                                string optionDesc = getOptionDescription(tReplyDt, field.ToString("00"));
                                 string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
                                 if (fieldContent == "")
                                     continue;
                                 else
                                 {
-                                    txtFieldData.Text += dt.Columns[field].ColumnName.ToUpper() + " = ";
+                                    txtFieldData.Text += optionDesc + " = ";
                                     txtFieldData.Text += fieldContent;
                                     //if (field < 13)
                                     //    txtFieldData.Text += "\t" + tReplyDt.Rows[field - 3][3].ToString().Trim();
                                     txtFieldData.Text += System.Environment.NewLine;
                                 }
-
                             }
-
                         }
-
                     }
-
                 }
-
             }
         }
 
         private string getCheckProccessing(DataTable dataTable)
         {
-            return "";
+            string checksData = "";
+            if (dataTable.Rows.Count > -1)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    foreach (DataColumn field in dataTable.Columns)
+                    {
+                        string strField = field.ColumnName.Trim();
+                        if (strField == "Reserved")
+                            continue;
+                        checksData += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                    }
+                }
+            }
+            return checksData;
         }
 
         private string getPrinterData(DataTable dataTable)
         {
-            return "";
+            DataRow dr = dataTable.Rows[0];
+            string printerData ="Printer Flag\t = " + dr["printerFlag"].ToString() + System.Environment.NewLine ;
+            printerData += "Printer Data\t = " + dr["printerData"].ToString() + System.Environment.NewLine;
+
+            return printerData;
+        }
+
+        private string getOptionDescription(DataTable dataTable, string field)
+        {
+            string optionDesc = "";
+            // what's the description of the field
+            foreach (DataRow item in dataTable.Rows)
+            {
+                if (item[2].ToString().Trim() == field )
+                {
+                    optionDesc = item[3].ToString().Trim();
+                    break;
+                }
+            }
+            return optionDesc;
         }
 
         private void label7_Click(object sender, EventArgs e)
@@ -260,12 +279,6 @@ namespace Logger
                 DataGridViewRow dgvr = dgv.SelectedRows[0];
                 setData(dgvr);
             }
-
-
-            // dgvr.Selected = false;
-
-            //System.Windows.Controls.Control control = frmLogView.Controls["dgvLog"].;
-
         }
     }
 }
