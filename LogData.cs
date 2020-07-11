@@ -155,7 +155,7 @@ namespace Logger
                                 }
                                 if (field == 62)
                                 {
-                                    if (dts[2].Rows.Count > -1)
+                                    if (dts[2].Rows.Count > 0)
                                     {
                                         string checkProcessingData = getCheckProccessing(dts[2]);                                       
                                     }
@@ -174,6 +174,7 @@ namespace Logger
                                     txtFieldData.Text += System.Environment.NewLine;
                                 }
                             }
+                            break;
                         }
                     }
                 }
@@ -183,7 +184,7 @@ namespace Logger
         private string getCheckProccessing(DataTable dataTable)
         {
             string checksData = "";
-            if (dataTable.Rows.Count > -1)
+            if (dataTable.Rows.Count > 0)
             {
                 foreach (DataRow row in dataTable.Rows)
                 {
@@ -201,10 +202,22 @@ namespace Logger
 
         private string getPrinterData(DataTable dataTable)
         {
-            DataRow dr = dataTable.Rows[0];
-            string printerData ="Printer Flag\t = " + dr["printerFlag"].ToString() + System.Environment.NewLine ;
-            printerData += "Printer Data\t = " + dr["printerData"].ToString() + System.Environment.NewLine;
+            //DataRow dr = dataTable.Rows[0];
+            //string printerData ="Printer Flag\t = " + dr["printerFlag"].ToString() + System.Environment.NewLine ;
+            //printerData += "Printer Data\t = " + dr["printerData"].ToString() + System.Environment.NewLine;
 
+            //return printerData;
+
+            string printerData = "";
+
+            if (dataTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    printerData +="Printer Flag\t = " + row["printerFlag"].ToString() + System.Environment.NewLine ;
+                    printerData += "Printer Data\t = " + row["printerData"].ToString() + System.Environment.NewLine;
+                }
+            }
             return printerData;
         }
 
@@ -222,17 +235,6 @@ namespace Logger
             }
             return optionDesc;
         }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnNext_Click(object sender, EventArgs e)
         {
             LogView frmLogView = (LogView)Application.OpenForms["LogView"];
