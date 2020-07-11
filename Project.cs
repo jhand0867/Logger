@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace Logger
@@ -381,6 +382,8 @@ namespace Logger
 
             WriteLog("c:", "test.txt", "Testing Testing");
             string[] lstLines = File.ReadAllLines(filename);
+            File.WriteAllLines(@"c:test.log", lstLines);
+
 
             int repLine = 0;
             int recProcessed = 0;
@@ -572,7 +575,7 @@ namespace Logger
                                    data.group5 + "','" +
                                    data.group6 + "','" +
                                    data.group7 + "','" +
-                                   data.group8 + data.group9 + "','" +
+                                   WebUtility.HtmlEncode(data.group8 + data.group9) + "','" +
                                    Key + "','" + logID + "')";
 
                 command = new SqlCommand(sql, cnn);
