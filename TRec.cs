@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Logger
@@ -107,6 +108,32 @@ namespace Logger
 
     class TRec : App
     {
+        public DataTable getDescription()
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "T" + "'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+
+            return dt;
+        }
+
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
             string[] tmpTypes;
@@ -658,6 +685,54 @@ namespace Logger
 
             }
 
+        }
+
+
+        public List<DataTable> getRecord(string logKey, string logID, string projectKey)
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            List<DataTable> dts = new List<DataTable>();
+            DataTable dt = new DataTable();
+
+            try
+            {
+                cnn.Open();
+
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT TOP 1 * from treq WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+                dts.Add(dt);
+                dt = new DataTable();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treqCurrencies WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+                dts.Add(dt);
+                dt = new DataTable();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treqOptions WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+                dts.Add(dt);
+                dt = new DataTable();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treqChecks WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                {
+                    sda.Fill(dt);
+                }
+                dts.Add(dt);
+
+                return dts;
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
         }
 
     }

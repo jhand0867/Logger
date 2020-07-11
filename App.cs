@@ -55,6 +55,7 @@ namespace Logger
             {
                 case "00":
                     TRec tr = new TRec();
+                    dts = tr.getRecord(logKey, logID, projectKey);
                     break;
                 case "01":
                     TReply treply = new TReply();

@@ -160,7 +160,7 @@ namespace Logger
             {
                 cnn.Open();
 
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treply WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT TOP 1 * from treply WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%'", cnn))
                 {
                     sda.Fill(dt);
                 }

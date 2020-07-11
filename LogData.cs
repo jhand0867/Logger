@@ -50,6 +50,7 @@ namespace Logger
                 {
                     for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                     {
+                        // if the row data is for a 
                         if (dt.Rows[rowNum][2].ToString() == "I")
                         {
                             txtFieldData.Text = dt.Columns[3].ColumnName + " = " + dt.Rows[0][3].ToString();
@@ -108,6 +109,7 @@ namespace Logger
                                 }
                             }
                         }
+                        // if the row data is for a 
                         if (dt.Rows[rowNum][2].ToString() == "C")
                         {
                             EnhancedParamsRec paramRec = new EnhancedParamsRec();
@@ -140,6 +142,7 @@ namespace Logger
                                 txtFieldData.Text += "\t" + optionDesc + System.Environment.NewLine;
                             }
                         }
+                        // if the row data is for a Transaction Reply
                         if (dt.Rows[rowNum][2].ToString() == "R")
                         {
                             DataTable tReplyDt = new TReply().getDescription();
@@ -155,22 +158,57 @@ namespace Logger
                                 }
                                 if (field == 62)
                                 {
-                                    if (dts[2].Rows.Count > -1)
+                                    if (dts[2].Rows.Count > 0)
                                     {
                                         string checkProcessingData = getCheckProccessing(dts[2]);                                       
                                     }
                                     continue;
                                 }
-                                string optionDesc = getOptionDescription(tReplyDt, field.ToString("00"));
                                 string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
                                 if (fieldContent == "")
                                     continue;
                                 else
                                 {
+                                    string optionDesc = getOptionDescription(tReplyDt, field.ToString("00"));
                                     txtFieldData.Text += optionDesc + " = ";
                                     txtFieldData.Text += fieldContent;
                                     //if (field < 13)
                                     //    txtFieldData.Text += "\t" + tReplyDt.Rows[field - 3][3].ToString().Trim();
+                                    txtFieldData.Text += System.Environment.NewLine;
+                                }
+                            }
+                        }
+                        // if the row data is for a Transaction Request
+                        if (dt.Rows[rowNum][2].ToString() == "T")
+                        {
+                            DataTable tReqDt = new TRec().getDescription();
+                            int x = 0;
+                            for (int field = 3; field <= dt.Rows[rowNum].ItemArray.Length - 3; field++)
+                            {
+                                if (field == 24)
+                                {
+                                    if (dts[1].Rows.Count > 0)
+                                    {
+                                        txtFieldData.Text += getPrinterData(dts[1]);
+                                    }
+                                    continue;
+                                }
+                                if (field == 62)
+                                {
+                                    if (dts[2].Rows.Count > 0)
+                                    {
+                                        string checkProcessingData = getCheckProccessing(dts[2]);
+                                    }
+                                    continue;
+                                }                               
+                                string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
+                                if (fieldContent == "")
+                                    continue;
+                                else
+                                {
+                                    string optionDesc = getOptionDescription(tReqDt, field.ToString("00"));
+                                    txtFieldData.Text += optionDesc + " = ";
+                                    txtFieldData.Text += fieldContent;
                                     txtFieldData.Text += System.Environment.NewLine;
                                 }
                             }
@@ -183,7 +221,7 @@ namespace Logger
         private string getCheckProccessing(DataTable dataTable)
         {
             string checksData = "";
-            if (dataTable.Rows.Count > -1)
+            if (dataTable.Rows.Count > 0)
             {
                 foreach (DataRow row in dataTable.Rows)
                 {
