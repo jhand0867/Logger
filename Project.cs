@@ -388,9 +388,13 @@ namespace Logger
             int readRecs = 0;
             int recExtent = 0;
             string prevTimeStamp = "";
+            int lineProcess = 0;
+            string strLine = null;
 
-            foreach (string strLine in lstLines)
+            //foreach (string strLine in lstLines)
+            while (lineProcess < lstLines.Length)
             {
+                strLine = lstLines[lineProcess];
                 dataLine record = new dataLine();
                 if (strLine == "")
                 {
@@ -402,8 +406,15 @@ namespace Logger
                     recSkipped++;
                     continue;
                 }
+                lineProcess++;
 
-                readRecs++;
+                while (lineProcess < lstLines.Length && lstLines[lineProcess].Substring(0, 1) != "[")
+                {
+                    strLine += lstLines[lineProcess];
+                    lineProcess++;
+                }
+
+                 readRecs++;
                 // 
                 Regex openGroup9 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
                 Regex openGroup8 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");

@@ -160,7 +160,7 @@ namespace Logger
                                 {
                                     if (dts[2].Rows.Count > 0)
                                     {
-                                        string checkProcessingData = getCheckProccessing(dts[2]);                                       
+                                        txtFieldData.Text += getCheckProccessing(dts[2]);                                       
                                     }
                                     continue;
                                 }
@@ -172,8 +172,6 @@ namespace Logger
                                     string optionDesc = getOptionDescription(tReplyDt, field.ToString("00"));
                                     txtFieldData.Text += optionDesc + " = ";
                                     txtFieldData.Text += fieldContent;
-                                    //if (field < 13)
-                                    //    txtFieldData.Text += "\t" + tReplyDt.Rows[field - 3][3].ToString().Trim();
                                     txtFieldData.Text += System.Environment.NewLine;
                                 }
                             }
@@ -185,11 +183,11 @@ namespace Logger
                             int x = 0;
                             for (int field = 3; field <= dt.Rows[rowNum].ItemArray.Length - 3; field++)
                             {
-                                if (field == 24)
+                                if (field == 42)
                                 {
                                     if (dts[1].Rows.Count > 0)
                                     {
-                                        txtFieldData.Text += getPrinterData(dts[1]);
+                                        txtFieldData.Text += getTreqOptions(dts[1]);
                                     }
                                     continue;
                                 }
@@ -197,10 +195,16 @@ namespace Logger
                                 {
                                     if (dts[2].Rows.Count > 0)
                                     {
-                                        string checkProcessingData = getCheckProccessing(dts[2]);
+                                        txtFieldData.Text += getTreqCurrencies(dts[2]);
                                     }
+                                    if (dts[3].Rows.Count > 0)
+                                    {
+                                        txtFieldData.Text += getTreqCheques(dts[3]);
+                                    }
+
                                     continue;
-                                }                               
+                                }                   
+                                
                                 string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
                                 if (fieldContent == "")
                                     continue;
@@ -236,16 +240,74 @@ namespace Logger
             }
             return checksData;
         }
-
         private string getPrinterData(DataTable dataTable)
         {
-            DataRow dr = dataTable.Rows[0];
-            string printerData ="Printer Flag\t = " + dr["printerFlag"].ToString() + System.Environment.NewLine ;
-            printerData += "Printer Data\t = " + dr["printerData"].ToString() + System.Environment.NewLine;
+            string printerData = "";
 
+            if (dataTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    printerData += "Printer Flag\t = " + row["printerFlag"].ToString() + System.Environment.NewLine;
+                    printerData += "Printer Data\t = " + row["printerData"].ToString() + System.Environment.NewLine;
+                }
+            }
             return printerData;
         }
-
+        private string getTreqOptions(DataTable dataTable)
+        {
+            string notesType = "";
+            if (dataTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    foreach (DataColumn field in dataTable.Columns)
+                    {
+                        if (field.Ordinal < 2 || field.Ordinal > 4)
+                            continue;
+                        string strField = field.ColumnName.Trim();
+                        notesType += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                    }
+                }
+            }
+            return notesType;
+        }
+        private string getTreqCurrencies(DataTable dataTable)
+        {
+            string currencies = "";
+            if (dataTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    foreach (DataColumn field in dataTable.Columns)
+                    {
+                        if (field.Ordinal < 2 || field.Ordinal == 7 || field.Ordinal > 8)
+                            continue;
+                        string strField = field.ColumnName.Trim();
+                        currencies += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                    }
+                }
+            }
+            return currencies;
+        }
+        private string getTreqCheques(DataTable dataTable)
+        {
+            string checks = "";
+            if (dataTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    foreach (DataColumn field in dataTable.Columns)
+                    {
+                        if (field.Ordinal < 2 || field.Ordinal > 7)
+                            continue;
+                        string strField = field.ColumnName.Trim();
+                        checks += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                    }
+                }
+            }
+            return checks;
+        }
         private string getOptionDescription(DataTable dataTable, string field)
         {
             string optionDesc = "";

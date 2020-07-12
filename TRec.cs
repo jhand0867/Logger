@@ -707,20 +707,23 @@ namespace Logger
                     sda.Fill(dt);
                 }
                 dts.Add(dt);
+
                 dt = new DataTable();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treqCurrencies WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT id, logkey,fieldOption as ""field Option"", optionName as ""Option Name"", optionValue as ""Option Value"", logID from treqOptions WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                 {
+                    sda.Fill(dt);
+                }
+                dts.Add(dt);
+
+                dt = new DataTable();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT id, logkey, depositCurrency as ""Deposit Currency"", amountExponentSign as ""Amount Exponent Sign"", amountExponentValue as ""Amount Exponent Value"", totalCustomerAmount as ""Total Customer Amount"", totalDeriveAmount as ""Total Derive Amount"", zeroes1, numberOfChecks as ""Number of Cheques"", logID from treqCurrencies WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
                 {
                     sda.Fill(dt);
                 }
                 dts.Add(dt);
+
                 dt = new DataTable();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treqOptions WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
-                dt = new DataTable();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treqChecks WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT id, logkey, depositCurrency as ""Deposit Currency"", checkId as ""Check ID"", customerCheckAmount as ""Customer Check Amount"", derivedCheckAmount as ""Derived Check Amount"", codelineLength as ""Code Line Length"", codelineData as ""Code Line Data"", logID from treqChecks WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
                 {
                     sda.Fill(dt);
                 }
