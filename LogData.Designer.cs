@@ -114,7 +114,6 @@
             this.label5.Size = new System.Drawing.Size(74, 25);
             this.label5.TabIndex = 5;
             this.label5.Text = "Class:";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // txtLogLevel
             // 
@@ -137,7 +136,6 @@
             this.label7.Size = new System.Drawing.Size(113, 25);
             this.label7.TabIndex = 7;
             this.label7.Text = "Log Level:";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // txtFileName
             // 

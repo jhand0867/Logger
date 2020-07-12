@@ -216,6 +216,7 @@ namespace Logger
                                     txtFieldData.Text += System.Environment.NewLine;
                                 }
                             }
+                            break;
                         }
                     }
                 }
@@ -322,17 +323,6 @@ namespace Logger
             }
             return optionDesc;
         }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnNext_Click(object sender, EventArgs e)
         {
             LogView frmLogView = (LogView)Application.OpenForms["LogView"];
