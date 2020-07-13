@@ -382,8 +382,6 @@ namespace Logger
 
             WriteLog("c:", "test.txt", "Testing Testing");
             string[] lstLines = File.ReadAllLines(filename);
-            File.WriteAllLines(@"c:test.log", lstLines);
-
 
             int repLine = 0;
             int recProcessed = 0;
@@ -391,7 +389,7 @@ namespace Logger
             int readRecs = 0;
             int recExtent = 0;
             string prevTimeStamp = "";
-            int lineProcess = 0;
+            long lineProcess = 0;
             string strLine = null;
 
             //foreach (string strLine in lstLines)
@@ -402,18 +400,21 @@ namespace Logger
                 if (strLine == "")
                 {
                     recSkipped++;
+                    lineProcess++;
                     continue;
                 }
                 if (strLine.Substring(0, 1) != "[")
                 {
                     recSkipped++;
+                    lineProcess++;
                     continue;
                 }
                 lineProcess++;
 
-                while (lineProcess < lstLines.Length && lstLines[lineProcess].Substring(0, 1) != "[")
+                while (lineProcess < lstLines.Length && lstLines[lineProcess] != ""
+                    && lstLines[lineProcess].Substring(0, 1) != "[")
                 {
-                    strLine += lstLines[lineProcess];
+                    strLine += lstLines[lineProcess] + System.Environment.NewLine;
                     lineProcess++;
                 }
 
