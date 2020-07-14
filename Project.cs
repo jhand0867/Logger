@@ -403,13 +403,11 @@ namespace Logger
                 if (strLine == "")
                 {
                     recSkipped++;
-                    lineProcess++;
                     continue;
                 }
                 if (strLine.Substring(0, 1) != "[")
                 {
                     recSkipped++;
-                    lineProcess++;
                     continue;
                 }
 
