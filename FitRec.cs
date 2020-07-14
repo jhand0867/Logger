@@ -65,7 +65,7 @@ namespace Logger
             string connectionString;
             SqlConnection cnn;
 
-            connectionString = @"Data Source = LT-JOSEPHHANDSC\MVDATA; Initial Catalog = logger; User ID=sa; Password=pa55w0rd!";
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
             cnn = new SqlConnection(connectionString);
 
             try

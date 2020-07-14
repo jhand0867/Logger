@@ -314,7 +314,7 @@ namespace Logger
             string sql;
             SqlConnection cnn;
 
-            connectionString = @"Data Source = LT-JOSEPHHANDSC\MVDATA; Initial Catalog = logger; User ID=sa; Password=pa55w0rd!";
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
             cnn = new SqlConnection(connectionString);
 
             sql = @"INSERT INTO Project(prjKey,prjName,prjBrief,prjLogs,createDate)" +
@@ -399,6 +399,9 @@ namespace Logger
             {
                 strLine = lstLines[lineProcess];
                 dataLine record = new dataLine();
+
+                lineProcess++;
+
                 if (strLine == "")
                 {
                     recSkipped++;
@@ -409,15 +412,16 @@ namespace Logger
                     recSkipped++;
                     continue;
                 }
-                lineProcess++;
 
-                while (lineProcess < lstLines.Length && lstLines[lineProcess].Substring(0, 1) != "[")
+                while (lineProcess < lstLines.Length && lstLines[lineProcess] != ""
+                        && lstLines[lineProcess].Substring(0, 1) != "[")
                 {
-                    strLine += lstLines[lineProcess];
+                    strLine += lstLines[lineProcess] + System.Environment.NewLine;
                     lineProcess++;
                 }
 
-                 readRecs++;
+
+                readRecs++;
                 // 
                 Regex openGroup9 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
                 Regex openGroup8 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
@@ -1006,7 +1010,7 @@ namespace Logger
             string connectionString;
             SqlConnection cnn;
 
-            connectionString = @"Data Source = LT-JOSEPHHANDSC\MVDATA; Initial Catalog = logger; User ID=sa; Password=pa55w0rd!";
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
             cnn = new SqlConnection(connectionString);
             try
             {

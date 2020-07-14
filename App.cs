@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -157,7 +158,7 @@ namespace Logger
             string connectionString;
             SqlConnection cnn;
 
-            connectionString = @"Data Source = LT-JOSEPHHANDSC\MVDATA; Initial Catalog = logger; User ID=sa; Password=pa55w0rd!";
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
             cnn = new SqlConnection(connectionString);
             try
             {
