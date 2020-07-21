@@ -57,6 +57,7 @@
     <Compile Include="EnhancedParamsRec.cs" />
     <Compile Include="ExtEncryptionRec.cs" />
     <Compile Include="FitRec.cs" />
+    <Compile Include="ICCCurrencyDOT.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="LogData.cs">
       <SubType>Form</SubType>

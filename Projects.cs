@@ -152,7 +152,7 @@ namespace Logger
 
                 Dictionary<string, int> dicBits = pr.showRecordBits(dr["id"].ToString());
 
-                for (int x = 4; x < 15; x++)
+                for (int x = 4; x < 16; x++)
                 {
                     if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
                     {
@@ -188,6 +188,10 @@ namespace Logger
                             case 14:
                                 tn.Nodes.Add("Transaction Reply " + dicBits["treply"]);
                                 break;
+                            case 15:
+                                tn.Nodes.Add("ICC Currency DOT " + dicBits["iccCurrencyDOT"]);
+                                break;
+
                         }
                     }
                 }

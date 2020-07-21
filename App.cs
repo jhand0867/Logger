@@ -6,15 +6,10 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Text;
 
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
-
 namespace Logger
 {
     public class App
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-                                System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger("App.cs");
         public static Project Prj = new Project();
         public App()
         {
@@ -188,7 +183,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.Message);
+                Console.WriteLine(dbEx.ToString());
                 return null;
             }
         }
