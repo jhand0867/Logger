@@ -841,7 +841,13 @@ namespace Logger
             connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
             cnn = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
-            string sql = "";
+            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+                            [group2] as 'Log Level',[group3] as 'File Name',
+                            [group4] as 'Class',[group5] as 'Method',
+                            [group6] as 'Type',[group7],
+                            [group8] as 'Log Data',[group9],
+                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
+                        " AND " + columnName + " LIKE '%[[]" + columnValue + "%'";
 
             switch (columnName)
             {
@@ -875,7 +881,7 @@ namespace Logger
             }
 
 
-           
+
             try
             {
                 cnn.Open();

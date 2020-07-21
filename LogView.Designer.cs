@@ -69,7 +69,7 @@
             this.option3ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1761, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(1761, 36);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.menuStrip1_MouseClick);
@@ -80,7 +80,7 @@
             this.serchOneToolStripMenuItem,
             this.searchTwoToolStripMenuItem});
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(66, 30);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(66, 32);
             this.searchToolStripMenuItem.Text = "Filter";
             // 
             // serchOneToolStripMenuItem
@@ -99,13 +99,13 @@
             // option2ToolStripMenuItem
             // 
             this.option2ToolStripMenuItem.Name = "option2ToolStripMenuItem";
-            this.option2ToolStripMenuItem.Size = new System.Drawing.Size(99, 30);
+            this.option2ToolStripMenuItem.Size = new System.Drawing.Size(99, 32);
             this.option2ToolStripMenuItem.Text = "Option 2";
             // 
             // option3ToolStripMenuItem
             // 
             this.option3ToolStripMenuItem.Name = "option3ToolStripMenuItem";
-            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(99, 30);
+            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(99, 32);
             this.option3ToolStripMenuItem.Text = "Option 3";
             // 
             // LogView
