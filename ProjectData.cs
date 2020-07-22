@@ -309,7 +309,7 @@ namespace Logger
             if (dataGridView1.Rows.Count == 0)
                 return;
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            for (int x = 1, i = 3; i < 15; i++, x++)
+            for (int x = 1, i = 3; i < 13; i++, x++)  // should be 15
             {
                 if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
                 {
