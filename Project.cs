@@ -30,6 +30,9 @@ namespace Logger
     }
     public class Project : App
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+                        System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private string pKey;
         private string pName;
         private string pBrief;
@@ -101,7 +104,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return null;
             }
         }
@@ -145,7 +148,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return null;
             }
         }
@@ -189,7 +192,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return null;
             }
         }
@@ -258,7 +261,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return false;
             }
 
@@ -295,7 +298,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return 0;
             }
 
@@ -349,7 +352,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return null;
             }
         }
@@ -844,7 +847,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return null;
             }
         }
@@ -904,7 +907,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return null;
             }
         }
@@ -934,7 +937,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return null;
             }
         }
@@ -958,7 +961,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return null;
             }
         }
@@ -1025,7 +1028,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return null;
             }
 
@@ -1067,7 +1070,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return null;
             }
         }
