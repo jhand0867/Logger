@@ -30,9 +30,6 @@ namespace Logger
     }
     public class Project : App
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-                                System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private string pKey;
         private string pName;
         private string pBrief;
@@ -41,7 +38,6 @@ namespace Logger
         // Initialize all record types
         private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 3" };
         private string[] subRecordTypes = { "11","12","13","15","16","1A","1B","1C","1E" };
-        
         private List<stateRec> extensionsLst = new List<stateRec>();
         public List<stateRec> ExtensionsLst 
         {
@@ -105,7 +101,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.Message);
+                Console.WriteLine(dbEx.ToString());
                 return null;
             }
         }
@@ -193,7 +189,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(dbEx.ToString());
                 return null;
             }
         }
@@ -228,7 +224,6 @@ namespace Logger
             catch (Exception dbEx)
             {
                 // .Show(dbEx.ToString());
-                log.Error("Database Error: " + dbEx.ToString());
                 return false;
             }
         }
@@ -263,7 +258,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(dbEx.ToString());
                 return false;
             }
 
@@ -300,7 +295,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(dbEx.ToString());
                 return 0;
             }
 
@@ -312,8 +307,6 @@ namespace Logger
             Brief = brief;
             pLogs = 0;
             pKey = Guid.NewGuid().ToString();
-
-            log.Info("Creating a new project :" + pKey);
 
             /**********/
 
@@ -337,7 +330,6 @@ namespace Logger
                 command = new SqlCommand(sql, cnn);
 
                 dataReader = command.ExecuteReader();
-                log.Info("Adding project to table:" + sql);
 
                 Dictionary<string, Project> dicData = new Dictionary<string, Project>();
 
@@ -357,7 +349,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(dbEx.ToString());
                 return null;
             }
         }
@@ -607,9 +599,9 @@ namespace Logger
                 cnn.Close();
 
             }
-            catch (SqlException dbEx)
+            catch (SqlException sqlEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(sqlEx.ToString());
             }
 
         }
@@ -757,7 +749,7 @@ namespace Logger
                     break;
 
                 case "81":
-                    ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT(new emvConfiguration());
+                    ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT();
                     if (iccCurrency.writeData(typeList, Key, logID))
                     {
                         setBitToTrue(recordType, logID);
@@ -826,9 +818,9 @@ namespace Logger
                 command.Dispose();
                 cnn.Close();
             }
-            catch (SqlException dbEx)
+            catch (SqlException sqlEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(sqlEx.ToString());
             }
         }
         public DataTable getGroupOptions(string logID, string fieldName)
@@ -852,7 +844,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(dbEx.ToString());
                 return null;
             }
         }
@@ -899,7 +891,7 @@ namespace Logger
             }
 
 
-
+           
             try
             {
                 cnn.Open();
@@ -912,7 +904,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(dbEx.ToString());
                 return null;
             }
         }
@@ -942,7 +934,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(dbEx.ToString());
                 return null;
             }
         }
@@ -966,7 +958,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(dbEx.ToString());
                 return null;
             }
         }
@@ -1033,7 +1025,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(dbEx.ToString());
                 return null;
             }
 
@@ -1075,7 +1067,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                log.Error("Database Error: " + dbEx.ToString());
+                Console.WriteLine(dbEx.ToString());
                 return null;
             }
         }
