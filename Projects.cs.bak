@@ -188,10 +188,6 @@ namespace Logger
                             case 14:
                                 tn.Nodes.Add("Transaction Reply " + dicBits["treply"]);
                                 break;
-                            case 15:
-                                tn.Nodes.Add("ICC Currency DOT " + dicBits["iccCurrencyDOT"]);
-                                break;
-
                         }
                     }
                 }

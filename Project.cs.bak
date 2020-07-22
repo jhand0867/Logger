@@ -641,22 +641,11 @@ namespace Logger
                     r.typeIndex = rec.Key;
                     r.typeContent = rec.Value;
                     typeList.Add(r);
-                    continue;
                 }
+
+
 
                 tmpTypes = rec.Value.Split((char)0x1c);
-
-
-                if (recordType.Substring(0,1) == "8" &&
-                   ((recordType.Substring(1, 1) == "1" && tmpTypes[2] == "1") ||
-                    (recordType.Substring(1, 1) == "2" && tmpTypes[2] == "2")))
-                {
-                    typeRec r = new typeRec();
-                    r.typeIndex = rec.Key;
-                    r.typeContent = rec.Value;
-                    typeList.Add(r);
-                    continue;
-                }
 
                 if (tmpTypes[3] == recordType)
                 {
@@ -755,15 +744,6 @@ namespace Logger
                         setBitToTrue(recordType, logID);
                     }
                     break;
-
-                case "81":
-                    ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT(new emvConfiguration());
-                    if (iccCurrency.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-
             }
         }
 
@@ -802,10 +782,6 @@ namespace Logger
                 case "1C":
                     sql = @"UPDATE logs SET dateandtime = 1 WHERE id = " + logID;
                     break;
-                case "81":
-                    sql = @"UPDATE logs SET iccCurrencyDOT = 1 WHERE id = " + logID;
-                    break;
-
             }
 
             string connectionString;
@@ -865,7 +841,13 @@ namespace Logger
             connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
             cnn = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
-            string sql = "";
+            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+                            [group2] as 'Log Level',[group3] as 'File Name',
+                            [group4] as 'Class',[group5] as 'Method',
+                            [group6] as 'Type',[group7],
+                            [group8] as 'Log Data',[group9],
+                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
+                        " AND " + columnName + " LIKE '%[[]" + columnValue + "%'";
 
             switch (columnName)
             {
@@ -1022,10 +1004,6 @@ namespace Logger
                     cmd.CommandText = @"SELECT COUNT(*) FROM treply WHERE logID =" + logID;
                     count = (int)cmd.ExecuteScalar();
                     dicBits.Add("treply", count);
-
-                    cmd.CommandText = @"SELECT COUNT(*) FROM iccCurrencyDOT WHERE logID =" + logID;
-                    count = (int)cmd.ExecuteScalar();
-                    dicBits.Add("iccCurrencyDOT", count);
 
                 }
 
