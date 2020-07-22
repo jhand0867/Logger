@@ -749,7 +749,7 @@ namespace Logger
                     break;
 
                 case "81":
-                    ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT();
+                    ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT(new emvConfiguration());
                     if (iccCurrency.writeData(typeList, Key, logID))
                     {
                         setBitToTrue(recordType, logID);

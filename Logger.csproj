@@ -54,6 +54,7 @@
     <Compile Include="ConfigIdRec.cs" />
     <Compile Include="ConfigParamsRec.cs" />
     <Compile Include="DateAndTimeRec.cs" />
+    <Compile Include="EMVConfiguration.cs" />
     <Compile Include="EnhancedParamsRec.cs" />
     <Compile Include="ExtEncryptionRec.cs" />
     <Compile Include="FitRec.cs" />

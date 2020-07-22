@@ -9,38 +9,16 @@ using System.Threading.Tasks;
 
 namespace Logger
 {
-    struct iccCurrency
+     class ICCCurrencyDOT : EMVConfiguration, IMessage
     {
-        public string currencyType;
-        public string responseFormat;
-        public string responseLength;
-        public string trCurrencyCodeTag;
-        public string trCurrencyCodeLgth;
-        public string trCurrencyCodeValue;
-        public string trCurrencyExpTag;
-        public string trCurrencyExpLgth;
-        public string trCurrencyExpValue;
-    }
+        private emvConfiguration emv = new emvConfiguration();
+        public ICCCurrencyDOT(emvConfiguration emvConfiguration)
+        {
+            Emv = emvConfiguration;
+        }
 
-    struct iccTransaction
-    {
+        public emvConfiguration Emv { get => emv; set => emv = value; }
 
-    };
-
-    struct emvConfiguration
-    {
-        public string rectype;
-        public string responseFlag;
-        public string luno;
-        public string msgSubclass;
-        public string numberOfEntries;
-        public List<iccCurrency> iccCurrencyDOTList;
-        public List<iccTransaction> iccTransactionDOTList;    
-        public string configurationData;
-        public string mac;
-    };
-    class ICCCurrencyDOT : App, IMessage
-    {
         public DataTable getDescription()
         {
             string connectionString;
@@ -128,51 +106,50 @@ namespace Logger
                 {
                     tmpTypes = r.typeContent.Split((char)0x1c);
 
-                    emvConfiguration emvC = new emvConfiguration();
-                    emvC.rectype = "8";
-                    emvC.responseFlag = "";
-                    emvC.luno = tmpTypes[1];
-                    emvC.msgSubclass = tmpTypes[2];
-                    emvC.numberOfEntries = tmpTypes[3].Substring(0, 2);
-                    emvC.configurationData = tmpTypes[3];
-                    emvC.mac = tmpTypes[4];
+                    emv.Rectype = "8";
+                    emv.ResponseFlag = "";
+                    emv.Luno = tmpTypes[1];
+                    emv.MsgSubclass = tmpTypes[2];
+                    emv.NumberOfEntries = tmpTypes[3].Substring(0, 2);
+                    emv.ConfigurationData = tmpTypes[3];
+                    emv.Mac = tmpTypes[4];
 
-                    emvC.iccCurrencyDOTList = new List<iccCurrency>();
+                    emv.IccCurrencyDOTList = new List<iccCurrency>();
                     iccCurrency iccCurrency = new iccCurrency();
                     int offset = 2;
-                    for (int x = 0; x < int.Parse(emvC.numberOfEntries); x++)
+                    for (int x = 0; x < int.Parse(emv.NumberOfEntries); x++)
                     {
-                        iccCurrency.currencyType = tmpTypes[3].Substring(offset, 2);
+                        iccCurrency.CurrencyType = tmpTypes[3].Substring(offset, 2);
                         offset += 2;
-                        iccCurrency.responseFormat = tmpTypes[3].Substring(offset, 2);
+                        iccCurrency.ResponseFormat = tmpTypes[3].Substring(offset, 2);
                         offset += 2;
-                        iccCurrency.responseLength = tmpTypes[3].Substring(offset, 2);
+                        iccCurrency.ResponseLength = tmpTypes[3].Substring(offset, 2);
                         offset += 2;
-                        iccCurrency.trCurrencyCodeTag = tmpTypes[3].Substring(offset, 4);
+                        iccCurrency.TrCurrencyCodeTag = tmpTypes[3].Substring(offset, 4);
                         offset += 4;
-                        iccCurrency.trCurrencyCodeLgth = tmpTypes[3].Substring(offset, 2);
+                        iccCurrency.TrCurrencyCodeLgth = tmpTypes[3].Substring(offset, 2);
                         offset += 2;
-                        iccCurrency.trCurrencyCodeValue = tmpTypes[3].Substring(offset, 
-                                             int.Parse(iccCurrency.trCurrencyCodeLgth)*2);
-                        offset += int.Parse(iccCurrency.trCurrencyCodeLgth) * 2;
-                        iccCurrency.trCurrencyExpTag = tmpTypes[3].Substring(offset, 4);
+                        iccCurrency.TrCurrencyCodeValue = tmpTypes[3].Substring(offset, 
+                                             int.Parse(iccCurrency.TrCurrencyCodeLgth)*2);
+                        offset += int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2;
+                        iccCurrency.TrCurrencyExpTag = tmpTypes[3].Substring(offset, 4);
                         offset += 4;
-                        iccCurrency.trCurrencyExpLgth = tmpTypes[3].Substring(offset, 2);
+                        iccCurrency.TrCurrencyExpLgth = tmpTypes[3].Substring(offset, 2);
                         offset += 2;
-                        iccCurrency.trCurrencyExpValue = tmpTypes[3].Substring(offset,
-                                             int.Parse(iccCurrency.trCurrencyExpLgth) * 2);
-                        offset += int.Parse(iccCurrency.trCurrencyExpLgth) * 2;
+                        iccCurrency.TrCurrencyExpValue = tmpTypes[3].Substring(offset,
+                                             int.Parse(iccCurrency.TrCurrencyExpLgth) * 2);
+                        offset += int.Parse(iccCurrency.TrCurrencyExpLgth) * 2;
 
-                        emvC.iccCurrencyDOTList.Add(iccCurrency);
+                        emv.IccCurrencyDOTList.Add(iccCurrency);
                     }
                    
 
 
                     sql = @"INSERT INTO EMVConfiguration([logkey],[rectype],[responseFlag],
 	                        [luno],[msgSubclass],[numberOfEntries],[configurationData],[mac],[prjkey],[logID]) " +
-                          " VALUES('" + r.typeIndex + "','" + emvC.rectype + "','" + emvC.responseFlag + "','" +
-                                   emvC.luno + "','" + emvC.msgSubclass + "','" + emvC.numberOfEntries + "','" +
-                                   emvC.configurationData + "','" + emvC.mac + "','" + Key + "'," + logID + ")";
+                          " VALUES('" + r.typeIndex + "','" + emv.Rectype + "','" + emv.ResponseFlag + "','" +
+                                   emv.Luno + "','" + emv.MsgSubclass + "','" + emv.NumberOfEntries + "','" +
+                                   emv.ConfigurationData + "','" + emv.Mac + "','" + Key + "'," + logID + ")";
 
                     command = new SqlCommand(sql, cnn);
                     dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
@@ -181,16 +158,16 @@ namespace Logger
 
                     // write currency DOT
 
-                    foreach (iccCurrency c in emvC.iccCurrencyDOTList)
+                    foreach (iccCurrency c in emv.IccCurrencyDOTList)
                     {
 
                         sql = @"INSERT INTO ICCCurrencyDOT([logkey],[currencyType],[responseFormat],[responseLength],
 	                            [trCurrencyCodeTag],[trCurrencyCodeLgth],[trCurrencyCodeValue],[trCurrencyExpTag],
 	                            [trCurrencyExpLgth],[trCurrencyExpValue],[logID]) " +
-                          " VALUES('" + r.typeIndex + "','" + c.currencyType + "','" + c.responseFormat + "','" +
-                                    c.responseLength + "','" + c.trCurrencyCodeTag + "','" + c.trCurrencyCodeLgth + "','" +
-                                    c.trCurrencyCodeValue + "','" + c.trCurrencyExpTag + "','" + c.trCurrencyExpLgth + "','" +
-                                    c.trCurrencyExpValue + "'," + logID + ")";
+                          " VALUES('" + r.typeIndex + "','" + c.CurrencyType + "','" + c.ResponseFormat + "','" +
+                                    c.ResponseLength + "','" + c.TrCurrencyCodeTag + "','" + c.TrCurrencyCodeLgth + "','" +
+                                    c.TrCurrencyCodeValue + "','" + c.TrCurrencyExpTag + "','" + c.TrCurrencyExpLgth + "','" +
+                                    c.TrCurrencyExpValue + "'," + logID + ")";
 
                         command = new SqlCommand(sql, cnn);
                         dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
