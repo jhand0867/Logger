@@ -619,6 +619,12 @@ namespace Logger
                           "AND logID =" + logID;
             Dictionary<string, string> data = readData(sql);
 
+            if (data.Count == -1)
+            {
+                // todo: check throw
+                return;
+            }
+
             string[] dataTypes = null;
             List<typeRec> typeList = new List<typeRec>();
             string[] tmpTypes;

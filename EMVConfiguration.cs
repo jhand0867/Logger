@@ -59,6 +59,8 @@ namespace Logger
     };
     class EMVConfiguration : App, IMessage
     {
+        //TODO: Implement methods for EMVConfiguration
+
         public DataTable getDescription()
         {
             throw new NotImplementedException();

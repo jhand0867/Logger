@@ -11,15 +11,16 @@ namespace Logger
 {
      class ICCCurrencyDOT : EMVConfiguration, IMessage
     {
-        private emvConfiguration emv = new emvConfiguration();
+        //todo: simplify this, Emv somehow is not reachable 
+
+        private emvConfiguration emv = new emvConfiguration();        
+        public emvConfiguration Emv { get => emv; set => emv = value; }
         public ICCCurrencyDOT(emvConfiguration emvConfiguration)
         {
             Emv = emvConfiguration;
         }
 
-        public emvConfiguration Emv { get => emv; set => emv = value; }
-
-        public DataTable getDescription()
+        public new DataTable getDescription()
         {
             string connectionString;
             SqlConnection cnn;
@@ -49,7 +50,7 @@ namespace Logger
             return dt; ;
         }
 
-        public List<DataTable> getRecord(string logKey, string logID, string projectKey)
+        public new List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
             string connectionString;
             SqlConnection cnn;
@@ -85,7 +86,7 @@ namespace Logger
 
         // get 4's from database
 
-        public bool writeData(List<typeRec> typeRecs, string Key, string logID)
+        public new bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
             string connectionString;
             SqlConnection cnn;
