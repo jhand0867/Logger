@@ -11,7 +11,6 @@ namespace Logger
     {
         bool writeData(List<typeRec> typeRecs, string key, string logID);
         List<DataTable> getRecord(string logKey, string logID, string projectKey);
-
         DataTable getDescription();
     }
 }
