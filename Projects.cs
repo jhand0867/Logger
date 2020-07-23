@@ -133,7 +133,7 @@ namespace Logger
 
         private void listView1_Load(ListViewItem item)
         {
-             Project pr = (Project)item.Tag;
+            Project pr = (Project)item.Tag;
             DataTable dt = pr.getAllLogs(pr.Key);
 
             if (dt.Rows.Count == 0)
@@ -152,46 +152,49 @@ namespace Logger
 
                 Dictionary<string, int> dicBits = pr.showRecordBits(dr["id"].ToString());
 
-                for (int x = 4; x < 16; x++)
+                if (dicBits != null)
                 {
-                    if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
+                    for (int x = 4; x < 16; x++)
                     {
-                        switch (x)
+                        if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
                         {
-                            case 4:
-                                tn.Nodes.Add("Screens " + dicBits["screens"]);
-                                break;
-                            case 5:
-                                tn.Nodes.Add("States " + dicBits["states"]);
-                                break;
-                            case 6:
-                                tn.Nodes.Add("Configuration Parameters " + dicBits["configParams"]);
-                                break;
-                            case 7:
-                                tn.Nodes.Add("FIT " + dicBits["fit"]);
-                                break;
-                            case 8:
-                                tn.Nodes.Add("Configuration ID " + dicBits["configId"]);
-                                break;
-                            case 9:
-                                tn.Nodes.Add("Enhanced Parameters " + dicBits["enhancedParams"]);
-                                break;
-                            case 10:
-                                tn.Nodes.Add("MAC " );
-                                break;
-                            case 11:
-                                tn.Nodes.Add("Date and Time " + dicBits["dateTime"]);
-                                break;
-                            case 13:
-                                tn.Nodes.Add("Transaction Request " + dicBits["treq"]);
-                                break;
-                            case 14:
-                                tn.Nodes.Add("Transaction Reply " + dicBits["treply"]);
-                                break;
-                            case 15:
-                                tn.Nodes.Add("ICC Currency DOT " + dicBits["iccCurrencyDOT"]);
-                                break;
+                            switch (x)
+                            {
+                                case 4:
+                                    tn.Nodes.Add("Screens " + dicBits["screens"]);
+                                    break;
+                                case 5:
+                                    tn.Nodes.Add("States " + dicBits["states"]);
+                                    break;
+                                case 6:
+                                    tn.Nodes.Add("Configuration Parameters " + dicBits["configParams"]);
+                                    break;
+                                case 7:
+                                    tn.Nodes.Add("FIT " + dicBits["fit"]);
+                                    break;
+                                case 8:
+                                    tn.Nodes.Add("Configuration ID " + dicBits["configId"]);
+                                    break;
+                                case 9:
+                                    tn.Nodes.Add("Enhanced Parameters " + dicBits["enhancedParams"]);
+                                    break;
+                                case 10:
+                                    tn.Nodes.Add("MAC ");
+                                    break;
+                                case 11:
+                                    tn.Nodes.Add("Date and Time " + dicBits["dateTime"]);
+                                    break;
+                                case 13:
+                                    tn.Nodes.Add("Transaction Request " + dicBits["treq"]);
+                                    break;
+                                case 14:
+                                    tn.Nodes.Add("Transaction Reply " + dicBits["treply"]);
+                                    break;
+                                case 15:
+                                    tn.Nodes.Add("ICC Currency DOT " + dicBits["iccCurrencyDOT"]);
+                                    break;
 
+                            }
                         }
                     }
                 }

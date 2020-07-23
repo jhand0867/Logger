@@ -226,7 +226,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                // .Show(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return false;
             }
         }
@@ -285,8 +285,7 @@ namespace Logger
                 cnn.Open();
 
                 SqlCommand command;
-                SqlDataReader dataReader;
-                Int32 newLogID;
+                int newLogID;
 
                 command = new SqlCommand(sql, cnn);
 
@@ -602,9 +601,9 @@ namespace Logger
                 cnn.Close();
 
             }
-            catch (SqlException sqlEx)
+            catch (SqlException dbEx)
             {
-                Console.WriteLine(sqlEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
             }
 
         }
@@ -821,9 +820,9 @@ namespace Logger
                 command.Dispose();
                 cnn.Close();
             }
-            catch (SqlException sqlEx)
+            catch (SqlException dbEx)
             {
-                Console.WriteLine(sqlEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
             }
         }
         public DataTable getGroupOptions(string logID, string fieldName)
