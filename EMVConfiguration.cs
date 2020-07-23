@@ -57,8 +57,21 @@ namespace Logger
         public string ConfigurationData { get => configurationData; set => configurationData = value; }
         public string Mac { get => mac; set => mac = value; }
     };
-    class EMVConfiguration : App
+    class EMVConfiguration : App, IMessage
     {
+        public DataTable getDescription()
+        {
+            throw new NotImplementedException();
+        }
 
+        public List<DataTable> getRecord(string logKey, string logID, string projectKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool writeData(List<typeRec> typeRecs, string key, string logID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
