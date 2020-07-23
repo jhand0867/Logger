@@ -11,14 +11,18 @@ namespace Logger
 {
      class ICCCurrencyDOT : EMVConfiguration, IMessage
     {
-        //todo: simplify this, Emv somehow is not reachable 
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+                System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private emvConfiguration emv = new emvConfiguration();        
-        public emvConfiguration Emv { get => emv; set => emv = value; }
+        
+        
         public ICCCurrencyDOT(emvConfiguration emvConfiguration)
         {
-            Emv = emvConfiguration;
+            this.emv = emvConfiguration;
         }
+
+        //internal emvConfiguration Emv { get => emv; set => emv = value; }
 
         public new DataTable getDescription()
         {
@@ -88,6 +92,7 @@ namespace Logger
 
         public new bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
+            log.Info("Adding to Database ");
             string connectionString;
             SqlConnection cnn;
 
@@ -143,9 +148,9 @@ namespace Logger
 
                         emv.IccCurrencyDOTList.Add(iccCurrency);
                     }
-                   
 
 
+                    log.Debug("Adding record " + sql);
                     sql = @"INSERT INTO EMVConfiguration([logkey],[rectype],[responseFlag],
 	                        [luno],[msgSubclass],[numberOfEntries],[configurationData],[mac],[prjkey],[logID]) " +
                           " VALUES('" + r.typeIndex + "','" + emv.Rectype + "','" + emv.ResponseFlag + "','" +
@@ -156,7 +161,7 @@ namespace Logger
                     dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
                     dataAdapter.InsertCommand.ExecuteNonQuery();
                     command.Dispose();
-
+                    log.Debug("Record Added");
                     // write currency DOT
 
                     foreach (iccCurrency c in emv.IccCurrencyDOTList)
@@ -169,11 +174,12 @@ namespace Logger
                                     c.ResponseLength + "','" + c.TrCurrencyCodeTag + "','" + c.TrCurrencyCodeLgth + "','" +
                                     c.TrCurrencyCodeValue + "','" + c.TrCurrencyExpTag + "','" + c.TrCurrencyExpLgth + "','" +
                                     c.TrCurrencyExpValue + "'," + logID + ")";
-
+                        log.Debug("Adding record " + slq);
                         command = new SqlCommand(sql, cnn);
                         dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
                         dataAdapter.InsertCommand.ExecuteNonQuery();
                         command.Dispose();
+                        log.Debug("Record Added");
                     }
 
                 }
@@ -183,7 +189,7 @@ namespace Logger
 
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.Message);
                 return false;
 
             }
