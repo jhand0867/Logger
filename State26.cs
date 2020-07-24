@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-
-namespace Logger
+﻿namespace Logger
 {
     class State26 : stateRec
     {
@@ -13,7 +7,7 @@ namespace Logger
 
             if (stateData.stateType == "&")
             { }
-                
+
         }
 
         public override void checkExtensions(stateRec st)

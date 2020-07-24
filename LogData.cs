@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Logger
@@ -37,7 +33,7 @@ namespace Logger
 
             string prjKey = dgvr.Cells["prjKey"].Value.ToString();
 
-            
+
             List<DataTable> dts = App.Prj.getRecord(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             txtFieldData.Text = "";
             string stateType = "";
@@ -147,11 +143,12 @@ namespace Logger
                         {
                             DataTable tReplyDt = new TReply().getDescription();
                             int x = 0;
-                            for (int field =3; field <= dt.Rows[rowNum].ItemArray.Length-3; field++)
+                            for (int field = 3; field <= dt.Rows[rowNum].ItemArray.Length - 3; field++)
                             {
                                 if (field == 24)
                                 {
-                                    if (dts[1].Rows.Count > 0) {
+                                    if (dts[1].Rows.Count > 0)
+                                    {
                                         txtFieldData.Text += getPrinterData(dts[1]);
                                     }
                                     continue;
@@ -160,7 +157,7 @@ namespace Logger
                                 {
                                     if (dts[2].Rows.Count > 0)
                                     {
-                                        txtFieldData.Text += getCheckProccessing(dts[2]);                                       
+                                        txtFieldData.Text += getCheckProccessing(dts[2]);
                                     }
                                     continue;
                                 }
@@ -203,8 +200,8 @@ namespace Logger
                                     }
 
                                     continue;
-                                }                   
-                                
+                                }
+
                                 string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
                                 if (fieldContent == "")
                                     continue;
@@ -315,7 +312,7 @@ namespace Logger
             // what's the description of the field
             foreach (DataRow item in dataTable.Rows)
             {
-                if (item[2].ToString().Trim() == field )
+                if (item[2].ToString().Trim() == field)
                 {
                     optionDesc = item[3].ToString().Trim();
                     break;

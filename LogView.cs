@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Documents;
 using System.Windows.Forms;
 
 namespace Logger
@@ -20,7 +19,7 @@ namespace Logger
 
             dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
             AddHeaders(dgvLog);
-            
+
             dgvLog.Dock = DockStyle.Fill;
             dgvLog.ColumnHeadersVisible = true;
             dgvLog.Columns["id"].Visible = false;
@@ -32,17 +31,17 @@ namespace Logger
             dgvLog.Columns["Log Data"].Width = 660;
             dgvLog.RowsDefaultCellStyle.BackColor = Color.LightBlue;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.Aquamarine;
-            
+
 
             using (Font font = new Font(
                 dgvLog.DefaultCellStyle.Font.FontFamily, 10, FontStyle.Regular))
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
-            }            
+            }
         }
 
         ComboBox cmbColumHeader2 = new ComboBox();
-       
+
 
         private void LogView_reLoad(object sender, EventArgs e)
         {
@@ -61,11 +60,11 @@ namespace Logger
             dgvLog.RowsDefaultCellStyle.BackColor = Color.LightBlue;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.Aquamarine;
 
-            cmbColumHeader2.SelectedItem = null ;
-                     
-            
+            cmbColumHeader2.SelectedItem = null;
 
-            
+
+
+
 
             using (Font font = new Font(
                 dgvLog.DefaultCellStyle.Font.FontFamily, 10, FontStyle.Regular))
@@ -78,18 +77,18 @@ namespace Logger
             Point loc;
             string logID = dgvLog.Rows[0].Cells["LogID"].Value.ToString();
 
-            
-           
+
+
             // header group4
             // ComboBox cmbColumHeader2 = new ComboBox();
-              
+
             cmbColumHeader2.SelectedIndexChanged += delegate (object sender, EventArgs e)
             {
                 cmbColumHeader2_SelectedIndexChanged(sender, e, cmbColumHeader2, logID);
             };
             cmbColumHeader2.DataSource = App.Prj.getGroupOptions(logID, "group4");
             cmbColumHeader2.DisplayMember = "group4";
-            cmbColumHeader2.DropDownStyle = ComboBoxStyle.DropDownList;            
+            cmbColumHeader2.DropDownStyle = ComboBoxStyle.DropDownList;
             loc = dgvLog.GetCellDisplayRectangle(2, -1, true).Location;
             cmbColumHeader2.Location = new Point(loc.X + dgvLog.Columns[2].Width, 1);
             cmbColumHeader2.Size = dgvLog.Columns[2].HeaderCell.Size;
@@ -98,11 +97,11 @@ namespace Logger
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.Visible = true;
 
-           // header group5
+            // header group5
             ComboBox cmbColumHeader4 = new ComboBox();
-            cmbColumHeader4.SelectedIndexChanged += delegate (object sender, EventArgs e) 
-            { 
-                cmbColumHeader4_SelectedIndexChanged(sender, e, cmbColumHeader4, logID); 
+            cmbColumHeader4.SelectedIndexChanged += delegate (object sender, EventArgs e)
+            {
+                cmbColumHeader4_SelectedIndexChanged(sender, e, cmbColumHeader4, logID);
             };
             cmbColumHeader4.DataSource = App.Prj.getGroupOptions(logID, "group5");
             cmbColumHeader4.DisplayMember = "group5";
@@ -113,7 +112,7 @@ namespace Logger
             dgvLog.Controls.Add(cmbColumHeader4);
             cmbColumHeader4.SelectedIndex = -1;
             cmbColumHeader4.Visible = true;
-            
+
             // header group6
             ComboBox cmbColumHeader5 = new ComboBox();
             cmbColumHeader5.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -209,7 +208,7 @@ namespace Logger
                 {
                     frmLogData = new LogData();
                 }
-                this.setData += new passLogData(frmLogData.setData);              
+                this.setData += new passLogData(frmLogData.setData);
                 setData(dgvLog.Rows[e.RowIndex]);
                 frmLogData.TopMost = true;
                 frmLogData.Show();
@@ -223,19 +222,19 @@ namespace Logger
 
         private void menuStrip1_MouseClick(object sender, MouseEventArgs e)
         {
-            
+
         }
 
         private void dgvLog_MouseDown(object sender, MouseEventArgs e)
         {
-/*           if( e.Button == System.Windows.Forms.MouseButtons.Left)
-           {
-                foreach (DataGridViewRow item in dgvLog.Rows)
-                {
-                    if (item.
+            /*           if( e.Button == System.Windows.Forms.MouseButtons.Left)
+                       {
+                            foreach (DataGridViewRow item in dgvLog.Rows)
+                            {
+                                if (item.
 
-                }
-           }*/
+                            }
+                       }*/
 
         }
     }

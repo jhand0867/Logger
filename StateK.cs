@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -11,13 +7,13 @@ namespace Logger
         public override void ValidateState(stateRec stateData)
         {
 
-           Dictionary<string, stateRec> resultData = new Dictionary<string, stateRec>();
+            Dictionary<string, stateRec> resultData = new Dictionary<string, stateRec>();
 
-           base.ValidateState(stateData);
+            base.ValidateState(stateData);
 
-           if (stateData.stateType == "K")
+            if (stateData.stateType == "K")
             {
-   
+
             }
         }
     }

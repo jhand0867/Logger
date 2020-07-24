@@ -40,11 +40,11 @@ namespace Logger
 
         // Initialize all record types
         private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 3" };
-        private string[] subRecordTypes = { "11","12","13","15","16","1A","1B","1C","1E" };
+        private string[] subRecordTypes = { "11", "12", "13", "15", "16", "1A", "1B", "1C", "1E" };
         private List<stateRec> extensionsLst = new List<stateRec>();
-        public List<stateRec> ExtensionsLst 
+        public List<stateRec> ExtensionsLst
         {
-            get { return extensionsLst; } 
+            get { return extensionsLst; }
             set { extensionsLst = value; }
         }
         public string[] RecordTypes
@@ -621,7 +621,7 @@ namespace Logger
                           "AND logID =" + logID;
             Dictionary<string, string> data = readData(sql);
 
-            if (data.Count == -1)
+            if (data == null)
             {
                 // todo: check throw
                 return;
@@ -647,7 +647,7 @@ namespace Logger
                 tmpTypes = rec.Value.Split((char)0x1c);
 
 
-                if (recordType.Substring(0,1) == "8" &&
+                if (recordType.Substring(0, 1) == "8" &&
                    ((recordType.Substring(1, 1) == "1" && tmpTypes[2] == "1") ||
                     (recordType.Substring(1, 1) == "2" && tmpTypes[2] == "2")))
                 {
@@ -757,7 +757,8 @@ namespace Logger
                     break;
 
                 case "81":
-                    ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT(new emvConfiguration());
+                    // ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT(new emvConfiguration());
+                    ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT();
                     if (iccCurrency.writeData(typeList, Key, logID))
                     {
                         setBitToTrue(recordType, logID);
@@ -843,7 +844,7 @@ namespace Logger
             {
                 cnn.Open();
                 using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT DISTINCT " + fieldName + " FROM loginfo WHERE logID =" +
-                                                               logID + " ORDER BY " + fieldName + " ASC" , cnn))
+                                                               logID + " ORDER BY " + fieldName + " ASC", cnn))
                 {
                     sda.Fill(dt);
 
@@ -899,7 +900,7 @@ namespace Logger
             }
 
 
-           
+
             try
             {
                 cnn.Open();
@@ -983,7 +984,8 @@ namespace Logger
 
             SqlConnection cnn = new SqlConnection(connectionString);
 
-            try {
+            try
+            {
                 using (SqlCommand cmd = new SqlCommand(@"SELECT COUNT(*) FROM screeninfo WHERE logID =" + logID, cnn))
                 {
                     cnn.Open();

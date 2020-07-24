@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection.Emit;
 
 namespace Logger
 {
@@ -20,7 +19,7 @@ namespace Logger
         private string pSta6;
         private string pSta7;
         private string pSta8;
-     
+
 
         public string StateNumber
         {
@@ -282,11 +281,11 @@ namespace Logger
             string stateType = stRec.StateType;
             string stateNum = stRec.StateNumber;
 
-            
+
 
             DataTable dt = new DataTable();
             stateRec currentState = new stateRec();
-            
+
             switch (stRec.StateType)
             {
                 case "A":
@@ -404,7 +403,7 @@ namespace Logger
                     if (extensionFound.Length > 0)
                     {
                         dt = currentState.getStateDescription(extensionFound.Substring(3, extensionFound.Length - 3));
-                        stateNum = extensionFound.Substring(0, 3); 
+                        stateNum = extensionFound.Substring(0, 3);
                     }
                     break;
 
@@ -413,7 +412,7 @@ namespace Logger
             }
 
             string stateTypetmp = "";
-            
+
             if (dt.Rows.Count > 0)
             {
                 stateTypetmp = dt.Rows[0]["subRecType"].ToString().Trim();
@@ -463,25 +462,25 @@ namespace Logger
             cnn = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
 
-            
-                // is the calling state a Y
-                // get the info from DataDescription
-                // send it back in a string 
-                try
+
+            // is the calling state a Y
+            // get the info from DataDescription
+            // send it back in a string 
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "S"
+                    + "' AND subRecType = '" + stateType + "'", cnn))
                 {
-                    cnn.Open();
-                    using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "S"
-                        + "' AND subRecType = '" + stateType + "'", cnn))
-                    {
-                        sda.Fill(dt);
-                    }
+                    sda.Fill(dt);
                 }
-                catch (Exception dbEx)
-                {
-                    Console.WriteLine(dbEx.ToString());
-                    return null;
-                }
-            
+            }
+            catch (Exception dbEx)
+            {
+                Console.WriteLine(dbEx.ToString());
+                return null;
+            }
+
             return dt;
         }
 

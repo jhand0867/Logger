@@ -202,7 +202,7 @@ namespace Logger
                 SqlCommand command;
                 SqlDataAdapter dataAdapter = new SqlDataAdapter();
                 String sql = "";
-                
+
                 string[] tmpTypes;
 
                 foreach (typeRec r in typeRecs)

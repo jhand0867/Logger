@@ -122,7 +122,7 @@ namespace Logger
                 {
                     listView1.ContextMenuStrip.Show(listView1, new Point(e.X, e.Y));
                 }
-             }
+            }
 
         }
 

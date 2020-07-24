@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Logger
 {
     struct iccCurrency
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-                System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private string currencyType;
         private string responseFormat;
@@ -62,6 +59,9 @@ namespace Logger
     };
     class EMVConfiguration : App, IMessage
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         //TODO: Implement methods for EMVConfiguration
 
         public DataTable getDescription()
@@ -77,6 +77,58 @@ namespace Logger
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
             throw new NotImplementedException();
+        }
+
+        public bool writeData(typeRec r, string Key, string logID)
+        {
+            log.Info("Adding to Database ");
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            try
+            {
+                cnn.Open();
+
+                SqlCommand command;
+                SqlDataAdapter dataAdapter = new SqlDataAdapter();
+
+                string[] tmpTypes = r.typeContent.Split((char)0x1c); ;
+
+                emvConfiguration emv = new emvConfiguration();
+                emv.Rectype = "8";
+                emv.ResponseFlag = "";
+                emv.Luno = tmpTypes[1];
+                emv.MsgSubclass = tmpTypes[2];
+                emv.NumberOfEntries = tmpTypes[3].Substring(0, 2);
+                emv.ConfigurationData = tmpTypes[3];
+                emv.Mac = tmpTypes[4];
+
+                string sql = @"INSERT INTO EMVConfiguration([logkey],[rectype],[responseFlag],
+	                        [luno],[msgSubclass],[numberOfEntries],[configurationData],[mac],[prjkey],[logID]) " +
+                      " VALUES('" + r.typeIndex + "','" + emv.Rectype + "','" + emv.ResponseFlag + "','" +
+                               emv.Luno + "','" + emv.MsgSubclass + "','" + emv.NumberOfEntries + "','" +
+                               emv.ConfigurationData + "','" + emv.Mac + "','" + Key + "'," + logID + ")";
+
+                log.Debug("Adding record " + sql);
+                command = new SqlCommand(sql, cnn);
+                dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
+                dataAdapter.InsertCommand.ExecuteNonQuery();
+                command.Dispose();
+                log.Debug("Record Added");
+
+                cnn.Close();
+                return true;
+            }
+
+            catch (Exception dbEx)
+            {
+                log.Error("Database Error: " + dbEx.Message);
+                return false;
+
+            }
+
         }
     }
 }

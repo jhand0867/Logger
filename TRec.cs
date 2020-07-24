@@ -710,7 +710,7 @@ namespace Logger
 
                 dt = new DataTable();
                 using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT id, logkey,fieldOption as ""field Option"", optionName as ""Option Name"", optionValue as ""Option Value"", logID from treqOptions WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
-                 {
+                {
                     sda.Fill(dt);
                 }
                 dts.Add(dt);
