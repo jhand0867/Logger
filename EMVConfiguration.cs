@@ -32,7 +32,25 @@ namespace Logger
 
     struct iccTransaction
     {
+        private string transactionType;
+        private string responseFormat;
+        private string responseLength;
+        private string transactionTypeTag;
+        private string transactionTypeLgth;
+        private string transactionTypeValue;
+        private string transactionCatCodeTag;
+        private string transactionCatCodeLgth;
+        private string transactionCatCodeValue;
 
+        public string TransactionType { get => transactionType; set => transactionType = value; }
+        public string ResponseFormat { get => responseFormat; set => responseFormat = value; }
+        public string ResponseLength { get => responseLength; set => responseLength = value; }
+        public string TransactionTypeTag { get => transactionTypeTag; set => transactionTypeTag = value; }
+        public string TransactionTypeLgth { get => transactionTypeLgth; set => transactionTypeLgth = value; }
+        public string TransactionTypeValue { get => transactionTypeValue; set => transactionTypeValue = value; }
+        public string TransactionCatCodeTag { get => transactionCatCodeTag; set => transactionCatCodeTag = value; }
+        public string TransactionCatCodeLgth { get => transactionCatCodeLgth; set => transactionCatCodeLgth = value; }
+        public string TransactionCatCodeValue { get => transactionCatCodeValue; set => transactionCatCodeValue = value; }
     };
 
     struct emvConfiguration
@@ -62,8 +80,7 @@ namespace Logger
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
          System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        //TODO: Implement methods for EMVConfiguration
-
+        // TODO: getDescription, getRecord
         public DataTable getDescription()
         {
             throw new NotImplementedException();

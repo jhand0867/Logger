@@ -99,8 +99,8 @@ namespace Logger
             string cnnString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
 
             string sql = @"SELECT logFile, uploadDate, id, screens, states, configParametersLoad
-                        ,fit,configID,enhancedParametersLoad,mac,dateandtime,dispenserCurrency,treq,treply,iccCurrencyDOT 
-                        FROM logs WHERE prjKey ='" + App.Prj.Key + "'";
+                        ,fit,configID,enhancedParametersLoad,mac,dateandtime,dispenserCurrency,treq,treply,iccCurrencyDOT, 
+                        iccTransactionDOT FROM logs WHERE prjKey ='" + App.Prj.Key + "'";
 
             using (SqlConnection conn = new SqlConnection(cnnString))
             {
@@ -309,7 +309,7 @@ namespace Logger
             if (dataGridView1.Rows.Count == 0)
                 return;
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            for (int x = 1, i = 3; i < 15; i++, x++)
+            for (int x = 1, i = 3; i < 16; i++, x++)
             {
                 if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
                 {
@@ -346,6 +346,21 @@ namespace Logger
             string regExStr = "HOST2ATM: 8%";
 
             string recordType = "81";
+
+            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            string logID = dgvr.Cells[2].Value.ToString();
+
+            App.Prj.getData(regExStr, recordType, logID);
+            dataGridView1.DataSource = buildDataGridView1();
+            fixLogNames(dataGridView1);
+        }
+
+
+        private void iCCTransactionDOTToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            string regExStr = "HOST2ATM: 8%";
+
+            string recordType = "82";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
             string logID = dgvr.Cells[2].Value.ToString();

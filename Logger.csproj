@@ -62,6 +62,7 @@
     <Compile Include="ExtEncryptionRec.cs" />
     <Compile Include="FitRec.cs" />
     <Compile Include="ICCCurrencyDOT.cs" />
+    <Compile Include="ICCTransactionDOT.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="LogData.cs">
       <SubType>Form</SubType>

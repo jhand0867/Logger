@@ -154,7 +154,7 @@ namespace Logger
 
                 if (dicBits != null)
                 {
-                    for (int x = 4; x < 16; x++)
+                    for (int x = 4; x < 17; x++)
                     {
                         if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
                         {
@@ -192,6 +192,9 @@ namespace Logger
                                     break;
                                 case 15:
                                     tn.Nodes.Add("ICC Currency DOT " + dicBits["iccCurrencyDOT"]);
+                                    break;
+                                case 16:
+                                    tn.Nodes.Add("ICC Transaction DOT " + dicBits["iccTransactionDOT"]);
                                     break;
 
                             }

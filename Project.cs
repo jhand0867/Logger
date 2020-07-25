@@ -765,6 +765,14 @@ namespace Logger
                     }
                     break;
 
+                case "82":
+                    ICCTransactionDOT iccTransaction = new ICCTransactionDOT();
+                    if (iccTransaction.writeData(typeList, Key, logID))
+                    {
+                        setBitToTrue(recordType, logID);
+                    }
+                    break;
+
             }
         }
 
@@ -805,6 +813,9 @@ namespace Logger
                     break;
                 case "81":
                     sql = @"UPDATE logs SET iccCurrencyDOT = 1 WHERE id = " + logID;
+                    break;
+                case "82":
+                    sql = @"UPDATE logs SET iccTransactionDOT = 1 WHERE id = " + logID;
                     break;
 
             }
@@ -1028,6 +1039,10 @@ namespace Logger
                     cmd.CommandText = @"SELECT COUNT(*) FROM iccCurrencyDOT WHERE logID =" + logID;
                     count = (int)cmd.ExecuteScalar();
                     dicBits.Add("iccCurrencyDOT", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM iccTransactionDOT WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("iccTransactionDOT", count);
 
                 }
 
