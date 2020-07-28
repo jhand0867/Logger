@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Logger
 {
@@ -53,6 +51,20 @@ namespace Logger
         public string TransactionCatCodeValue { get => transactionCatCodeValue; set => transactionCatCodeValue = value; }
     };
 
+    struct iccLanguage
+    {
+        private string languageCode;
+        private string screenBase;
+        private string audioBase;
+        private string opCodeBufferPositions;
+        private string opCodeBufferValues;
+
+        public string LanguageCode { get => languageCode; set => languageCode = value; }
+        public string ScreenBase { get => screenBase; set => screenBase = value; }
+        public string AudioBase { get => audioBase; set => audioBase = value; }
+        public string OpCodeBufferPositions { get => opCodeBufferPositions; set => opCodeBufferPositions = value; }
+        public string OpCodeBufferValues { get => opCodeBufferValues; set => opCodeBufferValues = value; }
+    };
     struct emvConfiguration
     {
         private string rectype;
@@ -85,42 +97,36 @@ namespace Logger
         {
             throw new NotImplementedException();
         }
-
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
             throw new NotImplementedException();
         }
 
-        public bool writeData(List<typeRec> typeRecs, string key, string logID)
+        public emvConfiguration parseData(string r)
         {
-            throw new NotImplementedException();
+            emvConfiguration emv = new emvConfiguration();
+
+            string[] tmpTypes = r.Split((char)0x1c);
+
+            emv.Rectype = "8";
+            emv.ResponseFlag = "";
+            emv.Luno = tmpTypes[1];
+            emv.MsgSubclass = tmpTypes[2];
+            emv.NumberOfEntries = tmpTypes[3].Substring(0, 2);
+            emv.ConfigurationData = tmpTypes[3];
+            emv.Mac = tmpTypes[4];
+
+            return emv;
+
         }
 
-        public bool writeData(typeRec r, string Key, string logID)
+        public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
-            log.Info("Adding to Database ");
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
+            foreach (typeRec r in typeRecs)
             {
-                cnn.Open();
+                //string[] tmpTypes = r.typeContent.Split((char)0x1c);
 
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
-
-                string[] tmpTypes = r.typeContent.Split((char)0x1c); ;
-
-                emvConfiguration emv = new emvConfiguration();
-                emv.Rectype = "8";
-                emv.ResponseFlag = "";
-                emv.Luno = tmpTypes[1];
-                emv.MsgSubclass = tmpTypes[2];
-                emv.NumberOfEntries = tmpTypes[3].Substring(0, 2);
-                emv.ConfigurationData = tmpTypes[3];
-                emv.Mac = tmpTypes[4];
+                emvConfiguration emv = parseData(r.typeContent);
 
                 string sql = @"INSERT INTO EMVConfiguration([logkey],[rectype],[responseFlag],
 	                        [luno],[msgSubclass],[numberOfEntries],[configurationData],[mac],[prjkey],[logID]) " +
@@ -128,24 +134,11 @@ namespace Logger
                                emv.Luno + "','" + emv.MsgSubclass + "','" + emv.NumberOfEntries + "','" +
                                emv.ConfigurationData + "','" + emv.Mac + "','" + Key + "'," + logID + ")";
 
-                log.Debug("Adding record " + sql);
-                command = new SqlCommand(sql, cnn);
-                dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                dataAdapter.InsertCommand.ExecuteNonQuery();
-                command.Dispose();
-                log.Debug("Record Added");
-
-                cnn.Close();
-                return true;
+                DbCrud db = new DbCrud();
+                if (db.addToDb(sql) == false)
+                    return false;
             }
-
-            catch (Exception dbEx)
-            {
-                log.Error("Database Error: " + dbEx.Message);
-                return false;
-
-            }
-
+            return true;
         }
     }
 }

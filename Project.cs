@@ -635,6 +635,8 @@ namespace Logger
             {
                 // tmpTypes = rec.Value.Split((char)0x1c);
 
+                // Request or Reply
+
                 if (recordType == "00" || recordType == "01")
                 {
                     typeRec r = new typeRec();
@@ -646,10 +648,12 @@ namespace Logger
 
                 tmpTypes = rec.Value.Split((char)0x1c);
 
+                // EMV Configuration 81, 82, 83, 84, 85
 
                 if (recordType.Substring(0, 1) == "8" &&
                    ((recordType.Substring(1, 1) == "1" && tmpTypes[2] == "1") ||
-                    (recordType.Substring(1, 1) == "2" && tmpTypes[2] == "2")))
+                    (recordType.Substring(1, 1) == "2" && tmpTypes[2] == "2") ||
+                    (recordType.Substring(1, 1) == "3" && tmpTypes[2] == "3")))
                 {
                     typeRec r = new typeRec();
                     r.typeIndex = rec.Key;
@@ -773,6 +777,14 @@ namespace Logger
                     }
                     break;
 
+                case "83":
+                    ICCLanguageSupportT iccLanguage = new ICCLanguageSupportT();
+                    if (iccLanguage.writeData(typeList, Key, logID))
+                    {
+                        setBitToTrue(recordType, logID);
+                    }
+                    break;
+
             }
         }
 
@@ -816,6 +828,9 @@ namespace Logger
                     break;
                 case "82":
                     sql = @"UPDATE logs SET iccTransactionDOT = 1 WHERE id = " + logID;
+                    break;
+                case "83":
+                    sql = @"UPDATE logs SET iccLanguageSupportT = 1 WHERE id = " + logID;
                     break;
 
             }
@@ -1043,6 +1058,10 @@ namespace Logger
                     cmd.CommandText = @"SELECT COUNT(*) FROM iccTransactionDOT WHERE logID =" + logID;
                     count = (int)cmd.ExecuteScalar();
                     dicBits.Add("iccTransactionDOT", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM iccLanguageSupportT WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("iccLanguageSupportT", count);
 
                 }
 

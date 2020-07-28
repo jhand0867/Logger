@@ -85,197 +85,70 @@ namespace Logger
             }
         }
 
-        // get 4's from database
-        //public new bool writeData(List<typeRec> typeRecs, string Key, string logID)
-        //{
-        //    log.Info("Adding to Database ");
-        //    string connectionString;
-        //    SqlConnection cnn;
-
-        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-        //    cnn = new SqlConnection(connectionString);
-        //    try
-        //    {
-        //        cnn.Open();
-
-        //        SqlCommand command;
-        //        SqlDataAdapter dataAdapter = new SqlDataAdapter();
-        //        String sql = "";
-
-        //        string[] tmpTypes;
-
-        //        foreach (typeRec r in typeRecs)
-        //        {
-        //            tmpTypes = r.typeContent.Split((char)0x1c);
-
-        //            emv.Rectype = "8";
-        //            emv.ResponseFlag = "";
-        //            emv.Luno = tmpTypes[1];
-        //            emv.MsgSubclass = tmpTypes[2];
-        //            emv.NumberOfEntries = tmpTypes[3].Substring(0, 2);
-        //            emv.ConfigurationData = tmpTypes[3];
-        //            emv.Mac = tmpTypes[4];
-
-        //            emv.IccCurrencyDOTList = new List<iccCurrency>();
-        //            iccCurrency iccCurrency = new iccCurrency();
-        //            int offset = 2;
-        //            for (int x = 0; x < int.Parse(emv.NumberOfEntries); x++)
-        //            {
-        //                iccCurrency.CurrencyType = tmpTypes[3].Substring(offset, 2);
-        //                offset += 2;
-        //                iccCurrency.ResponseFormat = tmpTypes[3].Substring(offset, 2);
-        //                offset += 2;
-        //                iccCurrency.ResponseLength = tmpTypes[3].Substring(offset, 2);
-        //                offset += 2;
-        //                iccCurrency.TrCurrencyCodeTag = tmpTypes[3].Substring(offset, 4);
-        //                offset += 4;
-        //                iccCurrency.TrCurrencyCodeLgth = tmpTypes[3].Substring(offset, 2);
-        //                offset += 2;
-        //                iccCurrency.TrCurrencyCodeValue = tmpTypes[3].Substring(offset, 
-        //                                     int.Parse(iccCurrency.TrCurrencyCodeLgth)*2);
-        //                offset += int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2;
-        //                iccCurrency.TrCurrencyExpTag = tmpTypes[3].Substring(offset, 4);
-        //                offset += 4;
-        //                iccCurrency.TrCurrencyExpLgth = tmpTypes[3].Substring(offset, 2);
-        //                offset += 2;
-        //                iccCurrency.TrCurrencyExpValue = tmpTypes[3].Substring(offset,
-        //                                     int.Parse(iccCurrency.TrCurrencyExpLgth) * 2);
-        //                offset += int.Parse(iccCurrency.TrCurrencyExpLgth) * 2;
-
-        //                emv.IccCurrencyDOTList.Add(iccCurrency);
-        //            }
-
-
-        //            log.Debug("Adding record " + sql);
-        //            sql = @"INSERT INTO EMVConfiguration([logkey],[rectype],[responseFlag],
-        //                 [luno],[msgSubclass],[numberOfEntries],[configurationData],[mac],[prjkey],[logID]) " +
-        //                  " VALUES('" + r.typeIndex + "','" + emv.Rectype + "','" + emv.ResponseFlag + "','" +
-        //                           emv.Luno + "','" + emv.MsgSubclass + "','" + emv.NumberOfEntries + "','" +
-        //                           emv.ConfigurationData + "','" + emv.Mac + "','" + Key + "'," + logID + ")";
-
-        //            command = new SqlCommand(sql, cnn);
-        //            dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-        //            dataAdapter.InsertCommand.ExecuteNonQuery();
-        //            command.Dispose();
-        //            log.Debug("Record Added");
-        //            // write currency DOT
-
-        //            foreach (iccCurrency c in emv.IccCurrencyDOTList)
-        //            {
-
-        //                sql = @"INSERT INTO ICCCurrencyDOT([logkey],[currencyType],[responseFormat],[responseLength],
-        //                     [trCurrencyCodeTag],[trCurrencyCodeLgth],[trCurrencyCodeValue],[trCurrencyExpTag],
-        //                     [trCurrencyExpLgth],[trCurrencyExpValue],[logID]) " +
-        //                  " VALUES('" + r.typeIndex + "','" + c.CurrencyType + "','" + c.ResponseFormat + "','" +
-        //                            c.ResponseLength + "','" + c.TrCurrencyCodeTag + "','" + c.TrCurrencyCodeLgth + "','" +
-        //                            c.TrCurrencyCodeValue + "','" + c.TrCurrencyExpTag + "','" + c.TrCurrencyExpLgth + "','" +
-        //                            c.TrCurrencyExpValue + "'," + logID + ")";
-        //                log.Debug("Adding record " + sql);
-        //                command = new SqlCommand(sql, cnn);
-        //                dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-        //                dataAdapter.InsertCommand.ExecuteNonQuery();
-        //                command.Dispose();
-        //                log.Debug("Record Added");
-        //            }
-
-        //        }
-        //        cnn.Close();
-        //        return true;
-        //    }
-
-        //    catch (Exception dbEx)
-        //    {
-        //        log.Error("Database Error: " + dbEx.Message);
-        //        return false;
-
-        //    }
-
-        //}
-
         public new bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
-            log.Info("Adding to Database ");
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
+            foreach (typeRec r in typeRecs)
             {
-                cnn.Open();
+                string[] tmpTypes = r.typeContent.Split((char)0x1c);
 
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
+                List<iccCurrency> iccCurrencyDOTList = parseData(tmpTypes[3]);
 
-                string[] tmpTypes;
-
-                foreach (typeRec r in typeRecs)
+                // write currency DOT
+                foreach (iccCurrency c in iccCurrencyDOTList)
                 {
-                    tmpTypes = r.typeContent.Split((char)0x1c);
-
-                    iccCurrency iccCurrency = new iccCurrency();
-                    List<iccCurrency> iccCurrencyDOTList = new List<iccCurrency>();
-
-                    int offset = 2;
-                    for (int x = 0; x < int.Parse(tmpTypes[3].Substring(0, 2)); x++)
-                    {
-                        iccCurrency.CurrencyType = tmpTypes[3].Substring(offset, 2);
-                        offset += 2;
-                        iccCurrency.ResponseFormat = tmpTypes[3].Substring(offset, 2);
-                        offset += 2;
-                        iccCurrency.ResponseLength = tmpTypes[3].Substring(offset, 2);
-                        offset += 2;
-                        iccCurrency.TrCurrencyCodeTag = tmpTypes[3].Substring(offset, 4);
-                        offset += 4;
-                        iccCurrency.TrCurrencyCodeLgth = tmpTypes[3].Substring(offset, 2);
-                        offset += 2;
-                        iccCurrency.TrCurrencyCodeValue = tmpTypes[3].Substring(offset,
-                                             int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2);
-                        offset += int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2;
-                        iccCurrency.TrCurrencyExpTag = tmpTypes[3].Substring(offset, 4);
-                        offset += 4;
-                        iccCurrency.TrCurrencyExpLgth = tmpTypes[3].Substring(offset, 2);
-                        offset += 2;
-                        iccCurrency.TrCurrencyExpValue = tmpTypes[3].Substring(offset,
-                                             int.Parse(iccCurrency.TrCurrencyExpLgth) * 2);
-                        offset += int.Parse(iccCurrency.TrCurrencyExpLgth) * 2;
-
-                        iccCurrencyDOTList.Add(iccCurrency);
-                    }
-                    // write currency DOT
-
-                    foreach (iccCurrency c in iccCurrencyDOTList)
-                    {
-
-                        string sql = @"INSERT INTO ICCCurrencyDOT([logkey],[currencyType],[responseFormat],[responseLength],
+                    string sql = @"INSERT INTO ICCCurrencyDOT([logkey],[currencyType],[responseFormat],[responseLength],
 	                            [trCurrencyCodeTag],[trCurrencyCodeLgth],[trCurrencyCodeValue],[trCurrencyExpTag],
 	                            [trCurrencyExpLgth],[trCurrencyExpValue],[logID]) " +
-                          " VALUES('" + r.typeIndex + "','" + c.CurrencyType + "','" + c.ResponseFormat + "','" +
-                                    c.ResponseLength + "','" + c.TrCurrencyCodeTag + "','" + c.TrCurrencyCodeLgth + "','" +
-                                    c.TrCurrencyCodeValue + "','" + c.TrCurrencyExpTag + "','" + c.TrCurrencyExpLgth + "','" +
-                                    c.TrCurrencyExpValue + "'," + logID + ")";
+                      " VALUES('" + r.typeIndex + "','" + c.CurrencyType + "','" + c.ResponseFormat + "','" +
+                                c.ResponseLength + "','" + c.TrCurrencyCodeTag + "','" + c.TrCurrencyCodeLgth + "','" +
+                                c.TrCurrencyCodeValue + "','" + c.TrCurrencyExpTag + "','" + c.TrCurrencyExpLgth + "','" +
+                                c.TrCurrencyExpValue + "'," + logID + ")";
 
-                        log.Debug("Adding record " + sql);
-                        command = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand.ExecuteNonQuery();
-                        command.Dispose();
-                        log.Debug("Record Added");
-                    }
-                    EMVConfiguration emv = new EMVConfiguration();
-                    emv.writeData(r, Key, logID);
+                    DbCrud db = new DbCrud();
+                    if (db.addToDb(sql) == false)
+                        return false;
                 }
-                cnn.Close();
-                return true;
+                EMVConfiguration emv = new EMVConfiguration();
+                List<typeRec> emvList = new List<typeRec>();
+                emvList.Add(r);
+                if (emv.writeData(emvList, Key, logID) == false)
+                    return false;
             }
+            return true;
+        }
 
-            catch (Exception dbEx)
+
+        public new List<iccCurrency> parseData(string r)
+        {
+            List<iccCurrency> iccCurrencyDOTList = new List<iccCurrency>();
+            iccCurrency iccCurrency = new iccCurrency();
+            int offset = 2;
+
+            for (int x = 0; x < int.Parse(r.Substring(0, 2)); x++)
             {
-                log.Error("Database Error: " + dbEx.Message);
-                return false;
+                iccCurrency.CurrencyType = r.Substring(offset, 2);
+                offset += 2;
+                iccCurrency.ResponseFormat = r.Substring(offset, 2);
+                offset += 2;
+                iccCurrency.ResponseLength = r.Substring(offset, 2);
+                offset += 2;
+                iccCurrency.TrCurrencyCodeTag = r.Substring(offset, 4);
+                offset += 4;
+                iccCurrency.TrCurrencyCodeLgth = r.Substring(offset, 2);
+                offset += 2;
+                iccCurrency.TrCurrencyCodeValue = r.Substring(offset, int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2);
+                offset += int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2;
+                iccCurrency.TrCurrencyExpTag = r.Substring(offset, 4);
+                offset += 4;
+                iccCurrency.TrCurrencyExpLgth = r.Substring(offset, 2);
+                offset += 2;
+                iccCurrency.TrCurrencyExpValue = r.Substring(offset, int.Parse(iccCurrency.TrCurrencyExpLgth) * 2);
+                offset += int.Parse(iccCurrency.TrCurrencyExpLgth) * 2;
+
+                iccCurrencyDOTList.Add(iccCurrency);
 
             }
-
+            return iccCurrencyDOTList;
         }
     }
 }

@@ -6,7 +6,8 @@ using System.Data.SqlClient;
 
 namespace Logger
 {
-    class ICCTransactionDOT : EMVConfiguration, IMessage
+
+    class ICCLanguageSupportT : EMVConfiguration, IMessage
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                 System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -77,52 +78,38 @@ namespace Logger
 
         public new bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
-
             foreach (typeRec r in typeRecs)
             {
                 string[] tmpTypes = r.typeContent.Split((char)0x1c);
 
-                iccTransaction iccTransaction = new iccTransaction();
-                List<iccTransaction> iccTransactionDOTList = new List<iccTransaction>();
+                iccLanguage iccLanguage = new iccLanguage();
+                List<iccLanguage> iccLanguageList = new List<iccLanguage>();
 
                 int offset = 2;
                 for (int x = 0; x < int.Parse(tmpTypes[3].Substring(0, 2)); x++)
                 {
-                    iccTransaction.TransactionType = tmpTypes[3].Substring(offset, 2);
+                    iccLanguage.LanguageCode = tmpTypes[3].Substring(offset, 2);
                     offset += 2;
-                    iccTransaction.ResponseFormat = tmpTypes[3].Substring(offset, 2);
-                    offset += 2;
-                    iccTransaction.ResponseLength = tmpTypes[3].Substring(offset, 2);
-                    offset += 2;
-                    iccTransaction.TransactionTypeTag = tmpTypes[3].Substring(offset, 2);
-                    offset += 2;
-                    iccTransaction.TransactionTypeLgth = tmpTypes[3].Substring(offset, 2);
-                    offset += 2;
-                    iccTransaction.TransactionTypeValue = tmpTypes[3].Substring(offset,
-                                         int.Parse(iccTransaction.TransactionTypeLgth) * 2);
-                    offset += int.Parse(iccTransaction.TransactionTypeLgth) * 2;
-                    iccTransaction.TransactionCatCodeTag = tmpTypes[3].Substring(offset, 4);
-                    offset += 4;
-                    iccTransaction.TransactionCatCodeLgth = tmpTypes[3].Substring(offset, 2);
-                    offset += 2;
-                    iccTransaction.TransactionCatCodeValue = tmpTypes[3].Substring(offset,
-                                         int.Parse(iccTransaction.TransactionCatCodeLgth) * 2);
-                    offset += int.Parse(iccTransaction.TransactionCatCodeLgth) * 2;
-
-                    iccTransactionDOTList.Add(iccTransaction);
+                    iccLanguage.ScreenBase = tmpTypes[3].Substring(offset, 3);
+                    offset += 3;
+                    iccLanguage.AudioBase = tmpTypes[3].Substring(offset, 3);
+                    offset += 3;
+                    iccLanguage.OpCodeBufferPositions = tmpTypes[3].Substring(offset, 3);
+                    offset += 3;
+                    iccLanguage.OpCodeBufferValues = tmpTypes[3].Substring(offset, 3);
+                    offset += 3;
+                    iccLanguageList.Add(iccLanguage);
                 }
-                // write Transaction DOT
+                // write Language Support Transaction
 
-                foreach (iccTransaction c in iccTransactionDOTList)
+                foreach (iccLanguage c in iccLanguageList)
                 {
 
-                    string sql = @"INSERT INTO ICCTransactionDOT([logkey],[transactionType],[responseFormat],[responseLength],
-	                            [transactionTypeTag],[transactionTypeLgth],[transactionTypeValue],[transactionCatCodeTag],
-	                            [transactionCatCodeLgth],[transactionCatCodeValue],[logID]) " +
-                      " VALUES('" + r.typeIndex + "','" + c.TransactionType + "','" + c.ResponseFormat + "','" +
-                                c.ResponseLength + "','" + c.TransactionTypeTag + "','" + c.TransactionTypeLgth + "','" +
-                                c.TransactionTypeValue + "','" + c.TransactionCatCodeTag + "','" + c.TransactionCatCodeLgth + "','" +
-                                c.TransactionCatCodeValue + "'," + logID + ")";
+                    string sql = @"INSERT INTO ICCLanguageSupportT([logkey],[languageCode],[screenBase],[audioBase],
+	                            [opCodeBufferPositions],[opCodeBufferValues],[logID]) " +
+                      " VALUES('" + r.typeIndex + "','" + c.LanguageCode + "','" + c.ScreenBase + "','" +
+                                c.AudioBase + "','" + c.OpCodeBufferPositions + "','" + c.OpCodeBufferValues + "'," +
+                                logID + ")";
 
                     DbCrud db = new DbCrud();
                     if (db.addToDb(sql) == false)
@@ -135,7 +122,7 @@ namespace Logger
                     return false;
             }
             return true;
-
         }
     }
+
 }

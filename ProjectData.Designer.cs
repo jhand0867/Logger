@@ -256,6 +256,7 @@
             this.iCCLanguageSupportTableToolStripMenuItem.Name = "iCCLanguageSupportTableToolStripMenuItem";
             this.iCCLanguageSupportTableToolStripMenuItem.Size = new System.Drawing.Size(451, 44);
             this.iCCLanguageSupportTableToolStripMenuItem.Text = "ICC Language Support Table";
+            this.iCCLanguageSupportTableToolStripMenuItem.Click += new System.EventHandler(this.iCCLanguageSupportTableToolStripMenuItem_Click);
             // 
             // iCCTerminalDOTToolStripMenuItem
             // 
