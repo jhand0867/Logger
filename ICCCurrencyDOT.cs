@@ -6,21 +6,13 @@ using System.Data.SqlClient;
 
 namespace Logger
 {
-    class ICCCurrencyDOT : EMVConfiguration, IMessage
+    class ICCCurrencyDOT: EMVConfiguration, IMessage
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                 System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        // private emvConfiguration emv = new emvConfiguration();        
-
-
-        //public ICCCurrencyDOT(emvConfiguration emvConfiguration)
-        //{
-        //    this.emv = emvConfiguration;
-        //}
-
-        //internal emvConfiguration Emv { get => emv; set => emv = value; }
-
+        // public EMVConfiguration EmvConfig { get => EmvConfig; set => EmvConfig = value; }
+        
         public new DataTable getDescription()
         {
             string connectionString;
@@ -108,10 +100,11 @@ namespace Logger
                     if (db.addToDb(sql) == false)
                         return false;
                 }
-                EMVConfiguration emv = new EMVConfiguration();
+                
+                //EMVConfiguration emv = new EMVConfiguration();
                 List<typeRec> emvList = new List<typeRec>();
                 emvList.Add(r);
-                if (emv.writeData(emvList, Key, logID) == false)
+                if (base.writeData(emvList, Key, logID) == false)
                     return false;
             }
             return true;

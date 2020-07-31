@@ -87,10 +87,12 @@ namespace Logger
         public string ConfigurationData { get => configurationData; set => configurationData = value; }
         public string Mac { get => mac; set => mac = value; }
     };
-    class EMVConfiguration : App, IMessage
+    class EMVConfiguration
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
          System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        public string myField;
 
         // TODO: getDescription, getRecord
         public DataTable getDescription()

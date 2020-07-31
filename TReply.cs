@@ -8,7 +8,7 @@ namespace Logger
 {
     struct tReplyPrinterData
     {
-        public string printeFlag;
+        public string printerFlag;
         public string printerData;
     }
 
@@ -301,7 +301,7 @@ namespace Logger
 
                     sql = @"INSERT INTO treplyPrinterData([logkey],[printerFlag],[printerData],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" +
-                                   c.printeFlag + "','" +
+                                   c.printerFlag + "','" +
                                    c.printerData + "'," +
                                    logID + ")";
                     if (db.addToDb(sql) == false)
@@ -701,7 +701,7 @@ namespace Logger
             {
                 tReplyPrinterData rpd = new tReplyPrinterData();
 
-                rpd.printeFlag = item.Substring(0, 1);
+                rpd.printerFlag = item.Substring(0, 1);
 
                 if (item.Length > 1)
                 {
