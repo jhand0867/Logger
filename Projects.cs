@@ -8,6 +8,9 @@ namespace Logger
 {
     public partial class Projects : Form
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+                        System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public Projects()
         {
             InitializeComponent();
@@ -21,6 +24,7 @@ namespace Logger
 
         internal void Projects_Load(object sender, EventArgs e)
         {
+            log.Debug("Loading projects info");
 
             listView1.View = View.Details;
             listView1.Name = "ProjectsList";
@@ -37,7 +41,7 @@ namespace Logger
 
             Project pr = new Project();
             Dictionary<string, Project> prjList = pr.getAllProjects();
-
+            log.Debug("Retrieving projects info");
             listView1.Items.Clear();
             foreach (Project p in prjList.Values)
             {
@@ -61,6 +65,7 @@ namespace Logger
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            log.Debug("Open ProjectInfo");
             ProjectInfo pi = new ProjectInfo();
             this.Close();
             pi.ShowDialog();
@@ -68,12 +73,14 @@ namespace Logger
 
         private void Projects_FormClosing(object sender, FormClosingEventArgs e)
         {
+            log.Debug("Exiting Logger");
             Logger.MainW mw = new Logger.MainW();
             mw.Activate();
         }
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            log.Debug("Listing attched logs " + listView1.SelectedItems.Count.ToString());
             ListViewItem item = new ListViewItem();
             if (listView1.SelectedItems.Count == 1)
             {

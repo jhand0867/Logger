@@ -36,7 +36,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.ToString());
                 return null;
             }
 
@@ -72,7 +72,7 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
-                Console.WriteLine(dbEx.ToString());
+                log.Error("Database Error: " + dbEx.ToString());
                 return null;
             }
         }
@@ -115,6 +115,7 @@ namespace Logger
         {
             List<iccCurrency> iccCurrencyDOTList = new List<iccCurrency>();
             iccCurrency iccCurrency = new iccCurrency();
+            log.Debug("Parsing ICCCurrencyDOT data");
             int offset = 2;
 
             for (int x = 0; x < int.Parse(r.Substring(0, 2)); x++)
@@ -141,6 +142,7 @@ namespace Logger
                 iccCurrencyDOTList.Add(iccCurrency);
 
             }
+            log.Debug("Returning Parsed data:" + iccCurrencyDOTList.ToString());
             return iccCurrencyDOTList;
         }
     }
