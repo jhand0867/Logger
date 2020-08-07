@@ -161,7 +161,7 @@ namespace Logger
 
                 if (dicBits != null)
                 {
-                    for (int x = 4; x < 18; x++)
+                    for (int x = 4; x < 20; x++)
                     {
                         if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
                         {
@@ -206,6 +206,13 @@ namespace Logger
                                 case 17:
                                     tn.Nodes.Add("ICC Language Support " + dicBits["iccLanguageSupportT"]);
                                     break;
+                                case 18:
+                                    tn.Nodes.Add("ICC Terminal DOT " + dicBits["iccTerminalDOT"]);
+                                    break;
+                                case 19:
+                                    tn.Nodes.Add("ICC Application IDT " + dicBits["iccApplicationIDT"]);
+                                    break;
+
 
                             }
                         }

@@ -653,7 +653,9 @@ namespace Logger
                 if (recordType.Substring(0, 1) == "8" &&
                    ((recordType.Substring(1, 1) == "1" && tmpTypes[2] == "1") ||
                     (recordType.Substring(1, 1) == "2" && tmpTypes[2] == "2") ||
-                    (recordType.Substring(1, 1) == "3" && tmpTypes[2] == "3")))
+                    (recordType.Substring(1, 1) == "3" && tmpTypes[2] == "3") ||
+                    (recordType.Substring(1, 1) == "4" && tmpTypes[2] == "4") ||
+                    (recordType.Substring(1, 1) == "5" && tmpTypes[2] == "5")))
                 {
                     typeRec r = new typeRec();
                     r.typeIndex = rec.Key;
@@ -785,6 +787,22 @@ namespace Logger
                     }
                     break;
 
+                case "84":
+                    ICCTerminalDOT iccTerminal = new ICCTerminalDOT();
+                    if (iccTerminal.writeData(typeList, Key, logID))
+                    {
+                        setBitToTrue(recordType, logID);
+                    }
+                    break;
+
+                case "85":
+                    ICCApplicationIDT iccApplication = new ICCApplicationIDT();
+                    if (iccApplication.writeData(typeList, Key, logID))
+                    {
+                        setBitToTrue(recordType, logID);
+                    }
+                    break;
+
             }
         }
 
@@ -831,6 +849,12 @@ namespace Logger
                     break;
                 case "83":
                     sql = @"UPDATE logs SET iccLanguageSupportT = 1 WHERE id = " + logID;
+                    break;
+                case "84":
+                    sql = @"UPDATE logs SET iccTerminalDOT = 1 WHERE id = " + logID;
+                    break;
+                case "85":
+                    sql = @"UPDATE logs SET iccApplicationIDT = 1 WHERE id = " + logID;
                     break;
 
             }
@@ -1062,6 +1086,14 @@ namespace Logger
                     cmd.CommandText = @"SELECT COUNT(*) FROM iccLanguageSupportT WHERE logID =" + logID;
                     count = (int)cmd.ExecuteScalar();
                     dicBits.Add("iccLanguageSupportT", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM iccTerminalDOT WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("iccTerminalDOT", count);
+
+                    cmd.CommandText = @"SELECT COUNT(*) FROM iccApplicationIDT WHERE logID =" + logID;
+                    count = (int)cmd.ExecuteScalar();
+                    dicBits.Add("iccApplicationIDT", count);
 
                 }
 

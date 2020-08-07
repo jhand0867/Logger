@@ -10,6 +10,7 @@ namespace Logger
          System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public bool addToDb(string sql)
         {
+ 
             log.Info("Adding to Database ");
 
             string connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;

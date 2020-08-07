@@ -82,24 +82,7 @@ namespace Logger
             {
                 string[] tmpTypes = r.typeContent.Split((char)0x1c);
 
-                iccLanguage iccLanguage = new iccLanguage();
-                List<iccLanguage> iccLanguageList = new List<iccLanguage>();
-
-                int offset = 2;
-                for (int x = 0; x < int.Parse(tmpTypes[3].Substring(0, 2)); x++)
-                {
-                    iccLanguage.LanguageCode = tmpTypes[3].Substring(offset, 2);
-                    offset += 2;
-                    iccLanguage.ScreenBase = tmpTypes[3].Substring(offset, 3);
-                    offset += 3;
-                    iccLanguage.AudioBase = tmpTypes[3].Substring(offset, 3);
-                    offset += 3;
-                    iccLanguage.OpCodeBufferPositions = tmpTypes[3].Substring(offset, 3);
-                    offset += 3;
-                    iccLanguage.OpCodeBufferValues = tmpTypes[3].Substring(offset, 3);
-                    offset += 3;
-                    iccLanguageList.Add(iccLanguage);
-                }
+                List<iccLanguage> iccLanguageList = parseData(tmpTypes[3]);
                 // write Language Support Transaction
 
                 foreach (iccLanguage c in iccLanguageList)
@@ -115,13 +98,34 @@ namespace Logger
                     if (db.addToDb(sql) == false)
                         return false;
                 }
-                EMVConfiguration emv = new EMVConfiguration();
                 List<typeRec> emvList = new List<typeRec>();
                 emvList.Add(r);
-                if (emv.writeData(emvList, Key, logID) == false)
+                if (base.writeData(emvList, Key, logID) == false)
                     return false;
             }
             return true;
+        }
+        public new List<iccLanguage> parseData(string tmpTypes)
+        {
+            iccLanguage iccLanguage = new iccLanguage();
+            List<iccLanguage> iccLanguageList = new List<iccLanguage>();
+
+            int offset = 2;
+            for (int x = 0; x < int.Parse(tmpTypes.Substring(0, 2)); x++)
+            {
+                iccLanguage.LanguageCode = tmpTypes.Substring(offset, 2);
+                offset += 2;
+                iccLanguage.ScreenBase = tmpTypes.Substring(offset, 3);
+                offset += 3;
+                iccLanguage.AudioBase = tmpTypes.Substring(offset, 3);
+                offset += 3;
+                iccLanguage.OpCodeBufferPositions = tmpTypes.Substring(offset, 3);
+                offset += 3;
+                iccLanguage.OpCodeBufferValues = tmpTypes.Substring(offset, 3);
+                offset += 3;
+                iccLanguageList.Add(iccLanguage);
+            }
+            return iccLanguageList;
         }
     }
 

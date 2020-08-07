@@ -263,12 +263,14 @@
             this.iCCTerminalDOTToolStripMenuItem.Name = "iCCTerminalDOTToolStripMenuItem";
             this.iCCTerminalDOTToolStripMenuItem.Size = new System.Drawing.Size(451, 44);
             this.iCCTerminalDOTToolStripMenuItem.Text = "ICC Terminal DOT";
+            this.iCCTerminalDOTToolStripMenuItem.Click += new System.EventHandler(this.iCCTerminalDOTToolStripMenuItem_Click);
             // 
             // iCCTerminalAcceptableAIDToolStripMenuItem
             // 
             this.iCCTerminalAcceptableAIDToolStripMenuItem.Name = "iCCTerminalAcceptableAIDToolStripMenuItem";
             this.iCCTerminalAcceptableAIDToolStripMenuItem.Size = new System.Drawing.Size(451, 44);
             this.iCCTerminalAcceptableAIDToolStripMenuItem.Text = "ICC Terminal Acceptable AID";
+            this.iCCTerminalAcceptableAIDToolStripMenuItem.Click += new System.EventHandler(this.iCCTerminalAcceptableAIDToolStripMenuItem_Click);
             // 
             // dataGridView1
             // 

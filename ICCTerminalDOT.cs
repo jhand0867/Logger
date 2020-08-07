@@ -6,7 +6,8 @@ using System.Data.SqlClient;
 
 namespace Logger
 {
-    class ICCTransactionDOT : EMVConfiguration, IMessage
+
+    class ICCTerminalDOT : EMVConfiguration
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                 System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -61,7 +62,7 @@ namespace Logger
                 }
                 dts.Add(dt);
                 dt = new DataTable();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from ICCCurrencyDOT WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from ICCTerminalDOT WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
                 {
                     sda.Fill(dt);
                 }
@@ -77,26 +78,21 @@ namespace Logger
 
         public new bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
-
             foreach (typeRec r in typeRecs)
             {
                 string[] tmpTypes = r.typeContent.Split((char)0x1c);
 
-                List<iccTransaction> iccTransactionDOTList = parseData(tmpTypes[3]);
+                List<iccTerminal> iccTerminalList = parseData(tmpTypes[3]);
+                // write Language Support Transaction
 
-                
-                // write Transaction DOT
-
-                foreach (iccTransaction c in iccTransactionDOTList)
+                foreach (iccTerminal c in iccTerminalList)
                 {
-
-                    string sql = @"INSERT INTO ICCTransactionDOT([logkey],[transactionType],[responseFormat],[responseLength],
-	                            [transactionTypeTag],[transactionTypeLgth],[transactionTypeValue],[transactionCatCodeTag],
-	                            [transactionCatCodeLgth],[transactionCatCodeValue],[logID]) " +
-                      " VALUES('" + r.typeIndex + "','" + c.TransactionType + "','" + c.ResponseFormat + "','" +
-                                c.ResponseLength + "','" + c.TransactionTypeTag + "','" + c.TransactionTypeLgth + "','" +
-                                c.TransactionTypeValue + "','" + c.TransactionCatCodeTag + "','" + c.TransactionCatCodeLgth + "','" +
-                                c.TransactionCatCodeValue + "'," + logID + ")";
+                    string sql = @"INSERT INTO ICCTerminalDOT([logkey],[responseFormat],[responseLength],[terCountryCodeTag],
+                                	[terCountryCodeLgth],[terCountryCodeValue],[terTypeTag],[terTypeLgth],[terTypeValue],[logID]) " +
+                      " VALUES('" + r.typeIndex + "','" + c.ResponseFormat + "','" + c.ResponseLength + "','" +
+                                c.TerCountryCodeTag + "','" + c.TerCountryCodeLgth + "','" + c.TerCountryCodeValue + "','" +
+                                c.TerTypeTag + "','" + c.TerTypeLgth + "','" + c.TerTypeValue + "'," +
+                                logID + ")";
 
                     DbCrud db = new DbCrud();
                     if (db.addToDb(sql) == false)
@@ -108,41 +104,33 @@ namespace Logger
                     return false;
             }
             return true;
-
         }
-
-        public new List<iccTransaction> parseData(string tmpTypes)
+        public new List<iccTerminal> parseData(string tmpTypes)
         {
-            iccTransaction iccTransaction = new iccTransaction();
-            List<iccTransaction> iccTransactionDOTList = new List<iccTransaction>();
+            iccTerminal iccTerminal = new iccTerminal();
+            List<iccTerminal> iccTerminalList = new List<iccTerminal>();
 
-            int offset = 2;
-            for (int x = 0; x < int.Parse(tmpTypes.Substring(0, 2)); x++)
-            {
-                iccTransaction.TransactionType = tmpTypes.Substring(offset, 2);
-                offset += 2;
-                iccTransaction.ResponseFormat = tmpTypes.Substring(offset, 2);
-                offset += 2;
-                iccTransaction.ResponseLength = tmpTypes.Substring(offset, 2);
-                offset += 2;
-                iccTransaction.TransactionTypeTag = tmpTypes.Substring(offset, 2);
-                offset += 2;
-                iccTransaction.TransactionTypeLgth = tmpTypes.Substring(offset, 2);
-                offset += 2;
-                iccTransaction.TransactionTypeValue = tmpTypes.Substring(offset,
-                                     int.Parse(iccTransaction.TransactionTypeLgth) * 2);
-                offset += int.Parse(iccTransaction.TransactionTypeLgth) * 2;
-                iccTransaction.TransactionCatCodeTag = tmpTypes.Substring(offset, 4);
-                offset += 4;
-                iccTransaction.TransactionCatCodeLgth = tmpTypes.Substring(offset, 2);
-                offset += 2;
-                iccTransaction.TransactionCatCodeValue = tmpTypes.Substring(offset,
-                                     int.Parse(iccTransaction.TransactionCatCodeLgth) * 2);
-                offset += int.Parse(iccTransaction.TransactionCatCodeLgth) * 2;
+            int offset = 0;
+            iccTerminal.ResponseFormat = tmpTypes.Substring(offset, 2);
+            offset += 2;
+            iccTerminal.ResponseLength = tmpTypes.Substring(offset, 2);
+            offset += 2;
+            iccTerminal.TerCountryCodeTag = tmpTypes.Substring(offset, 4);
+            offset += 4;
+            iccTerminal.TerCountryCodeLgth = tmpTypes.Substring(offset, 2);
+            offset += 2;
+            iccTerminal.TerCountryCodeValue = tmpTypes.Substring(offset, int.Parse(iccTerminal.TerCountryCodeLgth) * 2);
+            offset += int.Parse(iccTerminal.TerCountryCodeLgth) * 2;
+            iccTerminal.TerTypeTag = tmpTypes.Substring(offset, 4);
+            offset += 4;
+            iccTerminal.TerTypeLgth = tmpTypes.Substring(offset, 2);
+            offset += 2;
+            iccTerminal.TerTypeValue = tmpTypes.Substring(offset, int.Parse(iccTerminal.TerTypeLgth) * 2);
+            offset += int.Parse(iccTerminal.TerTypeLgth) * 2;
 
-                iccTransactionDOTList.Add(iccTransaction);
-            }
-            return iccTransactionDOTList;
+            iccTerminalList.Add(iccTerminal);
+            return iccTerminalList;
         }
     }
+
 }

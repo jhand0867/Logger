@@ -62,11 +62,11 @@
     <Compile Include="EnhancedParamsRec.cs" />
     <Compile Include="ExtEncryptionRec.cs" />
     <Compile Include="FitRec.cs" />
+    <Compile Include="ICCApplicationIDT.cs" />
     <Compile Include="ICCCurrencyDOT.cs" />
     <Compile Include="ICCLanguageSupportT.cs" />
+    <Compile Include="ICCTerminalDOT.cs" />
     <Compile Include="ICCTransactionDOT.cs" />
-    <Compile Include="IEMVConfiguration.cs" />
-    <Compile Include="IICCCurrencyDOT.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="LogData.cs">
       <SubType>Form</SubType>

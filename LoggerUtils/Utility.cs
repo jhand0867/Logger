@@ -16,6 +16,12 @@ namespace Logger
             string hx1 = in1.ToString("X2");
             return hx1;
         }
+
+        public string hex2dec(string hexNumber, int digits)
+        {
+            Convert.ToInt32(hexNumber, 16);
+            return "";
+        }
         public string dec2bin(string decNumber, int digits)
         {
 
