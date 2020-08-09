@@ -84,23 +84,36 @@ namespace Logger
 
                 List<iccApplication> iccApplicationList = parseData(tmpTypes[3]);
                 // write Language Support Transaction
-
+                int entries = 0;
                 foreach (iccApplication c in iccApplicationList)
                 {
-                    //todo: Implement writting to database.
+                    // Implement writting to database.
+                    entries += 1;
+                    string sql = @"INSERT INTO ICCApplicationIDT([logkey],[rectype],[entryNumber],[primaryAIDLength],
+                                [primaryAIDValue],[defaultAppLabelLength],[defaultAppValue],[primaryAIDICCAppType],
+	                            [primaryAIDLowestAppVersion],[primaryAIDHighestAppVersion],[primaryAIDActionCode],
+	                            [numberOfDataObjectTReq],[dataObjectForTReq],[numberOfDataObjectCompletion],
+                                [dataObjectForCompletion],[numberOfSecondaryAID],[secondaryAIDLgthValue],
+                                [appSelectionIndicator],[trk2DataForCentral],[trk2DataUsedDuringICCTransaction],
+                                [additionalTrk2DataLength],[additionalTrk2Data],[logID]) " +
+                      " VALUES('" + r.typeIndex + "','" + c.Rectype + "','" + c.EntryNumber + "','" + c.PrimaryAIDLength + "','" +
+                                c.PrimaryAIDValue + "','" + c.DefaultAppLabelLength + "','" + c.DefaultAppValue + "','" +
+                                c.PrimaryAIDICCAppType + "','" + c.PrimaryAIDLowestAppVersion + "','" + 
+                                c.PrimaryAIDHighestAppVersion + "','" + c.PrimaryAIDActionCode + "','" + 
+                                c.NumberOfDataObjectTReq + "','" + c.DataObjectForTReq + "','" + c.NumberOfDataObjectCompletion + "','" +
+                                c.DataObjectForCompletion + "','" + c.NumberOfSecondaryAID + "','" +
+                                c.SecondaryAIDLgthValue + "','" + c.AppSelectionIndicator + "','" + c.Trk2DataForCentral + "','" +
+                                c.Trk2DataUsedDuringICCTransaction + "','" + c.AdditionalTrk2DataLength + "','" +
+                                c.AdditionalTrk2Data + "'," + logID + ")";
 
-                    //string sql = @"INSERT INTO ICCApplicationIDT([logkey],[languageCode],[screenBase],[audioBase],
-	                   //         [opCodeBufferPositions],[opCodeBufferValues],[logID]) " +
-                    //  " VALUES('" + r.typeIndex + "','" + c.LanguageCode + "','" + c.ScreenBase + "','" +
-                    //            c.AudioBase + "','" + c.OpCodeBufferPositions + "','" + c.OpCodeBufferValues + "'," +
-                    //            logID + ")";
-
-                    //DbCrud db = new DbCrud();
-                    //if (db.addToDb(sql) == false)
-                    //    return false;
+                    DbCrud db = new DbCrud();
+                    if (db.addToDb(sql) == false)
+                        return false;
                 }
                 List<typeRec> emvList = new List<typeRec>();
-                emvList.Add(r);
+                typeRec rec = r;
+                rec.typeAddData = entries.ToString();                
+                emvList.Add(rec);
                 if (base.writeData(emvList, Key, logID) == false)
                     return false;
             }
@@ -116,6 +129,7 @@ namespace Logger
             int hexLength = 0;
             for (int x = 0; x < tmpAids.Length; x++)
             {
+                iccApp.Rectype = "85";
                 int offset = 0;
                 iccApp.EntryNumber = tmpAids[x].Substring(offset, 2);
                 offset += 2;
@@ -130,8 +144,8 @@ namespace Logger
                 hexLength = Convert.ToInt32(iccApp.DefaultAppLabelLength, 16);
                 if (hexLength > 0)
                 {
-                    iccApp.DefaultAppValue = tmpAids[x].Substring(offset, hexLength * 2);
-                    offset += hexLength * 2;
+                    iccApp.DefaultAppValue = tmpAids[x].Substring(offset, hexLength);
+                    offset += hexLength;
                 }
                 iccApp.PrimaryAIDICCAppType = tmpAids[x].Substring(offset, 3);
                 offset += 3;
@@ -156,20 +170,21 @@ namespace Logger
 
                 if (hexLength > 0)
                 {
-                    iccApp.DataObjectForCompletion = iccTLVTags(tmpAids[x].Substring(offset, tmpAids[x].Length - offset), hexLength * 2);
-                    offset += iccApp.DataObjectForCompletion.Length - (hexLength*2);
+                    iccApp.DataObjectForCompletion = iccTLVTags(tmpAids[x].Substring(offset, tmpAids[x].Length - offset), hexLength);
+                    offset += iccApp.DataObjectForCompletion.Length - hexLength;
                 }
 
                 iccApp.NumberOfSecondaryAID = tmpAids[x].Substring(offset, 2);
                 offset += 2;
                 hexLength = Convert.ToInt32(iccApp.NumberOfSecondaryAID, 16);
-                if ( hexLength > 0)
+                iccApp.SecondaryAIDLgthValue = "";
+                for (int y = 0; y < hexLength; y++)
                 {
-                    iccApp.SecondaryAIDLength = tmpAids[x].Substring(offset, 2);
+                    iccApp.SecondaryAIDLgthValue += tmpAids[x].Substring(offset, 2) + " ";
+                    int hexLength2 = Convert.ToInt32(tmpAids[x].Substring(offset, 2), 16);
                     offset += 2;
-                    hexLength = Convert.ToInt32(iccApp.SecondaryAIDLength, 16);
-                    iccApp.SecondaryAIDValue = tmpAids[x].Substring(offset, hexLength * 2);
-                    offset += hexLength * 2;
+                    iccApp.SecondaryAIDLgthValue += tmpAids[x].Substring(offset, hexLength2 * 2) + " ";
+                    offset += hexLength2 * 2;
                 }
 
                 if (offset < tmpAids[x].Length)

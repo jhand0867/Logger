@@ -88,9 +88,9 @@ namespace Logger
                 foreach (iccLanguage c in iccLanguageList)
                 {
 
-                    string sql = @"INSERT INTO ICCLanguageSupportT([logkey],[languageCode],[screenBase],[audioBase],
+                    string sql = @"INSERT INTO ICCLanguageSupportT([logkey],[rectype],[languageCode],[screenBase],[audioBase],
 	                            [opCodeBufferPositions],[opCodeBufferValues],[logID]) " +
-                      " VALUES('" + r.typeIndex + "','" + c.LanguageCode + "','" + c.ScreenBase + "','" +
+                      " VALUES('" + r.typeIndex + "','" + c.Rectype + "','" + c.LanguageCode + "','" + c.ScreenBase + "','" +
                                 c.AudioBase + "','" + c.OpCodeBufferPositions + "','" + c.OpCodeBufferValues + "'," +
                                 logID + ")";
 
@@ -113,6 +113,7 @@ namespace Logger
             int offset = 2;
             for (int x = 0; x < int.Parse(tmpTypes.Substring(0, 2)); x++)
             {
+                iccLanguage.Rectype = "83";
                 iccLanguage.LanguageCode = tmpTypes.Substring(offset, 2);
                 offset += 2;
                 iccLanguage.ScreenBase = tmpTypes.Substring(offset, 3);

@@ -34,30 +34,46 @@ namespace Logger
             {
                 if (recValue.Contains(recordType))
                 {
-                    if (recCount == 0 || recCount == 1)
+                    // mlh check type of message 
+                    switch (recCount)
                     {
-                        recType = recCount.ToString("00");
-                    }
-                    else
-                    {
-                        tmpTypes = recValue.Split((char)0x1c);
-
-                        foreach (string subRecordType in App.Prj.SubRecordTypes)
-                        {
-                            if (tmpTypes[3] == subRecordType)
+                        case 0:
+                        case 1:
+                            recType = recCount.ToString("00");
+                            break;
+                        case 2:
+                            tmpTypes = recValue.Split((char)0x1c);
+                            foreach (string subRecordType in App.Prj.SubRecordTypes3)
                             {
-                                recType = subRecordType;
-                                break;
-                            }
+                                if (tmpTypes[3] == subRecordType)
+                                {
+                                    recType = subRecordType;
+                                    break;
+                                }
 
-                        }
+                            }
+                            break;
+
+                        case 3:
+                            tmpTypes = recValue.Split((char)0x1c);
+                            foreach (string subRecordType in App.Prj.SubRecordTypes8)
+                            {
+                                if (tmpTypes[2] == subRecordType)
+                                {
+                                    recType = "8" + subRecordType;
+                                    break;
+                                }
+                            }
+                            break;
                     }
-                    break;
                 }
                 recCount++;
-            }
+                }
+
             switch (recType)
             {
+                // mlh process type of message
+
                 case "00":
                     TRec tr = new TRec();
                     dts = tr.getRecord(logKey, logID, projectKey);
@@ -100,6 +116,15 @@ namespace Logger
                 case "42":
                     ExtEncryptionRec xer = new ExtEncryptionRec();
                     break;
+                case "81":
+                    ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT();
+                    dts = iccCurrency.getRecord(logKey, logID, projectKey);
+                    break;
+                case "82":
+                    ICCTransactionDOT iccTransaction = new ICCTransactionDOT();
+                    dts = iccTransaction.getRecord(logKey, logID, projectKey);
+                    break;
+
             }
             return dts;
         }

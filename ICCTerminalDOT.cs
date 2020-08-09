@@ -84,12 +84,13 @@ namespace Logger
 
                 List<iccTerminal> iccTerminalList = parseData(tmpTypes[3]);
                 // write Language Support Transaction
-
+                int entries = 0;
                 foreach (iccTerminal c in iccTerminalList)
                 {
-                    string sql = @"INSERT INTO ICCTerminalDOT([logkey],[responseFormat],[responseLength],[terCountryCodeTag],
+                    entries += 1;
+                    string sql = @"INSERT INTO ICCTerminalDOT([logkey],[rectype],[responseFormat],[responseLength],[terCountryCodeTag],
                                 	[terCountryCodeLgth],[terCountryCodeValue],[terTypeTag],[terTypeLgth],[terTypeValue],[logID]) " +
-                      " VALUES('" + r.typeIndex + "','" + c.ResponseFormat + "','" + c.ResponseLength + "','" +
+                      " VALUES('" + r.typeIndex + "','" + c.Rectype + "','" + c.ResponseFormat + "','" + c.ResponseLength + "','" +
                                 c.TerCountryCodeTag + "','" + c.TerCountryCodeLgth + "','" + c.TerCountryCodeValue + "','" +
                                 c.TerTypeTag + "','" + c.TerTypeLgth + "','" + c.TerTypeValue + "'," +
                                 logID + ")";
@@ -99,7 +100,9 @@ namespace Logger
                         return false;
                 }
                 List<typeRec> emvList = new List<typeRec>();
-                emvList.Add(r);
+                typeRec rec = r;
+                rec.typeAddData = entries.ToString();
+                emvList.Add(rec);
                 if (base.writeData(emvList, Key, logID) == false)
                     return false;
             }
@@ -110,6 +113,7 @@ namespace Logger
             iccTerminal iccTerminal = new iccTerminal();
             List<iccTerminal> iccTerminalList = new List<iccTerminal>();
 
+            iccTerminal.Rectype = "84";
             int offset = 0;
             iccTerminal.ResponseFormat = tmpTypes.Substring(offset, 2);
             offset += 2;

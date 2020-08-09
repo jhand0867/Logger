@@ -13,66 +13,29 @@ namespace Logger
 
         public new DataTable getDescription()
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = '8' and subRecType like '2%'";
 
-
-            // is the calling state a Y
-            // get the info from DataDescription
-            // send it back in a string 
-            try
-            {
-                cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "8" + "'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
-
-            return dt; ;
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
+            return dt;
         }
 
         public new List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
             List<DataTable> dts = new List<DataTable>();
             DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
 
-            try
-            {
-                cnn.Open();
+            string sql = @"SELECT TOP 1 * from EMVConfiguration WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
 
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT TOP 1 * from EMVConfiguration WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
-                dt = new DataTable();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from ICCCurrencyDOT WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
-                return dts;
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
+            // dt = new DataTable();
+            sql = @"SELECT * from ICCTransactionDOT WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+            return dts;
         }
 
         public new bool writeData(List<typeRec> typeRecs, string Key, string logID)
@@ -90,10 +53,10 @@ namespace Logger
                 foreach (iccTransaction c in iccTransactionDOTList)
                 {
 
-                    string sql = @"INSERT INTO ICCTransactionDOT([logkey],[transactionType],[responseFormat],[responseLength],
+                    string sql = @"INSERT INTO ICCTransactionDOT([logkey],[rectype],[transactionType],[responseFormat],[responseLength],
 	                            [transactionTypeTag],[transactionTypeLgth],[transactionTypeValue],[transactionCatCodeTag],
 	                            [transactionCatCodeLgth],[transactionCatCodeValue],[logID]) " +
-                      " VALUES('" + r.typeIndex + "','" + c.TransactionType + "','" + c.ResponseFormat + "','" +
+                      " VALUES('" + r.typeIndex + "','" + c.Rectype + "','" + c.TransactionType + "','" + c.ResponseFormat + "','" +
                                 c.ResponseLength + "','" + c.TransactionTypeTag + "','" + c.TransactionTypeLgth + "','" +
                                 c.TransactionTypeValue + "','" + c.TransactionCatCodeTag + "','" + c.TransactionCatCodeLgth + "','" +
                                 c.TransactionCatCodeValue + "'," + logID + ")";
@@ -119,6 +82,7 @@ namespace Logger
             int offset = 2;
             for (int x = 0; x < int.Parse(tmpTypes.Substring(0, 2)); x++)
             {
+                iccTransaction.Rectype = "82";
                 iccTransaction.TransactionType = tmpTypes.Substring(offset, 2);
                 offset += 2;
                 iccTransaction.ResponseFormat = tmpTypes.Substring(offset, 2);

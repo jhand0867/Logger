@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Logger
@@ -41,5 +43,35 @@ namespace Logger
             }
 
         }
+
+        public DataTable GetTableFromDb(string sql)
+        {
+            log.Info("Read From Database ");
+
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+
+            try
+            {
+                cnn.Open();
+                using (SqlDataAdapter sda = new SqlDataAdapter(sql, cnn))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            catch (Exception dbEx)
+            {
+                log.Error("Database Error: " + dbEx.ToString());
+                return null;
+            }
+
+            return dt;
+
+        }
+
     }
 }

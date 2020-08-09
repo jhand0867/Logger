@@ -27,6 +27,7 @@ namespace Logger
     {
         public string typeIndex;
         public string typeContent;
+        public string typeAddData;
     }
     public class Project : App
     {
@@ -39,8 +40,12 @@ namespace Logger
         private int pLogs;
 
         // Initialize all record types
-        private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 3" };
-        private string[] subRecordTypes = { "11", "12", "13", "15", "16", "1A", "1B", "1C", "1E" };
+        
+        // mlh list type of messages
+
+        private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 3", "HOST2ATM: 8" };
+        private string[] subRecordTypes3 = { "11", "12", "13", "15", "16", "1A", "1B", "1C", "1E" };
+        private string[] subRecordTypes8 = { "1", "2", "3", "4", "5" };
         private List<stateRec> extensionsLst = new List<stateRec>();
         public List<stateRec> ExtensionsLst
         {
@@ -51,9 +56,13 @@ namespace Logger
         {
             get { return recordTypes; }
         }
-        public string[] SubRecordTypes
+        public string[] SubRecordTypes3
         {
-            get { return subRecordTypes; }
+            get { return subRecordTypes3; }
+        }
+        public string[] SubRecordTypes8
+        {
+            get { return subRecordTypes8; }
         }
 
         public Project()

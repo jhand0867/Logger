@@ -46,6 +46,8 @@ namespace Logger
                 {
                     for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                     {
+                        // mlh process depending on Type of Record
+
                         // if the row data is for a 
                         if (dt.Rows[rowNum][2].ToString() == "I")
                         {
@@ -214,6 +216,127 @@ namespace Logger
                                 }
                             }
                             break;
+                        }
+
+                        if (dt.Rows[rowNum][2].ToString() == "8")
+                        {
+                            EMVConfiguration emvRec = new EMVConfiguration();
+                            DataTable emvRecDt = emvRec.getDescription();
+
+                            // message class
+                            txtFieldData.Text += emvRecDt.Rows[0][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][2].ToString().Trim() + System.Environment.NewLine;
+
+                            // response flag
+                            txtFieldData.Text += emvRecDt.Rows[1][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
+
+                            // luno
+                            txtFieldData.Text += emvRecDt.Rows[2][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
+
+                            // message subclass
+                            txtFieldData.Text += emvRecDt.Rows[3][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
+
+                            // configuration data
+                            txtFieldData.Text += emvRecDt.Rows[4][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
+
+
+                            // MAC
+                            txtFieldData.Text += emvRecDt.Rows[5][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][8].ToString().Trim() + System.Environment.NewLine;
+                        }
+                        if (dt.Rows[rowNum][2].ToString() == "81")
+                        {
+                            ICCCurrencyDOT iccRec = new ICCCurrencyDOT();
+                            DataTable iccRecDt = iccRec.getDescription();
+
+                            // Configuration Data
+                            txtFieldData.Text += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
+
+                            // currency type
+                            txtFieldData.Text += iccRecDt.Rows[1][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
+
+                            // Response format tag
+                            txtFieldData.Text += iccRecDt.Rows[2][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
+
+                            // Response format length
+                            txtFieldData.Text += iccRecDt.Rows[3][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
+
+                            // Transaction Currency Code Tag
+                            txtFieldData.Text += iccRecDt.Rows[4][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][6].ToString().Trim() + System.Environment.NewLine;
+
+                            // Transaction Currency Code lgth
+                            txtFieldData.Text += iccRecDt.Rows[5][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
+
+                            // Transaction Currency Code value
+                            txtFieldData.Text += iccRecDt.Rows[6][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][8].ToString().Trim() + System.Environment.NewLine;
+
+                            // Transaction Currency Exp Tag
+                            txtFieldData.Text += iccRecDt.Rows[7][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][9].ToString().Trim() + System.Environment.NewLine;
+
+                            // Transaction Currency Exp lgth
+                            txtFieldData.Text += iccRecDt.Rows[8][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][10].ToString().Trim() + System.Environment.NewLine;
+
+                            // Transaction Currency Exp value
+                            txtFieldData.Text += iccRecDt.Rows[9][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][11].ToString().Trim() + System.Environment.NewLine;
+
+                        }
+                        if (dt.Rows[rowNum][2].ToString() == "82")
+                        {
+                            ICCTransactionDOT iccRec = new ICCTransactionDOT();
+                            DataTable iccRecDt = iccRec.getDescription();
+
+                            // Configuration Data
+                            txtFieldData.Text += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
+
+                            // transaction type
+                            txtFieldData.Text += iccRecDt.Rows[1][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
+
+                            // Response format tag
+                            txtFieldData.Text += iccRecDt.Rows[2][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
+
+                            // Response format length
+                            txtFieldData.Text += iccRecDt.Rows[3][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
+
+                            //  Tag
+                            txtFieldData.Text += iccRecDt.Rows[4][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][6].ToString().Trim() + System.Environment.NewLine;
+
+                            //  lgth
+                            txtFieldData.Text += iccRecDt.Rows[5][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
+
+                            //  value
+                            txtFieldData.Text += iccRecDt.Rows[6][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][8].ToString().Trim() + System.Environment.NewLine;
+
+                            // Tag
+                            txtFieldData.Text += iccRecDt.Rows[7][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][9].ToString().Trim() + System.Environment.NewLine;
+
+                            // lgth
+                            txtFieldData.Text += iccRecDt.Rows[8][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][10].ToString().Trim() + System.Environment.NewLine;
+
+                            // value
+                            txtFieldData.Text += iccRecDt.Rows[9][3].ToString().Trim() + " = ";
+                            txtFieldData.Text += dt.Rows[rowNum][11].ToString().Trim() + System.Environment.NewLine;
+
                         }
                     }
                 }

@@ -6,7 +6,7 @@ namespace Logger
 {
     struct iccCurrency
     {
-
+        private string rectype;
         private string currencyType;
         private string responseFormat;
         private string responseLength;
@@ -17,6 +17,7 @@ namespace Logger
         private string trCurrencyExpLgth;
         private string trCurrencyExpValue;
 
+        public string Rectype { get => rectype; set => rectype = value; }
         public string CurrencyType { get => currencyType; set => currencyType = value; }
         public string ResponseFormat { get => responseFormat; set => responseFormat = value; }
         public string ResponseLength { get => responseLength; set => responseLength = value; }
@@ -29,6 +30,7 @@ namespace Logger
     }
     struct iccTransaction
     {
+        private string rectype;
         private string transactionType;
         private string responseFormat;
         private string responseLength;
@@ -39,6 +41,7 @@ namespace Logger
         private string transactionCatCodeLgth;
         private string transactionCatCodeValue;
 
+        public string Rectype { get => rectype; set => rectype = value; }
         public string TransactionType { get => transactionType; set => transactionType = value; }
         public string ResponseFormat { get => responseFormat; set => responseFormat = value; }
         public string ResponseLength { get => responseLength; set => responseLength = value; }
@@ -51,17 +54,87 @@ namespace Logger
     };
     struct iccLanguage
     {
+        private string rectype;
         private string languageCode;
         private string screenBase;
         private string audioBase;
         private string opCodeBufferPositions;
         private string opCodeBufferValues;
 
+        public string Rectype { get => rectype; set => rectype = value; }
         public string LanguageCode { get => languageCode; set => languageCode = value; }
         public string ScreenBase { get => screenBase; set => screenBase = value; }
         public string AudioBase { get => audioBase; set => audioBase = value; }
         public string OpCodeBufferPositions { get => opCodeBufferPositions; set => opCodeBufferPositions = value; }
         public string OpCodeBufferValues { get => opCodeBufferValues; set => opCodeBufferValues = value; }
+    };
+    struct iccTerminal
+    {
+        private string rectype;
+        private string responseFormat;
+        private string responseLength;
+        private string terCountryCodeTag;
+        private string terCountryCodeLgth;
+        private string terCountryCodeValue;
+        private string terTypeTag;
+        private string terTypeLgth;
+        private string terTypeValue;
+
+        public string Rectype { get => rectype; set => rectype = value; }
+        public string ResponseFormat { get => responseFormat; set => responseFormat = value; }
+        public string ResponseLength { get => responseLength; set => responseLength = value; }
+        public string TerCountryCodeTag { get => terCountryCodeTag; set => terCountryCodeTag = value; }
+        public string TerCountryCodeLgth { get => terCountryCodeLgth; set => terCountryCodeLgth = value; }
+        public string TerCountryCodeValue { get => terCountryCodeValue; set => terCountryCodeValue = value; }
+        public string TerTypeTag { get => terTypeTag; set => terTypeTag = value; }
+        public string TerTypeLgth { get => terTypeLgth; set => terTypeLgth = value; }
+        public string TerTypeValue { get => terTypeValue; set => terTypeValue = value; }
+    }
+    struct iccApplication
+    {
+        private string rectype;
+        private string entryNumber;
+        private string primaryAIDLength;
+        private string primaryAIDValue;
+        private string defaultAppLabelLength;
+        private string defaultAppValue;
+        private string primaryAIDICCAppType;
+        private string primaryAIDLowestAppVersion;
+        private string primaryAIDHighestAppVersion;
+        private string primaryAIDActionCode;
+        private string numberOfDataObjectTReq;
+        private string dataObjectForTReq;
+        private string numberOfDataObjectCompletion;
+        private string dataObjectForCompletion;
+        private string numberOfSecondaryAID;
+        private string secondaryAIDLgthValue;
+        private string appSelectionIndicator;
+        private string trk2DataForCentral;
+        private string trk2DataUsedDuringICCTransaction;
+        private string additionalTrk2DataLength;
+        private string additionalTrk2Data;
+
+        public string Rectype { get => rectype; set => rectype = value; }
+        public string EntryNumber { get => entryNumber; set => entryNumber = value; }
+        public string PrimaryAIDLength { get => primaryAIDLength; set => primaryAIDLength = value; }
+        public string PrimaryAIDValue { get => primaryAIDValue; set => primaryAIDValue = value; }
+        public string DefaultAppLabelLength { get => defaultAppLabelLength; set => defaultAppLabelLength = value; }
+        public string DefaultAppValue { get => defaultAppValue; set => defaultAppValue = value; }
+        public string PrimaryAIDICCAppType { get => primaryAIDICCAppType; set => primaryAIDICCAppType = value; }
+        public string PrimaryAIDLowestAppVersion { get => primaryAIDLowestAppVersion; set => primaryAIDLowestAppVersion = value; }
+        public string PrimaryAIDHighestAppVersion { get => primaryAIDHighestAppVersion; set => primaryAIDHighestAppVersion = value; }
+        public string PrimaryAIDActionCode { get => primaryAIDActionCode; set => primaryAIDActionCode = value; }
+        public string NumberOfDataObjectTReq { get => numberOfDataObjectTReq; set => numberOfDataObjectTReq = value; }
+        public string DataObjectForTReq { get => dataObjectForTReq; set => dataObjectForTReq = value; }
+        public string NumberOfDataObjectCompletion { get => numberOfDataObjectCompletion; set => numberOfDataObjectCompletion = value; }
+        public string DataObjectForCompletion { get => dataObjectForCompletion; set => dataObjectForCompletion = value; }
+        public string NumberOfSecondaryAID { get => numberOfSecondaryAID; set => numberOfSecondaryAID = value; }
+        public string SecondaryAIDLgthValue { get => secondaryAIDLgthValue; set => secondaryAIDLgthValue = value; }
+        public string AppSelectionIndicator { get => appSelectionIndicator; set => appSelectionIndicator = value; }
+        public string Trk2DataForCentral { get => trk2DataForCentral; set => trk2DataForCentral = value; }
+        public string Trk2DataUsedDuringICCTransaction { get => trk2DataUsedDuringICCTransaction; set => trk2DataUsedDuringICCTransaction = value; }
+        public string AdditionalTrk2DataLength { get => additionalTrk2DataLength; set => additionalTrk2DataLength = value; }
+        public string AdditionalTrk2Data { get => additionalTrk2Data; set => additionalTrk2Data = value; }
     };
     struct emvConfiguration
     {
@@ -85,74 +158,6 @@ namespace Logger
         public string ConfigurationData { get => configurationData; set => configurationData = value; }
         public string Mac { get => mac; set => mac = value; }
     };
-
-    struct iccTerminal
-    {
-        private string responseFormat;
-        private string responseLength;
-        private string terCountryCodeTag;
-        private string terCountryCodeLgth;
-        private string terCountryCodeValue;
-        private string terTypeTag;
-        private string terTypeLgth;
-        private string terTypeValue;
-        public string ResponseFormat { get => responseFormat; set => responseFormat = value; }
-        public string ResponseLength { get => responseLength; set => responseLength = value; }
-        public string TerCountryCodeTag { get => terCountryCodeTag; set => terCountryCodeTag = value; }
-        public string TerCountryCodeLgth { get => terCountryCodeLgth; set => terCountryCodeLgth = value; }
-        public string TerCountryCodeValue { get => terCountryCodeValue; set => terCountryCodeValue = value; }
-        public string TerTypeTag { get => terTypeTag; set => terTypeTag = value; }
-        public string TerTypeLgth { get => terTypeLgth; set => terTypeLgth = value; }
-        public string TerTypeValue { get => terTypeValue; set => terTypeValue = value; }
-    }
-
-    struct iccApplication
-    {
-        private string entryNumber;
-        private string primaryAIDLength;
-        private string primaryAIDValue;
-        private string defaultAppLabelLength;
-        private string defaultAppValue;
-        private string primaryAIDICCAppType;
-        private string primaryAIDLowestAppVersion;
-        private string primaryAIDHighestAppVersion;
-        private string primaryAIDActionCode;
-        private string numberOfDataObjectTReq;
-        private string dataObjectForTReq;
-        private string numberOfDataObjectCompletion;
-        private string dataObjectForCompletion;
-        private string numberOfSecondaryAID;
-        private string secondaryAIDLength;
-        private string secondaryAIDValue;
-        private string appSelectionIndicator;
-        private string trk2DataForCentral;
-        private string trk2DataUsedDuringICCTransaction;
-        private string additionalTrk2DataLength;
-        private string additionalTrk2Data;
-
-        public string EntryNumber { get => entryNumber; set => entryNumber = value; }
-        public string PrimaryAIDLength { get => primaryAIDLength; set => primaryAIDLength = value; }
-        public string PrimaryAIDValue { get => primaryAIDValue; set => primaryAIDValue = value; }
-        public string DefaultAppLabelLength { get => defaultAppLabelLength; set => defaultAppLabelLength = value; }
-        public string DefaultAppValue { get => defaultAppValue; set => defaultAppValue = value; }
-        public string PrimaryAIDICCAppType { get => primaryAIDICCAppType; set => primaryAIDICCAppType = value; }
-        public string PrimaryAIDLowestAppVersion { get => primaryAIDLowestAppVersion; set => primaryAIDLowestAppVersion = value; }
-        public string PrimaryAIDHighestAppVersion { get => primaryAIDHighestAppVersion; set => primaryAIDHighestAppVersion = value; }
-        public string PrimaryAIDActionCode { get => primaryAIDActionCode; set => primaryAIDActionCode = value; }
-        public string NumberOfDataObjectTReq { get => numberOfDataObjectTReq; set => numberOfDataObjectTReq = value; }
-        public string DataObjectForTReq { get => dataObjectForTReq; set => dataObjectForTReq = value; }
-        public string NumberOfDataObjectCompletion { get => numberOfDataObjectCompletion; set => numberOfDataObjectCompletion = value; }
-        public string DataObjectForCompletion { get => dataObjectForCompletion; set => dataObjectForCompletion = value; }
-        public string NumberOfSecondaryAID { get => numberOfSecondaryAID; set => numberOfSecondaryAID = value; }
-        public string SecondaryAIDLength { get => secondaryAIDLength; set => secondaryAIDLength = value; }
-        public string SecondaryAIDValue { get => secondaryAIDValue; set => secondaryAIDValue = value; }
-        public string AppSelectionIndicator { get => appSelectionIndicator; set => appSelectionIndicator = value; }
-        public string Trk2DataForCentral { get => trk2DataForCentral; set => trk2DataForCentral = value; }
-        public string Trk2DataUsedDuringICCTransaction { get => trk2DataUsedDuringICCTransaction; set => trk2DataUsedDuringICCTransaction = value; }
-        public string AdditionalTrk2DataLength { get => additionalTrk2DataLength; set => additionalTrk2DataLength = value; }
-        public string AdditionalTrk2Data { get => additionalTrk2Data; set => additionalTrk2Data = value; }
-    };
-
     class EMVConfiguration: IMessage
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -169,7 +174,12 @@ namespace Logger
         // TODO: getDescription, getRecord
         public virtual DataTable getDescription()
         {
-            throw new NotImplementedException();
+            DataTable dt = new DataTable();
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = '8' and subRecType like '0%'";
+
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
+            return dt;
         }
         public virtual List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
@@ -183,7 +193,8 @@ namespace Logger
                 //string[] tmpTypes = r.typeContent.Split((char)0x1c);
 
                 emvConfiguration emv = parseData(r.typeContent);
-
+                if (emv.NumberOfEntries == "") { emv.NumberOfEntries = r.typeAddData; } 
+                
                 string sql = @"INSERT INTO EMVConfiguration([logkey],[rectype],[responseFlag],
 	                        [luno],[msgSubclass],[numberOfEntries],[configurationData],[mac],[prjkey],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" + emv.Rectype + "','" + emv.ResponseFlag + "','" +
@@ -207,12 +218,8 @@ namespace Logger
             emv.ResponseFlag = "";
             emv.Luno = tmpTypes[1];
             emv.MsgSubclass = tmpTypes[2];
-            
-            if (emv.MsgSubclass == "4" || emv.MsgSubclass == "5")
-            {
-                emv.NumberOfEntries = "0";
-            }
-            else
+            emv.NumberOfEntries = "";
+            if (emv.MsgSubclass != "4" && emv.MsgSubclass != "5")
             {
                 emv.NumberOfEntries = tmpTypes[3].Substring(0, 2);
             }
