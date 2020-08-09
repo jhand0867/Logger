@@ -124,6 +124,18 @@ namespace Logger
                     ICCTransactionDOT iccTransaction = new ICCTransactionDOT();
                     dts = iccTransaction.getRecord(logKey, logID, projectKey);
                     break;
+                case "83":
+                    ICCLanguageSupportT iccLanguage = new ICCLanguageSupportT();
+                    dts = iccLanguage.getRecord(logKey, logID, projectKey);
+                    break;
+                case "84":
+                    ICCTerminalDOT iccTerminal = new ICCTerminalDOT();
+                    dts = iccTerminal.getRecord(logKey, logID, projectKey);
+                    break;
+                case "85":
+                    ICCApplicationIDT iccApplication = new ICCApplicationIDT();
+                    dts = iccApplication.getRecord(logKey, logID, projectKey);
+                    break;
 
             }
             return dts;
