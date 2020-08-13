@@ -193,40 +193,61 @@ namespace Logger
             return true;
         }
 
+        //public virtual Dictionary<string, string> readData(string sql)
+        //{
+
+        //    string connectionString;
+        //    SqlConnection cnn;
+
+        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+        //    cnn = new SqlConnection(connectionString);
+        //    try
+        //    {
+        //        cnn.Open();
+
+        //        SqlCommand command;
+        //        SqlDataReader dataReader;
+        //        command = new SqlCommand(sql, cnn);
+
+        //        dataReader = command.ExecuteReader();
+
+        //        Dictionary<string, string> dicData = new Dictionary<string, string>();
+
+        //        //todo: replace return value from dataReader to DataTable
+
+        //        while (dataReader.Read())
+        //        {
+        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt64(0).ToString(), dataReader.GetString(0));
+        //        }
+        //        dataReader.Close();
+        //        command.Dispose();
+        //        cnn.Close();
+        //        return dicData;
+        //    }
+        //    catch (Exception dbEx)
+        //    {
+        //        Console.WriteLine(dbEx.ToString());
+        //        return null;
+        //    }
+        //}
+
         public virtual Dictionary<string, string> readData(string sql)
         {
+            // here mlh
 
-            string connectionString;
-            SqlConnection cnn;
+            DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
+            Dictionary<string, string> dicData = new Dictionary<string, string>();
 
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
+            if (dt.Rows.Count > 0)
             {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataReader dataReader;
-                command = new SqlCommand(sql, cnn);
-
-                dataReader = command.ExecuteReader();
-
-                Dictionary<string, string> dicData = new Dictionary<string, string>();
-
-                while (dataReader.Read())
+                foreach (DataRow row in dt.Rows)
                 {
-                    dicData.Add(dataReader.GetString(1) + dataReader.GetInt64(0).ToString(), dataReader.GetString(0));
+                    dicData.Add(row[1].ToString() + Convert.ToInt64(row[0]).ToString(), row[0].ToString());
                 }
-                dataReader.Close();
-                command.Dispose();
-                cnn.Close();
-                return dicData;
             }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
+            return dicData;
         }
 
         public string showBytes(byte[] data)

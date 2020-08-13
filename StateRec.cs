@@ -125,79 +125,97 @@ namespace Logger
             return resultData;
         }
 
-
         public new Dictionary<string, stateRec> readData(string sql)
         {
+            // here mlh
 
-            string connectionString;
-            SqlConnection cnn;
+            DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
+            Dictionary<string, stateRec> dicData = new Dictionary<string, stateRec>();
 
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-
-
-            try
+            if (dt.Rows.Count > 0)
             {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataReader dataReader;
-
-                //sql = @"SELECT logkey,group8 from [logger].[dbo].[loginfo] WHERE group8 like 'HOST2ATM: 30%12%'";
-
-                command = new SqlCommand(sql, cnn);
-                // dataReader.GetOrdinal(0);
-
-                dataReader = command.ExecuteReader();
-
-                Dictionary<string, stateRec> dicData = new Dictionary<string, stateRec>();
-
-
-
-
-                while (dataReader.Read())
+                foreach (DataRow row in dt.Rows)
                 {
-
                     stateRec sr = new stateRec();
-                    sr.pStateNum = dataReader.GetString(3);
-                    sr.pStateType = dataReader.GetString(4);
-                    sr.pSta1 = dataReader.GetString(5);
-                    sr.pSta2 = dataReader.GetString(6);
-                    sr.pSta3 = dataReader.GetString(7);
-                    sr.pSta4 = dataReader.GetString(8);
-                    sr.pSta5 = dataReader.GetString(9);
-                    sr.pSta6 = dataReader.GetString(10);
-                    sr.pSta7 = dataReader.GetString(11);
-                    sr.pSta8 = dataReader.GetString(12);
-
-                    dicData.Add(dataReader.GetString(1) + dataReader.GetInt64(0).ToString(), sr);
+                    sr.pStateNum = row[3].ToString();
+                    sr.pStateType = row[4].ToString();
+                    sr.pSta1 = row[5].ToString();
+                    sr.pSta2 = row[6].ToString();
+                    sr.pSta3 = row[7].ToString();
+                    sr.pSta4 = row[8].ToString();
+                    sr.pSta5 = row[9].ToString();
+                    sr.pSta6 = row[10].ToString();
+                    sr.pSta7 = row[11].ToString();
+                    sr.pSta8 = row[12].ToString();
+                    dicData.Add(row[1].ToString() + Convert.ToInt64(row[0]).ToString(), sr);
                 }
-
-                dataReader.Close();
-                command.Dispose();
-                cnn.Close();
-                return dicData;
             }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
+            return dicData;
         }
+
+        //public new Dictionary<string, stateRec> readData(string sql)
+        //{
+
+        //    string connectionString;
+        //    SqlConnection cnn;
+
+        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+        //    cnn = new SqlConnection(connectionString);
+
+
+        //    try
+        //    {
+        //        cnn.Open();
+
+        //        SqlCommand command;
+        //        SqlDataReader dataReader;
+
+        //        //sql = @"SELECT logkey,group8 from [logger].[dbo].[loginfo] WHERE group8 like 'HOST2ATM: 30%12%'";
+
+        //        command = new SqlCommand(sql, cnn);
+        //        // dataReader.GetOrdinal(0);
+
+        //        dataReader = command.ExecuteReader();
+
+        //        Dictionary<string, stateRec> dicData = new Dictionary<string, stateRec>();
+
+
+
+
+        //        while (dataReader.Read())
+        //        {
+
+        //            stateRec sr = new stateRec();
+        //            sr.pStateNum = dataReader.GetString(3);
+        //            sr.pStateType = dataReader.GetString(4);
+        //            sr.pSta1 = dataReader.GetString(5);
+        //            sr.pSta2 = dataReader.GetString(6);
+        //            sr.pSta3 = dataReader.GetString(7);
+        //            sr.pSta4 = dataReader.GetString(8);
+        //            sr.pSta5 = dataReader.GetString(9);
+        //            sr.pSta6 = dataReader.GetString(10);
+        //            sr.pSta7 = dataReader.GetString(11);
+        //            sr.pSta8 = dataReader.GetString(12);
+
+        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt64(0).ToString(), sr);
+        //        }
+
+        //        dataReader.Close();
+        //        command.Dispose();
+        //        cnn.Close();
+        //        return dicData;
+        //    }
+        //    catch (Exception dbEx)
+        //    {
+        //        Console.WriteLine(dbEx.ToString());
+        //        return null;
+        //    }
+        //}
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
-            {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
                 String sql = "";
                 int loadNum = 0;
                 foreach (typeRec r in typeRecs)
@@ -230,52 +248,28 @@ namespace Logger
                                        loadNum.ToString() + "'," +
                                        logID + ")";
 
-                    command = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand.ExecuteNonQuery();
-                    command.Dispose();
-                    // cnn.Close();
+                    DbCrud db = new DbCrud();
+                    if (db.addToDb(sql) == false)
+                        return false;
                 }
-                cnn.Close();
                 return true;
-            }
-
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return false;
-
-            }
-
         }
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            DataTable dt = new DataTable();
             List<DataTable> dts = new List<DataTable>();
-            try
-            {
-                cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM stateInfo WHERE prjkey = '" +
+            DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
+
+            string sql = @"SELECT * FROM stateInfo WHERE prjkey = '" +
                                                                projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
-                                                               logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
-                return dts;
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
+                                                               logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+
+            return dts;
 
         }
+
         public virtual string getInfo(stateRec stRec)
         {
             string stateType = stRec.StateType;
@@ -455,33 +449,14 @@ namespace Logger
 
         public DataTable getStateDescription(string stateType)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
+            string sql = @"SELECT * FROM [dataDescription] WHERE recType = '" + "S"
+                    + "' AND subRecType = '" + stateType + "'";
 
-
-            // is the calling state a Y
-            // get the info from DataDescription
-            // send it back in a string 
-            try
-            {
-                cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "S"
-                    + "' AND subRecType = '" + stateType + "'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
-
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
             return dt;
+
         }
 
         private string insertDescription(string fieldDescription)

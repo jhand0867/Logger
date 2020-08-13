@@ -31,91 +31,85 @@ namespace Logger
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            DataTable dt = new DataTable();
             List<DataTable> dts = new List<DataTable>();
-            try
-            {
-                cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM fitInfo WHERE prjkey = '" +
-                                                               projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
-                                                               logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
-                return dts;
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
+            DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
 
+            string sql = @"SELECT * FROM fitInfo WHERE prjkey = '" + projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
+                                                               logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+
+            return dts;
         }
 
 
         public new Dictionary<string, FitRec> readData(string sql)
         {
-            Utility U = new Utility();
-            string connectionString;
-            SqlConnection cnn;
+            // here mlh
 
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
+            DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
+            Dictionary<string, FitRec> dicData = new Dictionary<string,FitRec>();
 
-            try
+            if (dt.Rows.Count > 0)
             {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataReader dataReader;
-
-                command = new SqlCommand(sql, cnn);
-
-                dataReader = command.ExecuteReader();
-
-                Dictionary<string, FitRec> dicData = new Dictionary<string, FitRec>();
-
-                while (dataReader.Read())
+                foreach (DataRow row in dt.Rows)
                 {
                     FitRec fr = new FitRec();
-                    fr.prectype = dataReader.GetString(2);
-                    fr.pfitnum = dataReader.GetString(3);
-                    dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), fr);
+                    fr.prectype = row[2].ToString();
+                    fr.pfitnum = row[3].ToString(); 
+                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), fr);
                 }
-                dataReader.Close();
-                command.Dispose();
-                cnn.Close();
-                return dicData;
             }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
+            return dicData;
         }
+
+
+        //public new Dictionary<string, FitRec> readData(string sql)
+        //{
+        //    Utility U = new Utility();
+        //    string connectionString;
+        //    SqlConnection cnn;
+
+        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+        //    cnn = new SqlConnection(connectionString);
+
+        //    try
+        //    {
+        //        cnn.Open();
+
+        //        SqlCommand command;
+        //        SqlDataReader dataReader;
+
+        //        command = new SqlCommand(sql, cnn);
+
+        //        dataReader = command.ExecuteReader();
+
+        //        Dictionary<string, FitRec> dicData = new Dictionary<string, FitRec>();
+
+        //        while (dataReader.Read())
+        //        {
+        //            FitRec fr = new FitRec();
+        //            fr.prectype = dataReader.GetString(2);
+        //            fr.pfitnum = dataReader.GetString(3);
+        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), fr);
+        //        }
+        //        dataReader.Close();
+        //        command.Dispose();
+        //        cnn.Close();
+        //        return dicData;
+        //    }
+        //    catch (Exception dbEx)
+        //    {
+        //        Console.WriteLine(dbEx.ToString());
+        //        return null;
+        //    }
+        //}
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
-
-
-
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
-            {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
                 String sql = "";
                 int loadNum = 0;
                 foreach (typeRec r in typeRecs)
@@ -177,54 +171,20 @@ namespace Logger
                                        Key + "'," + // project key
                                        logID + ")";
 
-
-                    command = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand.ExecuteNonQuery();
-                    command.Dispose();
-                    // cnn.Close();
+                    DbCrud db = new DbCrud();
+                    if (db.addToDb(sql) == false)
+                        return false;
                 }
-                cnn.Close();
                 return true;
-            }
-
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return false;
-
-            }
-
         }
 
         public DataTable getDescription()
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'F' ";
 
-
-            // is the calling state a Y
-            // get the info from DataDescription
-            // send it back in a string 
-            try
-            {
-                cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "F"
-                    + "'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
-
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
             return dt;
         }
     }

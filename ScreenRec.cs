@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Logger
@@ -28,63 +29,76 @@ namespace Logger
             return true;
 
         }
-
         public new Dictionary<string, screenRec> readData(string sql)
         {
+            // here mlh
 
-            string connectionString;
-            SqlConnection cnn;
+            DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
+            Dictionary<string, screenRec> dicData = new Dictionary<string, screenRec>();
 
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-
-            try
+            if (dt.Rows.Count > 0)
             {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataReader dataReader;
-
-                command = new SqlCommand(sql, cnn);
-
-                dataReader = command.ExecuteReader();
-
-                Dictionary<string, screenRec> dicData = new Dictionary<string, screenRec>();
-
-                while (dataReader.Read())
+                foreach (DataRow row in dt.Rows)
                 {
                     screenRec sr = new screenRec();
-                    sr.prectype = dataReader.GetString(2);
-                    sr.pscrnum = dataReader.GetString(3);
-                    sr.pscrdata = dataReader.GetString(4);
-                    sr.pload = dataReader.GetString(5);
-                    dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), sr);
+                    sr.prectype = row[2].ToString();
+                    sr.pscrnum = row[3].ToString();
+                    sr.pscrdata = row[4].ToString();
+                    sr.pload = row[5].ToString();
+                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), sr);
+
                 }
-                dataReader.Close();
-                command.Dispose();
-                cnn.Close();
-                return dicData;
             }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
+            return dicData;
         }
+
+        //public new Dictionary<string, screenRec> readData(string sql)
+        //{
+
+        //    string connectionString;
+        //    SqlConnection cnn;
+
+        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+        //    cnn = new SqlConnection(connectionString);
+
+        //    try
+        //    {
+        //        cnn.Open();
+
+        //        SqlCommand command;
+        //        SqlDataReader dataReader;
+
+        //        command = new SqlCommand(sql, cnn);
+
+        //        dataReader = command.ExecuteReader();
+
+        //        Dictionary<string, screenRec> dicData = new Dictionary<string, screenRec>();
+
+        //        while (dataReader.Read())
+        //        {
+        //            screenRec sr = new screenRec();
+        //            sr.prectype = dataReader.GetString(2);
+        //            sr.pscrnum = dataReader.GetString(3);
+        //            sr.pscrdata = dataReader.GetString(4);
+        //            sr.pload = dataReader.GetString(5);
+        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), sr);
+        //        }
+        //        dataReader.Close();
+        //        command.Dispose();
+        //        cnn.Close();
+        //        return dicData;
+        //    }
+        //    catch (Exception dbEx)
+        //    {
+        //        Console.WriteLine(dbEx.ToString());
+        //        return null;
+        //    }
+        //}
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
-            {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
                 String sql = "";
                 int loadNum = 0;
                 foreach (typeRec r in typeRecs)
@@ -116,22 +130,12 @@ namespace Logger
                                        loadNum.ToString() + "','" +
                                        Key + "'," + logID + ")";
 
-                    command = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand.ExecuteNonQuery();
-                    command.Dispose();
-                    // cnn.Close();
+
+                    DbCrud db = new DbCrud();
+                    if (db.addToDb(sql) == false)
+                        return false;
                 }
-                cnn.Close();
-
                 return true;
-            }
-
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return false;
-            }
 
         }
 

@@ -9,17 +9,6 @@ namespace Logger
     {
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
-            {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
                 String sql = "";
                 int loadNum = 0;
                 foreach (typeRec r in typeRecs)
@@ -39,23 +28,11 @@ namespace Logger
                                         r.typeContent.Substring(3, r.typeContent.Length - 3) + "','" + // Key Data
                                         loadNum.ToString() + "','" + key + "'," + logID + ")";
 
-                    command = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand.ExecuteNonQuery();
-                    command.Dispose();
-                    // cnn.Close();
+                    DbCrud db = new DbCrud();
+                    if (db.addToDb(sql) == false)
+                        return false;
                 }
-                cnn.Close();
                 return true;
-            }
-
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return false;
-
-            }
-
         }
 
     }

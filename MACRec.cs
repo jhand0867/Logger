@@ -11,17 +11,7 @@ namespace Logger
         // to be completed
         public void writeMAC(List<typeRec> typeRecs)
         {
-            string connectionString;
-            SqlConnection cnn;
 
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
-            {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
                 String sql = "";
                 int loadNum = 0;
                 foreach (typeRec r in typeRecs)
@@ -41,20 +31,10 @@ namespace Logger
                                         r.typeContent.Substring(6, 4) + "','" + // time
                                         loadNum.ToString() + "')";
 
-                    command = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand.ExecuteNonQuery();
-                    command.Dispose();
-                    // cnn.Close();
+                    DbCrud db = new DbCrud();
+                    if (db.addToDb(sql) == false) { };
+
                 }
-                cnn.Close();
-            }
-
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-
-            }
 
         }
 

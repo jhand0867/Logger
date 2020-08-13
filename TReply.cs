@@ -119,72 +119,34 @@ namespace Logger
     {
         public DataTable getDescription()
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'R' ";
 
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
+            return dt;
 
-            // is the calling state a Y
-            // get the info from DataDescription
-            // send it back in a string 
-            try
-            {
-                cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "R" + "'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
-
-            return dt; ;
         }
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
             List<DataTable> dts = new List<DataTable>();
             DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
 
-            try
-            {
-                cnn.Open();
+            string sql = @"SELECT TOP 1 * from treply WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
 
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT TOP 1 * from treply WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
-                dt = new DataTable();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treplyPrinterData WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
-                dt = new DataTable();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * from treplyCheckProcessing WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
-                return dts;
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
+            sql = @"SELECT * from treplyPrinterData WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+
+            sql = @"SELECT * from treplyCheckProcessing WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+
+            return dts;
         }
 
         // get 4's from database

@@ -29,22 +29,11 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
-            {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
-
-                int loadNum = 0;
+            DbCrud db = new DbCrud();
+            int loadNum = 0;
                 int count = 0;
-
-                while (count < typeRecs.Count)
+                
+            while (count < typeRecs.Count)
                 {
                     typeRec r = typeRecs[count];
                     enhancedParams parms = new enhancedParams();
@@ -100,12 +89,11 @@ namespace Logger
                         sql = sql + "'" + parms.options[y].paramName + "',";
                         sql = sql + "'" + parms.options[y].paramValue + "'," + logID + ")";
 
-                        command = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand.ExecuteNonQuery();
-                        command.Dispose();
 
-                    }
+                    if (db.addToDb(sql) == false)
+                        return false;
+
+                }
 
                     sql = "";
                     for (int y = 0; y < timersNum; y++)
@@ -115,12 +103,10 @@ namespace Logger
                         sql = sql + "'" + parms.timers[y].timerNum + "',";
                         sql = sql + "'" + parms.timers[y].timerTics + "'," + logID + ")";
 
-                        command = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand.ExecuteNonQuery();
-                        command.Dispose();
+                    if (db.addToDb(sql) == false)
+                        return false;
 
-                    }
+                }
 
                     // save the timers parent record
 
@@ -133,92 +119,41 @@ namespace Logger
                                         loadNum.ToString() + "','" +
                                         key + "'," + logID + ")";
 
-                    command = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand.ExecuteNonQuery();
-                    command.Dispose();
-                    // cnn.Close();
+                    if (db.addToDb(sql) == false)
+                        return false;
                 }
-                cnn.Close();
                 return true;
-            }
-
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return false;
-
-            }
 
         }
 
         internal List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            DataTable dt = new DataTable();
             List<DataTable> dts = new List<DataTable>();
-            try
-            {
-                cnn.Open();
+            DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
 
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT id, logkey, rectype, optionNum as Num, optionCode as Code, '1' as type from enhancedParams
-                                                        WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+            string sql = @"SELECT id, logkey, rectype, optionNum as Num, optionCode as Code, '1' as type from enhancedParams
+                                                        WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
 
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
-                dt = new DataTable();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT id, logkey, rectype, timerNum as Num, timerSeconds as Code, '2' as type from enhancedTimers
-                                                        WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
+            // dt = new DataTable();
+            sql = @"SELECT id, logkey, rectype, timerNum as Num, timerSeconds as Code, '2' as type from enhancedTimers
+                                                        WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+            return dts;
 
-                {
-                    sda.Fill(dt);
-
-                }
-                dts.Add(dt);
-                return dts;
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
         }
 
         internal DataTable getDescription()
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'C' ";
 
-
-            // is the calling state a Y
-            // get the info from DataDescription
-            // send it back in a string 
-            try
-            {
-                cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "C"
-                    + "'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
-
-            return dt; ;
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
+            return dt;
         }
     }
 }

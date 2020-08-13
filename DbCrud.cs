@@ -10,6 +10,7 @@ namespace Logger
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
          System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public bool addToDb(string sql)
         {
  
@@ -70,6 +71,37 @@ namespace Logger
             }
 
             return dt;
+
+        }
+
+        public int GetScalarFromDb(string sql)
+        {
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+
+            try
+            {
+                cnn.Open();
+
+                SqlCommand command;
+                int result;
+
+                command = new SqlCommand(sql, cnn);
+
+                result = (Int32)command.ExecuteScalar();
+
+                command.Dispose();
+                cnn.Close();
+                return result;
+            }
+            catch (Exception dbEx)
+            {
+                log.Error("Database Error: " + dbEx.Message);
+                return 0;
+            }
 
         }
 

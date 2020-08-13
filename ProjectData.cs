@@ -91,47 +91,52 @@ namespace Logger
             }
         }
 
+        //public DataTable buildDataGridView1()
+        //{
+        //    // here mlh
+
+        //    DataTable dtLogs = new DataTable();
+
+        //    string cnnString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+
+        //    string sql = @"SELECT logFile, uploadDate, id, screens, states, configParametersLoad
+        //                ,fit,configID,enhancedParametersLoad,mac,dateandtime,dispenserCurrency,treq,treply,iccCurrencyDOT, 
+        //                iccTransactionDOT, iccLanguageSupportT, iccTerminalDOT, iccApplicationIDT FROM logs WHERE prjKey ='" + App.Prj.Key + "'";
+
+        //    using (SqlConnection conn = new SqlConnection(cnnString))
+        //    {
+        //        using (SqlCommand sqlCmd = new SqlCommand(sql, conn))
+        //        {
+        //            conn.Open();
+
+        //            SqlDataReader reader = sqlCmd.ExecuteReader();
+
+        //            dtLogs.Load(reader);
+        //        }
+        //    }
+        //    return dtLogs;
+        //}
+
         public DataTable buildDataGridView1()
         {
+            // here mlh
+
             DataTable dtLogs = new DataTable();
-
-
-            string cnnString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
 
             string sql = @"SELECT logFile, uploadDate, id, screens, states, configParametersLoad
                         ,fit,configID,enhancedParametersLoad,mac,dateandtime,dispenserCurrency,treq,treply,iccCurrencyDOT, 
                         iccTransactionDOT, iccLanguageSupportT, iccTerminalDOT, iccApplicationIDT FROM logs WHERE prjKey ='" + App.Prj.Key + "'";
 
-            using (SqlConnection conn = new SqlConnection(cnnString))
-            {
-                using (SqlCommand sqlCmd = new SqlCommand(sql, conn))
-                {
-                    conn.Open();
-
-                    SqlDataReader reader = sqlCmd.ExecuteReader();
-
-                    dtLogs.Load(reader);
-                }
-            }
+            DbCrud db = new DbCrud();
+            dtLogs = db.GetTableFromDb(sql);
             return dtLogs;
         }
+
         private void detachToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
             string logID = dgvr.Cells[2].Value.ToString();
 
-
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
-            {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
                 String sql = "";
 
                 sql = @"DELETE from loginfo WHERE logID = " + logID +
@@ -139,23 +144,13 @@ namespace Logger
                        " ;UPDATE Project SET prjLogs = prjLogs - 1 " +
                        "WHERE prjKey ='" + App.Prj.Key + "'";
 
-                command = new SqlCommand(sql, cnn);
-                dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                dataAdapter.InsertCommand.ExecuteNonQuery();
 
-                command.Dispose();
-                cnn.Close();
+                DbCrud db = new DbCrud();
+                if (db.addToDb(sql) == false) { };
 
                 dataGridView1.DataSource = buildDataGridView1();
                 fixLogNames(dataGridView1);
 
-
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-
-            }
         }
 
         private void transactionReplyToolStripMenuItem_Click(object sender, EventArgs e)

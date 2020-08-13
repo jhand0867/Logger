@@ -110,44 +110,17 @@ namespace Logger
     {
         public DataTable getDescription()
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
             DataTable dt = new DataTable();
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'T' ";
 
-            try
-            {
-                cnn.Open();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT * FROM [dataDescription] WHERE recType = '" + "T" + "'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
-
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
             return dt;
         }
 
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
             string[] tmpTypes;
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
-            {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
                 String sql = "";
                 int loadNum = 0;
 
@@ -603,21 +576,19 @@ namespace Logger
                                        treq.optionalData + "','" +
                                        treq.MAC + "','" + key + "'," + logID + ")";
 
-                    command = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand.ExecuteNonQuery();
-                    command.Dispose();
-                    // cnn.Close();
 
+                DbCrud db = new DbCrud();
+                if (db.addToDb(sql) == false)
+                    return false;
 
-                    /// 
-                    /// 2. insert option record to treqOptions table
-                    /// 3. insert depositCurrencies record to treqCurrencies
-                    /// 4. insert depostChecks records to treqChecks
-                    /// 
-                    /// *//
-                    /// id int not null identity primary key,
-                    foreach (depCurrency c in depositCurrencies)
+                /// 
+                /// 2. insert option record to treqOptions table
+                /// 3. insert depositCurrencies record to treqCurrencies
+                /// 4. insert depostChecks records to treqChecks
+                /// 
+                /// *//
+                /// id int not null identity primary key,
+                foreach (depCurrency c in depositCurrencies)
                     {
                         sql = @"INSERT INTO treqCurrencys([logkey],[depositCurrency],[amountExponentSign]," +
                           "[amountExponentValue],[totalCustomerAmount],[totalDeriveAmount],[zeroes1],[numberOfChecks],[logID]) " +
@@ -631,14 +602,11 @@ namespace Logger
                                        c.numOfChecks + "'," +
                                        logID + ")";
 
-                        command = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand.ExecuteNonQuery();
-                        command.Dispose();
-                        // cnn.Close();
+                    if (db.addToDb(sql) == false)
+                        return false;
                     }
 
-                    foreach (checks c in depositChecks)
+                foreach (checks c in depositChecks)
                     {
                         sql = @"INSERT INTO treqChecks([logkey],[depositCurrency],[checkId]," +
                         "[customerCheckAmount],[derivedCheckAmount],[codelineLength],[codelineData],[logID]) " +
@@ -651,14 +619,11 @@ namespace Logger
                                      c.codelineData + "'," +
                                      logID + ")";
 
-                        command = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand.ExecuteNonQuery();
-                        command.Dispose();
-                        // cnn.Close();
+                    if (db.addToDb(sql) == false)
+                        return false;
                     }
 
-                    foreach (parameterAndValue c in notesTypeList)
+                foreach (parameterAndValue c in notesTypeList)
                     {
                         sql = @"INSERT INTO treqOptions([logkey],[fieldOption],[optionName],[optionValue],[logID]) " +
                         " VALUES('" + r.typeIndex + "','" +
@@ -667,75 +632,37 @@ namespace Logger
                                      c.paramValue + "'," +
                                      logID + ")";
 
-                        command = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand.ExecuteNonQuery();
-                        command.Dispose();
-                        // cnn.Close();
+                    if (db.addToDb(sql) == false)
+                        return false;
                     }
                 }
-                cnn.Close();
                 return true;
-            }
-
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return false;
-
-            }
-
         }
 
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
             List<DataTable> dts = new List<DataTable>();
             DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
 
-            try
-            {
-                cnn.Open();
+            string sql = @"SELECT TOP 1 * from treq WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
 
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT TOP 1 * from treq WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
+            sql = @"SELECT id, logkey,fieldOption as ""field Option"", optionName as ""Option Name"", optionValue as ""Option Value"", logID from treqOptions WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
 
-                dt = new DataTable();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT id, logkey,fieldOption as ""field Option"", optionName as ""Option Name"", optionValue as ""Option Value"", logID from treqOptions WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
+            sql = @"SELECT id, logkey, depositCurrency as ""Deposit Currency"", amountExponentSign as ""Amount Exponent Sign"", amountExponentValue as ""Amount Exponent Value"", totalCustomerAmount as ""Total Customer Amount"", totalDeriveAmount as ""Total Derive Amount"", zeroes1, numberOfChecks as ""Number of Cheques"", logID from treqCurrencies WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
 
-                dt = new DataTable();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT id, logkey, depositCurrency as ""Deposit Currency"", amountExponentSign as ""Amount Exponent Sign"", amountExponentValue as ""Amount Exponent Value"", totalCustomerAmount as ""Total Customer Amount"", totalDeriveAmount as ""Total Derive Amount"", zeroes1, numberOfChecks as ""Number of Cheques"", logID from treqCurrencies WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
+            sql = @"SELECT id, logkey, depositCurrency as ""Deposit Currency"", checkId as ""Check ID"", customerCheckAmount as ""Customer Check Amount"", derivedCheckAmount as ""Derived Check Amount"", codelineLength as ""Code Line Length"", codelineData as ""Code Line Data"", logID from treqChecks WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
 
-                dt = new DataTable();
-                using (SqlDataAdapter sda = new SqlDataAdapter(@"SELECT id, logkey, depositCurrency as ""Deposit Currency"", checkId as ""Check ID"", customerCheckAmount as ""Customer Check Amount"", derivedCheckAmount as ""Derived Check Amount"", codelineLength as ""Code Line Length"", codelineData as ""Code Line Data"", logID from treqChecks WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'", cnn))
-                {
-                    sda.Fill(dt);
-                }
-                dts.Add(dt);
-
-                return dts;
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
+            return dts;
         }
 
     }

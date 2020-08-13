@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Logger
@@ -46,59 +47,69 @@ namespace Logger
 
         public new Dictionary<string, configParams> readData(string sql)
         {
+            // here mlh
 
-            string connectionString;
-            SqlConnection cnn;
+            DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
+            Dictionary<string, configParams> dicData = new Dictionary<string, configParams>();
 
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-
-            try
+            if (dt.Rows.Count > 0)
             {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataReader dataReader;
-
-                command = new SqlCommand(sql, cnn);
-
-                dataReader = command.ExecuteReader();
-
-                Dictionary<string, configParams> dicData = new Dictionary<string, configParams>();
-
-                while (dataReader.Read())
+                foreach (DataRow row in dt.Rows)
                 {
                     configParams cp = new configParams();
-                    cp.camera = dataReader.GetString(2);
-                    dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), cp);
+                    cp.camera = row[2].ToString();
+                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), cp);
                 }
-                dataReader.Close();
-                command.Dispose();
-                cnn.Close();
-                return dicData;
             }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return null;
-            }
+            return dicData;
         }
+
+        //public new Dictionary<string, configParams> readData(string sql)
+        //{
+
+        //    string connectionString;
+        //    SqlConnection cnn;
+
+        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+        //    cnn = new SqlConnection(connectionString);
+
+        //    try
+        //    {
+        //        cnn.Open();
+
+        //        SqlCommand command;
+        //        SqlDataReader dataReader;
+
+        //        command = new SqlCommand(sql, cnn);
+
+        //        dataReader = command.ExecuteReader();
+
+        //        Dictionary<string, configParams> dicData = new Dictionary<string, configParams>();
+
+        //        while (dataReader.Read())
+        //        {
+        //            configParams cp = new configParams();
+        //            cp.camera = dataReader.GetString(2);
+        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), cp);
+        //        }
+        //        dataReader.Close();
+        //        command.Dispose();
+        //        cnn.Close();
+        //        return dicData;
+        //    }
+        //    catch (Exception dbEx)
+        //    {
+        //        Console.WriteLine(dbEx.ToString());
+        //        return null;
+        //    }
+        //}
 
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
-            {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
-
-                int loadNum = 0;
+            DbCrud db = new DbCrud();
+            int loadNum = 0;
                 int configCount = typeRecs.Count / 3;
                 int count = 0;
                 while (loadNum < configCount)
@@ -142,10 +153,8 @@ namespace Logger
                         sql = sql + "'" + parms.timers[y].timerNum + "',";
                         sql = sql + "'" + parms.timers[y].timerTics + "'," + logID + ")";
 
-                        command = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                        dataAdapter.InsertCommand.ExecuteNonQuery();
-                        command.Dispose();
+                        if (db.addToDb(sql) == false)
+                            return false;
 
                     }
 
@@ -168,22 +177,11 @@ namespace Logger
                                         key + "'," +
                                         logID + ")";
 
-                    command = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                    dataAdapter.InsertCommand.ExecuteNonQuery();
-                    command.Dispose();
-                    // cnn.Close();
+                    if (db.addToDb(sql) == false)
+                        return false;
                 }
-                cnn.Close();
                 return true;
-            }
 
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-                return false;
-
-            }
 
         }
 
