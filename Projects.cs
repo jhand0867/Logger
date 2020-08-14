@@ -138,6 +138,94 @@ namespace Logger
             this.Hide();
         }
 
+        //private void listView1_Load(ListViewItem item)
+        //{
+        //    Project pr = (Project)item.Tag;
+        //    DataTable dt = pr.getAllLogs(pr.Key);
+
+        //    if (dt.Rows.Count == 0)
+        //        return;
+        //    // var fname = dt.Columns[0].ColumnName;
+        //    foreach (DataRow dr in dt.Rows)
+        //    {
+                
+
+        //        TreeNode tn = new TreeNode();
+        //        tn.Nodes.Clear();
+
+        //        string logLocation = dr["logFile"].ToString();
+
+        //        int logIndex = logLocation.LastIndexOf(@"\") + 1;
+        //        tn.Text = logLocation.Substring(logIndex, logLocation.Length - logIndex);
+        //        tn.ToolTipText = logLocation;
+
+        //        Dictionary<string, int> dicBits = pr.showRecordBits(dr["id"].ToString());
+
+        //        if (dicBits != null)
+        //        {
+        //            for (int x = 4; x < 20; x++)
+        //            {
+        //                if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
+        //                {
+        //                    switch (x)
+        //                    {
+        //                        case 4:
+        //                            tn.Nodes.Add("Screens " + dicBits["screens"]);
+        //                            break;
+        //                        case 5:
+        //                            tn.Nodes.Add("States " + dicBits["states"]);
+        //                            break;
+        //                        case 6:
+        //                            tn.Nodes.Add("Configuration Parameters " + dicBits["configParams"]);
+        //                            break;
+        //                        case 7:
+        //                            tn.Nodes.Add("FIT " + dicBits["fit"]);
+        //                            break;
+        //                        case 8:
+        //                            tn.Nodes.Add("Configuration ID " + dicBits["configId"]);
+        //                            break;
+        //                        case 9:
+        //                            tn.Nodes.Add("Enhanced Parameters " + dicBits["enhancedParams"]);
+        //                            break;
+        //                        case 10:
+        //                            tn.Nodes.Add("MAC ");
+        //                            break;
+        //                        case 11:
+        //                            tn.Nodes.Add("Date and Time " + dicBits["dateTime"]);
+        //                            break;
+        //                        case 13:
+        //                            tn.Nodes.Add("Transaction Request " + dicBits["treq"]);
+        //                            break;
+        //                        case 14:
+        //                            tn.Nodes.Add("Transaction Reply " + dicBits["treply"]);
+        //                            break;
+        //                        case 15:
+        //                            tn.Nodes.Add("ICC Currency DOT " + dicBits["iccCurrencyDOT"]);
+        //                            break;
+        //                        case 16:
+        //                            tn.Nodes.Add("ICC Transaction DOT " + dicBits["iccTransactionDOT"]);
+        //                            break;
+        //                        case 17:
+        //                            tn.Nodes.Add("ICC Language Support " + dicBits["iccLanguageSupportT"]);
+        //                            break;
+        //                        case 18:
+        //                            tn.Nodes.Add("ICC Terminal DOT " + dicBits["iccTerminalDOT"]);
+        //                            break;
+        //                        case 19:
+        //                            tn.Nodes.Add("ICC Application IDT " + dicBits["iccApplicationIDT"]);
+        //                            break;
+
+
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        treeView1.Nodes.Add(tn);
+        //    }
+
+        //}
+
+
         private void listView1_Load(ListViewItem item)
         {
             Project pr = (Project)item.Tag;
@@ -145,7 +233,7 @@ namespace Logger
 
             if (dt.Rows.Count == 0)
                 return;
-
+            
             foreach (DataRow dr in dt.Rows)
             {
                 TreeNode tn = new TreeNode();
@@ -159,62 +247,65 @@ namespace Logger
 
                 Dictionary<string, int> dicBits = pr.showRecordBits(dr["id"].ToString());
 
+                var fname = dt.Columns[0].ColumnName;
+
                 if (dicBits != null)
                 {
                     for (int x = 4; x < 20; x++)
                     {
                         if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
                         {
-                            switch (x)
-                            {
-                                case 4:
-                                    tn.Nodes.Add("Screens " + dicBits["screens"]);
-                                    break;
-                                case 5:
-                                    tn.Nodes.Add("States " + dicBits["states"]);
-                                    break;
-                                case 6:
-                                    tn.Nodes.Add("Configuration Parameters " + dicBits["configParams"]);
-                                    break;
-                                case 7:
-                                    tn.Nodes.Add("FIT " + dicBits["fit"]);
-                                    break;
-                                case 8:
-                                    tn.Nodes.Add("Configuration ID " + dicBits["configId"]);
-                                    break;
-                                case 9:
-                                    tn.Nodes.Add("Enhanced Parameters " + dicBits["enhancedParams"]);
-                                    break;
-                                case 10:
-                                    tn.Nodes.Add("MAC ");
-                                    break;
-                                case 11:
-                                    tn.Nodes.Add("Date and Time " + dicBits["dateTime"]);
-                                    break;
-                                case 13:
-                                    tn.Nodes.Add("Transaction Request " + dicBits["treq"]);
-                                    break;
-                                case 14:
-                                    tn.Nodes.Add("Transaction Reply " + dicBits["treply"]);
-                                    break;
-                                case 15:
-                                    tn.Nodes.Add("ICC Currency DOT " + dicBits["iccCurrencyDOT"]);
-                                    break;
-                                case 16:
-                                    tn.Nodes.Add("ICC Transaction DOT " + dicBits["iccTransactionDOT"]);
-                                    break;
-                                case 17:
-                                    tn.Nodes.Add("ICC Language Support " + dicBits["iccLanguageSupportT"]);
-                                    break;
-                                case 18:
-                                    tn.Nodes.Add("ICC Terminal DOT " + dicBits["iccTerminalDOT"]);
-                                    break;
-                                case 19:
-                                    tn.Nodes.Add("ICC Application IDT " + dicBits["iccApplicationIDT"]);
-                                    break;
+                            tn.Nodes.Add(dt.Columns[x].ColumnName + dicBits[dt.Columns[x].ColumnName]);
+                            //switch (x)
+                            //{
+                            //    case 4:
+                            //        tn.Nodes.Add("Screens " + dicBits["screens"]);
+                            //        break;
+                            //    case 5:
+                            //        tn.Nodes.Add("States " + dicBits["states"]);
+                            //        break;
+                            //    case 6:
+                            //        tn.Nodes.Add("Configuration Parameters " + dicBits["configParams"]);
+                            //        break;
+                            //    case 7:
+                            //        tn.Nodes.Add("FIT " + dicBits["fit"]);
+                            //        break;
+                            //    case 8:
+                            //        tn.Nodes.Add("Configuration ID " + dicBits["configId"]);
+                            //        break;
+                            //    case 9:
+                            //        tn.Nodes.Add("Enhanced Parameters " + dicBits["enhancedParams"]);
+                            //        break;
+                            //    case 10:
+                            //        tn.Nodes.Add("MAC ");
+                            //        break;
+                            //    case 11:
+                            //        tn.Nodes.Add("Date and Time " + dicBits["dateTime"]);
+                            //        break;
+                            //    case 13:
+                            //        tn.Nodes.Add("Transaction Request " + dicBits["treq"]);
+                            //        break;
+                            //    case 14:
+                            //        tn.Nodes.Add("Transaction Reply " + dicBits["treply"]);
+                            //        break;
+                            //    case 15:
+                            //        tn.Nodes.Add("ICC Currency DOT " + dicBits["iccCurrencyDOT"]);
+                            //        break;
+                            //    case 16:
+                            //        tn.Nodes.Add("ICC Transaction DOT " + dicBits["iccTransactionDOT"]);
+                            //        break;
+                            //    case 17:
+                            //        tn.Nodes.Add("ICC Language Support " + dicBits["iccLanguageSupportT"]);
+                            //        break;
+                            //    case 18:
+                            //        tn.Nodes.Add("ICC Terminal DOT " + dicBits["iccTerminalDOT"]);
+                            //        break;
+                            //    case 19:
+                            //        tn.Nodes.Add("ICC Application IDT " + dicBits["iccApplicationIDT"]);
+                            //        break;
 
 
-                            }
+                            //}
                         }
                     }
                 }

@@ -31,6 +31,9 @@ namespace Logger
     }
     public class Project : App
     {
+        public delegate bool delegate1(typeRec typeRec, string str1, string str2);
+        delegate1 processRecord;
+
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -750,6 +753,11 @@ namespace Logger
                     }
                 }
             }
+            // jmh
+            // public void DealWithIt(processRecord, new TRec){
+
+            }
+
             switch (recordType)
             {
                 case "00":
@@ -1027,7 +1035,7 @@ namespace Logger
 
                     sql = @"SELECT COUNT(*) FROM configParamsInfo WHERE logID =" + logID;
                     count = db.GetScalarFromDb(sql);
-            dicBits.Add("configParams", count);
+            dicBits.Add("configParametersLoad", count);
 
                     sql = @"SELECT COUNT(*) FROM fitinfo WHERE logID =" + logID;
                     count = db.GetScalarFromDb(sql);
@@ -1035,15 +1043,15 @@ namespace Logger
 
                     sql = @"SELECT COUNT(*) FROM configId WHERE logID =" + logID;
                     count = db.GetScalarFromDb(sql);
-            dicBits.Add("configId", count);
+            dicBits.Add("configID", count);
 
                     sql = @"SELECT COUNT(*) FROM enhancedParamsInfo WHERE logID =" + logID;
                     count = db.GetScalarFromDb(sql);
-            dicBits.Add("enhancedParams", count);
+            dicBits.Add("enhancedParametersLoad", count);
 
                     sql = @"SELECT COUNT(*) FROM dateTime WHERE logID =" + logID;
                     count = db.GetScalarFromDb(sql);
-            dicBits.Add("dateTime", count);
+            dicBits.Add("dateandtime", count);
 
                     sql = @"SELECT COUNT(*) FROM treq WHERE logID =" + logID;
                     count = db.GetScalarFromDb(sql);
