@@ -31,8 +31,8 @@ namespace Logger
     }
     public class Project : App
     {
-        public delegate bool delegate1(typeRec typeRec, string str1, string str2);
-        delegate1 processRecord;
+        public delegate void delegate1(typeRec typeRec, string str1, string str2);
+        
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -754,9 +754,9 @@ namespace Logger
                 }
             }
             // jmh
-            // public void DealWithIt(processRecord, new TRec){
+            //public var processRecord =  new delegate1(new stateRec().writeData,){
 
-            }
+            //}
 
             switch (recordType)
             {
