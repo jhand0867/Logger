@@ -66,46 +66,6 @@ namespace Logger
             return dicData;
         }
 
-        //public new Dictionary<string, configParams> readData(string sql)
-        //{
-
-        //    string connectionString;
-        //    SqlConnection cnn;
-
-        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-        //    cnn = new SqlConnection(connectionString);
-
-        //    try
-        //    {
-        //        cnn.Open();
-
-        //        SqlCommand command;
-        //        SqlDataReader dataReader;
-
-        //        command = new SqlCommand(sql, cnn);
-
-        //        dataReader = command.ExecuteReader();
-
-        //        Dictionary<string, configParams> dicData = new Dictionary<string, configParams>();
-
-        //        while (dataReader.Read())
-        //        {
-        //            configParams cp = new configParams();
-        //            cp.camera = dataReader.GetString(2);
-        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), cp);
-        //        }
-        //        dataReader.Close();
-        //        command.Dispose();
-        //        cnn.Close();
-        //        return dicData;
-        //    }
-        //    catch (Exception dbEx)
-        //    {
-        //        Console.WriteLine(dbEx.ToString());
-        //        return null;
-        //    }
-        //}
-
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
             DbCrud db = new DbCrud();

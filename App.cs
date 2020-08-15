@@ -193,44 +193,6 @@ namespace Logger
             return true;
         }
 
-        //public virtual Dictionary<string, string> readData(string sql)
-        //{
-
-        //    string connectionString;
-        //    SqlConnection cnn;
-
-        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-        //    cnn = new SqlConnection(connectionString);
-        //    try
-        //    {
-        //        cnn.Open();
-
-        //        SqlCommand command;
-        //        SqlDataReader dataReader;
-        //        command = new SqlCommand(sql, cnn);
-
-        //        dataReader = command.ExecuteReader();
-
-        //        Dictionary<string, string> dicData = new Dictionary<string, string>();
-
-        //        //todo: replace return value from dataReader to DataTable
-
-        //        while (dataReader.Read())
-        //        {
-        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt64(0).ToString(), dataReader.GetString(0));
-        //        }
-        //        dataReader.Close();
-        //        command.Dispose();
-        //        cnn.Close();
-        //        return dicData;
-        //    }
-        //    catch (Exception dbEx)
-        //    {
-        //        Console.WriteLine(dbEx.ToString());
-        //        return null;
-        //    }
-        //}
-
         public virtual Dictionary<string, string> readData(string sql)
         {
             // here mlh

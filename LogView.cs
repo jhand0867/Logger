@@ -228,14 +228,6 @@ namespace Logger
 
         private void dgvLog_MouseDown(object sender, MouseEventArgs e)
         {
-            /*           if( e.Button == System.Windows.Forms.MouseButtons.Left)
-                       {
-                            foreach (DataGridViewRow item in dgvLog.Rows)
-                            {
-                                if (item.
-
-                            }
-                       }*/
 
         }
     }

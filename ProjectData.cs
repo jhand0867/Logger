@@ -28,7 +28,17 @@ namespace Logger
 
         private void ProjectData_Load(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = buildDataGridView1();
+            scanToolStripMenuItem.Enabled = false;
+
+            if (buildDataGridView1().Rows.Count != 0)
+            {
+                dataGridView1.DataSource = buildDataGridView1();
+                scanToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                return;
+            }
 
             fixLogNames(dataGridView1);
 
@@ -81,32 +91,6 @@ namespace Logger
             }
         }
 
-        //public DataTable buildDataGridView1()
-        //{
-        //    // here mlh
-
-        //    DataTable dtLogs = new DataTable();
-
-        //    string cnnString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-
-        //    string sql = @"SELECT logFile, uploadDate, id, screens, states, configParametersLoad
-        //                ,fit,configID,enhancedParametersLoad,mac,dateandtime,dispenserCurrency,treq,treply,iccCurrencyDOT, 
-        //                iccTransactionDOT, iccLanguageSupportT, iccTerminalDOT, iccApplicationIDT FROM logs WHERE prjKey ='" + App.Prj.Key + "'";
-
-        //    using (SqlConnection conn = new SqlConnection(cnnString))
-        //    {
-        //        using (SqlCommand sqlCmd = new SqlCommand(sql, conn))
-        //        {
-        //            conn.Open();
-
-        //            SqlDataReader reader = sqlCmd.ExecuteReader();
-
-        //            dtLogs.Load(reader);
-        //        }
-        //    }
-        //    return dtLogs;
-        //}
-
         public DataTable buildDataGridView1()
         {
             // here mlh
@@ -153,6 +137,8 @@ namespace Logger
             string logID = dgvr.Cells[2].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
+            dataGridView1.DataSource = buildDataGridView1();
+            fixLogNames(dataGridView1);
         }
 
         private void transactionRequestToolStripMenuItem_Click(object sender, EventArgs e)
@@ -165,6 +151,8 @@ namespace Logger
             string logID = dgvr.Cells[2].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
+            dataGridView1.DataSource = buildDataGridView1();
+            fixLogNames(dataGridView1);
         }
 
         private void projectsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -313,6 +301,7 @@ namespace Logger
         {
 
         }
+
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // MessageBox.Show(e.RowIndex.ToString());
@@ -340,7 +329,6 @@ namespace Logger
             dataGridView1.DataSource = buildDataGridView1();
             fixLogNames(dataGridView1);
         }
-
 
         private void iCCTransactionDOTToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
@@ -383,7 +371,6 @@ namespace Logger
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
             fixLogNames(dataGridView1);
-
         }
 
         private void iCCTerminalAcceptableAIDToolStripMenuItem_Click(object sender, EventArgs e)

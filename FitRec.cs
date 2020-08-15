@@ -43,7 +43,6 @@ namespace Logger
             return dts;
         }
 
-
         public new Dictionary<string, FitRec> readData(string sql)
         {
             // here mlh
@@ -65,48 +64,6 @@ namespace Logger
             }
             return dicData;
         }
-
-
-        //public new Dictionary<string, FitRec> readData(string sql)
-        //{
-        //    Utility U = new Utility();
-        //    string connectionString;
-        //    SqlConnection cnn;
-
-        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-        //    cnn = new SqlConnection(connectionString);
-
-        //    try
-        //    {
-        //        cnn.Open();
-
-        //        SqlCommand command;
-        //        SqlDataReader dataReader;
-
-        //        command = new SqlCommand(sql, cnn);
-
-        //        dataReader = command.ExecuteReader();
-
-        //        Dictionary<string, FitRec> dicData = new Dictionary<string, FitRec>();
-
-        //        while (dataReader.Read())
-        //        {
-        //            FitRec fr = new FitRec();
-        //            fr.prectype = dataReader.GetString(2);
-        //            fr.pfitnum = dataReader.GetString(3);
-        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), fr);
-        //        }
-        //        dataReader.Close();
-        //        command.Dispose();
-        //        cnn.Close();
-        //        return dicData;
-        //    }
-        //    catch (Exception dbEx)
-        //    {
-        //        Console.WriteLine(dbEx.ToString());
-        //        return null;
-        //    }
-        //}
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {

@@ -522,6 +522,7 @@ namespace Logger
             }
             return checksData;
         }
+
         private string getPrinterData(DataTable dataTable)
         {
             string printerData = "";
@@ -536,6 +537,7 @@ namespace Logger
             }
             return printerData;
         }
+
         private string getTreqOptions(DataTable dataTable)
         {
             string notesType = "";
@@ -554,6 +556,7 @@ namespace Logger
             }
             return notesType;
         }
+
         private string getTreqCurrencies(DataTable dataTable)
         {
             string currencies = "";
@@ -572,6 +575,7 @@ namespace Logger
             }
             return currencies;
         }
+
         private string getTreqCheques(DataTable dataTable)
         {
             string checks = "";
@@ -590,6 +594,7 @@ namespace Logger
             }
             return checks;
         }
+
         private string getOptionDescription(DataTable dataTable, string field)
         {
             string optionDesc = "";
@@ -604,6 +609,7 @@ namespace Logger
             }
             return optionDesc;
         }
+
         private void btnNext_Click(object sender, EventArgs e)
         {
             LogView frmLogView = (LogView)Application.OpenForms["LogView"];

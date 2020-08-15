@@ -42,8 +42,29 @@ namespace Logger
         private string pBrief;
         private int pLogs;
 
+
+        public string Key   // property
+        {
+            get { return pKey; }   // get method
+        }
+        public string Name   // property
+        {
+            get { return pName; }   // get method
+            set { pName = value; }  // set method
+        }
+        public string Brief   // property
+        {
+            get { return pBrief; }   // get method
+            set { pBrief = value; }  // set method
+        }
+        public int Logs   // property
+        {
+            get { return pLogs; }   // get method
+        }
+
+
         // Initialize all record types
-        
+
         // mlh list type of messages
 
         private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 3", "HOST2ATM: 8" };
@@ -75,6 +96,7 @@ namespace Logger
             pBrief = "";
             pLogs = 0;
         }
+
         public Project(string pName, string pBrief)
         {
             createProject(pName, pBrief);
@@ -105,50 +127,6 @@ namespace Logger
             return pr;
         }
 
-
-        //public Project getProjectByID(string prjID)
-        //{
-        //    string connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-        //    string sql;
-        //    SqlConnection cnn;
-
-        //    cnn = new SqlConnection(connectionString);
-
-        //    sql = @"SELECT * FROM project WHERE prjKey='" + prjID + "'";
-
-        //    try
-        //    {
-        //        cnn.Open();
-
-        //        SqlCommand command;
-        //        SqlDataReader dataReader;
-
-        //        command = new SqlCommand(sql, cnn);
-
-        //        dataReader = command.ExecuteReader();
-
-        //        Project pr = new Project();
-
-        //        // read from 
-        //        while (dataReader.Read())
-        //        {
-        //            pr.pKey = dataReader.GetString(1);
-        //            pr.Name = dataReader.GetString(2);
-        //            pr.Brief = dataReader.GetString(3);
-        //            pr.pLogs = Convert.ToInt32(dataReader.GetBoolean(4));
-        //        }
-        //        dataReader.Close();
-        //        command.Dispose();
-        //        cnn.Close();
-        //        return pr;
-        //    }
-        //    catch (Exception dbEx)
-        //    {
-        //        log.Error("Database Error: " + dbEx.Message);
-        //        return null;
-        //    }
-        //}
-
         public Dictionary<string, Project> getAllProjects()
         {
             // here mlh
@@ -175,50 +153,6 @@ namespace Logger
             return dicData;
         }
 
-        //public Dictionary<string, Project> getAllProjects()
-        //{
-        //    string connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-        //    string sql;
-        //    SqlConnection cnn;
-
-        //    cnn = new SqlConnection(connectionString);
-
-        //    sql = @"SELECT * FROM project";
-
-        //    try
-        //    {
-        //        cnn.Open();
-
-        //        SqlCommand command;
-        //        SqlDataReader dataReader;
-
-        //        command = new SqlCommand(sql, cnn);
-
-        //        dataReader = command.ExecuteReader();
-
-        //        Dictionary<string, Project> dicData = new Dictionary<string, Project>();
-
-        //        while (dataReader.Read())
-        //        {
-        //            Project pr = new Project();
-        //            pr.pKey = dataReader.GetString(1);
-        //            pr.Name = dataReader.GetString(2);
-        //            pr.Brief = dataReader.GetString(3);
-        //            pr.pLogs = dataReader.GetInt32(4);
-        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), pr);
-        //        }
-        //        dataReader.Close();
-        //        command.Dispose();
-        //        cnn.Close();
-        //        return dicData;
-        //    }
-        //    catch (Exception dbEx)
-        //    {
-        //        log.Error("Database Error: " + dbEx.Message);
-        //        return null;
-        //    }
-        //}
-
         public Dictionary<string, Project> getProjectByName(string pName)
         {
             // here mlh
@@ -244,49 +178,7 @@ namespace Logger
             }
             return dicData;
         }
-        //public Dictionary<string, Project> getProjectByName(string pName)
-        //{
-        //    string connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-        //    string sql;
-        //    SqlConnection cnn;
 
-        //    cnn = new SqlConnection(connectionString);
-
-        //    sql = @"SELECT * FROM project WHERE prjName ='" + pName + "'";
-
-        //    try
-        //    {
-        //        cnn.Open();
-
-        //        SqlCommand command;
-        //        SqlDataReader dataReader;
-
-        //        command = new SqlCommand(sql, cnn);
-
-        //        dataReader = command.ExecuteReader();
-
-        //        Dictionary<string, Project> dicData = new Dictionary<string, Project>();
-
-        //        while (dataReader.Read())
-        //        {
-        //            Project pr = new Project();
-        //            pr.pKey = dataReader.GetString(1);
-        //            pr.Name = dataReader.GetString(2);
-        //            pr.Brief = dataReader.GetString(3);
-        //            pr.pLogs = dataReader.GetInt32(4);
-        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), pr);
-        //        }
-        //        dataReader.Close();
-        //        command.Dispose();
-        //        cnn.Close();
-        //        return dicData;
-        //    }
-        //    catch (Exception dbEx)
-        //    {
-        //        log.Error("Database Error: " + dbEx.Message);
-        //        return null;
-        //    }
-        //}
         public bool updateProjectByName(Project project, string pName, string pBrief)
         {
                 string sql = @"UPDATE Project SET prjName ='" + pName +
@@ -324,42 +216,6 @@ namespace Logger
             return newLogID;
         }
 
-        //public int attachLogToProject(string pKey, string pFilename)
-        //{
-        //    string connectionString;
-        //    string sql;
-        //    SqlConnection cnn;
-
-        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-
-        //    cnn = new SqlConnection(connectionString);
-
-        //    sql = @"INSERT INTO logs(prjKey, logFile, uploadDate) 
-        //            VALUES('" + pKey + "','" + pFilename + "', GETDATE()); SELECT CAST(scope_identity() AS int);";
-
-        //    try
-        //    {
-        //        cnn.Open();
-
-        //        SqlCommand command;
-        //        int newLogID;
-
-        //        command = new SqlCommand(sql, cnn);
-
-        //        newLogID = (Int32)command.ExecuteScalar();
-
-        //        command.Dispose();
-        //        cnn.Close();
-        //        return newLogID;
-        //    }
-        //    catch (Exception dbEx)
-        //    {
-        //        log.Error("Database Error: " + dbEx.Message);
-        //        return 0;
-        //    }
-
-        //}
-
         public Dictionary<string, Project> createProject(string name, string brief)
         {
             Name = name;
@@ -393,79 +249,7 @@ namespace Logger
             }
             return dicData;
         }
-    
 
-    //public Dictionary<string, Project> createProject(string name, string brief)
-    //{
-    //    Name = name;
-    //    Brief = brief;
-    //    pLogs = 0;
-    //    pKey = Guid.NewGuid().ToString();
-
-    //    /**********/
-
-    //    string connectionString;
-    //    string sql;
-    //    SqlConnection cnn;
-
-    //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-    //    cnn = new SqlConnection(connectionString);
-
-    //    sql = @"INSERT INTO Project(prjKey,prjName,prjBrief,prjLogs,createDate)" +
-    //           "VALUES('" + Key + "','" + Name + "','" + Brief + "','" + 0 + "',GETDATE()" + ")";
-
-    //    try
-    //    {
-    //        cnn.Open();
-
-    //        SqlCommand command;
-    //        SqlDataReader dataReader;
-
-    //        command = new SqlCommand(sql, cnn);
-
-    //        dataReader = command.ExecuteReader();
-
-    //        Dictionary<string, Project> dicData = new Dictionary<string, Project>();
-
-    //        while (dataReader.Read())
-    //        {
-    //            Project pr = new Project();
-    //            pr.pKey = dataReader.GetString(1);
-    //            pr.Name = dataReader.GetString(2);
-    //            pr.Brief = dataReader.GetString(3);
-    //            pr.pLogs = dataReader.GetInt32(4);
-    //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), pr);
-    //        }
-    //        dataReader.Close();
-    //        command.Dispose();
-    //        cnn.Close();
-    //        return dicData;
-    //    }
-    //    catch (Exception dbEx)
-    //    {
-    //        log.Error("Database Error: " + dbEx.Message);
-    //        return null;
-    //    }
-    //}
-
-    public string Key   // property
-        {
-            get { return pKey; }   // get method
-        }
-        public string Name   // property
-        {
-            get { return pName; }   // get method
-            set { pName = value; }  // set method
-        }
-        public string Brief   // property
-        {
-            get { return pBrief; }   // get method
-            set { pBrief = value; }  // set method
-        }
-        public int Logs   // property
-        {
-            get { return pLogs; }   // get method
-        }
         public void uploadLog(string filename)
         {
             addLogToProject(this.pKey);
@@ -686,6 +470,7 @@ namespace Logger
             string lines = System.IO.File.ReadAllText(fileToOpen);
             return lines;
         }
+
         public void getData(string regExStr, string recordType, string logID)
         {
             string sql = @"SELECT logkey,id,group8 from [logger].[dbo].[loginfo] " +
@@ -882,11 +667,11 @@ namespace Logger
 
             }
         }
-
         //todo: move to utils
         private void setBitToTrue(string recordType, string logID)
         {
             string sql = "";
+
             switch (recordType)
             {
                 case "00":
@@ -940,6 +725,7 @@ namespace Logger
             if (db.addToDb(sql) == false) { };
 
         }
+
         public DataTable getGroupOptions(string logID, string fieldName)
         {
          DataTable dt = new DataTable();
@@ -991,6 +777,7 @@ namespace Logger
             return dt;
 
         }
+
         public DataTable getALogByID(string logID)
         {
             DataTable dt = new DataTable();
@@ -1007,6 +794,7 @@ namespace Logger
             dt = db.GetTableFromDb(sql);
             return dt;
         }
+
         public DataTable getAllLogs(string prjID)
         {
             DataTable dt = new DataTable();
@@ -1084,136 +872,9 @@ namespace Logger
                 return dicBits;
 
         }
-        //public Dictionary<string, int> showRecordBits(string logID)
-        //{
-        //    ///Return a Dictionary with type of record and amount
-
-        //    string connectionString;
-        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-
-
-        //    Dictionary<string, int> dicBits = new Dictionary<string, int>();
-
-        //    SqlConnection cnn = new SqlConnection(connectionString);
-
-        //    try
-        //    {
-        //        using (SqlCommand cmd = new SqlCommand(@"SELECT COUNT(*) FROM screeninfo WHERE logID =" + logID, cnn))
-        //        {
-        //            cnn.Open();
-
-        //            int count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("screens", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM stateinfo WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("states", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM configParamsInfo WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("configParams", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM fitinfo WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("fit", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM configId WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("configId", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM enhancedParamsInfo WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("enhancedParams", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM dateTime WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("dateTime", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM treq WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("treq", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM treply WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("treply", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM iccCurrencyDOT WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("iccCurrencyDOT", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM iccTransactionDOT WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("iccTransactionDOT", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM iccLanguageSupportT WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("iccLanguageSupportT", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM iccTerminalDOT WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("iccTerminalDOT", count);
-
-        //            cmd.CommandText = @"SELECT COUNT(*) FROM iccApplicationIDT WHERE logID =" + logID;
-        //            count = (int)cmd.ExecuteScalar();
-        //            dicBits.Add("iccApplicationIDT", count);
-
-        //        }
-
-        //        return dicBits;
-        //    }
-        //    catch (Exception dbEx)
-        //    {
-        //        log.Error("Database Error: " + dbEx.Message);
-        //        return null;
-        //    }
-
-        //}
-        //public new Dictionary<string, string> readData(string sql)
-        //{
-
-        //    string connectionString;
-        //    SqlConnection cnn;
-
-        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-        //    cnn = new SqlConnection(connectionString);
-        //    try
-        //    {
-        //        cnn.Open();
-
-        //        SqlCommand command;
-        //        SqlDataReader dataReader;
-
-        //        command = new SqlCommand(sql, cnn);
-        //        // dataReader.GetOrdinal(0);
-
-        //        dataReader = command.ExecuteReader();
-
-        //        Dictionary<string, string> dicData = new Dictionary<string, string>();
-
-        //        // add to dictionary 
-        //        // LogKey + Int of indes, Group8
-
-        //        while (dataReader.Read())
-        //        {
-        //            dicData.Add(dataReader.GetString(0) + dataReader.GetInt32(1).ToString(), dataReader.GetString(2));
-        //        }
-
-        //        dataReader.Close();
-        //        command.Dispose();
-        //        cnn.Close();
-        //        return dicData;
-        //    }
-        //    catch (Exception dbEx)
-        //    {
-        //        log.Error("Database Error: " + dbEx.Message);
-        //        return null;
-        //    }
-        //}
-
+       
         public new Dictionary<string, string> readData(string sql)
         {
-            // here mlh
-
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);

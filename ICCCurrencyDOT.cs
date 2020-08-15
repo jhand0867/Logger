@@ -10,8 +10,6 @@ namespace Logger
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                 System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        // public EMVConfiguration EmvConfig { get => EmvConfig; set => EmvConfig = value; }
         
         public new DataTable getDescription()
         {

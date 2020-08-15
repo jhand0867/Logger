@@ -155,65 +155,6 @@ namespace Logger
             return dicData;
         }
 
-        //public new Dictionary<string, stateRec> readData(string sql)
-        //{
-
-        //    string connectionString;
-        //    SqlConnection cnn;
-
-        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-        //    cnn = new SqlConnection(connectionString);
-
-
-        //    try
-        //    {
-        //        cnn.Open();
-
-        //        SqlCommand command;
-        //        SqlDataReader dataReader;
-
-        //        //sql = @"SELECT logkey,group8 from [logger].[dbo].[loginfo] WHERE group8 like 'HOST2ATM: 30%12%'";
-
-        //        command = new SqlCommand(sql, cnn);
-        //        // dataReader.GetOrdinal(0);
-
-        //        dataReader = command.ExecuteReader();
-
-        //        Dictionary<string, stateRec> dicData = new Dictionary<string, stateRec>();
-
-
-
-
-        //        while (dataReader.Read())
-        //        {
-
-        //            stateRec sr = new stateRec();
-        //            sr.pStateNum = dataReader.GetString(3);
-        //            sr.pStateType = dataReader.GetString(4);
-        //            sr.pSta1 = dataReader.GetString(5);
-        //            sr.pSta2 = dataReader.GetString(6);
-        //            sr.pSta3 = dataReader.GetString(7);
-        //            sr.pSta4 = dataReader.GetString(8);
-        //            sr.pSta5 = dataReader.GetString(9);
-        //            sr.pSta6 = dataReader.GetString(10);
-        //            sr.pSta7 = dataReader.GetString(11);
-        //            sr.pSta8 = dataReader.GetString(12);
-
-        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt64(0).ToString(), sr);
-        //        }
-
-        //        dataReader.Close();
-        //        command.Dispose();
-        //        cnn.Close();
-        //        return dicData;
-        //    }
-        //    catch (Exception dbEx)
-        //    {
-        //        Console.WriteLine(dbEx.ToString());
-        //        return null;
-        //    }
-        //}
-
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
                 String sql = "";
@@ -254,6 +195,7 @@ namespace Logger
                 }
                 return true;
         }
+
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
             List<DataTable> dts = new List<DataTable>();

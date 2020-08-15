@@ -29,6 +29,7 @@ namespace Logger
             return true;
 
         }
+
         public new Dictionary<string, screenRec> readData(string sql)
         {
             // here mlh
@@ -53,49 +54,6 @@ namespace Logger
             }
             return dicData;
         }
-
-        //public new Dictionary<string, screenRec> readData(string sql)
-        //{
-
-        //    string connectionString;
-        //    SqlConnection cnn;
-
-        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-        //    cnn = new SqlConnection(connectionString);
-
-        //    try
-        //    {
-        //        cnn.Open();
-
-        //        SqlCommand command;
-        //        SqlDataReader dataReader;
-
-        //        command = new SqlCommand(sql, cnn);
-
-        //        dataReader = command.ExecuteReader();
-
-        //        Dictionary<string, screenRec> dicData = new Dictionary<string, screenRec>();
-
-        //        while (dataReader.Read())
-        //        {
-        //            screenRec sr = new screenRec();
-        //            sr.prectype = dataReader.GetString(2);
-        //            sr.pscrnum = dataReader.GetString(3);
-        //            sr.pscrdata = dataReader.GetString(4);
-        //            sr.pload = dataReader.GetString(5);
-        //            dicData.Add(dataReader.GetString(1) + dataReader.GetInt32(0).ToString(), sr);
-        //        }
-        //        dataReader.Close();
-        //        command.Dispose();
-        //        cnn.Close();
-        //        return dicData;
-        //    }
-        //    catch (Exception dbEx)
-        //    {
-        //        Console.WriteLine(dbEx.ToString());
-        //        return null;
-        //    }
-        //}
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
