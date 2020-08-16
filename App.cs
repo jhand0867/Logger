@@ -14,11 +14,12 @@ namespace Logger
         //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         //                        System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("App.cs");
+        
         public static Project Prj = new Project();
         public App()
         {
             //
-
+          
         }
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recValue)
@@ -34,41 +35,66 @@ namespace Logger
             {
                 if (recValue.Contains(recordType))
                 {
-                    // mlh check type of message 
-                    switch (recCount)
+                    tmpTypes = recValue.Split((char)0x1c);
+                    recType = recCount.ToString("00");
+
+                    // mlh check recCount: message 8 is pos 2, message 3 is pos 3
+
+                    if (recCount > 1)
                     {
-                        case 0:
-                        case 1:
-                            recType = recCount.ToString("00");
-                            break;
-                        case 2:
-                            tmpTypes = recValue.Split((char)0x1c);
-                            foreach (string subRecordType in App.Prj.SubRecordTypes3)
+                        foreach (string subRecordType in App.Prj.SubRecordTypes)
+                        {
+                            if (tmpTypes[recCount] == subRecordType.Substring(1,subRecordType.Length-1))
                             {
-                                if (tmpTypes[3] == subRecordType)
-                                {
-                                    recType = subRecordType;
-                                    break;
-                                }
-
+                                int i = subRecordType.Length - 2;
+                                recType = subRecordType.Substring(i, 2);
+                                break;
                             }
-                            break;
 
-                        case 3:
-                            tmpTypes = recValue.Split((char)0x1c);
-                            foreach (string subRecordType in App.Prj.SubRecordTypes8)
-                            {
-                                if (tmpTypes[2] == subRecordType)
-                                {
-                                    recType = "8" + subRecordType;
-                                    break;
-                                }
-                            }
-                            break;
+                        }
                     }
                 }
                 recCount++;
-                }
+            }
+            //foreach (string recordType in App.Prj.RecordTypes)
+            //{
+            //    if (recValue.Contains(recordType))
+            //    {
+            //        // mlh check type of message 
+            //        switch (recCount)
+            //        {
+            //            case 0:
+            //            case 1:
+            //                recType = recCount.ToString("00");
+            //                break;
+            //            case 2:
+            //                tmpTypes = recValue.Split((char)0x1c);
+            //                foreach (string subRecordType in App.Prj.SubRecordTypes3)
+            //                {
+            //                    if (tmpTypes[3] == subRecordType)
+            //                    {
+            //                        recType = subRecordType;
+            //                        break;
+            //                    }
+
+            //                }
+            //                break;
+
+            //            case 3:
+            //                tmpTypes = recValue.Split((char)0x1c);
+            //                foreach (string subRecordType in App.Prj.SubRecordTypes8)
+            //                {
+            //                    if (tmpTypes[2] == subRecordType)
+            //                    {
+            //                        recType = "8" + subRecordType;
+            //                        break;
+            //                    }
+            //                }
+            //                break;
+            //        }
+            //    }
+            //    recCount++;
+            //    }
 
             switch (recType)
             {

@@ -29,6 +29,7 @@ namespace Logger
         public string typeContent;
         public string typeAddData;
     }
+
     public class Project : App
     {
         public delegate void delegate1(typeRec typeRec, string str1, string str2);
@@ -67,9 +68,12 @@ namespace Logger
 
         // mlh list type of messages
 
-        private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 3", "HOST2ATM: 8" };
-        private string[] subRecordTypes3 = { "11", "12", "13", "15", "16", "1A", "1B", "1C", "1E" };
-        private string[] subRecordTypes8 = { "1", "2", "3", "4", "5" };
+        private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 8", "HOST2ATM: 3" };
+        // to be used as index in tmptypes
+        private int[] recordTypeIdx = { 0, 0, 2, 3 };
+        private string[] subRecordTypes = { "81", "82", "83", "84", "85","311", "312", "313", "315", "316", "31A", "31B", "31C", "31E" };
+        //private string[] subRecordTypes3 = { "11", "12", "13", "15", "16", "1A", "1B", "1C", "1E" };
+        //private string[] subRecordTypes8 = { "1", "2", "3", "4", "5" };
         private List<stateRec> extensionsLst = new List<stateRec>();
         public List<stateRec> ExtensionsLst
         {
@@ -80,21 +84,51 @@ namespace Logger
         {
             get { return recordTypes; }
         }
-        public string[] SubRecordTypes3
+        public int[] RecordTypeIdx
         {
-            get { return subRecordTypes3; }
+            get { return recordTypeIdx; }
         }
-        public string[] SubRecordTypes8
+        public string[] SubRecordTypes
         {
-            get { return subRecordTypes8; }
+            get { return subRecordTypes; }
         }
+        //public string[] SubRecordTypes3
+        //{
+        //    get { return subRecordTypes3; }
+        //}
+        //public string[] SubRecordTypes8
+        //{
+        //    get { return subRecordTypes8; }
+        //}
+        public Dictionary<string, string> recTypesDic = new Dictionary<string, string>();
+
 
         public Project()
         {
+            // mlh why this is executed more than once
+
             pKey = "";
             pName = "";
             pBrief = "";
             pLogs = 0;
+
+            // mlh: New scans needs to be added here!
+
+            recTypesDic.Add("00", "treq");
+            recTypesDic.Add("01", "treply"); 
+            recTypesDic.Add("11", "screens");
+            recTypesDic.Add("12", "states");
+            recTypesDic.Add("13", "configParametersLoad");
+            recTypesDic.Add("15", "fit");
+            recTypesDic.Add("16", "configID");
+            recTypesDic.Add("1A", "enhancedParametersLoad");
+            recTypesDic.Add("1B", "mac");
+            recTypesDic.Add("1C", "dateandtime");
+            recTypesDic.Add("81", "iccCurrencyDOT");
+            recTypesDic.Add("82", "iccTransactionDOT");
+            recTypesDic.Add("83", "iccLanguageSupportT");
+            recTypesDic.Add("84", "iccTerminalDOT");
+            recTypesDic.Add("85", "iccApplicationIDT");
         }
 
         public Project(string pName, string pBrief)
@@ -141,13 +175,12 @@ namespace Logger
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
-                {
-                    Project pr = new Project();
-                    pr.pKey = row[1].ToString();
-                    pr.Name = row[2].ToString();
-                    pr.Brief = row[3].ToString();
-                    pr.pLogs = Convert.ToInt32(row[4]);
-                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), pr);
+                {                    
+                    this.pKey = row[1].ToString();
+                    this.Name = row[2].ToString();
+                    this.Brief = row[3].ToString();
+                    this.pLogs = Convert.ToInt32(row[4]);
+                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), this);
                 }
             }
             return dicData;
@@ -670,57 +703,9 @@ namespace Logger
         //todo: move to utils
         private void setBitToTrue(string recordType, string logID)
         {
-            string sql = "";
+            string recordTypeStr = recTypesDic[recordType];
+            string sql = @"UPDATE logs SET " + recordTypeStr + " = 1 WHERE id = " + logID;
 
-            switch (recordType)
-            {
-                case "00":
-                    sql = @"UPDATE logs SET treq = 1 WHERE id = " + logID;
-                    break;
-                case "01":
-                    sql = @"UPDATE logs SET treply = 1 WHERE id = " + logID;
-                    break;
-                case "11":
-                    sql = @"UPDATE logs SET screens = 1 WHERE id = " + logID;
-                    break;
-                case "12":
-                    sql = @"UPDATE logs SET states = 1 WHERE id = " + logID;
-                    break;
-                case "13":
-                    sql = @"UPDATE logs SET configParametersLoad = 1 WHERE id = " + logID;
-                    break;
-                case "15":
-                    sql = @"UPDATE logs SET fit = 1 WHERE id = " + logID;
-                    break;
-                case "16":
-                    sql = @"UPDATE logs SET configID = 1 WHERE id = " + logID;
-                    break;
-                case "1A":
-                    sql = @"UPDATE logs SET enhancedParametersLoad = 1 WHERE id = " + logID;
-                    break;
-                case "1B":
-                    sql = @"UPDATE logs SET mac = 1 WHERE id = " + logID;
-                    break;
-                case "1C":
-                    sql = @"UPDATE logs SET dateandtime = 1 WHERE id = " + logID;
-                    break;
-                case "81":
-                    sql = @"UPDATE logs SET iccCurrencyDOT = 1 WHERE id = " + logID;
-                    break;
-                case "82":
-                    sql = @"UPDATE logs SET iccTransactionDOT = 1 WHERE id = " + logID;
-                    break;
-                case "83":
-                    sql = @"UPDATE logs SET iccLanguageSupportT = 1 WHERE id = " + logID;
-                    break;
-                case "84":
-                    sql = @"UPDATE logs SET iccTerminalDOT = 1 WHERE id = " + logID;
-                    break;
-                case "85":
-                    sql = @"UPDATE logs SET iccApplicationIDT = 1 WHERE id = " + logID;
-                    break;
-
-            }
             DbCrud db = new DbCrud();
             if (db.addToDb(sql) == false) { };
 
@@ -737,41 +722,18 @@ namespace Logger
             return dt;
         }
 
-        public DataTable getALogByIDWithCriteria(string logID, string columnName, string columnValue)
+        public DataTable getALogByIDWithCriteria(string logID, string columnName, string sqlLike)
         {
             DataTable dt = new DataTable();
-            string sql = "";
 
-            switch (columnName)
-            {
-                case "group6":
-                    sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
                             [group2] as 'Log Level',[group3] as 'File Name',
                             [group4] as 'Class',[group5] as 'Method',
                             [group6] as 'Type',[group7],
                             [group8] as 'Log Data',[group9],
                             [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
-                        " AND " + columnName + " LIKE '%[[]" + columnValue + "%'";
-                    break;
-                case "group8":
-                    sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
-                            [group2] as 'Log Level',[group3] as 'File Name',
-                            [group4] as 'Class',[group5] as 'Method',
-                            [group6] as 'Type',[group7],
-                            [group8] as 'Log Data',[group9],
-                            [prjKey],[logID] FROM [loginfo] WHERE logID=" + logID +
-                        " AND " + columnName + " LIKE '%" + columnValue + "%'";
-                    break;
-                default:
-                    sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
-                            [group2] as 'Log Level',[group3] as 'File Name',
-                            [group4] as 'Class',[group5] as 'Method',
-                            [group6] as 'Type',[group7],
-                            [group8] as 'Log Data',[group9],
-                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
-                        " AND " + columnName + "='" + columnValue + "'";
-                    break;
-            }
+                      " AND " + columnName + sqlLike;
+
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
             return dt;
@@ -880,7 +842,8 @@ namespace Logger
             dt = db.GetTableFromDb(sql);
             Dictionary<string, string> dicData = new Dictionary<string, string>();
 
-            if (dt.Rows.Count > 0)
+    //        if (dt.Rows.Count > 0)
+            if (dt != null)
             {
                 foreach (DataRow row in dt.Rows)
                 {

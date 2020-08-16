@@ -39,8 +39,10 @@ namespace Logger
             prForm.TopMost = true;
             //prForm.MdiParent = MainW;
 
-            Project pr = new Project();
-            Dictionary<string, Project> prjList = pr.getAllProjects();
+            // Project pr = new Project();
+            // Dictionary<string, Project> prjList = pr.getAllProjects();
+            Dictionary<string, Project> prjList = App.Prj.getAllProjects();
+            
             log.Debug("Retrieving projects info");
             listView1.Items.Clear();
 

@@ -42,12 +42,16 @@ namespace Logger
 
             fixLogNames(dataGridView1);
 
-            dataGridView1.Columns[0].HeaderText = "File Name";
-            dataGridView1.Columns[0].Width = 400;
-            dataGridView1.Columns[1].HeaderText = "Uploaded on";
-            dataGridView1.Columns[1].Width = 250;
+            dataGridView1.Columns[0].Visible = false;
+            dataGridView1.Columns[1].Visible = false;
+            dataGridView1.Columns[2].HeaderText = "File Name";
+            dataGridView1.Columns[2].Width = 400;
+            dataGridView1.Columns[3].HeaderText = "Uploaded on";
+            dataGridView1.Columns[3].Width = 250;
 
-            for (int i = 2; i < dataGridView1.Columns.Count; i++)
+
+
+            for (int i = 4; i < dataGridView1.Columns.Count; i++)
             {
                 dataGridView1.Columns[i].Visible = false;
             }
@@ -81,11 +85,11 @@ namespace Logger
             for (int i = 0; i < dgv.Rows.Count; i++)
             {
 
-                string logLocation = dgv.Rows[i].Cells[0].Value.ToString();
-                dgv.Rows[i].Cells[0].ToolTipText = logLocation;
+                string logLocation = dgv.Rows[i].Cells[2].Value.ToString();
+                dgv.Rows[i].Cells[2].ToolTipText = logLocation;
                 int logIndex = logLocation.LastIndexOf(@"\") + 1;
-                dgv.Rows[i].Cells[0].Value = logLocation.Substring(logIndex, logLocation.Length - logIndex);
-                dgv.Rows[i].Cells[0].Tag = 0;
+                dgv.Rows[i].Cells[2].Value = logLocation.Substring(logIndex, logLocation.Length - logIndex);
+                dgv.Rows[i].Cells[2].Tag = 0;
 
 
             }
@@ -97,9 +101,7 @@ namespace Logger
 
             DataTable dtLogs = new DataTable();
 
-            string sql = @"SELECT logFile, uploadDate, id, screens, states, configParametersLoad
-                        ,fit,configID,enhancedParametersLoad,mac,dateandtime,dispenserCurrency,treq,treply,iccCurrencyDOT, 
-                        iccTransactionDOT, iccLanguageSupportT, iccTerminalDOT, iccApplicationIDT FROM logs WHERE prjKey ='" + App.Prj.Key + "'";
+            string sql = @"SELECT * FROM logs WHERE prjKey ='" + App.Prj.Key + "'";
 
             DbCrud db = new DbCrud();
             dtLogs = db.GetTableFromDb(sql);
@@ -109,7 +111,7 @@ namespace Logger
         private void detachToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
                 String sql = "";
 
@@ -134,7 +136,7 @@ namespace Logger
             string recordType = "01";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -148,7 +150,7 @@ namespace Logger
             string recordType = "00";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -170,7 +172,7 @@ namespace Logger
             string recordType = "11";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -186,7 +188,7 @@ namespace Logger
             string recordType = "12";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -200,7 +202,7 @@ namespace Logger
             string recordType = "13";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -214,7 +216,7 @@ namespace Logger
             string recordType = "15";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -228,7 +230,7 @@ namespace Logger
             string recordType = "16";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -242,7 +244,7 @@ namespace Logger
             string recordType = "1A";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -256,7 +258,7 @@ namespace Logger
             string recordType = "1C";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -283,7 +285,7 @@ namespace Logger
                 return;
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            for (int x = 1, i = 3; i < dgvr.Cells.Count; i++, x++)
+            for (int x = 1, i = 4; i < dgvr.Cells.Count; i++, x++)
             {
                 if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
                 {
@@ -323,7 +325,7 @@ namespace Logger
             string recordType = "81";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -337,7 +339,7 @@ namespace Logger
             string recordType = "82";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -351,7 +353,7 @@ namespace Logger
             string recordType = "83";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -366,7 +368,7 @@ namespace Logger
             string recordType = "84";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
@@ -380,7 +382,7 @@ namespace Logger
             string recordType = "85";
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[2].Value.ToString();
+            string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();

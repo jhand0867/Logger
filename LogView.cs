@@ -164,7 +164,8 @@ namespace Logger
         {
             if (c.Text != "")
             {
-                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group4", c.Text);
+                string sqlLike = "='" + c.Text + "'";
+                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group4", sqlLike);
                 this.dgvLog.Refresh();
             }
         }
@@ -173,7 +174,8 @@ namespace Logger
         {
             if (c.Text != "")
             {
-                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group5", c.Text);
+                string sqlLike = "='" + c.Text + "'";
+                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group5", sqlLike);
                 this.dgvLog.Refresh();
             }
 
@@ -183,7 +185,8 @@ namespace Logger
         {
             if (c.Text != "")
             {
-                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group6", c.Text);
+                string sqlLike = " LIKE '%[[]" + c.Text + "%'";
+                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group6", sqlLike);
                 this.dgvLog.Refresh();
             }
 
@@ -193,7 +196,8 @@ namespace Logger
         {
             if (c.Text != "")
             {
-                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", c.Text);
+                string sqlLike = " LIKE '%" + c.Text + "%'";
+                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", sqlLike);
                 this.dgvLog.Refresh();
             }
 
