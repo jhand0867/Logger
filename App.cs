@@ -14,8 +14,9 @@ namespace Logger
         //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         //                        System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("App.cs");
-        
-        public static Project Prj = new Project();
+
+        //public static Project Prj = new Project();
+        public static Project Prj = MessageFactory.Create_Project();
         public App()
         {
             //
@@ -24,79 +25,30 @@ namespace Logger
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recValue)
         {
-            List<typeRec> typeList = new List<typeRec>();
-            string[] tmpTypes;
-            int recCount = 0;
             string recType = "";
-            DataTable dataTable = new DataTable();
             List<DataTable> dts = new List<DataTable>();
 
-            foreach (string recordType in App.Prj.RecordTypes)
+            string[] tmpTypes = recValue.Split((char)0x1c);
+
+            for (int row = 0; row< App.Prj.RecordTypes.Length/4; row++)
             {
-                if (recValue.Contains(recordType))
+                if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
+                   (App.Prj.RecordTypes[row, 1] == "0"))
                 {
-                    tmpTypes = recValue.Split((char)0x1c);
-                    recType = recCount.ToString("00");
-
-                    // mlh check recCount: message 8 is pos 2, message 3 is pos 3
-
-                    if (recCount > 1)
-                    {
-                        foreach (string subRecordType in App.Prj.SubRecordTypes)
-                        {
-                            if (tmpTypes[recCount] == subRecordType.Substring(1,subRecordType.Length-1))
-                            {
-                                int i = subRecordType.Length - 2;
-                                recType = subRecordType.Substring(i, 2);
-                                break;
-                            }
-
-                        }
-                    }
+                    recType = App.Prj.RecordTypes[row, 3];
+                    break;
                 }
-                recCount++;
+                if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
+                (App.Prj.RecordTypes[row, 2] == tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[row, 1])]))
+                {
+                    recType = App.Prj.RecordTypes[row, 3];
+                    break;
+                }
+
             }
-            //foreach (string recordType in App.Prj.RecordTypes)
-            //{
-            //    if (recValue.Contains(recordType))
-            //    {
-            //        // mlh check type of message 
-            //        switch (recCount)
-            //        {
-            //            case 0:
-            //            case 1:
-            //                recType = recCount.ToString("00");
-            //                break;
-            //            case 2:
-            //                tmpTypes = recValue.Split((char)0x1c);
-            //                foreach (string subRecordType in App.Prj.SubRecordTypes3)
-            //                {
-            //                    if (tmpTypes[3] == subRecordType)
-            //                    {
-            //                        recType = subRecordType;
-            //                        break;
-            //                    }
 
-            //                }
-            //                break;
 
-            //            case 3:
-            //                tmpTypes = recValue.Split((char)0x1c);
-            //                foreach (string subRecordType in App.Prj.SubRecordTypes8)
-            //                {
-            //                    if (tmpTypes[2] == subRecordType)
-            //                    {
-            //                        recType = "8" + subRecordType;
-            //                        break;
-            //                    }
-            //                }
-            //                break;
-            //        }
-            //    }
-            //    recCount++;
-            //    }
-
-            switch (recType)
+                switch (recType)
             {
                 // mlh process type of message
 

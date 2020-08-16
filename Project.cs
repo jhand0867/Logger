@@ -33,7 +33,7 @@ namespace Logger
     public class Project : App
     {
         public delegate void delegate1(typeRec typeRec, string str1, string str2);
-        
+
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -68,7 +68,25 @@ namespace Logger
 
         // mlh list type of messages
 
-        private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 8", "HOST2ATM: 3" };
+        //private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 8", "HOST2ATM: 3" };
+        private readonly string[,] recordTypes = { { "ATM2HOST: 11", "0","", "00" }, 
+                                          { "HOST2ATM: 4", "0","", "01" },
+                                          { "HOST2ATM: 3", "3","11", "11" },
+                                          { "HOST2ATM: 3", "3","12", "12" },
+                                          { "HOST2ATM: 3", "3","13", "13" },
+                                          { "HOST2ATM: 3", "3","15", "15" },
+                                          { "HOST2ATM: 3", "3","16", "16" },
+                                          { "HOST2ATM: 3", "3","1A", "1A" },
+                                          { "HOST2ATM: 3", "3","1B", "1B" },
+                                          { "HOST2ATM: 3", "3","1C", "1C" },
+                                          { "HOST2ATM: 3", "3","1E", "1E" },
+                                          { "HOST2ATM: 8", "2","1", "81" },
+                                          { "HOST2ATM: 8", "2","2", "82" },
+                                          { "HOST2ATM: 8", "2","3", "83" },
+                                          { "HOST2ATM: 8", "2","4", "84" },
+                                          { "HOST2ATM: 8", "2","5", "85" },
+                                        };
+        
         // to be used as index in tmptypes
         private int[] recordTypeIdx = { 0, 0, 2, 3 };
         private string[] subRecordTypes = { "81", "82", "83", "84", "85","311", "312", "313", "315", "316", "31A", "31B", "31C", "31E" };
@@ -80,7 +98,7 @@ namespace Logger
             get { return extensionsLst; }
             set { extensionsLst = value; }
         }
-        public string[] RecordTypes
+        public string[,] RecordTypes
         {
             get { return recordTypes; }
         }
