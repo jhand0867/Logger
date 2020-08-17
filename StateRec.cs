@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Logger
 {
-    public class stateRec : App
+    public class stateRec : App, IMessage
 
     {
         private string pStateNum;
@@ -423,6 +423,11 @@ namespace Logger
         public virtual string checkZExtensions(stateRec st)
         {
             return null;
+        }
+
+        DataTable IMessage.getDescription()
+        {
+            throw new NotImplementedException();
         }
     };
 }

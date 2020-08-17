@@ -44,79 +44,15 @@ namespace Logger
                     recType = App.Prj.RecordTypes[row, 3];
                     break;
                 }
-
             }
 
-
-                switch (recType)
+            IMessage theRecord = MessageFactory.Create_Record(recType);
+            if (theRecord != null)
             {
-                // mlh process type of message
-
-                case "00":
-                    TRec tr = new TRec();
-                    dts = tr.getRecord(logKey, logID, projectKey);
-                    break;
-                case "01":
-                    TReply treply = new TReply();
-                    dts = treply.getRecord(logKey, logID, projectKey);
-                    break;
-                case "11":
-                    screenRec scrRec = new screenRec();
-                    break;
-                case "12":
-                    stateRec staRec = new stateRec();
-                    dts = staRec.getRecord(logKey, logID, projectKey);
-                    break;
-                case "13":
-                    configParamsRec cpRec = new configParamsRec();
-                    break;
-                case "15":
-                    FitRec fitRec = new FitRec();
-                    dts = fitRec.getRecord(logKey, logID, projectKey);
-                    break;
-                case "16":
-                    ConfigIdRec cir = new ConfigIdRec();
-                    dts = cir.getRecord(logKey, logID, projectKey);
-                    break;
-                case "1A":
-                    EnhancedParamsRec epRec = new EnhancedParamsRec();
-                    dts = epRec.getRecord(logKey, logID, projectKey);
-                    break;
-                case "1B":
-                    //writeMAC(typeList);
-                    break;
-                case "1C":
-                    DateAndTimeRec dt = new DateAndTimeRec();
-                    break;
-                case "1E":
-                    //writeDispenser(typeList);
-                    break;
-                case "42":
-                    ExtEncryptionRec xer = new ExtEncryptionRec();
-                    break;
-                case "81":
-                    ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT();
-                    dts = iccCurrency.getRecord(logKey, logID, projectKey);
-                    break;
-                case "82":
-                    ICCTransactionDOT iccTransaction = new ICCTransactionDOT();
-                    dts = iccTransaction.getRecord(logKey, logID, projectKey);
-                    break;
-                case "83":
-                    ICCLanguageSupportT iccLanguage = new ICCLanguageSupportT();
-                    dts = iccLanguage.getRecord(logKey, logID, projectKey);
-                    break;
-                case "84":
-                    ICCTerminalDOT iccTerminal = new ICCTerminalDOT();
-                    dts = iccTerminal.getRecord(logKey, logID, projectKey);
-                    break;
-                case "85":
-                    ICCApplicationIDT iccApplication = new ICCApplicationIDT();
-                    dts = iccApplication.getRecord(logKey, logID, projectKey);
-                    break;
-
+                return theRecord.getRecord(logKey, logID, projectKey);
             }
-            return dts;
+            return null;
+
         }
         public void WriteLog(string filePath, string fileName, string logLine)
         {

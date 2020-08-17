@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Logger
 {
-    class EnhancedParamsRec : App
+    class EnhancedParamsRec : App, IMessage
     {
         public struct parameterAndValue
         {
@@ -154,6 +154,16 @@ namespace Logger
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
             return dt;
+        }
+
+        List<DataTable> IMessage.getRecord(string logKey, string logID, string projectKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        DataTable IMessage.getDescription()
+        {
+            throw new NotImplementedException();
         }
     }
 }

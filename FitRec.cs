@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace Logger
 {
-    public class FitRec : App
+    public class FitRec : App, IMessage
     {
         private string prectype;
         private string pfitnum;

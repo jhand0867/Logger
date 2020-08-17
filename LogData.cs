@@ -40,6 +40,8 @@ namespace Logger
             int fieldNum = -1;
             int timerNum = 0;
 
+            if (dts == null) { return; }
+
             foreach (DataTable dt in dts)
             {
                 if (dt.Rows.Count > 0)

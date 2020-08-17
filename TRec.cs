@@ -106,7 +106,7 @@ namespace Logger
         public string paramValue;
     };
 
-    class TRec : App
+    class TRec : App, IMessage
     {
         public DataTable getDescription()
         {

@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Logger
 {
-    class ConfigIdRec : App
+    class ConfigIdRec : App, IMessage
     {
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
@@ -51,5 +51,9 @@ namespace Logger
 
         }
 
+        DataTable IMessage.getDescription()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

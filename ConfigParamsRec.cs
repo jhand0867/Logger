@@ -7,13 +7,13 @@ using System.Data.SqlClient;
 namespace Logger
 {
 
-    public class configParamsRec : App
+    public class configParamsRec : App, IMessage
     {
         public struct timerRec
         {
             public string timerNum;
             public string timerTics;
-        }
+        };
 
         public struct configParams
         {
@@ -145,6 +145,15 @@ namespace Logger
 
         }
 
+        List<DataTable> IMessage.getRecord(string logKey, string logID, string projectKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        DataTable IMessage.getDescription()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

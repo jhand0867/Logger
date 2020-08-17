@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Logger
 {
-    class ExtEncryptionRec : App
+    class ExtEncryptionRec : App, IMessage
     {
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
@@ -35,5 +36,14 @@ namespace Logger
                 return true;
         }
 
+        DataTable IMessage.getDescription()
+        {
+            throw new NotImplementedException();
+        }
+
+        List<DataTable> IMessage.getRecord(string logKey, string logID, string projectKey)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

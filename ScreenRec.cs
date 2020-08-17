@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Logger
 {
-    public class screenRec : App
+    public class screenRec : App, IMessage
     {
         private string plogkey;
         private string prectype;
@@ -97,5 +97,14 @@ namespace Logger
 
         }
 
+        List<DataTable> IMessage.getRecord(string logKey, string logID, string projectKey)
+        {
+            return null;
+        }
+
+        DataTable IMessage.getDescription()
+        {
+            return null;
+        }
     }
 }
