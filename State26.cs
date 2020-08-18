@@ -1,8 +1,8 @@
 ﻿namespace Logger
 {
-    class State26 : stateRec
+    class State26 : StateRec
     {
-        public override void ValidateState(stateRec stateData)
+        public override void ValidateState(StateRec stateData)
         {
 
             if (stateData.stateType == "&")
@@ -10,7 +10,7 @@
 
         }
 
-        public override void checkExtensions(stateRec st)
+        public override void checkExtensions(StateRec st)
         {
             bool stateExtension = false;
 

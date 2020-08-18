@@ -74,7 +74,7 @@ namespace Logger
                                     stateType = dt.Rows[rowNum][fieldNum].ToString();
                                 }
                             }
-                            stateRec stRec = new stateRec();
+                            StateRec stRec = new StateRec();
                             stRec.StateNumber = dt.Rows[rowNum][3].ToString();
                             stRec.StateType = dt.Rows[rowNum][4].ToString();
                             stRec.Val1 = dt.Rows[rowNum][5].ToString();

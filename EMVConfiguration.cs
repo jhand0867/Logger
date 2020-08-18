@@ -183,7 +183,7 @@ namespace Logger
         }
         public virtual List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public virtual bool writeData(List<typeRec> typeRecs, string Key, string logID)

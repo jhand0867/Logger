@@ -4,12 +4,12 @@ using System.Data;
 
 namespace Logger
 {
-    class StateZ : stateRec
+    class StateZ : StateRec
     {
 
-        public override void ValidateState(stateRec stateData)
+        public override void ValidateState(StateRec stateData)
         {
-            Dictionary<string, stateRec> resultData = new Dictionary<string, stateRec>();
+            Dictionary<string, StateRec> resultData = new Dictionary<string, StateRec>();
             this.ValidateState(stateData);
 
             if (stateData.stateType == "Z")
@@ -46,12 +46,12 @@ namespace Logger
             }
         }
 
-        public override string checkZExtensions(stateRec st)
+        public override string checkZExtensions(StateRec st)
         {
             // st holds the Z state
 
             string stateFound = "";
-            foreach (stateRec state in App.Prj.ExtensionsLst)
+            foreach (StateRec state in App.Prj.ExtensionsLst)
             {
                 // state holds the state waiting for extension
                 //if (st.StateNumber == state.StateNumber)
@@ -190,7 +190,7 @@ namespace Logger
             }
             return stateFound;
         }
-        public override void checkExtensions(stateRec st)
+        public override void checkExtensions(StateRec st)
         {
             bool stateExtension = false;
 

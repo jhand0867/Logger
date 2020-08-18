@@ -1,6 +1,6 @@
 ﻿namespace Logger
 {
-    class StateAll : stateRec
+    class StateAll : StateRec
     {
         
     }

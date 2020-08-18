@@ -92,8 +92,8 @@ namespace Logger
         private string[] subRecordTypes = { "81", "82", "83", "84", "85","311", "312", "313", "315", "316", "31A", "31B", "31C", "31E" };
         //private string[] subRecordTypes3 = { "11", "12", "13", "15", "16", "1A", "1B", "1C", "1E" };
         //private string[] subRecordTypes8 = { "1", "2", "3", "4", "5" };
-        private List<stateRec> extensionsLst = new List<stateRec>();
-        public List<stateRec> ExtensionsLst
+        private List<StateRec> extensionsLst = new List<StateRec>();
+        public List<StateRec> ExtensionsLst
         {
             get { return extensionsLst; }
             set { extensionsLst = value; }
@@ -594,129 +594,139 @@ namespace Logger
 
             //}
 
-            switch (recordType)
+            IMessage theRecord = MessageFactory.Create_Record(recordType);
+
+            if (theRecord != null)
             {
-                case "00":
-                    TRec tr = new TRec();
-                    if (tr.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-
-                    break;
-                case "01":
-                    TReply treply = new TReply();
-                    if (treply.writeData(typeList, Key, logID))
-                    {
-                        // set screen bit to true
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-                case "11":
-                    screenRec scrRec = new screenRec();
-                    if (scrRec.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-                case "12":
-                    stateRec staRec = new stateRec();
-                    if (staRec.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-                case "13":
-                    configParamsRec cpRec = new configParamsRec();
-                    if (cpRec.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-                case "15":
-                    FitRec fitRec = new FitRec();
-                    if (fitRec.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-                case "16":
-                    ConfigIdRec cir = new ConfigIdRec();
-                    if (cir.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-                case "1A":
-                    EnhancedParamsRec epRec = new EnhancedParamsRec();
-                    if (epRec.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-                case "1B":
-                    //writeMAC(typeList);
-                    break;
-                case "1C":
-                    DateAndTimeRec dt = new DateAndTimeRec();
-                    if (dt.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-                case "1E":
-                    //writeDispenser(typeList);
-                    break;
-                case "42":
-                    ExtEncryptionRec xer = new ExtEncryptionRec();
-                    if (xer.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-
-                case "81":
-                    // ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT(new emvConfiguration());
-                    ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT();
-                    if (iccCurrency.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-
-                case "82":
-                    ICCTransactionDOT iccTransaction = new ICCTransactionDOT();
-                    if (iccTransaction.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-
-                case "83":
-                    ICCLanguageSupportT iccLanguage = new ICCLanguageSupportT();
-                    if (iccLanguage.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-
-                case "84":
-                    ICCTerminalDOT iccTerminal = new ICCTerminalDOT();
-                    if (iccTerminal.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-
-                case "85":
-                    ICCApplicationIDT iccApplication = new ICCApplicationIDT();
-                    if (iccApplication.writeData(typeList, Key, logID))
-                    {
-                        setBitToTrue(recordType, logID);
-                    }
-                    break;
-
+                if (theRecord.writeData(typeList, Key, logID))
+                {
+                    setBitToTrue(recordType, logID);
+                }
             }
+
+            //switch (recordType)
+            //{
+            //    case "00":
+            //        TRec tr = new TRec();
+            //        if (tr.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+
+            //        break;
+            //    case "01":
+            //        TReply treply = new TReply();
+            //        if (treply.writeData(typeList, Key, logID))
+            //        {
+            //            // set screen bit to true
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+            //    case "11":
+            //        screenRec scrRec = new screenRec();
+            //        if (scrRec.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+            //    case "12":
+            //        stateRec staRec = new stateRec();
+            //        if (staRec.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+            //    case "13":
+            //        configParamsRec cpRec = new configParamsRec();
+            //        if (cpRec.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+            //    case "15":
+            //        FitRec fitRec = new FitRec();
+            //        if (fitRec.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+            //    case "16":
+            //        ConfigIdRec cir = new ConfigIdRec();
+            //        if (cir.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+            //    case "1A":
+            //        EnhancedParamsRec epRec = new EnhancedParamsRec();
+            //        if (epRec.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+            //    case "1B":
+            //        //writeMAC(typeList);
+            //        break;
+            //    case "1C":
+            //        DateAndTimeRec dt = new DateAndTimeRec();
+            //        if (dt.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+            //    case "1E":
+            //        //writeDispenser(typeList);
+            //        break;
+            //    case "42":
+            //        ExtEncryptionRec xer = new ExtEncryptionRec();
+            //        if (xer.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+
+            //    case "81":
+            //        // ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT(new emvConfiguration());
+            //        ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT();
+            //        if (iccCurrency.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+
+            //    case "82":
+            //        ICCTransactionDOT iccTransaction = new ICCTransactionDOT();
+            //        if (iccTransaction.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+
+            //    case "83":
+            //        ICCLanguageSupportT iccLanguage = new ICCLanguageSupportT();
+            //        if (iccLanguage.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+
+            //    case "84":
+            //        ICCTerminalDOT iccTerminal = new ICCTerminalDOT();
+            //        if (iccTerminal.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+
+            //    case "85":
+            //        ICCApplicationIDT iccApplication = new ICCApplicationIDT();
+            //        if (iccApplication.writeData(typeList, Key, logID))
+            //        {
+            //            setBitToTrue(recordType, logID);
+            //        }
+            //        break;
+
+            //}
         }
         //todo: move to utils
         private void setBitToTrue(string recordType, string logID)

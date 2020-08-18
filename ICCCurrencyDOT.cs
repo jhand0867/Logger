@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Logger
 {
-    class ICCCurrencyDOT: EMVConfiguration
+    class ICCCurrencyDOT: EMVConfiguration, IMessage
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                 System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

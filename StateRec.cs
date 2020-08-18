@@ -6,9 +6,12 @@ using System.Data.SqlClient;
 
 namespace Logger
 {
-    public class stateRec : App, IMessage
+    public class StateRec : App, IMessage, IStateExtension
 
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+                System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private string pStateNum;
         private string pStateType;
         private string pSta1;
@@ -94,7 +97,7 @@ namespace Logger
         public string sta8   // property
         => pSta8;
 
-        public virtual void ValidateState(stateRec stateData)
+        public virtual void ValidateState(StateRec stateData)
         {
             string stateTypes = @"ABCDEFGHIJKLMNORSTVWXYZbdefgkmwz->&z";
             if (!(stateTypes.Contains(stateData.stateType)))
@@ -103,7 +106,7 @@ namespace Logger
             }
         }
 
-        public Dictionary<string, stateRec> ValidateStateNumber(string value)
+        public Dictionary<string, StateRec> ValidateStateNumber(string value)
         {
             int stateNum = Convert.ToInt32(value);
             if (!(stateNum >= 0 && stateNum <= 999))
@@ -115,7 +118,7 @@ namespace Logger
             string sql = @"SELECT * FROM [stateinfo] " +
                           "WHERE [stateNum ] ='" + value + "'";
 
-            Dictionary<string, stateRec> resultData = this.readData(sql);
+            Dictionary<string, StateRec> resultData = this.readData(sql);
 
             if (resultData.Count <= 0)
             {
@@ -125,20 +128,20 @@ namespace Logger
             return resultData;
         }
 
-        public new Dictionary<string, stateRec> readData(string sql)
+        public new Dictionary<string, StateRec> readData(string sql)
         {
             // here mlh
 
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
-            Dictionary<string, stateRec> dicData = new Dictionary<string, stateRec>();
+            Dictionary<string, StateRec> dicData = new Dictionary<string, StateRec>();
 
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {
-                    stateRec sr = new stateRec();
+                    StateRec sr = new StateRec();
                     sr.pStateNum = row[3].ToString();
                     sr.pStateType = row[4].ToString();
                     sr.pSta1 = row[5].ToString();
@@ -212,139 +215,39 @@ namespace Logger
 
         }
 
-        public virtual string getInfo(stateRec stRec)
+        public virtual string getInfo(StateRec stRec)
         {
             string stateType = stRec.StateType;
+
             string stateNum = stRec.StateNumber;
 
-
-
             DataTable dt = new DataTable();
-            stateRec currentState = new stateRec();
 
-            switch (stRec.StateType)
+            log.Info("Generating state record for statey " + stRec.StateType);
+
+            StateRec theRecord = MessageFactory.Create_StateRecord(stRec.StateType);
+    
+            if (theRecord == null)
             {
-                case "A":
-                    currentState = new StateA();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "B":
-                    currentState = new StateB();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "D":
-                    currentState = new StateD();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "E":
-                    currentState = new StateE();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "F":
-                    currentState = new StateF();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "G":
-                    currentState = new StateG();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "H":
-                    currentState = new StateH();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "I":
-                    currentState = new StateI();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "J":
-                    currentState = new StateJ();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "K":
-                    currentState = new StateK();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "M":
-                    currentState = new StateM();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "N":
-                    currentState = new StateN();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "W":
-                    currentState = new StateW();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "X":
-                    currentState = new StateX();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "Y":
-                    currentState = new StateY();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "_":
-                    currentState = new State5F();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "+":
-                    currentState = new State2B();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "&":
-                    currentState = new State26();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case ",":
-                    currentState = new State2C();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "-":
-                    currentState = new State2D();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case ".":
-                    currentState = new State2E();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "/":
-                    currentState = new State2F();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case ";":
-                    currentState = new State3B();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case ">":
-                    currentState = new State3E();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "?":
-                    currentState = new State3F();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "k":
-                    currentState = new State6B();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "w":
-                    currentState = new State77();
-                    dt = currentState.getStateDescription(stRec.StateType);
-                    break;
-                case "Z":
-                    currentState = new StateZ();
-                    string extensionFound = currentState.checkZExtensions(stRec);
+                return null;
+            }
 
-                    if (extensionFound.Length > 0)
-                    {
-                        dt = currentState.getStateDescription(extensionFound.Substring(3, extensionFound.Length - 3));
-                        stateNum = extensionFound.Substring(0, 3);
-                    }
-                    break;
+            if (stRec.StateType == "Z")
+            {
+                string extensionFound = theRecord.checkZExtensions(stRec);
+                if (extensionFound.Length > 0)
+                {
+                    dt = theRecord.getStateDescription(extensionFound.Substring(3, extensionFound.Length - 3));
+                    stateNum = extensionFound.Substring(0, 3);
+                    log.Info("DataTable records = " + dt.Rows.Count);
+                }
+            }
+            else
+            {
 
-                default:
-                    break;
+                dt = theRecord.getStateDescription(stRec.StateType);
+
+                log.Info("DataTable records = " + dt.Rows.Count);
             }
 
             string stateTypetmp = "";
@@ -352,7 +255,6 @@ namespace Logger
             if (dt.Rows.Count > 0)
             {
                 stateTypetmp = dt.Rows[0]["subRecType"].ToString().Trim();
-
 
                 string fieldData = dt.Rows[0][3].ToString().Trim() + ":\t" + stRec.StateNumber + System.Environment.NewLine;
 
@@ -376,10 +278,12 @@ namespace Logger
                 // is there extension information on the val
                 //
 
-                stateRec stRecTmp = new stateRec();
+                StateRec stRecTmp = new StateRec();
                 stRecTmp = stRec;
                 stRecTmp.StateType = dt.Rows[0]["subRecType"].ToString().Trim();
-                currentState.checkExtensions(stRecTmp);
+ //               currentState.checkExtensions(stRecTmp);
+                theRecord.checkExtensions(stRecTmp);
+
                 return fieldData;
             }
             else
@@ -416,11 +320,11 @@ namespace Logger
             return description;
         }
 
-        public virtual void checkExtensions(stateRec st)
+        public virtual void checkExtensions(StateRec st)
         {
         }
 
-        public virtual string checkZExtensions(stateRec st)
+        public virtual string checkZExtensions(StateRec st)
         {
             return null;
         }

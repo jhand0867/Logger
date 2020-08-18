@@ -126,7 +126,7 @@ namespace Logger
 
         }
 
-        internal List<DataTable> getRecord(string logKey, string logID, string projectKey)
+        public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
             List<DataTable> dts = new List<DataTable>();
             DataTable dt = new DataTable();
@@ -146,7 +146,7 @@ namespace Logger
 
         }
 
-        internal DataTable getDescription()
+        public DataTable getDescription()
         {
             DataTable dt = new DataTable();
             string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'C' ";
@@ -156,14 +156,5 @@ namespace Logger
             return dt;
         }
 
-        List<DataTable> IMessage.getRecord(string logKey, string logID, string projectKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        DataTable IMessage.getDescription()
-        {
-            throw new NotImplementedException();
-        }
-    }
+     }
 }
