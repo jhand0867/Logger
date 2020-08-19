@@ -5,23 +5,31 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Logger
 {
+    //public struct dataLine
+    //{
+    //    public string group0;
+    //    public string group1;
+    //    public string group2;
+    //    public string group3;
+    //    public string group4;
+    //    public string group5;
+    //    public string group6;
+    //    public string group7;
+    //    public string group8;
+    //    public string group9;
+    //}
+
     public struct dataLine
     {
-        public string group0;
-        public string group1;
-        public string group2;
-        public string group3;
-        public string group4;
-        public string group5;
-        public string group6;
-        public string group7;
-        public string group8;
-        public string group9;
+        public string[] allGroups;
     }
+
 
     public struct typeRec
     {
@@ -32,9 +40,6 @@ namespace Logger
 
     public class Project : App
     {
-        public delegate void delegate1(typeRec typeRec, string str1, string str2);
-
-
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -42,7 +47,6 @@ namespace Logger
         private string pName;
         private string pBrief;
         private int pLogs;
-
 
         public string Key   // property
         {
@@ -62,6 +66,7 @@ namespace Logger
         {
             get { return pLogs; }   // get method
         }
+
 
 
         // Initialize all record types
@@ -87,11 +92,7 @@ namespace Logger
                                           { "HOST2ATM: 8", "2","5", "85" },
                                         };
         
-        // to be used as index in tmptypes
-        private int[] recordTypeIdx = { 0, 0, 2, 3 };
-        private string[] subRecordTypes = { "81", "82", "83", "84", "85","311", "312", "313", "315", "316", "31A", "31B", "31C", "31E" };
-        //private string[] subRecordTypes3 = { "11", "12", "13", "15", "16", "1A", "1B", "1C", "1E" };
-        //private string[] subRecordTypes8 = { "1", "2", "3", "4", "5" };
+        
         private List<StateRec> extensionsLst = new List<StateRec>();
         public List<StateRec> ExtensionsLst
         {
@@ -102,22 +103,7 @@ namespace Logger
         {
             get { return recordTypes; }
         }
-        public int[] RecordTypeIdx
-        {
-            get { return recordTypeIdx; }
-        }
-        public string[] SubRecordTypes
-        {
-            get { return subRecordTypes; }
-        }
-        //public string[] SubRecordTypes3
-        //{
-        //    get { return subRecordTypes3; }
-        //}
-        //public string[] SubRecordTypes8
-        //{
-        //    get { return subRecordTypes8; }
-        //}
+
         public Dictionary<string, string> recTypesDic = new Dictionary<string, string>();
 
 
@@ -129,6 +115,7 @@ namespace Logger
             pName = "";
             pBrief = "";
             pLogs = 0;
+
 
             // mlh: New scans needs to be added here!
 
@@ -325,7 +312,6 @@ namespace Logger
             while (lineProcess < lstLines.Length)
             {
                 strLine = lstLines[lineProcess];
-                dataLine record = new dataLine();
 
                 lineProcess++;
 
@@ -362,6 +348,8 @@ namespace Logger
                 }
 
                 string strDate = "";
+                dataLine record = new dataLine();
+                record.allGroups = new string[12];
 
                 foreach (Match item in openGroupContent[0].Groups)
                 {
@@ -372,7 +360,7 @@ namespace Logger
                         strLineSub = strLine.Substring(item.Value.Length, strLine.Length - item.Value.Length);
                         recExtent = recExtent + strLineSub.Split('\n').Length;
                     }
-
+                    int groupNumber = 0;
                     foreach (Group group in item.Groups)
                     {
                         if (group.Value == strLine)
@@ -382,46 +370,24 @@ namespace Logger
                         }
                         MatchCollection matches = dateGroup.Matches(group.Value);
 
+                        groupNumber++;
                         group.Value.Replace(@"'", @"''");
-                        switch (group.Name)
-                        {
-                            case "0":
-                                strDate = matches[0].Value;
-                                break;
-                            case "1":
-                                record.group1 = group.Value.Replace(@"'", @"''");
-                                break;
-                            case "2":
-                                record.group2 = group.Value.Replace(@"'", @"''");
-                                break;
-                            case "3":
-                                record.group3 = group.Value.Replace(@"'", @"''");
-                                break;
-                            case "4":
-                                record.group4 = group.Value.Replace(@"'", @"''");
-                                break;
-                            case "5":
-                                record.group5 = group.Value.Replace(@"'", @"''");
-                                break;
-                            case "6":
-                                record.group6 = group.Value.Replace(@"'", @"''");
-                                break;
-                            case "7":
-                                record.group7 = group.Value.Replace(@"'", @"''");
-                                break;
-                            case "8":
-                                record.group8 = group.Value.Replace(@"'", @"''") + strLineSub;
-                                break;
-                            default:
-                                record.group9 = group.Value.Replace(@"'", @"''");
-                                break;
-                        }
+
+                            if (groupNumber == 8)
+                            {
+                                record.allGroups[groupNumber] = group.Value.Replace(@"'", @"''") + strLineSub;
+                            }
+                            else
+                            {
+                                record.allGroups[groupNumber] = group.Value.Replace(@"'", @"''");
+                            }
 
                         if (group.Name == "1")
                         {
                             strDate = matches[0].Value;
 
-                            record.group0 = matches[0].Value;
+                            //record.group0 = matches[0].Value;
+                            record.allGroups[0] = matches[0].Value;
 
                             if (strDate == prevTimeStamp)
                             {
@@ -444,7 +410,6 @@ namespace Logger
                                     // add the data to the dictionary
                                     //groupsData = groupsData + group.Value + strLineSub;
 
-                                    //dataLine rec = new dataLine();
                                     string recKey = strDate + "-" + repLine.ToString();
                                     dicData.Add(recKey, record);
 
@@ -482,36 +447,37 @@ namespace Logger
 
         }
 
+
         public void writeData(string recKey, dataLine data, int logID)
         {
-                String sql = "";
+            String sql = "";
 
-                if ((data.group1.Length > 100) ||
-                    (data.group2.Length > 100) ||
-                    (data.group3.Length > 100) ||
-                    (data.group4.Length > 100) ||
-                    (data.group5.Length > 100) ||
-                    (data.group7.Length > 100))
-                {
-                    Console.WriteLine("error");
-                }
+            if ((data.allGroups[1].Length > 100) ||
+                (data.allGroups[2].Length > 100) ||
+                (data.allGroups[3].Length > 100) ||
+                (data.allGroups[4].Length > 100) ||
+                (data.allGroups[5].Length > 100) ||
+                (data.allGroups[7].Length > 100))
+            {
+                Console.WriteLine("error");
+            }
 
 
-                sql = @"INSERT INTO loginfo(logkey, group1, group2, group3, group4, group5, group6, group7, group8,prjKey, logID) 
+            sql = @"INSERT INTO loginfo(logkey, group1, group2, group3, group4, group5, group6, group7, group8,prjKey, logID) 
                         VALUES('" + recKey + "','" +
-                                   data.group1 + "','" +
-                                   data.group2 + "','" +
-                                   data.group3 + "','" +
-                                   data.group4 + "','" +
-                                   data.group5 + "','" +
-                                   data.group6 + "','" +
-                                   data.group7 + "','" +
-                                   WebUtility.HtmlEncode(data.group8 + data.group9) + "','" +
-                                   Key + "','" + logID + "')";
+                               data.allGroups[1] + "','" +
+                               data.allGroups[2] + "','" +
+                               data.allGroups[3] + "','" +
+                               data.allGroups[4] + "','" +
+                               data.allGroups[5] + "','" +
+                               data.allGroups[6] + "','" +
+                               data.allGroups[7] + "','" +
+                               WebUtility.HtmlEncode(data.allGroups[8] + data.allGroups[9]) + "','" +
+                               Key + "','" + logID + "')";
 
 
-                DbCrud db = new DbCrud();
-                if (db.addToDb(sql) == false) { };
+            DbCrud db = new DbCrud();
+            if (db.addToDb(sql) == false) { };
 
         }
 
@@ -589,10 +555,6 @@ namespace Logger
                     }
                 }
             }
-            // jmh
-            //public var processRecord =  new delegate1(new stateRec().writeData,){
-
-            //}
 
             IMessage theRecord = MessageFactory.Create_Record(recordType);
 
@@ -603,131 +565,8 @@ namespace Logger
                     setBitToTrue(recordType, logID);
                 }
             }
-
-            //switch (recordType)
-            //{
-            //    case "00":
-            //        TRec tr = new TRec();
-            //        if (tr.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-
-            //        break;
-            //    case "01":
-            //        TReply treply = new TReply();
-            //        if (treply.writeData(typeList, Key, logID))
-            //        {
-            //            // set screen bit to true
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-            //    case "11":
-            //        screenRec scrRec = new screenRec();
-            //        if (scrRec.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-            //    case "12":
-            //        stateRec staRec = new stateRec();
-            //        if (staRec.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-            //    case "13":
-            //        configParamsRec cpRec = new configParamsRec();
-            //        if (cpRec.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-            //    case "15":
-            //        FitRec fitRec = new FitRec();
-            //        if (fitRec.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-            //    case "16":
-            //        ConfigIdRec cir = new ConfigIdRec();
-            //        if (cir.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-            //    case "1A":
-            //        EnhancedParamsRec epRec = new EnhancedParamsRec();
-            //        if (epRec.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-            //    case "1B":
-            //        //writeMAC(typeList);
-            //        break;
-            //    case "1C":
-            //        DateAndTimeRec dt = new DateAndTimeRec();
-            //        if (dt.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-            //    case "1E":
-            //        //writeDispenser(typeList);
-            //        break;
-            //    case "42":
-            //        ExtEncryptionRec xer = new ExtEncryptionRec();
-            //        if (xer.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-
-            //    case "81":
-            //        // ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT(new emvConfiguration());
-            //        ICCCurrencyDOT iccCurrency = new ICCCurrencyDOT();
-            //        if (iccCurrency.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-
-            //    case "82":
-            //        ICCTransactionDOT iccTransaction = new ICCTransactionDOT();
-            //        if (iccTransaction.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-
-            //    case "83":
-            //        ICCLanguageSupportT iccLanguage = new ICCLanguageSupportT();
-            //        if (iccLanguage.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-
-            //    case "84":
-            //        ICCTerminalDOT iccTerminal = new ICCTerminalDOT();
-            //        if (iccTerminal.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-
-            //    case "85":
-            //        ICCApplicationIDT iccApplication = new ICCApplicationIDT();
-            //        if (iccApplication.writeData(typeList, Key, logID))
-            //        {
-            //            setBitToTrue(recordType, logID);
-            //        }
-            //        break;
-
-            //}
         }
+
         //todo: move to utils
         private void setBitToTrue(string recordType, string logID)
         {

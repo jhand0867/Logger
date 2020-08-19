@@ -7,8 +7,6 @@ namespace Logger
 {
     public partial class LogView : Form
     {
-        private IEnumerable<KeyValuePair<string, string>> _labels;
-
         public LogView()
         {
             InitializeComponent();

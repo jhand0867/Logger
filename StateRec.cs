@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Logger
 {
-    public class StateRec : App, IMessage, IStateExtension
+    public class StateRec : App, IMessage
 
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(

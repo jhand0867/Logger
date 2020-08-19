@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Logger
 {
-    class StateI : StateRec, IStateExtension
+    class StateI : StateRec
     {
         public override void ValidateState(StateRec stateData)
         {
