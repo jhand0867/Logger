@@ -111,21 +111,14 @@ namespace Logger
         private void detachToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            
             string logID = dgvr.Cells[0].Value.ToString();
-
-                String sql = "";
-
-                sql = @"DELETE from loginfo WHERE logID = " + logID +
-                       " ;DELETE from logs WHERE ID = " + logID +
-                       " ;UPDATE Project SET prjLogs = prjLogs - 1 " +
-                       "WHERE prjKey ='" + App.Prj.Key + "'";
-
-
-                DbCrud db = new DbCrud();
-                if (db.addToDb(sql) == false) { };
-
-                dataGridView1.DataSource = buildDataGridView1();
-                fixLogNames(dataGridView1);
+            
+            App.Prj.detachLogByID(logID);
+            
+            dataGridView1.DataSource = buildDataGridView1();
+            
+            fixLogNames(dataGridView1);
 
         }
 

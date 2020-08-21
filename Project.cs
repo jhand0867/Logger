@@ -290,7 +290,7 @@ namespace Logger
 
         public void uploadLog(string filename)
         {
-            addLogToProject(this.pKey);
+            //addLogToProject(this.pKey);
             int logID = attachLogToProject(this.pKey, filename);
 
             // create dictionary
@@ -307,8 +307,8 @@ namespace Logger
             string prevTimeStamp = "";
             long lineProcess = 0;
             string strLine = null;
+            bool flagWriteData = false;
 
-            //foreach (string strLine in lstLines)
             while (lineProcess < lstLines.Length)
             {
                 strLine = lstLines[lineProcess];
@@ -327,12 +327,13 @@ namespace Logger
                 }
 
                 while (lineProcess < lstLines.Length && lstLines[lineProcess] != ""
-                        && lstLines[lineProcess].Substring(0, 1) != "[")
+                        && lstLines[lineProcess].Substring(0, 1) != "["
+                        && lstLines[lineProcess].Substring(0, 1) != "="
+                      )
                 {
                     strLine += lstLines[lineProcess] + System.Environment.NewLine;
                     lineProcess++;
                 }
-
 
                 readRecs++;
                 // 
@@ -349,7 +350,7 @@ namespace Logger
 
                 string strDate = "";
                 dataLine record = new dataLine();
-                record.allGroups = new string[12];
+                record.allGroups = new string[11];
 
                 foreach (Match item in openGroupContent[0].Groups)
                 {
@@ -386,7 +387,6 @@ namespace Logger
                         {
                             strDate = matches[0].Value;
 
-                            //record.group0 = matches[0].Value;
                             record.allGroups[0] = matches[0].Value;
 
                             if (strDate == prevTimeStamp)
@@ -403,6 +403,7 @@ namespace Logger
                         {
                             //repLine = 0;
                             bool flagAdd = false;
+
                             while (!flagAdd)
                             {
                                 try
@@ -416,7 +417,7 @@ namespace Logger
                                     int recCount = dicData.Count;
                                     // insert data into db
                                     writeData(recKey, record, logID);
-
+                                    flagWriteData = true;
 
                                     prevTimeStamp = strDate;
                                     flagAdd = true;
@@ -438,15 +439,19 @@ namespace Logger
 
             }
 
-            /*          Console.WriteLine("Records Processed {0}", recProcessed);
-                        Console.WriteLine("Records Skipped {0}", recSkipped);
-                        Console.WriteLine("Records read {0}", readRecs);
-                        Console.WriteLine("Records Extended {0}", recExtent);
-                        Console.ReadKey();*/
+            addLogToProject(this.pKey);
+            if (flagWriteData != true) 
+                App.Prj.detachLogByID(logID.ToString());
 
+            //Todo: detach if processing did not completed 
 
+           log.Info($"Records Processed {recProcessed}");
+           log.Info($"Records Skipped {recSkipped}");
+           log.Info($"Records read {readRecs}"); 
+           log.Info($"Records Extended {recExtent}");
         }
 
+        //Todo: change to boolean
 
         public void writeData(string recKey, dataLine data, int logID)
         {
@@ -718,6 +723,16 @@ namespace Logger
                 }
             }
             return dicData;
+        }
+
+        public void detachLogByID(string logID)
+        {
+            string sql = @"DELETE from loginfo WHERE logID = " + logID +
+                       " ;DELETE from logs WHERE ID = " + logID +
+                       " ;UPDATE Project SET prjLogs = prjLogs - 1 " +
+                       "WHERE prjKey ='" + App.Prj.Key + "'";
+            DbCrud db = new DbCrud();
+            if (db.addToDb(sql) == false) { };
         }
     }
 }
