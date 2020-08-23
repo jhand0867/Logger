@@ -10,5 +10,7 @@ namespace Logger
         List<DataTable> getRecord(string logKey, string logID, string projectKey);
 
         DataTable getDescription();
+
+        string parseToView(DataTable dt, int rowNum, string txtField);
     }
 }

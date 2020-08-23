@@ -190,8 +190,6 @@ namespace Logger
         {
             foreach (typeRec r in typeRecs)
             {
-                //string[] tmpTypes = r.typeContent.Split((char)0x1c);
-
                 emvConfiguration emv = parseData(r.typeContent);
                 if (emv.NumberOfEntries == "") { emv.NumberOfEntries = r.typeAddData; } 
                 
@@ -228,6 +226,11 @@ namespace Logger
 
             return emv;
 
+        }
+
+        public string parseToView(DataTable dt, int rowNum, string txtField)
+        {
+            throw new NotImplementedException();
         }
     }
 }

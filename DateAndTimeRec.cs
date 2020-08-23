@@ -8,6 +8,11 @@ namespace Logger
 {
     class DateAndTimeRec : App, IMessage
     {
+        public string parseToView(DataTable dt, int rowNum, string txtField)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
                 String sql = "";

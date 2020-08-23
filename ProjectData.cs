@@ -49,8 +49,6 @@ namespace Logger
             dataGridView1.Columns[3].HeaderText = "Uploaded on";
             dataGridView1.Columns[3].Width = 250;
 
-
-
             for (int i = 4; i < dataGridView1.Columns.Count; i++)
             {
                 dataGridView1.Columns[i].Visible = false;
@@ -84,21 +82,17 @@ namespace Logger
         {
             for (int i = 0; i < dgv.Rows.Count; i++)
             {
-
                 string logLocation = dgv.Rows[i].Cells[2].Value.ToString();
                 dgv.Rows[i].Cells[2].ToolTipText = logLocation;
                 int logIndex = logLocation.LastIndexOf(@"\") + 1;
                 dgv.Rows[i].Cells[2].Value = logLocation.Substring(logIndex, logLocation.Length - logIndex);
                 dgv.Rows[i].Cells[2].Tag = 0;
 
-
             }
         }
 
         public DataTable buildDataGridView1()
         {
-            // here mlh
-
             DataTable dtLogs = new DataTable();
 
             string sql = @"SELECT * FROM logs WHERE prjKey ='" + App.Prj.Key + "'";
@@ -124,30 +118,34 @@ namespace Logger
 
         private void transactionReplyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 4%";
+            //string regExStr = "HOST2ATM: 4%";
 
-            string recordType = "01";
+            //string recordType = "01";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(01);
         }
 
         private void transactionRequestToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "ATM2HOST: 11%";
+            //string regExStr = "ATM2HOST: 11%";
 
-            string recordType = "00";
+            //string recordType = "00";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(00);
         }
 
         private void projectsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -160,102 +158,117 @@ namespace Logger
 
         private void screensToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 3%";
+            //string regExStr = "HOST2ATM: 3%";
 
-            string recordType = "11";
+            //string recordType = "11";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(02);
 
 
         }
 
         private void statesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 3%";
+            //string regExStr = "HOST2ATM: 3%";
 
-            string recordType = "12";
+            //string recordType = "12";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(03);
         }
 
         private void configurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 3%";
+            //string regExStr = "HOST2ATM: 3%";
 
-            string recordType = "13";
+            //string recordType = "13";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(04);
         }
 
         private void fITToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 3%";
+            //string regExStr = "HOST2ATM: 3%";
 
-            string recordType = "15";
+            //string recordType = "15";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(05);
         }
 
         private void configurationIDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 3%";
+            //string regExStr = "HOST2ATM: 3%";
 
-            string recordType = "16";
+            //string recordType = "16";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(06);
         }
 
         private void enhancedConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 3%";
+            //string regExStr = "HOST2ATM: 3%";
 
-            string recordType = "1A";
+            //string recordType = "1A";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(07);
         }
 
         private void dateAndTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 3%";
+            //string regExStr = "HOST2ATM: 3%";
 
-            string recordType = "1C";
+            //string recordType = "1C";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(09);
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -270,12 +283,9 @@ namespace Logger
 
         private void scanToolStripMenuItem_MouseDown(object sender, MouseEventArgs e)
         {
-            //DataTable dt = buildDataGridView1();
-            //dataGridView1.DataSource = dt;
-
-
             if (dataGridView1.Rows.Count == 0)
                 return;
+
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
             for (int x = 1, i = 4; i < dgvr.Cells.Count; i++, x++)
@@ -299,80 +309,104 @@ namespace Logger
 
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            // MessageBox.Show(e.RowIndex.ToString());
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
             logID = dgvr.Cells["id"].Value.ToString();
 
             LogView logView = new LogView();
-            //logView.MdiParent = "";
             logView.Show();
-
-
 
         }
 
         private void iCCCurrencyDOTToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 8%";
+            // string regExStr = "HOST2ATM: 8%";
+            // string recordType = "81";
 
-            string recordType = "81";
+            //string regExStr = App.Prj.RecordTypes[11, 0] + "%";
+            //string recordType = App.Prj.RecordTypes[11, 3];
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(11);
         }
 
         private void iCCTransactionDOTToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 8%";
+            //string regExStr = "HOST2ATM: 8%";
 
-            string recordType = "82";
+            //string recordType = "82";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(12);
         }
 
         private void iCCLanguageSupportTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 8%";
+            //string regExStr = "HOST2ATM: 8%";
 
-            string recordType = "83";
+            //string recordType = "83";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(13);
 
         }
 
         private void iCCTerminalDOTToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 8%";
+            //string regExStr = "HOST2ATM: 8%";
 
-            string recordType = "84";
+            //string recordType = "84";
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            string logID = dgvr.Cells[0].Value.ToString();
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
-            dataGridView1.DataSource = buildDataGridView1();
-            fixLogNames(dataGridView1);
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(14);
         }
 
         private void iCCTerminalAcceptableAIDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string regExStr = "HOST2ATM: 8%";
+            //string regExStr = "HOST2ATM: 8%";
 
-            string recordType = "85";
+            //string recordType = "85";
+
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //string logID = dgvr.Cells[0].Value.ToString();
+
+            //App.Prj.getData(regExStr, recordType, logID);
+            //dataGridView1.DataSource = buildDataGridView1();
+            //fixLogNames(dataGridView1);
+
+            optionSelected(15);
+
+        }
+        private void optionSelected ( int option)
+        {
+
+            // option is the entry position in the RecordTypes array
+
+            string regExStr = App.Prj.RecordTypes[option, 0] + "%";
+            string recordType = App.Prj.RecordTypes[option, 3];
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
             string logID = dgvr.Cells[0].Value.ToString();
@@ -380,7 +414,6 @@ namespace Logger
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
             fixLogNames(dataGridView1);
-
         }
     }
 }

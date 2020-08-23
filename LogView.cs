@@ -232,5 +232,10 @@ namespace Logger
         {
 
         }
+
+        private void dgvLog_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

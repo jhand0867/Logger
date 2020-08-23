@@ -665,5 +665,9 @@ namespace Logger
             return dts;
         }
 
+        public string parseToView(DataTable dt, int rowNum, string txtField)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

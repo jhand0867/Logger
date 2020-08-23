@@ -11,19 +11,6 @@ using System.Windows.Forms;
 
 namespace Logger
 {
-    //public struct dataLine
-    //{
-    //    public string group0;
-    //    public string group1;
-    //    public string group2;
-    //    public string group3;
-    //    public string group4;
-    //    public string group5;
-    //    public string group6;
-    //    public string group7;
-    //    public string group8;
-    //    public string group9;
-    //}
 
     public struct dataLine
     {
@@ -68,13 +55,9 @@ namespace Logger
         }
 
 
-
-        // Initialize all record types
-
-        // mlh list type of messages
-
-        //private string[] recordTypes = { "ATM2HOST: 11", "HOST2ATM: 4", "HOST2ATM: 8", "HOST2ATM: 3" };
-        private readonly string[,] recordTypes = { { "ATM2HOST: 11", "0","", "00" }, 
+        // list type of messages
+        private readonly string[,] recordTypes = { 
+                                          { "ATM2HOST: 11", "0","", "00" }, 
                                           { "HOST2ATM: 4", "0","", "01" },
                                           { "HOST2ATM: 3", "3","11", "11" },
                                           { "HOST2ATM: 3", "3","12", "12" },
@@ -94,6 +77,7 @@ namespace Logger
         
         
         private List<StateRec> extensionsLst = new List<StateRec>();
+
         public List<StateRec> ExtensionsLst
         {
             get { return extensionsLst; }
@@ -109,13 +93,10 @@ namespace Logger
 
         public Project()
         {
-            // mlh why this is executed more than once
-
             pKey = "";
             pName = "";
             pBrief = "";
             pLogs = 0;
-
 
             // mlh: New scans needs to be added here!
 
@@ -143,8 +124,6 @@ namespace Logger
 
         public Project getProjectByID(string prjID)
         {
-            // here mlh
-
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
             string sql = @"SELECT * FROM project WHERE prjKey='" + prjID + "'";
@@ -160,7 +139,6 @@ namespace Logger
                     pr.Name = row[2].ToString();
                     pr.Brief = row[3].ToString();
                     pr.pLogs = Convert.ToInt32(row[4].ToString());
-                    // pr.pLogs = Convert.ToInt32(dataReader.GetBoolean(4));
                 }
             }
             return pr;
@@ -168,8 +146,6 @@ namespace Logger
 
         public Dictionary<string, Project> getAllProjects()
         {
-            // here mlh
-
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
             string sql = @"SELECT * FROM project";
@@ -193,8 +169,6 @@ namespace Logger
 
         public Dictionary<string, Project> getProjectByName(string pName)
         {
-            // here mlh
-
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
             string sql = @"SELECT * FROM project WHERE prjName ='" + pName + "'";
@@ -228,7 +202,6 @@ namespace Logger
                     return false;
 
                 return true;
-
         }
 
         public bool addLogToProject(string pKey)
@@ -241,7 +214,6 @@ namespace Logger
                 return false;
 
             return true;
-
         }
 
         public int attachLogToProject(string pKey, string pFilename)
@@ -290,10 +262,8 @@ namespace Logger
 
         public void uploadLog(string filename)
         {
-            //addLogToProject(this.pKey);
             int logID = attachLogToProject(this.pKey, filename);
 
-            // create dictionary
             Dictionary<string, dataLine> dicData = new Dictionary<string, dataLine>();
 
             WriteLog("c:", "test.txt", "Testing Testing");
@@ -401,7 +371,6 @@ namespace Logger
 
                         if (group.Name == (item.Groups.Count - 1).ToString())
                         {
-                            //repLine = 0;
                             bool flagAdd = false;
 
                             while (!flagAdd)
@@ -421,7 +390,6 @@ namespace Logger
 
                                     prevTimeStamp = strDate;
                                     flagAdd = true;
-                                    //repLine++;
                                 }
                                 catch (System.ArgumentException e)
                                 {
@@ -440,7 +408,7 @@ namespace Logger
             }
 
             addLogToProject(this.pKey);
-            if (flagWriteData != true) 
+            if (flagWriteData == false) 
                 App.Prj.detachLogByID(logID.ToString());
 
             //Todo: detach if processing did not completed 
@@ -512,7 +480,6 @@ namespace Logger
 
             foreach (KeyValuePair<string, string> rec in data)
             {
-                // tmpTypes = rec.Value.Split((char)0x1c);
 
                 // Request or Reply
 
@@ -580,12 +547,11 @@ namespace Logger
 
             DbCrud db = new DbCrud();
             if (db.addToDb(sql) == false) { };
-
         }
 
         public DataTable getGroupOptions(string logID, string fieldName)
         {
-         DataTable dt = new DataTable();
+            DataTable dt = new DataTable();
             string sql = @"SELECT DISTINCT " + fieldName + " FROM loginfo WHERE logID =" +
                                                                   logID + " ORDER BY " + fieldName + " ASC";
 
@@ -644,10 +610,9 @@ namespace Logger
 
             Dictionary<string, int> dicBits = new Dictionary<string, int>();
 
-            string sql = @"SELECT COUNT(*) FROM screeninfo WHERE logID =" + logID;
-
             DbCrud db = new DbCrud();
 
+            string sql = @"SELECT COUNT(*) FROM screeninfo WHERE logID =" + logID;
             int count = db.GetScalarFromDb(sql);
             dicBits.Add("screens", count);
 
@@ -714,7 +679,6 @@ namespace Logger
             dt = db.GetTableFromDb(sql);
             Dictionary<string, string> dicData = new Dictionary<string, string>();
 
-    //        if (dt.Rows.Count > 0)
             if (dt != null)
             {
                 foreach (DataRow row in dt.Rows)

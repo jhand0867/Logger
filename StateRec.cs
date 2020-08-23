@@ -281,7 +281,6 @@ namespace Logger
                 StateRec stRecTmp = new StateRec();
                 stRecTmp = stRec;
                 stRecTmp.StateType = dt.Rows[0]["subRecType"].ToString().Trim();
- //               currentState.checkExtensions(stRecTmp);
                 theRecord.checkExtensions(stRecTmp);
 
                 return fieldData;
@@ -332,6 +331,41 @@ namespace Logger
         DataTable IMessage.getDescription()
         {
             throw new NotImplementedException();
+        }
+
+        public string parseToView(DataTable dt, int rowNum, string txtField)
+        {
+            for (int fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
+            {
+                if (fieldNum == 3)
+                {
+                    txtField += dt.Columns[fieldNum].ColumnName + " = " + dt.Rows[rowNum][fieldNum].ToString() + " ";
+                }
+                else
+                {
+                    txtField += dt.Rows[rowNum][fieldNum].ToString() + " ";
+                }
+                // what state type is it?
+                //if (fieldNum == 4)
+                //{
+                //    string stateType = dt.Rows[rowNum][fieldNum].ToString();
+                //}
+            }
+            //StateRec stRec = new StateRec();
+            this.StateNumber = dt.Rows[rowNum][3].ToString();
+            this.StateType = dt.Rows[rowNum][4].ToString();
+            this.Val1 = dt.Rows[rowNum][5].ToString();
+            this.Val2 = dt.Rows[rowNum][6].ToString();
+            this.Val3 = dt.Rows[rowNum][7].ToString();
+            this.Val4 = dt.Rows[rowNum][8].ToString();
+            this.Val5 = dt.Rows[rowNum][9].ToString();
+            this.Val6 = dt.Rows[rowNum][10].ToString();
+            this.Val7 = dt.Rows[rowNum][11].ToString();
+            this.Val8 = dt.Rows[rowNum][12].ToString();
+            txtField += System.Environment.NewLine;
+            txtField += System.Environment.NewLine;
+            txtField += this.getInfo(this);
+            return txtField;
         }
     };
 }

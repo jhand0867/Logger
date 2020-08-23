@@ -47,8 +47,6 @@ namespace Logger
 
         public new Dictionary<string, configParams> readData(string sql)
         {
-            // here mlh
-
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
@@ -151,6 +149,11 @@ namespace Logger
         }
 
         DataTable IMessage.getDescription()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string parseToView(DataTable dt, int rowNum, string txtField)
         {
             throw new NotImplementedException();
         }
