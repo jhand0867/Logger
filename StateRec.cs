@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Logger
 {
-    public class StateRec : App, IMessage
+    public class StateRec : App, IMessage, IExtensions
 
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -160,43 +158,43 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
-                String sql = "";
-                int loadNum = 0;
-                foreach (typeRec r in typeRecs)
+            String sql = "";
+            int loadNum = 0;
+            foreach (typeRec r in typeRecs)
+            {
+                // MAC lenght
+                if (r.typeContent.Length == 8)
                 {
-                    // MAC lenght
-                    if (r.typeContent.Length == 8)
-                    {
-                        continue;
-                    }
-                    if (r.typeContent.Substring(0, 3) == "000" && r.typeContent.Substring(3, 1) == "A")
-                    {
-                        loadNum++;
-                    }
-
-                    sql = @"INSERT INTO stateinfo([prjkey],[logkey],[rectype],[statenum],[statetype]," +
-                          "[sta1],[sta2],[sta3],[sta4],[sta5],[sta6],[sta7],[sta8],[load],[logID]) " +
-                          " VALUES('" + Key + "','" +
-                                        r.typeIndex + "','" +
-                                       'S' + "','" +
-                                       r.typeContent.Substring(0, 3) + "','" +
-                                       r.typeContent.Substring(3, 1) + "','" +
-                                       r.typeContent.Substring(4, 3) + "','" +
-                                       r.typeContent.Substring(7, 3) + "','" +
-                                       r.typeContent.Substring(10, 3) + "','" +
-                                       r.typeContent.Substring(13, 3) + "','" +
-                                       r.typeContent.Substring(16, 3) + "','" +
-                                       r.typeContent.Substring(19, 3) + "','" +
-                                       r.typeContent.Substring(22, 3) + "','" +
-                                       r.typeContent.Substring(25, 3) + "','" +
-                                       loadNum.ToString() + "'," +
-                                       logID + ")";
-
-                    DbCrud db = new DbCrud();
-                    if (db.addToDb(sql) == false)
-                        return false;
+                    continue;
                 }
-                return true;
+                if (r.typeContent.Substring(0, 3) == "000" && r.typeContent.Substring(3, 1) == "A")
+                {
+                    loadNum++;
+                }
+
+                sql = @"INSERT INTO stateinfo([prjkey],[logkey],[rectype],[statenum],[statetype]," +
+                      "[sta1],[sta2],[sta3],[sta4],[sta5],[sta6],[sta7],[sta8],[load],[logID]) " +
+                      " VALUES('" + Key + "','" +
+                                    r.typeIndex + "','" +
+                                   'S' + "','" +
+                                   r.typeContent.Substring(0, 3) + "','" +
+                                   r.typeContent.Substring(3, 1) + "','" +
+                                   r.typeContent.Substring(4, 3) + "','" +
+                                   r.typeContent.Substring(7, 3) + "','" +
+                                   r.typeContent.Substring(10, 3) + "','" +
+                                   r.typeContent.Substring(13, 3) + "','" +
+                                   r.typeContent.Substring(16, 3) + "','" +
+                                   r.typeContent.Substring(19, 3) + "','" +
+                                   r.typeContent.Substring(22, 3) + "','" +
+                                   r.typeContent.Substring(25, 3) + "','" +
+                                   loadNum.ToString() + "'," +
+                                   logID + ")";
+
+                DbCrud db = new DbCrud();
+                if (db.addToDb(sql) == false)
+                    return false;
+            }
+            return true;
         }
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
@@ -226,7 +224,11 @@ namespace Logger
             log.Info("Generating state record for statey " + stRec.StateType);
 
             StateRec theRecord = MessageFactory.Create_StateRecord(stRec.StateType);
-    
+            if (theRecord is StateZ)
+            {
+               
+            }
+
             if (theRecord == null)
             {
                 return null;
@@ -321,6 +323,7 @@ namespace Logger
 
         public virtual void checkExtensions(StateRec st)
         {
+            return;
         }
 
         public virtual string checkZExtensions(StateRec st)
@@ -351,20 +354,21 @@ namespace Logger
                 //    string stateType = dt.Rows[rowNum][fieldNum].ToString();
                 //}
             }
-            //StateRec stRec = new StateRec();
-            this.StateNumber = dt.Rows[rowNum][3].ToString();
-            this.StateType = dt.Rows[rowNum][4].ToString();
-            this.Val1 = dt.Rows[rowNum][5].ToString();
-            this.Val2 = dt.Rows[rowNum][6].ToString();
-            this.Val3 = dt.Rows[rowNum][7].ToString();
-            this.Val4 = dt.Rows[rowNum][8].ToString();
-            this.Val5 = dt.Rows[rowNum][9].ToString();
-            this.Val6 = dt.Rows[rowNum][10].ToString();
-            this.Val7 = dt.Rows[rowNum][11].ToString();
-            this.Val8 = dt.Rows[rowNum][12].ToString();
+            // todo: factory 
+            StateRec stRec = new StateRec();
+            stRec.StateNumber = dt.Rows[rowNum][3].ToString();
+            stRec.StateType = dt.Rows[rowNum][4].ToString();
+            stRec.Val1 = dt.Rows[rowNum][5].ToString();
+            stRec.Val2 = dt.Rows[rowNum][6].ToString();
+            stRec.Val3 = dt.Rows[rowNum][7].ToString();
+            stRec.Val4 = dt.Rows[rowNum][8].ToString();
+            stRec.Val5 = dt.Rows[rowNum][9].ToString();
+            stRec.Val6 = dt.Rows[rowNum][10].ToString();
+            stRec.Val7 = dt.Rows[rowNum][11].ToString();
+            stRec.Val8 = dt.Rows[rowNum][12].ToString();
             txtField += System.Environment.NewLine;
             txtField += System.Environment.NewLine;
-            txtField += this.getInfo(this);
+            txtField += getInfo(stRec);
             return txtField;
         }
     };

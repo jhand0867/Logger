@@ -67,6 +67,7 @@
     <Compile Include="ICCLanguageSupportT.cs" />
     <Compile Include="ICCTerminalDOT.cs" />
     <Compile Include="ICCTransactionDOT.cs" />
+    <Compile Include="IExtensions.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="LogData.cs">
       <SubType>Form</SubType>

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Logger
 {
@@ -57,43 +55,43 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
-                String sql = "";
-                int loadNum = 0;
-                foreach (typeRec r in typeRecs)
+            String sql = "";
+            int loadNum = 0;
+            foreach (typeRec r in typeRecs)
+            {
+                string scrdata = null;
+                string scrnum = null;
+                if (r.typeContent.Length < 3)
                 {
-                    string scrdata = null;
-                    string scrnum = null;
-                    if (r.typeContent.Length < 3)
-                    {
-                        continue;
-                    }
-                    scrnum = r.typeContent.Substring(0, 3);
-
-                    if (r.typeContent.Substring(0, 3) == "C00")
-                    {
-                        loadNum++;
-                    }
-
-                    if (r.typeContent.Length > 3)
-                    {
-                        scrdata = r.typeContent.Substring(3, r.typeContent.Length - 3);
-                        scrdata = scrdata.Replace(@"'", @"''");
-                    }
-
-                    sql = @"INSERT INTO screeninfo([logkey],[rectype],[scrnum],[scrdata],[load],[prjkey],[logID])" +
-                          " VALUES('" + r.typeIndex + "','" +
-                                       'C' + "','" +
-                          r.typeContent.Substring(0, 3) + "','" + // screenNum
-                                       scrdata + "','" + // screenData
-                                       loadNum.ToString() + "','" +
-                                       Key + "'," + logID + ")";
-
-
-                    DbCrud db = new DbCrud();
-                    if (db.addToDb(sql) == false)
-                        return false;
+                    continue;
                 }
-                return true;
+                scrnum = r.typeContent.Substring(0, 3);
+
+                if (r.typeContent.Substring(0, 3) == "C00")
+                {
+                    loadNum++;
+                }
+
+                if (r.typeContent.Length > 3)
+                {
+                    scrdata = r.typeContent.Substring(3, r.typeContent.Length - 3);
+                    scrdata = scrdata.Replace(@"'", @"''");
+                }
+
+                sql = @"INSERT INTO screeninfo([logkey],[rectype],[scrnum],[scrdata],[load],[prjkey],[logID])" +
+                      " VALUES('" + r.typeIndex + "','" +
+                                   'C' + "','" +
+                      r.typeContent.Substring(0, 3) + "','" + // screenNum
+                                   scrdata + "','" + // screenData
+                                   loadNum.ToString() + "','" +
+                                   Key + "'," + logID + ")";
+
+
+                DbCrud db = new DbCrud();
+                if (db.addToDb(sql) == false)
+                    return false;
+            }
+            return true;
 
         }
 

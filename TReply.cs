@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Logger
 {
@@ -292,7 +290,7 @@ namespace Logger
 
         private transactionReply parseTReply(string typeContent)
         {
-            string [] tmpTypes = typeContent.Split((char)0x1c);
+            string[] tmpTypes = typeContent.Split((char)0x1c);
 
             transactionReply treply = new transactionReply();
             treply.luno = tmpTypes[1];

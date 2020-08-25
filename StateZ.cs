@@ -4,7 +4,7 @@ using System.Data;
 
 namespace Logger
 {
-    class StateZ : StateRec
+    class StateZ : StateRec, IExtensions
     {
 
         public override void ValidateState(StateRec stateData)
@@ -45,6 +45,7 @@ namespace Logger
                 resultData = this.ValidateStateNumber(stateData.sta8);
             }
         }
+
 
         public override string checkZExtensions(StateRec st)
         {
@@ -190,6 +191,7 @@ namespace Logger
             }
             return stateFound;
         }
+
         public override void checkExtensions(StateRec st)
         {
             bool stateExtension = false;

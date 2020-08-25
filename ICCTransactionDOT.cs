@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Logger
 {
@@ -47,7 +44,7 @@ namespace Logger
 
                 List<iccTransaction> iccTransactionDOTList = parseData(tmpTypes[3]);
 
-                
+
                 // write Transaction DOT
 
                 foreach (iccTransaction c in iccTransactionDOTList)

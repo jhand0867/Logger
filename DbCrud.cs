@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,7 +12,7 @@ namespace Logger
 
         public bool addToDb(string sql)
         {
- 
+
             log.Info("Adding to Database ");
 
             string connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;

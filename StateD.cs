@@ -17,7 +17,7 @@ namespace Logger
             }
         }
 
-        public override void checkExtensions(StateRec st)
+        public void checkExtensions(StateRec st)
         {
             bool stateExtension = false;
 

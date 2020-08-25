@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Logger
 {
@@ -15,30 +13,30 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
-                String sql = "";
-                int loadNum = 0;
-                foreach (typeRec r in typeRecs)
+            String sql = "";
+            int loadNum = 0;
+            foreach (typeRec r in typeRecs)
+            {
+                if (r.typeContent.Length < 10)
                 {
-                    if (r.typeContent.Length < 10)
-                    {
-                        continue;
-                    }
-
-                    loadNum++;
-
-
-                    sql = @"INSERT INTO DateTime([logkey],[rectype],[date],[time],[load],[prjkey],[logID])" +
-                          " VALUES('" + r.typeIndex + "','" +
-                                       'D' + "','" +
-                                        r.typeContent.Substring(0, 6) + "','" + // date
-                                        r.typeContent.Substring(6, 4) + "','" + // time
-                                        loadNum.ToString() + "','" + key + "'," + logID + ")";
-
-                    DbCrud db = new DbCrud();
-                    if (db.addToDb(sql) == false)
-                        return false;
+                    continue;
                 }
-                return true;
+
+                loadNum++;
+
+
+                sql = @"INSERT INTO DateTime([logkey],[rectype],[date],[time],[load],[prjkey],[logID])" +
+                      " VALUES('" + r.typeIndex + "','" +
+                                   'D' + "','" +
+                                    r.typeContent.Substring(0, 6) + "','" + // date
+                                    r.typeContent.Substring(6, 4) + "','" + // time
+                                    loadNum.ToString() + "','" + key + "'," + logID + ")";
+
+                DbCrud db = new DbCrud();
+                if (db.addToDb(sql) == false)
+                    return false;
+            }
+            return true;
         }
 
         DataTable IMessage.getDescription()

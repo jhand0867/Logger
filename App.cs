@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Logger
@@ -20,25 +19,29 @@ namespace Logger
         public App()
         {
             //
-          
+
         }
+
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recValue)
         {
             string recType = "";
             List<DataTable> dts = new List<DataTable>();
 
+
             string[] tmpTypes = recValue.Split((char)0x1c);
 
-            for (int row = 0; row< App.Prj.RecordTypes.Length/4; row++)
+            for (int row = 0; row < App.Prj.RecordTypes.Length / 4; row++)
             {
-                if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
+               // if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
+                if (tmpTypes[0].Contains(App.Prj.RecordTypes[row, 0]) &&
                    (App.Prj.RecordTypes[row, 1] == "0"))
                 {
                     recType = App.Prj.RecordTypes[row, 3];
                     break;
                 }
-                if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
+                // if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
+                if (tmpTypes[0].Contains(App.Prj.RecordTypes[row, 0]) &&
                 (App.Prj.RecordTypes[row, 2] == tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[row, 1])]))
                 {
                     recType = App.Prj.RecordTypes[row, 3];
@@ -54,6 +57,43 @@ namespace Logger
             return null;
 
         }
+        //public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recValue)
+        //{
+        //    string recType = "";
+        //    List<DataTable> dts = new List<DataTable>();
+
+        //    string[] tmpTypes = recValue.Split((char)0x1c);
+
+        //    // changing to use regular expressions 
+        //    // create regex
+        //    Regex match3or30 = new Regex(@"host2atm: 3.?0");
+        //    MatchCollection resultContent = null;
+
+        //    for (int row = 0; row < App.Prj.RecordTypes.Length / 4; row++)
+        //    {
+        //        resultContent = match3or30.Matches(App.Prj.RecordTypes[row, 0]);
+        //        if (resultContent.Count == 0)
+        //        {
+        //            recType = App.Prj.RecordTypes[row, 3];
+        //            break;
+        //        }
+        //        if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
+        //        (App.Prj.RecordTypes[row, 2] == tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[row, 1])]))
+        //        {
+        //            recType = App.Prj.RecordTypes[row, 3];
+        //            break;
+        //        }
+        //    }
+
+        //    IMessage theRecord = MessageFactory.Create_Record(recType);
+        //    if (theRecord != null)
+        //    {
+        //        return theRecord.getRecord(logKey, logID, projectKey);
+        //    }
+        //    return null;
+
+        //}
+
         public void WriteLog(string filePath, string fileName, string logLine)
         {
             string f = filePath + fileName;
@@ -149,6 +189,21 @@ namespace Logger
             }
 
             return sb.ToString();
+        }
+
+        internal string getOptionDescription(DataTable dataTable, string field)
+        {
+            string optionDesc = "";
+            // what's the description of the field
+            foreach (DataRow item in dataTable.Rows)
+            {
+                if (item[2].ToString().Trim() == field)
+                {
+                    optionDesc = item[3].ToString().Trim();
+                    break;
+                }
+            }
+            return optionDesc;
         }
     }
 }

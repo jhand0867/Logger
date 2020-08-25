@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Logger
 {
@@ -61,8 +59,8 @@ namespace Logger
                                 [additionalTrk2DataLength],[additionalTrk2Data],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" + c.Rectype + "','" + c.EntryNumber + "','" + c.PrimaryAIDLength + "','" +
                                 c.PrimaryAIDValue + "','" + c.DefaultAppLabelLength + "','" + c.DefaultAppValue + "','" +
-                                c.PrimaryAIDICCAppType + "','" + c.PrimaryAIDLowestAppVersion + "','" + 
-                                c.PrimaryAIDHighestAppVersion + "','" + c.PrimaryAIDActionCode + "','" + 
+                                c.PrimaryAIDICCAppType + "','" + c.PrimaryAIDLowestAppVersion + "','" +
+                                c.PrimaryAIDHighestAppVersion + "','" + c.PrimaryAIDActionCode + "','" +
                                 c.NumberOfDataObjectTReq + "','" + c.DataObjectForTReq + "','" + c.NumberOfDataObjectCompletion + "','" +
                                 c.DataObjectForCompletion + "','" + c.NumberOfSecondaryAID + "','" +
                                 c.SecondaryAIDLgthValue + "','" + c.AppSelectionIndicator + "','" + c.Trk2DataForCentral + "','" +
@@ -75,7 +73,7 @@ namespace Logger
                 }
                 List<typeRec> emvList = new List<typeRec>();
                 typeRec rec = r;
-                rec.typeAddData = entries.ToString();                
+                rec.typeAddData = entries.ToString();
                 emvList.Add(rec);
                 if (base.writeData(emvList, Key, logID) == false)
                     return false;
@@ -87,7 +85,7 @@ namespace Logger
             iccApplication iccApp = new iccApplication();
             List<iccApplication> iccAppList = new List<iccApplication>();
 
-            
+
             string[] tmpAids = tmpTypes.Split((char)0x1d);
             int hexLength = 0;
             for (int x = 0; x < tmpAids.Length; x++)

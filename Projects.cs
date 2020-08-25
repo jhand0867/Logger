@@ -42,7 +42,7 @@ namespace Logger
             // Project pr = new Project();
             // Dictionary<string, Project> prjList = pr.getAllProjects();
             Dictionary<string, Project> prjList = App.Prj.getAllProjects();
-            
+
             log.Debug("Retrieving projects info");
             listView1.Items.Clear();
 
@@ -154,7 +154,7 @@ namespace Logger
 
             if (dt.Rows.Count == 0)
                 return;
-            
+
             foreach (DataRow dr in dt.Rows)
             {
                 TreeNode tn = new TreeNode();

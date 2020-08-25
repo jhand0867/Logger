@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Logger
 {
-    class ICCCurrencyDOT: EMVConfiguration, IMessage
+    class ICCCurrencyDOT : EMVConfiguration, IMessage
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                 System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        
+
         public new DataTable getDescription()
         {
             DataTable dt = new DataTable();
@@ -27,7 +24,7 @@ namespace Logger
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
 
-            string sql = @"SELECT TOP 1 * from EMVConfiguration WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%'"; 
+            string sql = @"SELECT TOP 1 * from EMVConfiguration WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%'";
             dt = db.GetTableFromDb(sql);
             dts.Add(dt);
 
@@ -62,7 +59,7 @@ namespace Logger
                     if (db.addToDb(sql) == false)
                         return false;
                 }
-                
+
                 //EMVConfiguration emv = new EMVConfiguration();
                 List<typeRec> emvList = new List<typeRec>();
                 emvList.Add(r);

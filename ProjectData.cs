@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace Logger
@@ -105,13 +103,13 @@ namespace Logger
         private void detachToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-            
+
             string logID = dgvr.Cells[0].Value.ToString();
-            
+
             App.Prj.detachLogByID(logID);
-            
+
             dataGridView1.DataSource = buildDataGridView1();
-            
+
             fixLogNames(dataGridView1);
 
         }
@@ -400,7 +398,7 @@ namespace Logger
             optionSelected(15);
 
         }
-        private void optionSelected ( int option)
+        private void optionSelected(int option)
         {
 
             // option is the entry position in the RecordTypes array

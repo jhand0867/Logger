@@ -158,12 +158,12 @@ namespace Logger
         public string ConfigurationData { get => configurationData; set => configurationData = value; }
         public string Mac { get => mac; set => mac = value; }
     };
-    class EMVConfiguration: IMessage
+    class EMVConfiguration : IMessage
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
          System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public string emvTags = @",42,50,57,61,70,71,72,73,77,80,81,82,83,84,86,87,88,89,90,91,92,93,94," + 
+        public string emvTags = @",42,50,57,61,70,71,72,73,77,80,81,82,83,84,86,87,88,89,90,91,92,93,94," +
                                 "95,97,98,99,4F,5A,5F20,5F24,5F25,5F28,5F2A,5F2D,5F30,5F34,5F36,5F50,5F53,5F54,5F55," +
                                 "5F56,6F,8A,8C,8D,8E,8F,9A,9B,9C,9D,9F01,9F02,9F03,9F04,9F05,9F06,9F07,9F08,9F09,9F0B,9F0D," +
                                 "9F0E,9F0F,9F10,9F11,9F12,9F13,9F14,9F15,9F16,9F17,9F18,9F1A,9F1B,9F1C,9F1D,9F1E,9F1F," +
@@ -191,8 +191,8 @@ namespace Logger
             foreach (typeRec r in typeRecs)
             {
                 emvConfiguration emv = parseData(r.typeContent);
-                if (emv.NumberOfEntries == "") { emv.NumberOfEntries = r.typeAddData; } 
-                
+                if (emv.NumberOfEntries == "") { emv.NumberOfEntries = r.typeAddData; }
+
                 string sql = @"INSERT INTO EMVConfiguration([logkey],[rectype],[responseFlag],
 	                        [luno],[msgSubclass],[numberOfEntries],[configurationData],[mac],[prjkey],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" + emv.Rectype + "','" + emv.ResponseFlag + "','" +

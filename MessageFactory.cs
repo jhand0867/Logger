@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logger
 {
@@ -80,14 +75,15 @@ namespace Logger
             recTypeDic.Add("84", () => new ICCTerminalDOT());
             recTypeDic.Add("85", () => new ICCApplicationIDT());
 
-            try 
+            try
             {
                 return recTypeDic[recType]();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return null;
             }
-            
+
             //TODO:    case "1B":
             //        //writeMAC(typeList);
             //        return null;              

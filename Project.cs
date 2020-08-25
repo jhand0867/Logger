@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Net;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 
 namespace Logger
 {
@@ -56,8 +52,8 @@ namespace Logger
 
 
         // list type of messages
-        private readonly string[,] recordTypes = { 
-                                          { "ATM2HOST: 11", "0","", "00" }, 
+        private readonly string[,] recordTypes = {
+                                          { "ATM2HOST: 11", "0","", "00" },
                                           { "HOST2ATM: 4", "0","", "01" },
                                           { "HOST2ATM: 3", "3","11", "11" },
                                           { "HOST2ATM: 3", "3","12", "12" },
@@ -74,8 +70,8 @@ namespace Logger
                                           { "HOST2ATM: 8", "2","4", "84" },
                                           { "HOST2ATM: 8", "2","5", "85" },
                                         };
-        
-        
+
+
         private List<StateRec> extensionsLst = new List<StateRec>();
 
         public List<StateRec> ExtensionsLst
@@ -101,7 +97,7 @@ namespace Logger
             // mlh: New scans needs to be added here!
 
             recTypesDic.Add("00", "treq");
-            recTypesDic.Add("01", "treply"); 
+            recTypesDic.Add("01", "treply");
             recTypesDic.Add("11", "screens");
             recTypesDic.Add("12", "states");
             recTypesDic.Add("13", "configParametersLoad");
@@ -134,7 +130,7 @@ namespace Logger
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
-                {                   
+                {
                     pr.pKey = row[1].ToString();
                     pr.Name = row[2].ToString();
                     pr.Brief = row[3].ToString();
@@ -156,7 +152,7 @@ namespace Logger
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
-                {                    
+                {
                     this.pKey = row[1].ToString();
                     this.Name = row[2].ToString();
                     this.Brief = row[3].ToString();
@@ -193,15 +189,15 @@ namespace Logger
 
         public bool updateProjectByName(Project project, string pName, string pBrief)
         {
-                string sql = @"UPDATE Project SET prjName ='" + pName +
-                       "', prjBrief ='" + pBrief +
-                       "' WHERE prjKey ='" + project.pKey + "'";
+            string sql = @"UPDATE Project SET prjName ='" + pName +
+                   "', prjBrief ='" + pBrief +
+                   "' WHERE prjKey ='" + project.pKey + "'";
 
-                DbCrud db = new DbCrud();
-                if (db.addToDb(sql) == false)
-                    return false;
+            DbCrud db = new DbCrud();
+            if (db.addToDb(sql) == false)
+                return false;
 
-                return true;
+            return true;
         }
 
         public bool addLogToProject(string pKey)
@@ -220,7 +216,7 @@ namespace Logger
         {
             string sql = @"INSERT INTO logs(prjKey, logFile, uploadDate) 
                     VALUES('" + pKey + "','" + pFilename + "', GETDATE()); SELECT CAST(scope_identity() AS int);";
-           
+
             DbCrud db = new DbCrud();
             int newLogID = db.GetScalarFromDb(sql);
             return newLogID;
@@ -344,14 +340,14 @@ namespace Logger
                         groupNumber++;
                         group.Value.Replace(@"'", @"''");
 
-                            if (groupNumber == 8)
-                            {
-                                record.allGroups[groupNumber] = group.Value.Replace(@"'", @"''") + strLineSub;
-                            }
-                            else
-                            {
-                                record.allGroups[groupNumber] = group.Value.Replace(@"'", @"''");
-                            }
+                        if (groupNumber == 8)
+                        {
+                            record.allGroups[groupNumber] = group.Value.Replace(@"'", @"''") + strLineSub;
+                        }
+                        else
+                        {
+                            record.allGroups[groupNumber] = group.Value.Replace(@"'", @"''");
+                        }
 
                         if (group.Name == "1")
                         {
@@ -408,15 +404,15 @@ namespace Logger
             }
 
             addLogToProject(this.pKey);
-            if (flagWriteData == false) 
+            if (flagWriteData == false)
                 App.Prj.detachLogByID(logID.ToString());
 
             //Todo: detach if processing did not completed 
 
-           log.Info($"Records Processed {recProcessed}");
-           log.Info($"Records Skipped {recSkipped}");
-           log.Info($"Records read {readRecs}"); 
-           log.Info($"Records Extended {recExtent}");
+            log.Info($"Records Processed {recProcessed}");
+            log.Info($"Records Skipped {recSkipped}");
+            log.Info($"Records read {readRecs}");
+            log.Info($"Records Extended {recExtent}");
         }
 
         //Todo: change to boolean
@@ -616,62 +612,62 @@ namespace Logger
             int count = db.GetScalarFromDb(sql);
             dicBits.Add("screens", count);
 
-                    sql = @"SELECT COUNT(*) FROM stateinfo WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM stateinfo WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("states", count);
 
-                    sql = @"SELECT COUNT(*) FROM configParamsInfo WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM configParamsInfo WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("configParametersLoad", count);
 
-                    sql = @"SELECT COUNT(*) FROM fitinfo WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM fitinfo WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("fit", count);
 
-                    sql = @"SELECT COUNT(*) FROM configId WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM configId WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("configID", count);
 
-                    sql = @"SELECT COUNT(*) FROM enhancedParamsInfo WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM enhancedParamsInfo WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("enhancedParametersLoad", count);
 
-                    sql = @"SELECT COUNT(*) FROM dateTime WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM dateTime WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("dateandtime", count);
 
-                    sql = @"SELECT COUNT(*) FROM treq WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM treq WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("treq", count);
 
-                    sql = @"SELECT COUNT(*) FROM treply WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM treply WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("treply", count);
 
-                    sql = @"SELECT COUNT(*) FROM iccCurrencyDOT WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM iccCurrencyDOT WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("iccCurrencyDOT", count);
 
-                    sql = @"SELECT COUNT(*) FROM iccTransactionDOT WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM iccTransactionDOT WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("iccTransactionDOT", count);
 
-                    sql = @"SELECT COUNT(*) FROM iccLanguageSupportT WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM iccLanguageSupportT WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("iccLanguageSupportT", count);
 
-                    sql = @"SELECT COUNT(*) FROM iccTerminalDOT WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM iccTerminalDOT WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("iccTerminalDOT", count);
 
-                    sql = @"SELECT COUNT(*) FROM iccApplicationIDT WHERE logID =" + logID;
-                    count = db.GetScalarFromDb(sql);
+            sql = @"SELECT COUNT(*) FROM iccApplicationIDT WHERE logID =" + logID;
+            count = db.GetScalarFromDb(sql);
             dicBits.Add("iccApplicationIDT", count);
 
-                return dicBits;
+            return dicBits;
 
         }
-       
+
         public new Dictionary<string, string> readData(string sql)
         {
             DataTable dt = new DataTable();

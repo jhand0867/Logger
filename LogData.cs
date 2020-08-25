@@ -36,86 +36,59 @@ namespace Logger
 
             List<DataTable> dts = App.Prj.getRecord(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             txtFieldData.Text = "";
-            string stateType = "";
-            int fieldNum = -1;
-            int timerNum = 0;
 
             if (dts == null) { return; }
 
             foreach (DataTable dt in dts)
             {
+                IMessage theRecord = null;
+
                 if (dt.Rows.Count > 0)
                 {
                     for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                     {
                         // mlh process depending on Type of Record
 
+                        // if the row data is for a Configuration ID
                         if (dt.Rows[rowNum][2].ToString() == "I")
                         {
-                            IMessage theRecord = MessageFactory.Create_Record("16");
-                            txtFieldData.Text = theRecord.parseToView(dt, rowNum, txtFieldData.Text);                            
+                            if (theRecord is null)
+                            {
+                                theRecord = MessageFactory.Create_Record("16");
+                            }
+                            txtFieldData.Text = theRecord.parseToView(dt, rowNum, txtFieldData.Text);
                         }
-
 
                         if (dt.Rows[rowNum][2].ToString() == "S")
                         {
-
-                            IMessage theRecord = MessageFactory.Create_Record("12");
+                            if (theRecord is null)
+                            {
+                                theRecord = MessageFactory.Create_Record("12");
+                            }
                             txtFieldData.Text = theRecord.parseToView(dt, rowNum, txtFieldData.Text);
                         }
+
                         // if the row data is for a FIT
                         if (dt.Rows[rowNum][2].ToString() == "F")
                         {
-                            FitRec fitRec = new FitRec();
-                            DataTable fitdt = fitRec.getDescription();
-
-                            for (fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
+                            if (theRecord is null)
                             {
-                                if (fieldNum == 3)
-                                {
-                                    txtFieldData.Text += @"==================================================" + System.Environment.NewLine;
-                                    txtFieldData.Text += dt.Columns[fieldNum].ColumnName.ToUpper() + " = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
-                                    txtFieldData.Text += @"==================================================" + System.Environment.NewLine;
-                                }
-                                else
-                                {
-                                    txtFieldData.Text += dt.Columns[fieldNum].ColumnName.ToUpper() + " = " + dt.Rows[rowNum][fieldNum].ToString() + "\t\t" + fitdt.Rows[fieldNum - 3][3].ToString().Trim() + System.Environment.NewLine;
-                                }
+                                theRecord = MessageFactory.Create_Record("15");
                             }
+                            txtFieldData.Text = theRecord.parseToView(dt, rowNum, txtFieldData.Text);
                         }
-                        // if the row data is for a 
+
+                        // if the row data is for a Enhanced Params
+
                         if (dt.Rows[rowNum][2].ToString() == "C")
                         {
-                            EnhancedParamsRec paramRec = new EnhancedParamsRec();
-                            DataTable paramRecDt = paramRec.getDescription();
-                            string optionDesc = "";
-
-                            if (dt.Rows[rowNum][5].ToString() == "1")
+                            if (theRecord is null)
                             {
-                                if (rowNum == 0)
-                                {
-                                    txtFieldData.Text += @"==================================================" + System.Environment.NewLine;
-                                    txtFieldData.Text += @"OPTIONS" + System.Environment.NewLine;
-                                    txtFieldData.Text += @"==================================================" + System.Environment.NewLine;
-                                }
-                                txtFieldData.Text += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-                                optionDesc = getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString());
-                                txtFieldData.Text += "\t" + optionDesc + System.Environment.NewLine;
+                                theRecord = MessageFactory.Create_Record("1A");
                             }
-                            if (dt.Rows[rowNum][5].ToString() == "2")
-                            {
-                                if (timerNum == 0)
-                                {
-                                    txtFieldData.Text += @"==================================================" + System.Environment.NewLine;
-                                    txtFieldData.Text += @"TIMERS" + System.Environment.NewLine;
-                                    txtFieldData.Text += @"==================================================" + System.Environment.NewLine;
-                                    timerNum = 1;
-                                }
-                                txtFieldData.Text += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-                                optionDesc = getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString());
-                                txtFieldData.Text += "\t" + optionDesc + System.Environment.NewLine;
-                            }
+                            txtFieldData.Text = theRecord.parseToView(dt, rowNum, txtFieldData.Text);
                         }
+
                         // if the row data is for a Transaction Reply
                         if (dt.Rows[rowNum][2].ToString() == "R")
                         {
@@ -571,6 +544,7 @@ namespace Logger
             return checks;
         }
 
+        // todo: remove once all parsetoView have been created
         private string getOptionDescription(DataTable dataTable, string field)
         {
             string optionDesc = "";

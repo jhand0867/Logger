@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Logger
 {
@@ -68,77 +66,77 @@ namespace Logger
         {
             DbCrud db = new DbCrud();
             int loadNum = 0;
-                int configCount = typeRecs.Count / 3;
-                int count = 0;
-                while (loadNum < configCount)
+            int configCount = typeRecs.Count / 3;
+            int count = 0;
+            while (loadNum < configCount)
+            {
+                typeRec r = typeRecs[count];
+                configParams parms = new configParams();
+
+                parms.camera = r.typeContent.Substring(0, 1);
+                parms.cardReaderError = r.typeContent.Substring(1, 3);
+                parms.reserved1 = r.typeContent.Substring(4, 3);
+                parms.reserved2 = r.typeContent.Substring(7, 3);
+                parms.trackWriteError = r.typeContent.Substring(10, 3);
+                parms.supply = r.typeContent.Substring(13, 3);
+                parms.reserved3 = r.typeContent.Substring(16, 9);
+
+                count++;
+                r = typeRecs[count];
+                parms.luno = r.typeContent;
+
+                count++;
+                r = typeRecs[count];
+                int timersNum = r.typeContent.Length / 5;
+
+                parms.timers = new timerRec[timersNum];
+
+                for (int x = 0, y = 0; y < timersNum; x = x + 5, y++)
                 {
-                    typeRec r = typeRecs[count];
-                    configParams parms = new configParams();
+                    parms.timers[y].timerNum = r.typeContent.Substring(x, 2);
+                    parms.timers[y].timerTics = r.typeContent.Substring(x + 2, 3);
+                }
 
-                    parms.camera = r.typeContent.Substring(0, 1);
-                    parms.cardReaderError = r.typeContent.Substring(1, 3);
-                    parms.reserved1 = r.typeContent.Substring(4, 3);
-                    parms.reserved2 = r.typeContent.Substring(7, 3);
-                    parms.trackWriteError = r.typeContent.Substring(10, 3);
-                    parms.supply = r.typeContent.Substring(13, 3);
-                    parms.reserved3 = r.typeContent.Substring(16, 9);
+                count++;
+                loadNum++;
 
-                    count++;
-                    r = typeRecs[count];
-                    parms.luno = r.typeContent;
-
-                    count++;
-                    r = typeRecs[count];
-                    int timersNum = r.typeContent.Length / 5;
-
-                    parms.timers = new timerRec[timersNum];
-
-                    for (int x = 0, y = 0; y < timersNum; x = x + 5, y++)
-                    {
-                        parms.timers[y].timerNum = r.typeContent.Substring(x, 2);
-                        parms.timers[y].timerTics = r.typeContent.Substring(x + 2, 3);
-                    }
-
-                    count++;
-                    loadNum++;
-
-                    // childs of configParamsInfo
-                    string sql = "";
-                    for (int y = 0; y < timersNum; y++)
-                    {
-                        sql = @"INSERT INTO configParamsTimers([logkey],[rectype],[timerNum],[timerTics],[logID]) ";
-                        sql = sql + @" VALUES('" + r.typeIndex + "','C',";
-                        sql = sql + "'" + parms.timers[y].timerNum + "',";
-                        sql = sql + "'" + parms.timers[y].timerTics + "'," + logID + ")";
-
-                        if (db.addToDb(sql) == false)
-                            return false;
-
-                    }
-
-                    // save the timers parent record
-
-                    sql = @"INSERT INTO configParamsInfo([logkey],[rectype],[camera],[cardReaderError],[reserved1]," +
-                            "[reserved2],[trackWriteError],[supply],[reserved3],[luno],[timersCount],[load],[prjkey],[logID])" +
-                           " VALUES('" + r.typeIndex + "','" + // key
-                                        'C' + "','" + // record type
-                                        parms.camera + "','" +
-                                        parms.cardReaderError + "','" +
-                                        parms.reserved1 + "','" +
-                                        parms.reserved2 + "','" +
-                                        parms.trackWriteError + "','" +
-                                        parms.supply + "','" +
-                                        parms.reserved3 + "','" +
-                                        parms.luno + "','" +
-                                        timersNum.ToString() + "','" +
-                                        loadNum.ToString() + "','" +
-                                        key + "'," +
-                                        logID + ")";
+                // childs of configParamsInfo
+                string sql = "";
+                for (int y = 0; y < timersNum; y++)
+                {
+                    sql = @"INSERT INTO configParamsTimers([logkey],[rectype],[timerNum],[timerTics],[logID]) ";
+                    sql = sql + @" VALUES('" + r.typeIndex + "','C',";
+                    sql = sql + "'" + parms.timers[y].timerNum + "',";
+                    sql = sql + "'" + parms.timers[y].timerTics + "'," + logID + ")";
 
                     if (db.addToDb(sql) == false)
                         return false;
+
                 }
-                return true;
+
+                // save the timers parent record
+
+                sql = @"INSERT INTO configParamsInfo([logkey],[rectype],[camera],[cardReaderError],[reserved1]," +
+                        "[reserved2],[trackWriteError],[supply],[reserved3],[luno],[timersCount],[load],[prjkey],[logID])" +
+                       " VALUES('" + r.typeIndex + "','" + // key
+                                    'C' + "','" + // record type
+                                    parms.camera + "','" +
+                                    parms.cardReaderError + "','" +
+                                    parms.reserved1 + "','" +
+                                    parms.reserved2 + "','" +
+                                    parms.trackWriteError + "','" +
+                                    parms.supply + "','" +
+                                    parms.reserved3 + "','" +
+                                    parms.luno + "','" +
+                                    timersNum.ToString() + "','" +
+                                    loadNum.ToString() + "','" +
+                                    key + "'," +
+                                    logID + ")";
+
+                if (db.addToDb(sql) == false)
+                    return false;
+            }
+            return true;
 
 
         }
