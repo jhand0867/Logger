@@ -4,7 +4,7 @@ using System.Data;
 
 namespace Logger
 {
-    class StateZ : StateRec, IExtensions
+    class StateZ : StateRec
     {
 
         public override void ValidateState(StateRec stateData)

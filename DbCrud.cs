@@ -75,6 +75,7 @@ namespace Logger
 
         public int GetScalarFromDb(string sql)
         {
+            log.Info("Access Database and get scalar ");
             string connectionString;
             SqlConnection cnn;
 

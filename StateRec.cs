@@ -4,7 +4,7 @@ using System.Data;
 
 namespace Logger
 {
-    public class StateRec : App, IMessage, IExtensions
+    public class StateRec : App, IMessage
 
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(

@@ -222,6 +222,7 @@ namespace Logger
             return newLogID;
         }
 
+       
         public Dictionary<string, Project> createProject(string name, string brief)
         {
             Name = name;
@@ -258,6 +259,9 @@ namespace Logger
 
         public void uploadLog(string filename)
         {
+            // todo: add a flag in logs to keep track of the success or not of the upload
+            // todo: update the flag to true when the process is successful 
+            
             int logID = attachLogToProject(this.pKey, filename);
 
             Dictionary<string, dataLine> dicData = new Dictionary<string, dataLine>();
@@ -379,10 +383,13 @@ namespace Logger
                                     string recKey = strDate + "-" + repLine.ToString();
                                     dicData.Add(recKey, record);
 
+
                                     int recCount = dicData.Count;
                                     // insert data into db
-                                    writeData(recKey, record, logID);
-                                    flagWriteData = true;
+                                    if (writeData(recKey, record, logID))
+                                    {
+                                        flagWriteData = true;
+                                    }
 
                                     prevTimeStamp = strDate;
                                     flagAdd = true;
@@ -405,9 +412,7 @@ namespace Logger
 
             addLogToProject(this.pKey);
             if (flagWriteData == false)
-                App.Prj.detachLogByID(logID.ToString());
-
-            //Todo: detach if processing did not completed 
+                detachLogByID(logID.ToString());
 
             log.Info($"Records Processed {recProcessed}");
             log.Info($"Records Skipped {recSkipped}");
@@ -415,9 +420,7 @@ namespace Logger
             log.Info($"Records Extended {recExtent}");
         }
 
-        //Todo: change to boolean
-
-        public void writeData(string recKey, dataLine data, int logID)
+        public bool writeData(string recKey, dataLine data, int logID)
         {
             String sql = "";
 
@@ -446,8 +449,8 @@ namespace Logger
 
 
             DbCrud db = new DbCrud();
-            if (db.addToDb(sql) == false) { };
-
+            if (db.addToDb(sql) == false) { return false; };
+            return true;
         }
 
         public string ReadFile(string fileName, string path)
