@@ -224,10 +224,6 @@ namespace Logger
             log.Info("Generating state record for statey " + stRec.StateType);
 
             StateRec theRecord = MessageFactory.Create_StateRecord(stRec.StateType);
-            if (theRecord is StateZ)
-            {
-               
-            }
 
             if (theRecord == null)
             {

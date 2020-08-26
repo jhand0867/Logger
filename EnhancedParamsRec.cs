@@ -181,7 +181,6 @@ namespace Logger
             }
             if (dt.Rows[rowNum][5].ToString() == "2")
             {
-                // todo: this portion needs to be uncommented to add headers to TIMERS, The timerNum flag is not defined
                 if (TimerStartFlag != true)
                 {
                     txtField += @"==================================================" + System.Environment.NewLine;

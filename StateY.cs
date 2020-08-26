@@ -4,7 +4,7 @@ using System.Data;
 namespace Logger
 {
     // todo: remove Iextensions interface 
-    class StateY : StateRec, IExtensions
+    class StateY : StateRec
     {
         public override void ValidateState(StateRec stateData)
         {
@@ -19,7 +19,7 @@ namespace Logger
             }
         }
 
-        public void checkExtensions(StateRec st)
+        public override void checkExtensions(StateRec st)
         {
             bool stateExtension = false;
 
