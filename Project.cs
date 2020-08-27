@@ -222,7 +222,7 @@ namespace Logger
             return newLogID;
         }
 
-       
+
         public Dictionary<string, Project> createProject(string name, string brief)
         {
             Name = name;
@@ -261,7 +261,7 @@ namespace Logger
         {
             // todo: add a flag in logs to keep track of the success or not of the upload
             // todo: update the flag to true when the process is successful 
-            
+
             int logID = attachLogToProject(this.pKey, filename);
 
             Dictionary<string, dataLine> dicData = new Dictionary<string, dataLine>();

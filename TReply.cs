@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 
 namespace Logger
@@ -677,7 +676,72 @@ namespace Logger
 
         public string parseToView(DataTable dt, int rowNum, string txtField)
         {
-            throw new NotImplementedException();
+            DataTable tReplyDt = getDescription();
+            int x = 0;
+            for (int field = 3; field <= dt.Rows[rowNum].ItemArray.Length - 3; field++)
+            {
+                if (field == 24)
+                {
+                    if (dts[1].Rows.Count > 0)
+                    {
+                        txtField += getPrinterData(dts[1]);
+                    }
+                    continue;
+                }
+                if (field == 62)
+                {
+                    if (dts[2].Rows.Count > 0)
+                    {
+                        txtField += getCheckProccessing(dts[2]);
+                    }
+                    continue;
+                }
+                string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
+                if (fieldContent == "")
+                    continue;
+                else
+                {
+                    string optionDesc = getOptionDescription(tReplyDt, field.ToString("00"));
+                    txtField += optionDesc + " = ";
+                    txtField += fieldContent;
+                    txtField += System.Environment.NewLine;
+                }
+            }
+            return txtField;
+        }
+
+        private string getCheckProccessing(DataTable dataTable)
+        {
+            string checksData = "";
+            if (dataTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    foreach (DataColumn field in dataTable.Columns)
+                    {
+                        string strField = field.ColumnName.Trim();
+                        if (strField == "Reserved")
+                            continue;
+                        checksData += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                    }
+                }
+            }
+            return checksData;
+        }
+
+        private string getPrinterData(DataTable dataTable)
+        {
+            string printerData = "";
+
+            if (dataTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    printerData += "Printer Flag\t = " + row["printerFlag"].ToString() + System.Environment.NewLine;
+                    printerData += "Printer Data\t = " + row["printerData"].ToString() + System.Environment.NewLine;
+                }
+            }
+            return printerData;
         }
     }
 }

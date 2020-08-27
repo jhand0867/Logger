@@ -332,41 +332,53 @@ namespace Logger
             throw new NotImplementedException();
         }
 
-        public string parseToView(DataTable dt, int rowNum, string txtField)
+        public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            for (int fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
+            List<DataTable> dts = new List<DataTable>();
+            dts = getRecord(logKey, logID, projectKey);
+            string txtField = "";
+
+            if (dts == null) { return txtField; }
+
+            foreach (DataTable dt in dts)
             {
-                if (fieldNum == 3)
+                if (dt.Rows.Count > 0)
                 {
-                    txtField += dt.Columns[fieldNum].ColumnName + " = " + dt.Rows[rowNum][fieldNum].ToString() + " ";
+                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
+                    {
+                        for (int fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
+                        {
+                            if (fieldNum == 3)
+                            {
+                                txtField += dt.Columns[fieldNum].ColumnName + " = " + dt.Rows[rowNum][fieldNum].ToString() + " ";
+                            }
+                            else
+                            {
+                                txtField += dt.Rows[rowNum][fieldNum].ToString() + " ";
+                            }
+
+                        }
+                        // todo: factory 
+                        StateRec stRec = new StateRec();
+                        stRec.StateNumber = dt.Rows[rowNum][3].ToString();
+                        stRec.StateType = dt.Rows[rowNum][4].ToString();
+                        stRec.Val1 = dt.Rows[rowNum][5].ToString();
+                        stRec.Val2 = dt.Rows[rowNum][6].ToString();
+                        stRec.Val3 = dt.Rows[rowNum][7].ToString();
+                        stRec.Val4 = dt.Rows[rowNum][8].ToString();
+                        stRec.Val5 = dt.Rows[rowNum][9].ToString();
+                        stRec.Val6 = dt.Rows[rowNum][10].ToString();
+                        stRec.Val7 = dt.Rows[rowNum][11].ToString();
+                        stRec.Val8 = dt.Rows[rowNum][12].ToString();
+                        txtField += System.Environment.NewLine;
+                        txtField += System.Environment.NewLine;
+                        txtField += getInfo(stRec);
+
+                    }
                 }
-                else
-                {
-                    txtField += dt.Rows[rowNum][fieldNum].ToString() + " ";
-                }
-                // what state type is it?
-                //if (fieldNum == 4)
-                //{
-                //    string stateType = dt.Rows[rowNum][fieldNum].ToString();
-                //}
             }
-            // todo: factory 
-            StateRec stRec = new StateRec();
-            stRec.StateNumber = dt.Rows[rowNum][3].ToString();
-            stRec.StateType = dt.Rows[rowNum][4].ToString();
-            stRec.Val1 = dt.Rows[rowNum][5].ToString();
-            stRec.Val2 = dt.Rows[rowNum][6].ToString();
-            stRec.Val3 = dt.Rows[rowNum][7].ToString();
-            stRec.Val4 = dt.Rows[rowNum][8].ToString();
-            stRec.Val5 = dt.Rows[rowNum][9].ToString();
-            stRec.Val6 = dt.Rows[rowNum][10].ToString();
-            stRec.Val7 = dt.Rows[rowNum][11].ToString();
-            stRec.Val8 = dt.Rows[rowNum][12].ToString();
-            txtField += System.Environment.NewLine;
-            txtField += System.Environment.NewLine;
-            txtField += getInfo(stRec);
             return txtField;
         }
-    };
+    }
 }
 

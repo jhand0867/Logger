@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Logger
@@ -23,7 +22,8 @@ namespace Logger
         }
 
 
-        public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recValue)
+        //public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recValue)
+        public string getRecord(string logKey, string logID, string projectKey, string recValue)
         {
             string recType = "";
             List<DataTable> dts = new List<DataTable>();
@@ -33,7 +33,7 @@ namespace Logger
 
             for (int row = 0; row < App.Prj.RecordTypes.Length / 4; row++)
             {
-               // if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
+                // if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
                 if (tmpTypes[0].Contains(App.Prj.RecordTypes[row, 0]) &&
                    (App.Prj.RecordTypes[row, 1] == "0"))
                 {
@@ -49,12 +49,14 @@ namespace Logger
                 }
             }
 
-            IMessage theRecord = MessageFactory.Create_Record(recType);
-            if (theRecord != null)
-            {
-                return theRecord.getRecord(logKey, logID, projectKey);
-            }
-            return null;
+            return recType;
+
+            //IMessage theRecord = MessageFactory.Create_Record(recType);
+            //if (theRecord != null)
+            //{
+            //    return theRecord.getRecord(logKey, logID, projectKey);
+            //}
+            //return null;
 
         }
         //public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recValue)

@@ -67,7 +67,7 @@ namespace Logger
 
                 if ((count < typeRecs.Count) &&
                    (typeRecs[count - 1].typeIndex == typeRecs[count].typeIndex))
-                    {
+                {
 
                     r = typeRecs[count];
                     timersNum = r.typeContent.Length / 5;

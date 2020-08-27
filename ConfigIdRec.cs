@@ -54,9 +54,11 @@ namespace Logger
             throw new NotImplementedException();
         }
 
-        public string parseToView(DataTable dt, int rowNum, string txtField)
+        public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            txtField = dt.Columns[3].ColumnName + " = " + dt.Rows[0][3].ToString();
+            List<DataTable> dts = new List<DataTable>();
+            dts = getRecord(logKey, logID, projectKey);
+            string txtField = dts[0].Columns[3].ColumnName + " = " + dts[0].Rows[0][3].ToString();
             return txtField;
         }
     }

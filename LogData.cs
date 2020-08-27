@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
@@ -34,8 +33,13 @@ namespace Logger
             string prjKey = dgvr.Cells["prjKey"].Value.ToString();
 
 
-            List<DataTable> dts = App.Prj.getRecord(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
+            //List<DataTable> dts = App.Prj.getRecord(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             txtFieldData.Text = "";
+
+            string recType = App.Prj.getRecord(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
+            IMessage theRecord = MessageFactory.Create_Record(recType);
+            txtFieldData.Text = theRecord.parseToView(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
+
 
             if (dts == null) { return; }
 
@@ -59,6 +63,7 @@ namespace Logger
                             txtFieldData.Text = theRecord.parseToView(dt, rowNum, txtFieldData.Text);
                         }
 
+                        // if the row data is for a State Record
                         if (dt.Rows[rowNum][2].ToString() == "S")
                         {
                             if (theRecord is null)
@@ -79,7 +84,6 @@ namespace Logger
                         }
 
                         // if the row data is for a Enhanced Params
-
                         if (dt.Rows[rowNum][2].ToString() == "C")
                         {
                             if (theRecord is null)
@@ -92,38 +96,14 @@ namespace Logger
                         // if the row data is for a Transaction Reply
                         if (dt.Rows[rowNum][2].ToString() == "R")
                         {
-                            DataTable tReplyDt = new TReply().getDescription();
-                            int x = 0;
-                            for (int field = 3; field <= dt.Rows[rowNum].ItemArray.Length - 3; field++)
+                            if (theRecord is null)
                             {
-                                if (field == 24)
-                                {
-                                    if (dts[1].Rows.Count > 0)
-                                    {
-                                        txtFieldData.Text += getPrinterData(dts[1]);
-                                    }
-                                    continue;
-                                }
-                                if (field == 62)
-                                {
-                                    if (dts[2].Rows.Count > 0)
-                                    {
-                                        txtFieldData.Text += getCheckProccessing(dts[2]);
-                                    }
-                                    continue;
-                                }
-                                string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
-                                if (fieldContent == "")
-                                    continue;
-                                else
-                                {
-                                    string optionDesc = getOptionDescription(tReplyDt, field.ToString("00"));
-                                    txtFieldData.Text += optionDesc + " = ";
-                                    txtFieldData.Text += fieldContent;
-                                    txtFieldData.Text += System.Environment.NewLine;
-                                }
+                                theRecord = MessageFactory.Create_Record("01");
                             }
+                            txtFieldData.Text = theRecord.parseToView(dt, rowNum, txtFieldData.Text);
+
                         }
+
                         // if the row data is for a Transaction Request
                         if (dt.Rows[rowNum][2].ToString() == "T")
                         {
@@ -451,40 +431,6 @@ namespace Logger
                     }
                 }
             }
-        }
-
-        private string getCheckProccessing(DataTable dataTable)
-        {
-            string checksData = "";
-            if (dataTable.Rows.Count > 0)
-            {
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    foreach (DataColumn field in dataTable.Columns)
-                    {
-                        string strField = field.ColumnName.Trim();
-                        if (strField == "Reserved")
-                            continue;
-                        checksData += strField + "\t =" + field.ToString() + System.Environment.NewLine;
-                    }
-                }
-            }
-            return checksData;
-        }
-
-        private string getPrinterData(DataTable dataTable)
-        {
-            string printerData = "";
-
-            if (dataTable.Rows.Count > 0)
-            {
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    printerData += "Printer Flag\t = " + row["printerFlag"].ToString() + System.Environment.NewLine;
-                    printerData += "Printer Data\t = " + row["printerData"].ToString() + System.Environment.NewLine;
-                }
-            }
-            return printerData;
         }
 
         private string getTreqOptions(DataTable dataTable)
