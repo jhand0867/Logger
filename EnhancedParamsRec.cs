@@ -161,37 +161,53 @@ namespace Logger
             return dt;
         }
 
-        public string parseToView(DataTable dt, int rowNum, string txtField)
+        public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
+            List<DataTable> dts = new List<DataTable>();
+            dts = getRecord(logKey, logID, projectKey);
+            string txtField = "";
+
+            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
+
             // EnhancedParamsRec paramRec = new EnhancedParamsRec();
             DataTable paramRecDt = getDescription();
             string optionDesc = "";
 
-            if (dt.Rows[rowNum][5].ToString() == "1")
+            foreach (DataTable dt in dts)
             {
-                if (rowNum == 0)
+                if (dt.Rows.Count > 0)
                 {
-                    txtField += @"==================================================" + System.Environment.NewLine;
-                    txtField += @"OPTIONS" + System.Environment.NewLine;
-                    txtField += @"==================================================" + System.Environment.NewLine;
+                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
+                    {
+                        if (dt.Rows[rowNum][5].ToString() == "1")
+                        {
+                            if (rowNum == 0)
+                            {
+                                txtField += @"==================================================" + System.Environment.NewLine;
+                                txtField += @"OPTIONS" + System.Environment.NewLine;
+                                txtField += @"==================================================" + System.Environment.NewLine;
+                            }
+                            txtField += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
+                            optionDesc = getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString());
+                            txtField += "\t" + optionDesc + System.Environment.NewLine;
+                        }
+                        if (dt.Rows[rowNum][5].ToString() == "2")
+                        {
+                            if (TimerStartFlag != true)
+                            {
+                                txtField += @"==================================================" + System.Environment.NewLine;
+                                txtField += @"TIMERS" + System.Environment.NewLine;
+                                txtField += @"==================================================" + System.Environment.NewLine;
+                                TimerStartFlag = true;
+                            }
+                            txtField += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
+                            optionDesc = getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString());
+                            txtField += "\t" + optionDesc + System.Environment.NewLine;
+                        }
+                    }
                 }
-                txtField += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-                optionDesc = getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString());
-                txtField += "\t" + optionDesc + System.Environment.NewLine;
             }
-            if (dt.Rows[rowNum][5].ToString() == "2")
-            {
-                if (TimerStartFlag != true)
-                {
-                    txtField += @"==================================================" + System.Environment.NewLine;
-                    txtField += @"TIMERS" + System.Environment.NewLine;
-                    txtField += @"==================================================" + System.Environment.NewLine;
-                    TimerStartFlag = true;
-                }
-                txtField += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-                optionDesc = getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString());
-                txtField += "\t" + optionDesc + System.Environment.NewLine;
-            }
+
             return txtField;
 
         }

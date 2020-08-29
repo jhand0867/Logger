@@ -95,6 +95,95 @@ namespace Logger
             iccTerminalList.Add(iccTerminal);
             return iccTerminalList;
         }
+
+        public string parseToView(string logKey, string logID, string projectKey, string recValue)
+        {
+            List<DataTable> dts = new List<DataTable>();
+            dts = getRecord(logKey, logID, projectKey);
+            string txtField = "";
+
+            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
+
+            // EMVConfiguration emvRec = new EMVConfiguration();
+            DataTable emvRecDt = base.getDescription();
+            DataTable iccRecDt = this.getDescription();
+
+            foreach (DataTable dt in dts)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
+                    {
+                        if (dt.Rows[rowNum][2].ToString() == "8")
+                        {
+                            // message class
+                            txtField += emvRecDt.Rows[0][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][2].ToString().Trim() + System.Environment.NewLine;
+
+                            // response flag
+                            txtField += emvRecDt.Rows[1][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
+
+                            // luno
+                            txtField += emvRecDt.Rows[2][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
+
+                            // message subclass
+                            txtField += emvRecDt.Rows[3][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
+
+                            // configuration data
+                            txtField += emvRecDt.Rows[4][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
+
+
+                            // MAC
+                            txtField += emvRecDt.Rows[5][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][8].ToString().Trim() + System.Environment.NewLine;
+                        }
+                        if (dt.Rows[rowNum][2].ToString() == "84")
+                        {
+                            // Configuration Data
+                            txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
+
+                            // Response format tag
+                            txtField += iccRecDt.Rows[0][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
+
+                            // Response format length
+                            txtField += iccRecDt.Rows[1][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
+
+                            //  Tag
+                            txtField += iccRecDt.Rows[2][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
+
+                            //  lgth
+                            txtField += iccRecDt.Rows[3][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][6].ToString().Trim() + System.Environment.NewLine;
+
+                            //  value
+                            txtField += iccRecDt.Rows[4][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
+
+                            // Tag
+                            txtField += iccRecDt.Rows[5][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][8].ToString().Trim() + System.Environment.NewLine;
+
+                            // lgth
+                            txtField += iccRecDt.Rows[6][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][9].ToString().Trim() + System.Environment.NewLine;
+
+                            // value
+                            txtField += iccRecDt.Rows[7][3].ToString().Trim() + " = ";
+                            txtField += dt.Rows[rowNum][10].ToString().Trim() + System.Environment.NewLine;
+                        }
+                    }
+                }
+            }
+
+            return txtField;
+        }
     }
 
 }

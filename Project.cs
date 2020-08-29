@@ -296,13 +296,28 @@ namespace Logger
                     continue;
                 }
 
-                while (lineProcess < lstLines.Length && lstLines[lineProcess] != ""
+                //if (lstLines[lineProcess].Contains("2021-01-16 12:19:"))
+                //{
+                //    continue;
+                //}
+
+                    //while ( (lineProcess < lstLines.Length && lstLines[lineProcess] != ""
+                    while ((lineProcess < lstLines.Length && lstLines[lineProcess].Length > 0
                         && lstLines[lineProcess].Substring(0, 1) != "["
                         && lstLines[lineProcess].Substring(0, 1) != "="
-                      )
+                        ) ||
+                      (lineProcess < lstLines.Length && lstLines[lineProcess].Length == 0 ) )
                 {
-                    strLine += lstLines[lineProcess] + System.Environment.NewLine;
+                    if (lstLines[lineProcess] != "")
+                    {
+                        strLine += lstLines[lineProcess] + System.Environment.NewLine;
+                    }
                     lineProcess++;
+                }
+
+                if (strLine.EndsWith(System.Environment.NewLine))
+                {
+                    strLine = strLine.Substring(0, strLine.Length - 2);
                 }
 
                 readRecs++;
@@ -334,7 +349,7 @@ namespace Logger
                     int groupNumber = 0;
                     foreach (Group group in item.Groups)
                     {
-                        if (group.Value == strLine)
+                        if (group.Value + strLineSub == strLine)
                         {
                             recProcessed++;
                             continue;

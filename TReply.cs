@@ -674,38 +674,54 @@ namespace Logger
 
         }
 
-        public string parseToView(DataTable dt, int rowNum, string txtField)
+        public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
+            List<DataTable> dts = new List<DataTable>();
+            dts = getRecord(logKey, logID, projectKey);
+            string txtField = "";
+
+            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
+
             DataTable tReplyDt = getDescription();
-            int x = 0;
-            for (int field = 3; field <= dt.Rows[rowNum].ItemArray.Length - 3; field++)
+
+            foreach (DataTable dt in dts)
             {
-                if (field == 24)
+                if (dt.Rows.Count > 0)
                 {
-                    if (dts[1].Rows.Count > 0)
+                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                     {
-                        txtField += getPrinterData(dts[1]);
+                        for (int field = 3; field <= dt.Rows[rowNum].ItemArray.Length - 3; field++)
+                        {
+                            if (field == 24)
+                            {
+                                if (dts[1].Rows.Count > 0)
+                                {
+                                    txtField += getPrinterData(dts[1]);
+                                }
+                                continue;
+                            }
+                            if (field == 62)
+                            {
+                                if (dts[2].Rows.Count > 0)
+                                {
+                                    txtField += getCheckProccessing(dts[2]);
+                                }
+                                continue;
+                            }
+                            string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
+                            if (fieldContent == "")
+                                continue;
+                            else
+                            {
+                                string optionDesc = getOptionDescription(tReplyDt, field.ToString("00"));
+                                txtField += optionDesc + " = ";
+                                txtField += fieldContent;
+                                txtField += System.Environment.NewLine;
+                            }
+                        }
                     }
-                    continue;
                 }
-                if (field == 62)
-                {
-                    if (dts[2].Rows.Count > 0)
-                    {
-                        txtField += getCheckProccessing(dts[2]);
-                    }
-                    continue;
-                }
-                string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
-                if (fieldContent == "")
-                    continue;
-                else
-                {
-                    string optionDesc = getOptionDescription(tReplyDt, field.ToString("00"));
-                    txtField += optionDesc + " = ";
-                    txtField += fieldContent;
-                    txtField += System.Environment.NewLine;
-                }
+                break;
             }
             return txtField;
         }

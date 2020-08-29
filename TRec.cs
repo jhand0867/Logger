@@ -663,9 +663,121 @@ namespace Logger
             return dts;
         }
 
-        public string parseToView(DataTable dt, int rowNum, string txtField)
+        public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            throw new NotImplementedException();
+            List<DataTable> dts = new List<DataTable>();
+            dts = getRecord(logKey, logID, projectKey);
+            string txtField = "";
+
+            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
+
+            DataTable tReqDt = getDescription();
+
+            foreach (DataTable dt in dts)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
+                    {
+                        for (int field = 3; field <= dt.Rows[rowNum].ItemArray.Length - 3; field++)
+                        {
+                            if (field == 42)
+                            {
+                                if (dts[1].Rows.Count > 0)
+                                {
+                                    txtField += getTreqOptions(dts[1]);
+                                }
+                                continue;
+                            }
+                            if (field == 62)
+                            {
+                                if (dts[2].Rows.Count > 0)
+                                {
+                                    txtField += getTreqCurrencies(dts[2]);
+                                }
+                                if (dts[3].Rows.Count > 0)
+                                {
+                                    txtField += getTreqCheques(dts[3]);
+                                }
+
+                                continue;
+                            }
+
+                            string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
+                            if (fieldContent == "")
+                                continue;
+                            else
+                            {
+                                string optionDesc = getOptionDescription(tReqDt, field.ToString("00"));
+                                txtField += optionDesc + " = ";
+                                txtField += fieldContent;
+                                txtField += System.Environment.NewLine;
+                            }
+                        }
+                    }
+                }
+                break;
+
+                        }
+            return txtField;
+                    }
+
+        private string getTreqOptions(DataTable dataTable)
+        {
+            string notesType = "";
+            if (dataTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    foreach (DataColumn field in dataTable.Columns)
+                    {
+                        if (field.Ordinal < 2 || field.Ordinal > 4)
+                            continue;
+                        string strField = field.ColumnName.Trim();
+                        notesType += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                    }
+                }
+            }
+            return notesType;
         }
+
+        private string getTreqCurrencies(DataTable dataTable)
+        {
+            string currencies = "";
+            if (dataTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    foreach (DataColumn field in dataTable.Columns)
+                    {
+                        if (field.Ordinal < 2 || field.Ordinal == 7 || field.Ordinal > 8)
+                            continue;
+                        string strField = field.ColumnName.Trim();
+                        currencies += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                    }
+                }
+            }
+            return currencies;
+        }
+
+        private string getTreqCheques(DataTable dataTable)
+        {
+            string checks = "";
+            if (dataTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    foreach (DataColumn field in dataTable.Columns)
+                    {
+                        if (field.Ordinal < 2 || field.Ordinal > 7)
+                            continue;
+                        string strField = field.ColumnName.Trim();
+                        checks += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                    }
+                }
+            }
+            return checks;
+        }
+
     }
 }

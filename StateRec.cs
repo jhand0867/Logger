@@ -338,7 +338,7 @@ namespace Logger
             dts = getRecord(logKey, logID, projectKey);
             string txtField = "";
 
-            if (dts == null) { return txtField; }
+            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
 
             foreach (DataTable dt in dts)
             {

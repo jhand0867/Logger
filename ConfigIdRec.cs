@@ -58,7 +58,11 @@ namespace Logger
         {
             List<DataTable> dts = new List<DataTable>();
             dts = getRecord(logKey, logID, projectKey);
-            string txtField = dts[0].Columns[3].ColumnName + " = " + dts[0].Rows[0][3].ToString();
+            string txtField = "";
+            
+            if (dts == null || dts[0].Rows.Count == 0 ) { return txtField; }
+
+            txtField = dts[0].Columns[3].ColumnName + " = " + dts[0].Rows[0][3].ToString();
             return txtField;
         }
     }

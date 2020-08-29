@@ -143,23 +143,39 @@ namespace Logger
             return dt;
         }
 
-        public string parseToView(DataTable dt, int rowNum, string txtField)
+        public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
+            List<DataTable> dts = new List<DataTable>();
+            dts = getRecord(logKey, logID, projectKey);
+            string txtField = "";
+
+            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
+
             DataTable fitdt = getDescription();
 
-            for (int fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
+            foreach (DataTable dt in dts)
             {
-                if (fieldNum == 3)
+                if (dt.Rows.Count > 0)
                 {
-                    txtField += @"==================================================" + System.Environment.NewLine;
-                    txtField += dt.Columns[fieldNum].ColumnName.ToUpper() + " = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
-                    txtField += @"==================================================" + System.Environment.NewLine;
-                }
-                else
-                {
-                    txtField += dt.Columns[fieldNum].ColumnName.ToUpper() + " = " + dt.Rows[rowNum][fieldNum].ToString() + "\t\t" + fitdt.Rows[fieldNum - 3][3].ToString().Trim() + System.Environment.NewLine;
+                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
+                    {
+                        for (int fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
+                        {
+                            if (fieldNum == 3)
+                            {
+                                txtField += @"==================================================" + System.Environment.NewLine;
+                                txtField += dt.Columns[fieldNum].ColumnName.ToUpper() + " = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
+                                txtField += @"==================================================" + System.Environment.NewLine;
+                            }
+                            else
+                            {
+                                txtField += dt.Columns[fieldNum].ColumnName.ToUpper() + " = " + dt.Rows[rowNum][fieldNum].ToString() + "\t\t" + fitdt.Rows[fieldNum - 3][3].ToString().Trim() + System.Environment.NewLine;
+                            }
+                        }
+                    }
                 }
             }
+
             return txtField;
         }
     }
