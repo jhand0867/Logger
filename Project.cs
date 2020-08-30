@@ -194,7 +194,7 @@ namespace Logger
                    "' WHERE prjKey ='" + project.pKey + "'";
 
             DbCrud db = new DbCrud();
-            if (db.addToDb(sql) == false)
+            if (db.crudToDb(sql) == false)
                 return false;
 
             return true;
@@ -206,7 +206,7 @@ namespace Logger
                    "WHERE prjKey ='" + pKey + "' UPDATE Logs SET uploaded = 1";
 
             DbCrud db = new DbCrud();
-            if (db.addToDb(sql) == false)
+            if (db.crudToDb(sql) == false)
                 return false;
 
             return true;
@@ -218,11 +218,19 @@ namespace Logger
                     VALUES('" + pKey + "','" + pFilename + "', GETDATE()); SELECT CAST(scope_identity() AS int);";
 
             DbCrud db = new DbCrud();
-            int newLogID = db.GetScalarFromDb(sql);
+            int newLogID = db.GetScalarIntFromDb(sql);
             return newLogID;
         }
 
-
+        /// <summary>
+        /// Add project to database 
+        /// </summary>
+        /// <param name="name">Name of project</param>
+        /// <param name="brief">Shot Description</param>
+        /// <returns>dicData 
+        /// a dictionary with key project_id, 
+        /// and value project object
+        /// </returns>
         public Dictionary<string, Project> createProject(string name, string brief)
         {
             Name = name;
@@ -255,6 +263,37 @@ namespace Logger
                 }
             }
             return dicData;
+        }
+
+        /// <summary>
+        /// delete project given the project name
+        /// </summary>
+        /// <param name="prjName"></param>
+        /// <returns>bool</returns>
+        public bool deleteProjectByName(string prjName)
+        {
+            DbCrud db = new DbCrud();
+            string sql;
+            // need to obtain project ID
+            sql = $"SELECT prjKey FROM project where prjName = '{prjName}'";
+            string result = db.GetScalarStrFromDb(sql);
+
+            sql = $"DELETE FROM loginfo WHERE prjKey = '{result}'";
+            bool deleteLogInfo = db.crudToDb(sql);
+            
+            sql = $"DELETE project where prjName = '{prjName}'";
+            bool deleteProjectInfo = db.crudToDb(sql);
+
+
+            return deleteLogInfo && deleteProjectInfo;
+
+        }
+
+        private void deleteProjectLogsByID(string prjID)
+        {
+            string sql = $"DELETE loginfo where prjID = '{prjID}'";
+            DbCrud db = new DbCrud();
+            db.crudToDb(sql);
         }
 
         public void uploadLog(string filename)
@@ -450,7 +489,7 @@ namespace Logger
 
 
             DbCrud db = new DbCrud();
-            if (db.addToDb(sql) == false) { return false; };
+            if (db.crudToDb(sql) == false) { return false; };
             return true;
         }
 
@@ -544,7 +583,7 @@ namespace Logger
             string sql = @"UPDATE logs SET " + recordTypeStr + " = 1 WHERE id = " + logID;
 
             DbCrud db = new DbCrud();
-            if (db.addToDb(sql) == false) { };
+            if (db.crudToDb(sql) == false) { };
         }
 
         public DataTable getGroupOptions(string logID, string fieldName)
@@ -611,59 +650,59 @@ namespace Logger
             DbCrud db = new DbCrud();
 
             string sql = @"SELECT COUNT(*) FROM screeninfo WHERE logID =" + logID;
-            int count = db.GetScalarFromDb(sql);
+            int count = db.GetScalarIntFromDb(sql);
             dicBits.Add("screens", count);
 
             sql = @"SELECT COUNT(*) FROM stateinfo WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("states", count);
 
             sql = @"SELECT COUNT(*) FROM configParamsInfo WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("configParametersLoad", count);
 
             sql = @"SELECT COUNT(*) FROM fitinfo WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("fit", count);
 
             sql = @"SELECT COUNT(*) FROM configId WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("configID", count);
 
             sql = @"SELECT COUNT(*) FROM enhancedParamsInfo WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("enhancedParametersLoad", count);
 
             sql = @"SELECT COUNT(*) FROM dateTime WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("dateandtime", count);
 
             sql = @"SELECT COUNT(*) FROM treq WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("treq", count);
 
             sql = @"SELECT COUNT(*) FROM treply WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("treply", count);
 
             sql = @"SELECT COUNT(*) FROM iccCurrencyDOT WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("iccCurrencyDOT", count);
 
             sql = @"SELECT COUNT(*) FROM iccTransactionDOT WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("iccTransactionDOT", count);
 
             sql = @"SELECT COUNT(*) FROM iccLanguageSupportT WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("iccLanguageSupportT", count);
 
             sql = @"SELECT COUNT(*) FROM iccTerminalDOT WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("iccTerminalDOT", count);
 
             sql = @"SELECT COUNT(*) FROM iccApplicationIDT WHERE logID =" + logID;
-            count = db.GetScalarFromDb(sql);
+            count = db.GetScalarIntFromDb(sql);
             dicBits.Add("iccApplicationIDT", count);
 
             return dicBits;
@@ -694,7 +733,7 @@ namespace Logger
                        " ;UPDATE Project SET prjlogs = prjlogs - 1 " +
                        "WHERE prjlogs > 0 and prjKey ='" + App.Prj.Key + "'";
             DbCrud db = new DbCrud();
-            if (db.addToDb(sql) == false) { };
+            if (db.crudToDb(sql) == false) { };
         }
     }
 }

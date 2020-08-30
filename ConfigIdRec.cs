@@ -42,7 +42,7 @@ namespace Logger
                                     loadNum.ToString() + "','" + key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
-                if (db.addToDb(sql) == false)
+                if (db.crudToDb(sql) == false)
                     return false;
             }
             return true;

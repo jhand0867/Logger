@@ -576,7 +576,7 @@ namespace Logger
 
 
                 DbCrud db = new DbCrud();
-                if (db.addToDb(sql) == false)
+                if (db.crudToDb(sql) == false)
                     return false;
 
                 /// 
@@ -600,7 +600,7 @@ namespace Logger
                                    c.numOfChecks + "'," +
                                    logID + ")";
 
-                    if (db.addToDb(sql) == false)
+                    if (db.crudToDb(sql) == false)
                         return false;
                 }
 
@@ -617,7 +617,7 @@ namespace Logger
                                  c.codelineData + "'," +
                                  logID + ")";
 
-                    if (db.addToDb(sql) == false)
+                    if (db.crudToDb(sql) == false)
                         return false;
                 }
 
@@ -630,7 +630,7 @@ namespace Logger
                                  c.paramValue + "'," +
                                  logID + ")";
 
-                    if (db.addToDb(sql) == false)
+                    if (db.crudToDb(sql) == false)
                         return false;
                 }
             }

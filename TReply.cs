@@ -250,7 +250,7 @@ namespace Logger
 
                 DbCrud db = new DbCrud();
 
-                if (db.addToDb(sql) == false)
+                if (db.crudToDb(sql) == false)
                     return false;
 
                 // write Printer Data 
@@ -263,7 +263,7 @@ namespace Logger
                                    c.printerFlag + "','" +
                                    c.printerData + "'," +
                                    logID + ")";
-                    if (db.addToDb(sql) == false)
+                    if (db.crudToDb(sql) == false)
                         return false;
                 }
 
@@ -280,7 +280,7 @@ namespace Logger
                                    c.CheckEndorseText + "'," +
                                    logID + ")";
 
-                    if (db.addToDb(sql) == false)
+                    if (db.crudToDb(sql) == false)
                         return false;
                 }
             }

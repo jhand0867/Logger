@@ -95,7 +95,7 @@ namespace Logger
                     sql = sql + "'" + parms.options[y].paramValue + "'," + logID + ")";
 
 
-                    if (db.addToDb(sql) == false)
+                    if (db.crudToDb(sql) == false)
                         return false;
 
                 }
@@ -108,7 +108,7 @@ namespace Logger
                     sql = sql + "'" + parms.timers[y].timerNum + "',";
                     sql = sql + "'" + parms.timers[y].timerTics + "'," + logID + ")";
 
-                    if (db.addToDb(sql) == false)
+                    if (db.crudToDb(sql) == false)
                         return false;
 
                 }
@@ -124,7 +124,7 @@ namespace Logger
                                     loadNum.ToString() + "','" +
                                     key + "'," + logID + ")";
 
-                if (db.addToDb(sql) == false)
+                if (db.crudToDb(sql) == false)
                     return false;
             }
             return true;

@@ -11,6 +11,11 @@ namespace Logger
             return new Project();
         }
 
+        public static ProjectInfo Create_ProjectInfo()
+        {
+            return new ProjectInfo();
+        }
+
         public static List<typeRec> Create_ListOfTypeRec()
         {
             return new List<typeRec>();

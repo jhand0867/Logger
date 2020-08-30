@@ -10,7 +10,7 @@ namespace Logger
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
          System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public bool addToDb(string sql)
+        public bool crudToDb(string sql)
         {
 
             log.Info("Adding to Database ");
@@ -73,7 +73,7 @@ namespace Logger
 
         }
 
-        public int GetScalarFromDb(string sql)
+        public int GetScalarIntFromDb(string sql)
         {
             log.Info("Access Database and get scalar ");
             string connectionString;
@@ -101,6 +101,38 @@ namespace Logger
             {
                 log.Error("Database Error: " + dbEx.Message);
                 return 0;
+            }
+
+        }
+
+        public string GetScalarStrFromDb(string sql)
+        {
+            log.Info("Access Database and get scalar ");
+            string connectionString;
+            SqlConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            cnn = new SqlConnection(connectionString);
+
+            try
+            {
+                cnn.Open();
+
+                SqlCommand command;
+                string result;
+
+                command = new SqlCommand(sql, cnn);
+
+                result = (string)command.ExecuteScalar();
+
+                command.Dispose();
+                cnn.Close();
+                return result;
+            }
+            catch (Exception dbEx)
+            {
+                log.Error("Database Error: " + dbEx.Message);
+                return null;
             }
 
         }

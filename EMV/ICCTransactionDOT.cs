@@ -54,7 +54,7 @@ namespace Logger
                                 c.TransactionCatCodeValue + "'," + logID + ")";
 
                     DbCrud db = new DbCrud();
-                    if (db.addToDb(sql) == false)
+                    if (db.crudToDb(sql) == false)
                         return false;
                 }
                 List<typeRec> emvList = new List<typeRec>();

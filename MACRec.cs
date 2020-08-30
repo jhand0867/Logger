@@ -30,7 +30,7 @@ namespace Logger
                                     loadNum.ToString() + "')";
 
                 DbCrud db = new DbCrud();
-                if (db.addToDb(sql) == false) { };
+                if (db.crudToDb(sql) == false) { };
 
             }
 

@@ -26,6 +26,12 @@ namespace Logger
         {
             log.Debug("Loading projects info");
 
+            loadInfo();
+
+        }
+
+        private void loadInfo()
+        {
             listView1.View = View.Details;
             listView1.Name = "ProjectsList";
             listView1.Columns.Add("Project Name", 120, HorizontalAlignment.Center);
@@ -69,7 +75,6 @@ namespace Logger
                 editToolStripMenuItem.Enabled = false;
                 deleteToolStripMenuItem.Enabled = false;
             }
-
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -230,7 +235,8 @@ namespace Logger
 
         private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This is Delete");
+            deleteInfo();
+            loadInfo();
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
@@ -250,7 +256,7 @@ namespace Logger
 
             dicData = App.Prj.getProjectByName(prjName);
 
-            ProjectInfo prjInfo = new ProjectInfo();
+            ProjectInfo prjInfo = MessageFactory.Create_ProjectInfo();
             Control[] formControls = prjInfo.Controls.Find("btnUpdate", false);
             if (formControls.Length > 0)
             {
@@ -268,7 +274,32 @@ namespace Logger
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TODO: IMPLEMENT DELETE PROJECT
+            deleteInfo();
+
+            loadInfo();
+        }
+
+        private void deleteInfo()
+        {
+            if (listView1.Items.Count == 0)
+            {
+                return;
+            }
+            string prjName = listView1.SelectedItems[0].Text;
+            var result = MessageBox.Show($"This will delete the project: {prjName} and all its logs\n do you want to continue",
+                "Alert!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                if (App.Prj.deleteProjectByName(prjName))
+                {
+                    log.Info($"Project Deleted: {prjName}");
+                }
+                else
+                {
+                    log.Info($"Unable to delete Project: {prjName}");
+                }
+
+            }
         }
     }
 }
