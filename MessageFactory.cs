@@ -16,6 +16,11 @@ namespace Logger
             return new List<typeRec>();
         }
 
+        public static StateRec Create_StateRecord()
+        {
+            return new StateRec();
+        }
+
         public static StateRec Create_StateRecord(string stateType)
         {
             var stateTypeDic = new Dictionary<string, Func<StateRec>>();

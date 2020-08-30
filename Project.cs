@@ -203,7 +203,7 @@ namespace Logger
         public bool addLogToProject(string pKey)
         {
             string sql = @"UPDATE Project SET prjLogs = prjLogs + 1 " +
-                   "WHERE prjKey ='" + pKey + "'";
+                   "WHERE prjKey ='" + pKey + "' UPDATE Logs SET uploaded = 1";
 
             DbCrud db = new DbCrud();
             if (db.addToDb(sql) == false)
@@ -259,9 +259,6 @@ namespace Logger
 
         public void uploadLog(string filename)
         {
-            // todo: add a flag in logs to keep track of the success or not of the upload
-            // todo: update the flag to true when the process is successful 
-
             int logID = attachLogToProject(this.pKey, filename);
 
             Dictionary<string, dataLine> dicData = new Dictionary<string, dataLine>();
@@ -296,17 +293,11 @@ namespace Logger
                     continue;
                 }
 
-                //if (lstLines[lineProcess].Contains("2021-01-16 12:19:"))
-                //{
-                //    continue;
-                //}
-
-                    //while ( (lineProcess < lstLines.Length && lstLines[lineProcess] != ""
-                    while ((lineProcess < lstLines.Length && lstLines[lineProcess].Length > 0
-                        && lstLines[lineProcess].Substring(0, 1) != "["
-                        && lstLines[lineProcess].Substring(0, 1) != "="
-                        ) ||
-                      (lineProcess < lstLines.Length && lstLines[lineProcess].Length == 0 ) )
+                while ((lineProcess < lstLines.Length && lstLines[lineProcess].Length > 0
+                    && lstLines[lineProcess].Substring(0, 1) != "["
+                    && lstLines[lineProcess].Substring(0, 1) != "="
+                    ) ||
+                  (lineProcess < lstLines.Length && lstLines[lineProcess].Length == 0))
                 {
                     if (lstLines[lineProcess] != "")
                     {
@@ -413,16 +404,11 @@ namespace Logger
                                 {
                                     repLine++;
                                 }
-
                             }
-
                         }
                     }
-
                     break;
-
                 }
-
             }
 
             addLogToProject(this.pKey);
@@ -484,7 +470,6 @@ namespace Logger
 
             if (data == null)
             {
-                // todo: check throw
                 return;
             }
 
@@ -553,7 +538,6 @@ namespace Logger
             }
         }
 
-        //todo: move to utils
         private void setBitToTrue(string recordType, string logID)
         {
             string recordTypeStr = recTypesDic[recordType];
@@ -612,7 +596,7 @@ namespace Logger
         public DataTable getAllLogs(string prjID)
         {
             DataTable dt = new DataTable();
-            string sql = @"SELECT * FROM [dbo].[logs] WHERE prjKey = '" + prjID + "'";
+            string sql = @"SELECT * FROM [dbo].[logs] WHERE prjKey = '" + prjID + "' AND uploaded = 1";
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
             return dt;
@@ -707,8 +691,8 @@ namespace Logger
         {
             string sql = @"DELETE from loginfo WHERE logID = " + logID +
                        " ;DELETE from logs WHERE ID = " + logID +
-                       " ;UPDATE Project SET prjLogs = prjLogs - 1 " +
-                       "WHERE prjKey ='" + App.Prj.Key + "'";
+                       " ;UPDATE Project SET prjlogs = prjlogs - 1 " +
+                       "WHERE prjlogs > 0 and prjKey ='" + App.Prj.Key + "'";
             DbCrud db = new DbCrud();
             if (db.addToDb(sql) == false) { };
         }

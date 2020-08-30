@@ -718,9 +718,9 @@ namespace Logger
                 }
                 break;
 
-                        }
+            }
             return txtField;
-                    }
+        }
 
         private string getTreqOptions(DataTable dataTable)
         {

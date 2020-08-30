@@ -9,7 +9,7 @@ namespace Logger
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public bool writeData(List<typeRec> typeRecs, string key, string logID)

@@ -48,53 +48,8 @@ namespace Logger
                     break;
                 }
             }
-
             return recType;
-
-            //IMessage theRecord = MessageFactory.Create_Record(recType);
-            //if (theRecord != null)
-            //{
-            //    return theRecord.getRecord(logKey, logID, projectKey);
-            //}
-            //return null;
-
-        }
-        //public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recValue)
-        //{
-        //    string recType = "";
-        //    List<DataTable> dts = new List<DataTable>();
-
-        //    string[] tmpTypes = recValue.Split((char)0x1c);
-
-        //    // changing to use regular expressions 
-        //    // create regex
-        //    Regex match3or30 = new Regex(@"host2atm: 3.?0");
-        //    MatchCollection resultContent = null;
-
-        //    for (int row = 0; row < App.Prj.RecordTypes.Length / 4; row++)
-        //    {
-        //        resultContent = match3or30.Matches(App.Prj.RecordTypes[row, 0]);
-        //        if (resultContent.Count == 0)
-        //        {
-        //            recType = App.Prj.RecordTypes[row, 3];
-        //            break;
-        //        }
-        //        if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
-        //        (App.Prj.RecordTypes[row, 2] == tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[row, 1])]))
-        //        {
-        //            recType = App.Prj.RecordTypes[row, 3];
-        //            break;
-        //        }
-        //    }
-
-        //    IMessage theRecord = MessageFactory.Create_Record(recType);
-        //    if (theRecord != null)
-        //    {
-        //        return theRecord.getRecord(logKey, logID, projectKey);
-        //    }
-        //    return null;
-
-        //}
+         }
 
         public void WriteLog(string filePath, string fileName, string logLine)
         {
@@ -129,6 +84,7 @@ namespace Logger
             }
 
         }
+        
         public bool ValidateYesNo(string value)
         {
             if (!(value == "000" || value == "001"))
@@ -138,6 +94,7 @@ namespace Logger
             }
             return true;
         }
+        
         public bool ValidateRange(string value, int start, int end)
         {
             int valSta = Convert.ToInt32(value);

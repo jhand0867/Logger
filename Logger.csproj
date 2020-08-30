@@ -58,20 +58,20 @@
     <Compile Include="ConfigParamsRec.cs" />
     <Compile Include="DateAndTimeRec.cs" />
     <Compile Include="DbCrud.cs" />
-    <Compile Include="EMVConfiguration.cs" />
+    <Compile Include="EMV\EMVConfiguration.cs" />
     <Compile Include="EnhancedParamsRec.cs" />
     <Compile Include="ExtEncryptionRec.cs" />
     <Compile Include="FitRec.cs" />
-    <Compile Include="ICCApplicationIDT.cs" />
-    <Compile Include="ICCCurrencyDOT.cs" />
-    <Compile Include="ICCLanguageSupportT.cs" />
-    <Compile Include="ICCTerminalDOT.cs" />
-    <Compile Include="ICCTransactionDOT.cs" />
+    <Compile Include="EMV\ICCApplicationIDT.cs" />
+    <Compile Include="EMV\ICCCurrencyDOT.cs" />
+    <Compile Include="EMV\ICCLanguageSupportT.cs" />
+    <Compile Include="EMV\ICCTerminalDOT.cs" />
+    <Compile Include="EMV\ICCTransactionDOT.cs" />
     <Compile Include="IMessage.cs" />
-    <Compile Include="LogData.cs">
+    <Compile Include="GUI\LogData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LogData.Designer.cs">
+    <Compile Include="GUI\LogData.Designer.cs">
       <DependentUpon>LogData.cs</DependentUpon>
     </Compile>
     <Compile Include="loggerDataSet.cs">
@@ -87,90 +87,90 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>loggerDataSet1.xsd</DependentUpon>
     </Compile>
-    <Compile Include="LogView.cs">
+    <Compile Include="GUI\LogView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LogView.Designer.cs">
+    <Compile Include="GUI\LogView.Designer.cs">
       <DependentUpon>LogView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main.cs">
+    <Compile Include="GUI\Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main.Designer.cs">
+    <Compile Include="GUI\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="MACRec.cs" />
     <Compile Include="MessageFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Project.cs" />
-    <Compile Include="ProjectData.cs">
+    <Compile Include="GUI\ProjectData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProjectData.Designer.cs">
+    <Compile Include="GUI\ProjectData.Designer.cs">
       <DependentUpon>ProjectData.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProjectInfo.cs">
+    <Compile Include="GUI\ProjectInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProjectInfo.Designer.cs">
+    <Compile Include="GUI\ProjectInfo.Designer.cs">
       <DependentUpon>ProjectInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Projects.cs">
+    <Compile Include="GUI\Projects.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Projects.Designer.cs">
+    <Compile Include="GUI\Projects.Designer.cs">
       <DependentUpon>Projects.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenRec.cs" />
-    <Compile Include="State26.cs" />
-    <Compile Include="State2B.cs" />
-    <Compile Include="State2C.cs" />
-    <Compile Include="State2D.cs" />
-    <Compile Include="State2E.cs" />
-    <Compile Include="State2F.cs" />
-    <Compile Include="State3B.cs" />
-    <Compile Include="State3E.cs" />
-    <Compile Include="State3F.cs" />
-    <Compile Include="State5F.cs" />
-    <Compile Include="State6B.cs" />
-    <Compile Include="State77.cs" />
-    <Compile Include="StateA.cs" />
-    <Compile Include="StateAll.cs" />
-    <Compile Include="StateB.cs" />
-    <Compile Include="StateD.cs" />
-    <Compile Include="StateE.cs" />
-    <Compile Include="StateF.cs" />
-    <Compile Include="StateG.cs" />
-    <Compile Include="StateH.cs" />
-    <Compile Include="StateI.cs" />
-    <Compile Include="StateJ.cs" />
-    <Compile Include="StateK.cs" />
-    <Compile Include="StateM.cs" />
-    <Compile Include="StateN.cs" />
-    <Compile Include="StateRec.cs" />
-    <Compile Include="StateW.cs" />
-    <Compile Include="StateX.cs" />
-    <Compile Include="StateY.cs" />
-    <Compile Include="StateZ.cs" />
+    <Compile Include="StateRecords\State26.cs" />
+    <Compile Include="StateRecords\State2B.cs" />
+    <Compile Include="StateRecords\State2C.cs" />
+    <Compile Include="StateRecords\State2D.cs" />
+    <Compile Include="StateRecords\State2E.cs" />
+    <Compile Include="StateRecords\State2F.cs" />
+    <Compile Include="StateRecords\State3B.cs" />
+    <Compile Include="StateRecords\State3E.cs" />
+    <Compile Include="StateRecords\State3F.cs" />
+    <Compile Include="StateRecords\State5F.cs" />
+    <Compile Include="StateRecords\State6B.cs" />
+    <Compile Include="StateRecords\State77.cs" />
+    <Compile Include="StateRecords\StateA.cs" />
+    <Compile Include="StateRecords\StateAll.cs" />
+    <Compile Include="StateRecords\StateB.cs" />
+    <Compile Include="StateRecords\StateD.cs" />
+    <Compile Include="StateRecords\StateE.cs" />
+    <Compile Include="StateRecords\StateF.cs" />
+    <Compile Include="StateRecords\StateG.cs" />
+    <Compile Include="StateRecords\StateH.cs" />
+    <Compile Include="StateRecords\StateI.cs" />
+    <Compile Include="StateRecords\StateJ.cs" />
+    <Compile Include="StateRecords\StateK.cs" />
+    <Compile Include="StateRecords\StateM.cs" />
+    <Compile Include="StateRecords\StateN.cs" />
+    <Compile Include="StateRecords\StateRec.cs" />
+    <Compile Include="StateRecords\StateW.cs" />
+    <Compile Include="StateRecords\StateX.cs" />
+    <Compile Include="StateRecords\StateY.cs" />
+    <Compile Include="StateRecords\StateZ.cs" />
     <Compile Include="TRec.cs" />
     <Compile Include="TReply.cs" />
-    <EmbeddedResource Include="LogData.resx">
+    <EmbeddedResource Include="GUI\LogData.resx">
       <DependentUpon>LogData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogView.resx">
+    <EmbeddedResource Include="GUI\LogView.resx">
       <DependentUpon>LogView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
+    <EmbeddedResource Include="GUI\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProjectData.resx">
+    <EmbeddedResource Include="GUI\ProjectData.resx">
       <DependentUpon>ProjectData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProjectInfo.resx">
+    <EmbeddedResource Include="GUI\ProjectInfo.resx">
       <DependentUpon>ProjectInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Projects.resx">
+    <EmbeddedResource Include="GUI\Projects.resx">
       <DependentUpon>Projects.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
