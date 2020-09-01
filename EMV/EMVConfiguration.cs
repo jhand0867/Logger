@@ -231,7 +231,9 @@ namespace Logger
                 emv.NumberOfEntries = tmpTypes[3].Substring(0, 2);
             }
             emv.ConfigurationData = tmpTypes[3];
-            emv.Mac = tmpTypes[4];
+
+            if (tmpTypes.Length > 4)
+                emv.Mac = tmpTypes[4];
 
             return emv;
 

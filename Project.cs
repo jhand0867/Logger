@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 namespace Logger
 {
 
+    // todo: failed scannig for Fit, EnhancedConfig and ConfigParams
+
     public struct dataLine
     {
         public string[] allGroups;
@@ -280,12 +282,15 @@ namespace Logger
 
             sql = $"DELETE FROM loginfo WHERE prjKey = '{result}'";
             bool deleteLogInfo = db.crudToDb(sql);
-            
+
             sql = $"DELETE project where prjName = '{prjName}'";
             bool deleteProjectInfo = db.crudToDb(sql);
 
+            sql = $"DELETE logs where prjKey = '{result}'";
+            bool deleteProjectLogs = db.crudToDb(sql);
 
-            return deleteLogInfo && deleteProjectInfo;
+
+            return deleteLogInfo && deleteProjectInfo && deleteProjectLogs;
 
         }
 
@@ -308,7 +313,6 @@ namespace Logger
             int repLine = 0;
             int recProcessed = 0;
             int recSkipped = 0;
-            int readRecs = 0;
             int recExtent = 0;
             string prevTimeStamp = "";
             long lineProcess = 0;
@@ -343,6 +347,7 @@ namespace Logger
                         strLine += lstLines[lineProcess] + System.Environment.NewLine;
                     }
                     lineProcess++;
+                    recExtent++;
                 }
 
                 if (strLine.EndsWith(System.Environment.NewLine))
@@ -350,7 +355,6 @@ namespace Logger
                     strLine = strLine.Substring(0, strLine.Length - 2);
                 }
 
-                readRecs++;
                 // 
                 Regex openGroup9 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
                 Regex openGroup8 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
@@ -374,7 +378,7 @@ namespace Logger
                     if (strLine.Length != item.Value.Length)
                     {
                         strLineSub = strLine.Substring(item.Value.Length, strLine.Length - item.Value.Length);
-                        recExtent = recExtent + strLineSub.Split('\n').Length;
+                        // recExtent = recExtent + strLineSub.Split('\n').Length;
                     }
                     int groupNumber = 0;
                     foreach (Group group in item.Groups)
@@ -456,7 +460,7 @@ namespace Logger
 
             log.Info($"Records Processed {recProcessed}");
             log.Info($"Records Skipped {recSkipped}");
-            log.Info($"Records read {readRecs}");
+            log.Info($"Records read {lineProcess}");
             log.Info($"Records Extended {recExtent}");
         }
 

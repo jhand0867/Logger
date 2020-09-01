@@ -53,7 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="Class2C.cs" />
     <Compile Include="ConfigIdRec.cs" />
     <Compile Include="ConfigParamsRec.cs" />
     <Compile Include="DateAndTimeRec.cs" />

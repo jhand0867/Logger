@@ -62,13 +62,9 @@ namespace Logger
 
                 int timersNum = 0;
 
-                // mlh abend because count was = typeRecs.Count
-                // if (typeRecs[count - 1].typeIndex == typeRecs[count].typeIndex)
-
                 if ((count < typeRecs.Count) &&
                    (typeRecs[count - 1].typeIndex == typeRecs[count].typeIndex))
                 {
-
                     r = typeRecs[count];
                     timersNum = r.typeContent.Length / 5;
 
@@ -86,7 +82,7 @@ namespace Logger
 
                 // childs of EnhanedParamsInfo
 
-                string sql = "";
+                string sql;
                 for (int y = 0; y < optionsCount; y++)
                 {
                     sql = @"INSERT INTO enhancedParams([logkey],[rectype],[optionNum],[optionCode],[logID]) ";
@@ -100,7 +96,6 @@ namespace Logger
 
                 }
 
-                sql = "";
                 for (int y = 0; y < timersNum; y++)
                 {
                     sql = @"INSERT INTO enhancedTimers([logkey],[rectype],[timerNum],[timerSeconds],[logID]) ";
@@ -134,15 +129,13 @@ namespace Logger
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
             List<DataTable> dts = new List<DataTable>();
-            DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
 
             string sql = @"SELECT id, logkey, rectype, optionNum as Num, optionCode as Code, '1' as type from enhancedParams
                                                         WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
-            dt = db.GetTableFromDb(sql);
+            DataTable dt = db.GetTableFromDb(sql);
             dts.Add(dt);
 
-            // dt = new DataTable();
             sql = @"SELECT id, logkey, rectype, timerNum as Num, timerSeconds as Code, '2' as type from enhancedTimers
                                                         WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
             dt = db.GetTableFromDb(sql);
@@ -153,25 +146,22 @@ namespace Logger
 
         public DataTable getDescription()
         {
-            DataTable dt = new DataTable();
             string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'C' ";
 
             DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
+            DataTable dt = db.GetTableFromDb(sql);
             return dt;
         }
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            List<DataTable> dts = new List<DataTable>();
-            dts = getRecord(logKey, logID, projectKey);
+            List<DataTable> dts = getRecord(logKey, logID, projectKey);
             string txtField = "";
 
             if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
 
-            // EnhancedParamsRec paramRec = new EnhancedParamsRec();
             DataTable paramRecDt = getDescription();
-            string optionDesc = "";
+            string optionDesc;
 
             foreach (DataTable dt in dts)
             {
@@ -207,9 +197,7 @@ namespace Logger
                     }
                 }
             }
-
             return txtField;
-
         }
     }
 }

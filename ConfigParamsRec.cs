@@ -45,9 +45,8 @@ namespace Logger
 
         public new Dictionary<string, configParams> readData(string sql)
         {
-            DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
+            DataTable dt = db.GetTableFromDb(sql);
             Dictionary<string, configParams> dicData = new Dictionary<string, configParams>();
 
             if (dt.Rows.Count > 0)
@@ -101,7 +100,7 @@ namespace Logger
                 loadNum++;
 
                 // childs of configParamsInfo
-                string sql = "";
+                string sql;
                 for (int y = 0; y < timersNum; y++)
                 {
                     sql = @"INSERT INTO configParamsTimers([logkey],[rectype],[timerNum],[timerTics],[logID]) ";
@@ -137,8 +136,6 @@ namespace Logger
                     return false;
             }
             return true;
-
-
         }
 
         List<DataTable> IMessage.getRecord(string logKey, string logID, string projectKey)

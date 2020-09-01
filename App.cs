@@ -9,38 +9,29 @@ namespace Logger
 {
     public class App
     {
-        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-        //                        System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("App.cs");
 
-        //public static Project Prj = new Project();
         public static Project Prj = MessageFactory.Create_Project();
+
         public App()
         {
             //
-
         }
 
-
-        //public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recValue)
         public string getRecord(string logKey, string logID, string projectKey, string recValue)
         {
             string recType = "";
-            List<DataTable> dts = new List<DataTable>();
-
 
             string[] tmpTypes = recValue.Split((char)0x1c);
 
             for (int row = 0; row < App.Prj.RecordTypes.Length / 4; row++)
             {
-                // if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
                 if (tmpTypes[0].Contains(App.Prj.RecordTypes[row, 0]) &&
                    (App.Prj.RecordTypes[row, 1] == "0"))
                 {
                     recType = App.Prj.RecordTypes[row, 3];
                     break;
                 }
-                // if ((App.Prj.RecordTypes[row, 0] == tmpTypes[0]) &&
                 if (tmpTypes[0].Contains(App.Prj.RecordTypes[row, 0]) &&
                 (App.Prj.RecordTypes[row, 2] == tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[row, 1])]))
                 {

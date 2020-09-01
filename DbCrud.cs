@@ -13,11 +13,10 @@ namespace Logger
         public bool crudToDb(string sql)
         {
 
-            log.Info("Adding to Database ");
+            log.Info("CRUD to Database ");
 
             string connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
             SqlConnection cnn = new SqlConnection(connectionString);
-
             try
             {
                 cnn.Open();
@@ -25,12 +24,64 @@ namespace Logger
                 SqlCommand command;
                 SqlDataAdapter dataAdapter = new SqlDataAdapter();
 
-                log.Debug("Adding record " + sql);
+                log.Debug("CRUD Request " + sql);
                 command = new SqlCommand(sql, cnn);
                 dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
                 dataAdapter.InsertCommand.ExecuteNonQuery();
                 command.Dispose();
-                log.Debug("Record Added");
+                log.Debug("CRUD successful");
+
+                cnn.Close();
+                return true;
+            }
+
+            catch (Exception dbEx)
+            {
+                log.Error("Database Error: " + dbEx.Message);
+                return false;
+            }
+
+        }
+
+        public bool crudTransaction(string sql)
+        {
+
+            log.Info("CRUD to Database ");
+
+            string connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            SqlConnection cnn = new SqlConnection(connectionString);
+            SqlTransaction transaction;
+            /*
+             * transaction = sqlConnection.BeginTransaction();    
+try     
+{    
+   new SqlCommand("INSERT Qwery1", sqlConnection, transaction)    
+      .ExecuteNonQuery();    
+   new SqlCommand("INSERT Qwery2 ", sqlConnection, transaction)    
+      .ExecuteNonQuery();    
+   new SqlCommand("INSERT Qwery3 ", sqlConnection, transaction)    
+      .ExecuteNonQuery();    
+   transaction.Commit();    
+}     
+catch (SqlException sqlError)     
+{    
+   transaction.Rollback();    
+}    
+            */
+            transaction = cnn.BeginTransaction();
+            try
+            {
+                cnn.Open();
+
+                SqlCommand command;
+                SqlDataAdapter dataAdapter = new SqlDataAdapter();
+
+                log.Debug("CRUD Request " + sql);
+                command = new SqlCommand(sql, cnn);
+                dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
+                dataAdapter.InsertCommand.ExecuteNonQuery();
+                command.Dispose();
+                log.Debug("CRUD successful");
 
                 cnn.Close();
                 return true;

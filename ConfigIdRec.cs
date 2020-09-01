@@ -7,8 +7,7 @@ namespace Logger
     class ConfigIdRec : App, IMessage
     {
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
-        {
-            DataTable dt = new DataTable();
+        {        
             List<DataTable> dts = new List<DataTable>();
 
             string sql = @"SELECT TOP 1 * FROM configId WHERE prjkey = '" +
@@ -16,14 +15,13 @@ namespace Logger
                                                            logKey + "%'";
 
             DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
+            DataTable dt = db.GetTableFromDb(sql);
             dts.Add(dt);
             return dts;
         }
 
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
-            String sql = "";
             int loadNum = 0;
             foreach (typeRec r in typeRecs)
             {
@@ -35,7 +33,7 @@ namespace Logger
                 loadNum++;
 
 
-                sql = @"INSERT INTO configId([logkey],[rectype],[configID],[load],[prjkey],[logID])" +
+                string sql = @"INSERT INTO configId([logkey],[rectype],[configID],[load],[prjkey],[logID])" +
                       " VALUES('" + r.typeIndex + "','" +
                                    'I' + "','" +
                                     r.typeContent.Substring(0, 4) + "','" + // screenNum
@@ -56,8 +54,7 @@ namespace Logger
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            List<DataTable> dts = new List<DataTable>();
-            dts = getRecord(logKey, logID, projectKey);
+            List<DataTable> dts = getRecord(logKey, logID, projectKey);
             string txtField = "";
 
             if (dts == null || dts[0].Rows.Count == 0) { return txtField; }

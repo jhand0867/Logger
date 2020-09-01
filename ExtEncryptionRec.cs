@@ -14,7 +14,6 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
-            String sql = "";
             int loadNum = 0;
             foreach (typeRec r in typeRecs)
             {
@@ -25,8 +24,7 @@ namespace Logger
 
                 loadNum++;
 
-
-                sql = @"INSERT INTO extEncryption([logkey],[rectype],[keySize],[keyData],[load],[prjkey],[logID])" +
+                string sql = @"INSERT INTO extEncryption([logkey],[rectype],[keySize],[keyData],[load],[prjkey],[logID])" +
                       " VALUES('" + r.typeIndex + "','" +
                                    'X' + "','" +
                                     r.typeContent.Substring(0, 3) + "','" + // key data size

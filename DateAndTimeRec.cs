@@ -13,7 +13,6 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
-            String sql = "";
             int loadNum = 0;
             foreach (typeRec r in typeRecs)
             {
@@ -25,7 +24,7 @@ namespace Logger
                 loadNum++;
 
 
-                sql = @"INSERT INTO DateTime([logkey],[rectype],[date],[time],[load],[prjkey],[logID])" +
+                string sql = @"INSERT INTO DateTime([logkey],[rectype],[date],[time],[load],[prjkey],[logID])" +
                       " VALUES('" + r.typeIndex + "','" +
                                    'D' + "','" +
                                     r.typeContent.Substring(0, 6) + "','" + // date

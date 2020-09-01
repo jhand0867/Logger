@@ -26,11 +26,14 @@ namespace Logger
 
         private void ProjectData_Load(object sender, EventArgs e)
         {
+            //todo: scan button should not be available
+            //unless there's been logs attached to the project
             scanToolStripMenuItem.Enabled = false;
+            dataGridView1.DataSource = buildDataGridView1();
 
-            if ((buildDataGridView1().Rows.Count) - 1 != 0)
-            {
-                dataGridView1.DataSource = buildDataGridView1();
+            if (dataGridView1.DataSource != null &&
+                dataGridView1.Rows.Count > 0)
+            {                
                 scanToolStripMenuItem.Enabled = true;
             }
             else

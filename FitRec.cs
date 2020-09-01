@@ -10,7 +10,6 @@ namespace Logger
         private string prectype;
         private string pfitnum;
 
-
         public bool ValidateFit(string fitNum)
         {
             string sql = @"SELECT * FROM [screeninfo] " +
@@ -30,12 +29,11 @@ namespace Logger
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
             List<DataTable> dts = new List<DataTable>();
-            DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
 
             string sql = @"SELECT * FROM fitInfo WHERE prjkey = '" + projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
                                                                logKey + "%'";
-            dt = db.GetTableFromDb(sql);
+            DataTable dt = db.GetTableFromDb(sql);
             dts.Add(dt);
 
             return dts;
@@ -43,11 +41,8 @@ namespace Logger
 
         public new Dictionary<string, FitRec> readData(string sql)
         {
-            // here mlh
-
-            DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
+            DataTable dt = db.GetTableFromDb(sql);
             Dictionary<string, FitRec> dicData = new Dictionary<string, FitRec>();
 
             if (dt.Rows.Count > 0)
@@ -65,7 +60,6 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
-            String sql = "";
             int loadNum = 0;
             foreach (typeRec r in typeRecs)
             {
@@ -92,7 +86,7 @@ namespace Logger
                     fit2Hex[y] = U.dec2hex(s1, 2);
                 }
 
-                sql = @"INSERT INTO fitinfo([logkey],[rectype],[fitnum],[piddx],[pfiid],[pstdx],[pagdx],[pmxpn]," +
+                string sql = @"INSERT INTO fitinfo([logkey],[rectype],[fitnum],[piddx],[pfiid],[pstdx],[pagdx],[pmxpn]," +
                                            "[pckln],[pinpd],[pandx],[panln],[panpd], [prcnt],[pofdx],[pdctb]," +
                                            "[pekey],[pindx],[plndx],[pmmsr],[reserved],[pbfmt],[load],[prjkey],[logID])" +
                       " VALUES('" + r.typeIndex + "','" + // key
@@ -135,18 +129,16 @@ namespace Logger
 
         public DataTable getDescription()
         {
-            DataTable dt = new DataTable();
             string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'F' ";
 
             DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
+            DataTable dt = db.GetTableFromDb(sql);
             return dt;
         }
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            List<DataTable> dts = new List<DataTable>();
-            dts = getRecord(logKey, logID, projectKey);
+            List<DataTable> dts = getRecord(logKey, logID, projectKey);
             string txtField = "";
 
             if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
