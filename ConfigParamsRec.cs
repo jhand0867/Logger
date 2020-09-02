@@ -26,6 +26,7 @@ namespace Logger
             public timerRec[] timers;
         };
 
+        // todo: Check for parsing ConfigParams in old version.
 
         public bool ValidateConfigParams(string logKey)
         {
@@ -150,7 +151,7 @@ namespace Logger
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

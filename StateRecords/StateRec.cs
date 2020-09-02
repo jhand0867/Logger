@@ -200,7 +200,7 @@ namespace Logger
 
             DataTable dt = new DataTable();
 
-            log.Info("Generating state record for statey " + stRec.StateType);
+            log.Info("Generating state record for state " + stRec.StateType);
 
             StateRec theRecord = MessageFactory.Create_StateRecord(stRec.StateType);
 
