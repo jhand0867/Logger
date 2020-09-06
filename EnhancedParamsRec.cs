@@ -86,7 +86,7 @@ namespace Logger
                 for (int y = 0; y < optionsCount; y++)
                 {
                     sql = @"INSERT INTO enhancedParams([logkey],[rectype],[optionNum],[optionCode],[logID]) ";
-                    sql = sql + @" VALUES('" + r.typeIndex + "','C',";
+                    sql = sql + @" VALUES('" + r.typeIndex + "','1A',";
                     sql = sql + "'" + parms.options[y].paramName + "',";
                     sql = sql + "'" + parms.options[y].paramValue + "'," + logID + ")";
 
@@ -99,7 +99,7 @@ namespace Logger
                 for (int y = 0; y < timersNum; y++)
                 {
                     sql = @"INSERT INTO enhancedTimers([logkey],[rectype],[timerNum],[timerSeconds],[logID]) ";
-                    sql = sql + @" VALUES('" + r.typeIndex + "','C',";
+                    sql = sql + @" VALUES('" + r.typeIndex + "','1A',";
                     sql = sql + "'" + parms.timers[y].timerNum + "',";
                     sql = sql + "'" + parms.timers[y].timerTics + "'," + logID + ")";
 
@@ -112,7 +112,7 @@ namespace Logger
 
                 sql = @"INSERT INTO enhancedParamsInfo([logkey],[rectype],[luno],[paramsCount],[timersCount],[load],[prjkey],[logID])" +
                        " VALUES('" + r.typeIndex + "','" + // key
-                                    'C' + "','" + // record type
+                                    "1A" + "','" + // record type
                                     parms.luno + "','" +
                                     optionsCount.ToString() + "','" +
                                     timersNum.ToString() + "','" +
