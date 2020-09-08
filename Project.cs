@@ -7,9 +7,6 @@ using System.Text.RegularExpressions;
 
 namespace Logger
 {
-
-    // todo: failed scannig for Fit, EnhancedConfig and ConfigParams
-
     public struct dataLine
     {
         public string[] allGroups;
@@ -52,25 +49,35 @@ namespace Logger
             get { return pLogs; }   // get method
         }
 
+        // mlh list type of messages
 
-        // list type of messages
+        /// <summary>
+        /// Array of type of messages
+        /// column 1: Header of each message for regular expresion finding
+        /// column 2: field index of Message subclass/Identifier
+        /// column 3: value to compare
+        /// column 4: recordtype 
+        /// If message header match with the message, and the field index position in the message 
+        /// matches the value to compare, return recordtype
+        /// </summary>
         private readonly string[,] recordTypes = {
-                                          { "ATM2HOST: 11", "0","", "00" },
-                                          { "HOST2ATM: 4", "0","", "01" },
-                                          { "HOST2ATM: 3", "3","11", "11" },
-                                          { "HOST2ATM: 3", "3","12", "12" },
-                                          { "HOST2ATM: 3", "3","13", "13" },
-                                          { "HOST2ATM: 3", "3","15", "15" },
-                                          { "HOST2ATM: 3", "3","16", "16" },
-                                          { "HOST2ATM: 3", "3","1A", "1A" },
-                                          { "HOST2ATM: 3", "3","1B", "1B" },
-                                          { "HOST2ATM: 3", "3","1C", "1C" },
-                                          { "HOST2ATM: 3", "3","1E", "1E" },
+                                          { "ATM2HOST: 11", "0","", "11" },
+                                          { "HOST2ATM: 4", "0","", "4" },
+                                          { "HOST2ATM: 3", "3","11", "311" },
+                                          { "HOST2ATM: 3", "3","12", "312" },
+                                          { "HOST2ATM: 3", "3","13", "313" },
+                                          { "HOST2ATM: 3", "3","15", "315" },
+                                          { "HOST2ATM: 3", "3","16", "316" },
+                                          { "HOST2ATM: 3", "3","1A", "31A" },
+                                          { "HOST2ATM: 3", "3","1B", "31B" },
+                                          { "HOST2ATM: 3", "3","1C", "31C" },
+                                          { "HOST2ATM: 3", "3","1E", "31E" },
                                           { "HOST2ATM: 8", "2","1", "81" },
                                           { "HOST2ATM: 8", "2","2", "82" },
                                           { "HOST2ATM: 8", "2","3", "83" },
                                           { "HOST2ATM: 8", "2","4", "84" },
                                           { "HOST2ATM: 8", "2","5", "85" },
+                                          { "ATM2HOST: 22", "0","", "22" }
                                         };
 
 
@@ -89,6 +96,10 @@ namespace Logger
         public Dictionary<string, string> recTypesDic = new Dictionary<string, string>();
 
 
+        /// <summary>
+        /// Constructor setup Dictionary with recordtypes with its matching class name
+        /// </summary>
+        
         public Project()
         {
             pKey = "";
@@ -98,21 +109,22 @@ namespace Logger
 
             // mlh: New scans needs to be added here!
 
-            recTypesDic.Add("00", "treq");
-            recTypesDic.Add("01", "treply");
-            recTypesDic.Add("11", "screens");
-            recTypesDic.Add("12", "states");
-            recTypesDic.Add("13", "configParametersLoad");
-            recTypesDic.Add("15", "fit");
-            recTypesDic.Add("16", "configID");
-            recTypesDic.Add("1A", "enhancedParametersLoad");
-            recTypesDic.Add("1B", "mac");
-            recTypesDic.Add("1C", "dateandtime");
+            recTypesDic.Add("11", "treq");
+            recTypesDic.Add("4", "treply");
+            recTypesDic.Add("311", "screens");
+            recTypesDic.Add("312", "states");
+            recTypesDic.Add("313", "configParametersLoad");
+            recTypesDic.Add("315", "fit");
+            recTypesDic.Add("316", "configID");
+            recTypesDic.Add("31A", "enhancedParametersLoad");
+            recTypesDic.Add("31B", "mac");
+            recTypesDic.Add("31C", "dateandtime");
             recTypesDic.Add("81", "iccCurrencyDOT");
             recTypesDic.Add("82", "iccTransactionDOT");
             recTypesDic.Add("83", "iccLanguageSupportT");
             recTypesDic.Add("84", "iccTerminalDOT");
             recTypesDic.Add("85", "iccApplicationIDT");
+            recTypesDic.Add("22", "solicitedStatus");
         }
 
         public Project(string pName, string pBrief)
@@ -355,6 +367,11 @@ namespace Logger
                     strLine = strLine.Substring(0, strLine.Length - 2);
                 }
 
+                if (strLine.Contains("2020-07-27 11:24:24-478"))
+                                    { 
+                }
+
+
                 // 
                 Regex openGroup9 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
                 Regex openGroup8 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
@@ -430,6 +447,10 @@ namespace Logger
                                     //groupsData = groupsData + group.Value + strLineSub;
 
                                     string recKey = strDate + "-" + repLine.ToString();
+                                    if (recKey == "2020-07-27 11:24:24-478")
+                                    {
+
+                                    }
                                     dicData.Add(recKey, record);
 
 
@@ -477,8 +498,6 @@ namespace Logger
             {
                 Console.WriteLine("error");
             }
-
-
             sql = @"INSERT INTO loginfo(logkey, group1, group2, group3, group4, group5, group6, group7, group8,prjKey, logID) 
                         VALUES('" + recKey + "','" +
                                data.allGroups[1] + "','" +
@@ -490,7 +509,6 @@ namespace Logger
                                data.allGroups[7] + "','" +
                                WebUtility.HtmlEncode(data.allGroups[8] + data.allGroups[9]) + "','" +
                                Key + "','" + logID + "')";
-
 
             DbCrud db = new DbCrud();
             if (db.crudToDb(sql) == false) { return false; };
@@ -525,7 +543,7 @@ namespace Logger
 
                 // Request or Reply
 
-                if (recordType == "00" || recordType == "01")
+                if (recordType == "4" || recordType == "11" || recordType == "22")
                 {
                     typeRec r = new typeRec();
                     r.typeIndex = rec.Key;
@@ -539,11 +557,7 @@ namespace Logger
                 // EMV Configuration 81, 82, 83, 84, 85
 
                 if (recordType.Substring(0, 1) == "8" &&
-                   ((recordType.Substring(1, 1) == "1" && tmpTypes[2] == "1") ||
-                    (recordType.Substring(1, 1) == "2" && tmpTypes[2] == "2") ||
-                    (recordType.Substring(1, 1) == "3" && tmpTypes[2] == "3") ||
-                    (recordType.Substring(1, 1) == "4" && tmpTypes[2] == "4") ||
-                    (recordType.Substring(1, 1) == "5" && tmpTypes[2] == "5")))
+                    recordType.Substring(1, 1) == tmpTypes[2])
                 {
                     typeRec r = new typeRec();
                     r.typeIndex = rec.Key;
@@ -552,7 +566,8 @@ namespace Logger
                     continue;
                 }
 
-                if (tmpTypes[3] == recordType)
+                if (recordType.Substring(0, 1) == "3" && 
+                    recordType.Substring(1, 2) == tmpTypes[3])
                 {
                     int myInd = tmpTypes[0].Length + tmpTypes[1].Length + tmpTypes[2].Length + tmpTypes[3].Length;
                     string typeData = rec.Value.Substring(myInd + 4, rec.Value.Length - (myInd + 4));
@@ -615,8 +630,15 @@ namespace Logger
 
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
-            return dt;
 
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    row[9] = WebUtility.HtmlDecode(row[9].ToString());
+                }
+            }
+            return dt;
         }
 
         public DataTable getALogByID(string logID)
@@ -633,6 +655,14 @@ namespace Logger
 
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
+
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    row[9] = WebUtility.HtmlDecode(row[9].ToString());
+                }
+            }
             return dt;
         }
 
@@ -644,6 +674,8 @@ namespace Logger
             dt = db.GetTableFromDb(sql);
             return dt;
         }
+
+        // mlh Add record 
 
         public Dictionary<string, int> showRecordBits(string logID)
         {
@@ -709,6 +741,9 @@ namespace Logger
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("iccApplicationIDT", count);
 
+            sql = @"SELECT COUNT(*) FROM solicitedStatus WHERE logID =" + logID;
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("solicitedStatus", count);
             return dicBits;
 
         }
@@ -724,7 +759,7 @@ namespace Logger
             {
                 foreach (DataRow row in dt.Rows)
                 {
-                    dicData.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), row[2].ToString());
+                    dicData.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), WebUtility.HtmlDecode(row[2].ToString()));
                 }
             }
             return dicData;

@@ -26,8 +26,6 @@ namespace Logger
             public timerRec[] timers;
         };
 
-        // todo: Check for parsing ConfigParams in old version.
-
         public bool ValidateConfigParams(string logKey)
         {
             string sql = @"SELECT * FROM [configParamsInfo] " +
@@ -105,7 +103,7 @@ namespace Logger
                 for (int y = 0; y < timersNum; y++)
                 {
                     sql = @"INSERT INTO configParamsTimers([logkey],[rectype],[timerNum],[timerTics],[logID]) ";
-                    sql = sql + @" VALUES('" + r.typeIndex + "','C',";
+                    sql = sql + @" VALUES('" + r.typeIndex + "','P',";
                     sql = sql + "'" + parms.timers[y].timerNum + "',";
                     sql = sql + "'" + parms.timers[y].timerTics + "'," + logID + ")";
 
@@ -119,7 +117,7 @@ namespace Logger
                 sql = @"INSERT INTO configParamsInfo([logkey],[rectype],[camera],[cardReaderError],[reserved1]," +
                         "[reserved2],[trackWriteError],[supply],[reserved3],[luno],[timersCount],[load],[prjkey],[logID])" +
                        " VALUES('" + r.typeIndex + "','" + // key
-                                    'C' + "','" + // record type
+                                    'P' + "','" + // record type
                                     parms.camera + "','" +
                                     parms.cardReaderError + "','" +
                                     parms.reserved1 + "','" +
@@ -139,19 +137,92 @@ namespace Logger
             return true;
         }
 
-        List<DataTable> IMessage.getRecord(string logKey, string logID, string projectKey)
+        public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
-            throw new NotImplementedException();
+            List<DataTable> dts = new List<DataTable>();
+            DbCrud db = new DbCrud();
+
+            string sql = @"SELECT * FROM configParamsInfo WHERE prjkey = '" + projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
+                                                               logKey + "%'";
+            DataTable dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+
+            sql = @"SELECT * FROM configParamsTimers WHERE logID = '" + logID + "' AND logkey LIKE '" +
+                                                   logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+
+            return dts;
         }
 
-        DataTable IMessage.getDescription()
+        public DataTable getDescription()
         {
-            throw new NotImplementedException();
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'P' ";
+
+            DbCrud db = new DbCrud();
+            DataTable dt = db.GetTableFromDb(sql);
+            return dt;
         }
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            return null;
+            List<DataTable> dts = getRecord(logKey, logID, projectKey);
+            string txtField = "";
+
+            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
+
+            DataTable configDt = getDescription();
+
+            foreach (DataTable dt in dts)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
+                    {
+                        for (int fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
+                        {
+                            if (fieldNum == 11)
+                            {
+                                if (dts[1].Rows.Count > 0)
+                                {
+                                    txtField += @"==================================================" + System.Environment.NewLine;
+                                    txtField += @"TIMERS" + System.Environment.NewLine;
+                                    txtField += @"==================================================" + System.Environment.NewLine;
+                                    txtField += getTimers(dts[1], configDt);
+                                }
+                                continue;
+                            }
+                            string fieldContent = dt.Rows[rowNum][fieldNum].ToString();
+                            if (fieldContent == "")
+                                continue;
+                            else
+                            {
+                                string optionDesc = getOptionDescription(configDt, fieldNum.ToString("00"));
+                                txtField += optionDesc + " = ";
+                                txtField += fieldContent;
+                                txtField += System.Environment.NewLine;
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+            return txtField;
+        }
+
+        private string getTimers(DataTable dt, DataTable configDt)
+        {
+            string timers = "";
+            if (dt.Rows.Count > 0)
+            {
+                for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
+                {
+                 timers += dt.Columns[3].ColumnName.Trim() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
+                 string optionDesc = getOptionDescription(configDt, "T" + dt.Rows[rowNum][3].ToString());
+                 timers += "\t" + optionDesc + System.Environment.NewLine;
+                }
+            }
+            return timers;
         }
     }
 }

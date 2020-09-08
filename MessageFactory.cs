@@ -69,21 +69,22 @@ namespace Logger
         public static IMessage Create_Record(string recType)
         {
             var recTypeDic = new Dictionary<string, Func<IMessage>>();
-            recTypeDic.Add("00", () => new TRec());
-            recTypeDic.Add("01", () => new TReply());
-            recTypeDic.Add("11", () => new screenRec());
-            recTypeDic.Add("12", () => new StateRec());
-            recTypeDic.Add("13", () => new configParamsRec());
-            recTypeDic.Add("15", () => new FitRec());
-            recTypeDic.Add("16", () => new ConfigIdRec());
-            recTypeDic.Add("1A", () => new EnhancedParamsRec());
-            recTypeDic.Add("1C", () => new DateAndTimeRec());
-            recTypeDic.Add("42", () => new ExtEncryptionRec());
+            recTypeDic.Add("11", () => new TRec());
+            recTypeDic.Add("4", () => new TReply());
+            recTypeDic.Add("311", () => new screenRec());
+            recTypeDic.Add("312", () => new StateRec());
+            recTypeDic.Add("313", () => new configParamsRec());
+            recTypeDic.Add("315", () => new FitRec());
+            recTypeDic.Add("316", () => new ConfigIdRec());
+            recTypeDic.Add("31A", () => new EnhancedParamsRec());
+            recTypeDic.Add("31C", () => new DateAndTimeRec());
+            recTypeDic.Add("34", () => new ExtEncryptionRec());
             recTypeDic.Add("81", () => new ICCCurrencyDOT());
             recTypeDic.Add("82", () => new ICCTransactionDOT());
             recTypeDic.Add("83", () => new ICCLanguageSupportT());
             recTypeDic.Add("84", () => new ICCTerminalDOT());
             recTypeDic.Add("85", () => new ICCApplicationIDT());
+            recTypeDic.Add("22", () => new SolicitedStatus());
 
             try
             {

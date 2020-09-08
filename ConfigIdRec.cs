@@ -47,9 +47,13 @@ namespace Logger
 
         }
 
-        DataTable IMessage.getDescription()
+        public DataTable getDescription()
         {
-            throw new NotImplementedException();
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'I' ";
+
+            DbCrud db = new DbCrud();
+            DataTable dt = db.GetTableFromDb(sql);
+            return dt;
         }
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
@@ -59,7 +63,9 @@ namespace Logger
 
             if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
 
-            txtField = dts[0].Columns[3].ColumnName + " = " + dts[0].Rows[0][3].ToString();
+            DataTable configId = getDescription();
+
+            txtField = configId.Rows[0][3].ToString().Trim() + " = " + dts[0].Rows[0][3].ToString();
             return txtField;
         }
     }

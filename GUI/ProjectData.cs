@@ -176,7 +176,7 @@ namespace Logger
             optionSelected(11);
         }
 
-        private void iCCTransactionDOTToolStripMenuItem_Click_1(object sender, EventArgs e)
+        private void iCCTransactionDOTToolStripMenuItem_Click(object sender, EventArgs e)
         {
             optionSelected(12);
         }
@@ -225,22 +225,6 @@ namespace Logger
 
         private void scanToolStripMenuItem_MouseDown(object sender, MouseEventArgs e)
         {
-            if (dataGridView1.Rows.Count == 0)
-                return;
-
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-
-            for (int x = 1, i = 4; i < dgvr.Cells.Count; i++, x++)
-            {
-                if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
-                {
-                    scanToolStripMenuItem.DropDownItems[x].Enabled = false;
-                }
-                else
-                {
-                    scanToolStripMenuItem.DropDownItems[x].Enabled = true;
-                }
-            }
 
         }
 
@@ -259,5 +243,79 @@ namespace Logger
 
         }
 
+        private void mACToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dispenseCurrencyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void hostToATMToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count == 0)
+                return;
+
+            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+
+            for (int x = 0, i = 4; i < dgvr.Cells.Count - 12; i++, x++)
+            {
+                if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
+                {
+                    hostToATMToolStripMenuItem1.DropDownItems[x].Enabled = false;
+                }
+                else
+                {
+                    hostToATMToolStripMenuItem1.DropDownItems[x].Enabled = true;
+                }
+            }
+        }
+
+        private void aTMToHostToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count == 0)
+                return;
+
+            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+
+            for (int x = 0, i = 20; i < dgvr.Cells.Count - 6; i++, x++)
+            {
+                if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
+                {
+                    aTMToHostToolStripMenuItem.DropDownItems[x].Enabled = false;
+                }
+                else
+                {
+                    aTMToHostToolStripMenuItem.DropDownItems[x].Enabled = true;
+                }
+            }
+        }
+
+        private void eMVConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count == 0)
+                return;
+
+            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+
+            for (int x = 0, i = 26; i < dgvr.Cells.Count - 1; i++, x++)
+            {
+                if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
+                {
+                    eMVConfigurationToolStripMenuItem.DropDownItems[x].Enabled = false;
+                }
+                else
+                {
+                    eMVConfigurationToolStripMenuItem.DropDownItems[x].Enabled = true;
+                }
+            }
+        }
+
+        private void solicitedStatusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            optionSelected(16);
+        }
     }
 }

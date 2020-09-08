@@ -722,57 +722,55 @@ namespace Logger
             return txtField;
         }
 
-        private string getTreqOptions(DataTable dataTable)
+        // mlh NOT TESTED
+
+        private string getTreqOptions(DataTable dt)
         {
             string notesType = "";
-            if (dataTable.Rows.Count > 0)
+            if (dt.Rows.Count > 0)
             {
-                foreach (DataRow row in dataTable.Rows)
+                for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                 {
-                    foreach (DataColumn field in dataTable.Columns)
+                    for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        if (field.Ordinal < 2 || field.Ordinal > 4)
-                            continue;
-                        string strField = field.ColumnName.Trim();
-                        notesType += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                        notesType += dt.Columns[fieldNum].ColumnName.Trim() + "\t = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
                     }
                 }
             }
             return notesType;
         }
 
-        private string getTreqCurrencies(DataTable dataTable)
+        // mlh NOT TESTED
+
+        private string getTreqCurrencies(DataTable dt)
         {
             string currencies = "";
-            if (dataTable.Rows.Count > 0)
+            if (dt.Rows.Count > 0)
             {
-                foreach (DataRow row in dataTable.Rows)
+                for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                 {
-                    foreach (DataColumn field in dataTable.Columns)
+                    for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        if (field.Ordinal < 2 || field.Ordinal == 7 || field.Ordinal > 8)
-                            continue;
-                        string strField = field.ColumnName.Trim();
-                        currencies += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                        if (fieldNum != 7)
+                            currencies += dt.Columns[fieldNum].ColumnName.Trim() + "\t = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
                     }
                 }
             }
             return currencies;
         }
 
-        private string getTreqCheques(DataTable dataTable)
+        // mlh NOT TESTED
+
+        private string getTreqCheques(DataTable dt)
         {
             string checks = "";
-            if (dataTable.Rows.Count > 0)
+            if (dt.Rows.Count > 0)
             {
-                foreach (DataRow row in dataTable.Rows)
+                for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                 {
-                    foreach (DataColumn field in dataTable.Columns)
+                    for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        if (field.Ordinal < 2 || field.Ordinal > 7)
-                            continue;
-                        string strField = field.ColumnName.Trim();
-                        checks += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                        checks += dt.Columns[fieldNum].ColumnName.Trim() + "\t = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
                     }
                 }
             }

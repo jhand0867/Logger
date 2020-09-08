@@ -726,19 +726,18 @@ namespace Logger
             return txtField;
         }
 
-        private string getCheckProccessing(DataTable dataTable)
+        // mlh NOT TESTED
+
+        private string getCheckProccessing(DataTable dt)
         {
             string checksData = "";
-            if (dataTable.Rows.Count > 0)
+            if (dt.Rows.Count > 0)
             {
-                foreach (DataRow row in dataTable.Rows)
+                for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                 {
-                    foreach (DataColumn field in dataTable.Columns)
+                    for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        string strField = field.ColumnName.Trim();
-                        if (strField == "Reserved")
-                            continue;
-                        checksData += strField + "\t =" + field.ToString() + System.Environment.NewLine;
+                        checksData += dt.Columns[fieldNum].ColumnName.Trim() + "\t = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
                     }
                 }
             }
