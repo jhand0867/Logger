@@ -52,7 +52,7 @@ namespace Logger
         // mlh list type of messages
 
         /// <summary>
-        /// Array of type of messages
+        /// Array of type of messages, the entry # is defined by optionselected for scanning
         /// column 1: Header of each message for regular expresion finding
         /// column 2: field index of Message subclass/Identifier
         /// column 3: value to compare
@@ -77,8 +77,8 @@ namespace Logger
                                           { "HOST2ATM: 8", "2","3", "83" },
                                           { "HOST2ATM: 8", "2","4", "84" },
                                           { "HOST2ATM: 8", "2","5", "85" },
-                                          { "ATM2HOST: 22", "0","", "22" }
-                                        };
+                                          { "ATM2HOST: 22", "0","", "22" },
+                                          };
 
 
         private List<StateRec> extensionsLst = new List<StateRec>();
@@ -540,31 +540,32 @@ namespace Logger
 
             foreach (KeyValuePair<string, string> rec in data)
             {
+                //// Request or Reply
 
-                // Request or Reply
+                //if (recordType == "4" || recordType == "11" || recordType == "22")
+                //{
+                //    typeRec r = new typeRec();
+                //    r.typeIndex = rec.Key;
+                //    r.typeContent = rec.Value;
+                //    typeList.Add(r);
+                //    continue;
+                //}
 
-                if (recordType == "4" || recordType == "11" || recordType == "22")
-                {
-                    typeRec r = new typeRec();
-                    r.typeIndex = rec.Key;
-                    r.typeContent = rec.Value;
-                    typeList.Add(r);
-                    continue;
-                }
+                //tmpTypes = rec.Value.Split((char)0x1c);
+
+                //// EMV Configuration 81, 82, 83, 84, 85
+
+                //if (recordType.Substring(0, 1) == "8" &&
+                //    recordType.Substring(1, 1) == tmpTypes[2])
+                //{
+                //    typeRec r = new typeRec();
+                //    r.typeIndex = rec.Key;
+                //    r.typeContent = rec.Value;
+                //    typeList.Add(r);
+                //    continue;
+                //}
 
                 tmpTypes = rec.Value.Split((char)0x1c);
-
-                // EMV Configuration 81, 82, 83, 84, 85
-
-                if (recordType.Substring(0, 1) == "8" &&
-                    recordType.Substring(1, 1) == tmpTypes[2])
-                {
-                    typeRec r = new typeRec();
-                    r.typeIndex = rec.Key;
-                    r.typeContent = rec.Value;
-                    typeList.Add(r);
-                    continue;
-                }
 
                 if (recordType.Substring(0, 1) == "3" && 
                     recordType.Substring(1, 2) == tmpTypes[3])
@@ -582,6 +583,13 @@ namespace Logger
                         typeList.Add(r);
 
                     }
+                }
+                else
+                {
+                    typeRec r = new typeRec();
+                    r.typeIndex = rec.Key;
+                    r.typeContent = rec.Value;
+                    typeList.Add(r);
                 }
             }
 

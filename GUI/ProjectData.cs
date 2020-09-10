@@ -6,6 +6,10 @@ namespace Logger
 {
     public partial class ProjectData : Form
     {
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+        System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         internal static string logID = "";
         public ProjectData()
         {
@@ -199,17 +203,19 @@ namespace Logger
         }
         private void optionSelected(int option)
         {
-
             // option is the entry position in the RecordTypes array
 
             string regExStr = App.Prj.RecordTypes[option, 0] + "%";
             string recordType = App.Prj.RecordTypes[option, 3];
+
+            log.Debug($"Scanning for '{recordType}' records started");
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
             string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID);
             dataGridView1.DataSource = buildDataGridView1();
+            log.Debug($"Scanning for '{recordType}' records completed");
             fixLogNames(dataGridView1);
         }
 
@@ -316,6 +322,11 @@ namespace Logger
         private void solicitedStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
             optionSelected(16);
+        }
+
+        private void allToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

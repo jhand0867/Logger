@@ -85,7 +85,9 @@ namespace Logger
             recTypeDic.Add("84", () => new ICCTerminalDOT());
             recTypeDic.Add("85", () => new ICCApplicationIDT());
             recTypeDic.Add("22", () => new SolicitedStatus());
-
+            recTypeDic.Add("22A", () => new SolicitedStatus9());
+            recTypeDic.Add("22B", () => new SolicitedStatusB());
+            recTypeDic.Add("229", () => new SolicitedStatus9());
             try
             {
                 return recTypeDic[recType]();

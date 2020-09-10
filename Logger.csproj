@@ -123,6 +123,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenRec.cs" />
     <Compile Include="SolicitedStatus.cs" />
+    <Compile Include="SolicitedStatus9.cs" />
+    <Compile Include="SolicitedStatusB.cs" />
     <Compile Include="StateRecords\State26.cs" />
     <Compile Include="StateRecords\State2B.cs" />
     <Compile Include="StateRecords\State2C.cs" />

@@ -5,7 +5,7 @@ using System.Data;
 namespace Logger
 {
 
-    struct solicitedSta
+    struct solicitedStaB
     {
         private string rectype;
         private string luno;
@@ -22,21 +22,8 @@ namespace Logger
         public string Mac { get => mac; set => mac = value; }
     };
 
-    class SolicitedStatus : App, IMessage
+    class SolicitedStatusB : App, IMessage
     {
-
-        public Dictionary<string, string> ssTypes = new Dictionary<string, string>();
-
-    
-        public SolicitedStatus()
-        {
-            ssTypes.Add("A", "229");
-            ssTypes.Add("B", "22B");
-            ssTypes.Add("8", "228");
-            ssTypes.Add("9", "229");
-            ssTypes.Add("C", "22C");
-            ssTypes.Add("F", "22F");
-        }
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -61,27 +48,24 @@ namespace Logger
         {
             foreach (typeRec r in typeRecs)
             {
-                string[] tmpTypes = r.typeContent.Split((char)0x1c);
+                solicitedStaB ss = parseData(r.typeContent);
 
-                string ss1 = ssTypes[tmpTypes[3]];
+                string sql = @"INSERT INTO solicitedStatusB([logkey],[rectype],
+	                        [luno],[timeVariant],[statusDescriptor],[statusInformation],[mac],[prjkey],[logID]) " +
+                      " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
+                               ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
+                               ss.StatusInformation + "','" + ss.Mac + "','" + Key + "'," + logID + ")";
 
-                // todo: this is if temporal until others types are implemented.
-
-                if (ss1 == "229")
-                {
-                    IMessage ss2 = MessageFactory.Create_Record(ss1);
-                    List<typeRec> OneTypeRec = new List<typeRec>();
-                    OneTypeRec.Add(r);
-                    if (ss2.writeData(OneTypeRec, Key, logID) == false)
-                        return false;
-                }
+                DbCrud db = new DbCrud();
+                if (db.crudToDb(sql) == false)
+                    return false;
             }
             return true;
         }
 
-        public solicitedSta parseData(string r)
+        public solicitedStaB parseData(string r)
         {
-            solicitedSta ss = new solicitedSta();
+            solicitedStaB ss = new solicitedStaB();
 
             string[] tmpTypes = r.Split((char)0x1c);
 
@@ -90,14 +74,12 @@ namespace Logger
             ss.TimeVariant = tmpTypes[2];
             ss.StatusDescriptor = tmpTypes[3];
 
-            if (ss.StatusDescriptor == "9" || ss.StatusDescriptor == "A")
-            {
                 if (tmpTypes.Length > 4)
                     ss.StatusInformation = tmpTypes[4];
 
                 if (tmpTypes.Length > 5)
                     ss.Mac = tmpTypes[5];
-            }
+
             return ss;
         }
     }

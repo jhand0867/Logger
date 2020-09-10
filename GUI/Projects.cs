@@ -152,6 +152,10 @@ namespace Logger
             this.Hide();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
         private void listView1_Load(ListViewItem item)
         {
             Project pr = (Project)item.Tag;
@@ -177,18 +181,16 @@ namespace Logger
 
                 if (dicBits != null)
                 {
-
                     for (int x = 4; x < dt.Columns.Count - 1; x++)
                     {
                         if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
                         {
-                            tn.Nodes.Add(dt.Columns[x].ColumnName + dicBits[dt.Columns[x].ColumnName]);
+                            tn.Nodes.Add(dt.Columns[x].ColumnName + "  [" + dicBits[dt.Columns[x].ColumnName] + "]");
                         }
                     }
                 }
                 treeView1.Nodes.Add(tn);
             }
-
         }
 
 
