@@ -11,15 +11,29 @@ namespace Logger
         private string luno;
         private string timeVariant;
         private string statusDescriptor;
-        private string statusInformation;
+        private string lastTranTSN;
+        private string dataId;
+        private string transactionData;
         private string mac;
 
         public string Rectype { get => rectype; set => rectype = value; }
         public string Luno { get => luno; set => luno = value; }
         public string TimeVariant { get => timeVariant; set => timeVariant = value; }
         public string StatusDescriptor { get => statusDescriptor; set => statusDescriptor = value; }
-        public string StatusInformation { get => statusInformation; set => statusInformation = value; }
+        public string LastTranTSN { get => lastTranTSN; set => lastTranTSN = value; }
+        public string DataId { get => dataId; set => dataId = value; }
+        public string TransactionData { get => transactionData; set => transactionData = value; }
         public string Mac { get => mac; set => mac = value; }
+    };
+
+    struct CassettesData {
+        private string cassetteType;
+
+    };
+    struct CashDepositRecyclerData
+    {
+        private string numberOfRecyclerCsctTypesReported;
+        private CassettesData cassetesDetail;
     };
 
     class SolicitedStatusB : App, IMessage
@@ -38,7 +52,8 @@ namespace Logger
         {
             throw new NotImplementedException();
         }
-
+        //todo: Using EMVConfiguration.ICCTLVTags to separate tags from values
+        
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
             return null;
@@ -51,10 +66,12 @@ namespace Logger
                 solicitedStaB ss = parseData(r.typeContent);
 
                 string sql = @"INSERT INTO solicitedStatusB([logkey],[rectype],
-	                        [luno],[timeVariant],[statusDescriptor],[statusInformation],[mac],[prjkey],[logID]) " +
+	                        [luno],[timeVariant],[statusDescriptor],[lastTranTSN],
+                            [dataId],[transactionData],[mac],[prjkey],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
                                ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
-                               ss.StatusInformation + "','" + ss.Mac + "','" + Key + "'," + logID + ")";
+                               ss.LastTranTSN + "','" + ss.DataId + "','" + ss.TransactionData + "','" + 
+                               ss.Mac + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)
@@ -73,11 +90,19 @@ namespace Logger
             ss.Luno = tmpTypes[1];
             ss.TimeVariant = tmpTypes[2];
             ss.StatusDescriptor = tmpTypes[3];
+            
+            string[] statusInfo = tmpTypes[4].Split((char)0x1d);
 
-                if (tmpTypes.Length > 4)
-                    ss.StatusInformation = tmpTypes[4];
+            ss.LastTranTSN = statusInfo[0];
 
-                if (tmpTypes.Length > 5)
+            if (statusInfo.Length > 1)
+            {
+                ss.DataId = statusInfo[1];
+                ss.TransactionData = statusInfo[2];
+            }
+
+
+             if (tmpTypes.Length > 5)
                     ss.Mac = tmpTypes[5];
 
             return ss;

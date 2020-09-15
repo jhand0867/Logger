@@ -5,23 +5,6 @@ using System.Data;
 namespace Logger
 {
 
-    struct solicitedSta
-    {
-        private string rectype;
-        private string luno;
-        private string timeVariant;
-        private string statusDescriptor;
-        private string statusInformation;
-        private string mac;
-
-        public string Rectype { get => rectype; set => rectype = value; }
-        public string Luno { get => luno; set => luno = value; }
-        public string TimeVariant { get => timeVariant; set => timeVariant = value; }
-        public string StatusDescriptor { get => statusDescriptor; set => statusDescriptor = value; }
-        public string StatusInformation { get => statusInformation; set => statusInformation = value; }
-        public string Mac { get => mac; set => mac = value; }
-    };
-
     class SolicitedStatus : App, IMessage
     {
 
@@ -61,44 +44,24 @@ namespace Logger
         {
             foreach (typeRec r in typeRecs)
             {
-                string[] tmpTypes = r.typeContent.Split((char)0x1c);
+                List<typeRec> OneTypeRec = new List<typeRec>();
+                OneTypeRec.Add(r);
 
-                string ss1 = ssTypes[tmpTypes[3]];
+                string[] tmpTypes = r.typeContent.Split((char)0x1c);
+                string recordType = ssTypes[tmpTypes[3]];
 
                 // todo: this is if temporal until others types are implemented.
 
-                if (ss1 == "229")
+                if ((recordType == "229") || (recordType == "22B"))
                 {
-                    IMessage ss2 = MessageFactory.Create_Record(ss1);
-                    List<typeRec> OneTypeRec = new List<typeRec>();
-                    OneTypeRec.Add(r);
-                    if (ss2.writeData(OneTypeRec, Key, logID) == false)
+                    IMessage theRecord = MessageFactory.Create_Record(recordType);
+
+                    if (theRecord.writeData(OneTypeRec, Key, logID) == false)
                         return false;
                 }
             }
             return true;
         }
 
-        public solicitedSta parseData(string r)
-        {
-            solicitedSta ss = new solicitedSta();
-
-            string[] tmpTypes = r.Split((char)0x1c);
-
-            ss.Rectype = "N";
-            ss.Luno = tmpTypes[1];
-            ss.TimeVariant = tmpTypes[2];
-            ss.StatusDescriptor = tmpTypes[3];
-
-            if (ss.StatusDescriptor == "9" || ss.StatusDescriptor == "A")
-            {
-                if (tmpTypes.Length > 4)
-                    ss.StatusInformation = tmpTypes[4];
-
-                if (tmpTypes.Length > 5)
-                    ss.Mac = tmpTypes[5];
-            }
-            return ss;
-        }
     }
 }

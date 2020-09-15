@@ -172,6 +172,9 @@ namespace Logger
             return iccAppList;
         }
 
+        //todo: move this to EMVConfiguration
+        //todo: Make ICCApplicationIDT work!
+
         private string iccTLVTags(string strTag, int tagsNumber)
         {
             // what tags?
