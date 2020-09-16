@@ -172,29 +172,6 @@ namespace Logger
             return iccAppList;
         }
 
-        //todo: move this to EMVConfiguration
-        //todo: Make ICCApplicationIDT work!
-
-        private string iccTLVTags(string strTag, int tagsNumber)
-        {
-            // what tags?
-            string tags = "";
-            int offset = 0;
-            for (int x = 0; x < tagsNumber; x++)
-            {
-                if (emvTags.Contains("," + strTag.Substring(offset, 2) + ","))
-                {
-                    tags += strTag.Substring(offset, 2) + " ";
-                    offset += 2;
-                }
-                else
-                {
-                    tags += strTag.Substring(offset, 4) + " ";
-                    offset += 4;
-                }
-            }
-            return tags;
-        }
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {

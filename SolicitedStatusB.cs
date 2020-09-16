@@ -36,7 +36,7 @@ namespace Logger
         private CassettesData cassetesDetail;
     };
 
-    class SolicitedStatusB : App, IMessage
+    class SolicitedStatusB : EMVConfiguration, IMessage
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -52,7 +52,6 @@ namespace Logger
         {
             throw new NotImplementedException();
         }
-        //todo: Using EMVConfiguration.ICCTLVTags to separate tags from values
         
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
@@ -98,9 +97,15 @@ namespace Logger
             if (statusInfo.Length > 1)
             {
                 ss.DataId = statusInfo[1];
-                ss.TransactionData = statusInfo[2];
+                if (ss.DataId == "CAM")
+                {
+                    ss.TransactionData = iccTLVTags(statusInfo[2]);
+                }
+                else
+                {
+                    ss.TransactionData = statusInfo[2];
+                }
             }
-
 
              if (tmpTypes.Length > 5)
                     ss.Mac = tmpTypes[5];

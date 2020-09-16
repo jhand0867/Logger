@@ -5,7 +5,7 @@ using System.Data;
 namespace Logger
 {
 
-    class SolicitedStatus : App, IMessage
+    class SolicitedStatus : IMessage
     {
 
         public Dictionary<string, string> ssTypes = new Dictionary<string, string>();

@@ -22,7 +22,7 @@ namespace Logger
         public string Mac { get => mac; set => mac = value; }
     };
 
-    class SolicitedStatus9 : App, IMessage
+    class SolicitedStatus9 : IMessage
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
