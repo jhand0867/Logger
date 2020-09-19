@@ -88,6 +88,9 @@ namespace Logger
             recTypeDic.Add("22A", () => new SolicitedStatus9());
             recTypeDic.Add("22B", () => new SolicitedStatusB());
             recTypeDic.Add("229", () => new SolicitedStatus9());
+            recTypeDic.Add("22F1", () => new SolicitedStatusF1());
+            recTypeDic.Add("22F2", () => new SolicitedStatusF2());
+
             try
             {
                 return recTypeDic[recType]();

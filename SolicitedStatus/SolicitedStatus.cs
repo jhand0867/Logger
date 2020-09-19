@@ -18,7 +18,20 @@ namespace Logger
             ssTypes.Add("8", "228");
             ssTypes.Add("9", "229");
             ssTypes.Add("C", "22C");
-            ssTypes.Add("F", "22F");
+            ssTypes.Add("F1", "22F1");
+            ssTypes.Add("F2", "22F2");
+            ssTypes.Add("F3", "22F3");
+            ssTypes.Add("F4", "22F4");
+            ssTypes.Add("F5", "22F5");
+            ssTypes.Add("F6", "22F6");
+            ssTypes.Add("FF", "22FF");
+            ssTypes.Add("FH", "22FH");
+            ssTypes.Add("FI", "22FI");
+            ssTypes.Add("FJ", "22FJ");
+            ssTypes.Add("FK", "22FK");
+            ssTypes.Add("FL", "22FL");
+            ssTypes.Add("FM", "22FM");
+            ssTypes.Add("FN", "22FN");
         }
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -48,11 +61,23 @@ namespace Logger
                 OneTypeRec.Add(r);
 
                 string[] tmpTypes = r.typeContent.Split((char)0x1c);
-                string recordType = ssTypes[tmpTypes[3]];
+                string recordType = "";
+                int i = 3;
+                if (tmpTypes[3].Length != 1) i = 4;
+
+                if (tmpTypes[i] == "F")
+                {
+                    recordType = ssTypes[tmpTypes[i] + tmpTypes[i+1].Substring(0, 1)];
+                }
+                else
+                {
+                    recordType = ssTypes[tmpTypes[i]];
+                }
 
                 // todo: this is if temporal until others types are implemented.
 
-                if ((recordType == "229") || (recordType == "22B"))
+                if ((recordType == "229") || (recordType == "22B") ||
+                    (recordType == "22F1") || (recordType == "22F2"))
                 {
                     IMessage theRecord = MessageFactory.Create_Record(recordType);
 
