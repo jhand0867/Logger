@@ -158,9 +158,9 @@ namespace Logger
 
             ss.Rectype = "N";
             ss.Luno = tmpTypes[1];
-            // ss.TimeVariant = tmpTypes[2];
+
             int i = 3;
-            if (tmpTypes[3].Length == 8)
+            if (tmpTypes[3].Length != 1)
             {
                 i = 4;
                 ss.TimeVariant = tmpTypes[3];

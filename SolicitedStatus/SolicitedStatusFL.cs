@@ -5,20 +5,19 @@ using System.Data;
 namespace Logger
 {
 
-    struct solicitedStaF1
+    struct solicitedStaFL
     {
         private string rectype;
         private string luno;
         private string timeVariant;
         private string statusDescriptor;
         private string messageIdentifier;
-        private string configurationId;
-        private string hardwareFitness;
-        private string hardwareConfig;
-        private string supplyStatus;
-        private string sensorStatus;
+        private string releaseNumberId;
         private string releaseNumber;
+        private string softwareIdId;
         private string softwareId;
+        private string dataId;
+        private string data;
         private string mac;
 
         public string Rectype { get => rectype; set => rectype = value; }
@@ -26,17 +25,16 @@ namespace Logger
         public string TimeVariant { get => timeVariant; set => timeVariant = value; }
         public string StatusDescriptor { get => statusDescriptor; set => statusDescriptor = value; }
         public string MessageIdentifier { get => messageIdentifier; set => messageIdentifier = value; }
-        public string ConfigurationId { get => configurationId; set => configurationId = value; }
-        public string HardwareFitness { get => hardwareFitness; set => hardwareFitness = value; }
-        public string HardwareConfig { get => hardwareConfig; set => hardwareConfig = value; }
-        public string SupplyStatus { get => supplyStatus; set => supplyStatus = value; }
-        public string SensorStatus { get => sensorStatus; set => sensorStatus = value; }
+        public string ReleaseNumberId { get => releaseNumberId; set => releaseNumberId = value; }
         public string ReleaseNumber { get => releaseNumber; set => releaseNumber = value; }
+        public string SoftwareIdId { get => softwareIdId; set => softwareIdId = value; }
         public string SoftwareId { get => softwareId; set => softwareId = value; }
+        public string DataId { get => dataId; set => dataId = value; }
+        public string Data { get => data; set => data = value; }
         public string Mac { get => mac; set => mac = value; }
     };
 
-    class SolicitedStatusF1 : EMVConfiguration, IMessage
+    class SolicitedStatusFL : EMVConfiguration, IMessage
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -62,17 +60,16 @@ namespace Logger
         {
             foreach (typeRec r in typeRecs)
             {
-                solicitedStaF1 ss = parseData(r.typeContent);
+                solicitedStaFL ss = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO solicitedStatusF1([logkey],[rectype],
-	                        [luno],[timeVariant],[statusDescriptor],[messageIdentifier],[configurationId],
-	                        [hardwareFitness],[hardwareConfig],[supplyStatus],[sensorStatus],[releaseNumber],
-	                        [softwareId],[mac],[prjkey],[logID]) " +
+                string sql = @"INSERT INTO solicitedStatusFL([logkey],[rectype],
+	                        [luno],[timeVariant],[statusDescriptor],[messageIdentifier],[releaseNumberId],[releaseNumber],
+	                        [softwareIdId],[softwareId],[dataId],[data],[mac],[prjkey],[logID]) " +
                             " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
                             ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
-                            ss.MessageIdentifier + "','" + ss.ConfigurationId + "','" + ss.HardwareFitness + "','" +
-                            ss.HardwareConfig + "','" + ss.SupplyStatus + "','" + ss.SensorStatus + "','" +
-                            ss.ReleaseNumber + "','" + ss.SoftwareId + "','" + ss.Mac + "','" + Key + "'," + logID + ")";
+                            ss.MessageIdentifier + "','" + ss.ReleaseNumberId + "','" + ss.ReleaseNumber + "','" +
+                            ss.SoftwareIdId + "','" + ss.SoftwareId + "','" + ss.DataId + "','" +
+                            ss.Data + "','" + ss.Mac + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)
@@ -81,9 +78,9 @@ namespace Logger
             return true;
         }
 
-        public solicitedStaF1 parseData(string r)
+        public solicitedStaFL parseData(string r)
         {
-            solicitedStaF1 ss = new solicitedStaF1();
+            solicitedStaFL ss = new solicitedStaFL();
 
             string[] tmpTypes = r.Split((char)0x1c);
 
@@ -98,23 +95,23 @@ namespace Logger
             }
 
             ss.StatusDescriptor = tmpTypes[i];
+            ss.MessageIdentifier = tmpTypes[i + 1].Substring(0, 1);
+            ss.ReleaseNumberId = tmpTypes[i + 1].Substring(1, 1);
+            ss.ReleaseNumber = tmpTypes[i + 1].Substring(2, tmpTypes[i+1].Length - 2);
 
-            ss.MessageIdentifier = tmpTypes[i+1].Substring(0, 1);
-            ss.ConfigurationId = tmpTypes[i+1].Substring(1, 4);
-            ss.HardwareFitness = tmpTypes[i+2];
-            ss.HardwareConfig = tmpTypes[i+3];
-            ss.SupplyStatus = tmpTypes[i+4];
-            ss.SensorStatus = tmpTypes[i+5];
+            ss.SoftwareIdId = tmpTypes[i + 2].Substring(0, 1);
+            ss.SoftwareId = tmpTypes[i + 2].Substring(1, tmpTypes[i + 2].Length - 1);
 
-            if (tmpTypes.Length > i+6)
-                 ss.ReleaseNumber = tmpTypes[i+6];
-            if (tmpTypes.Length > i+7)
-                ss.SoftwareId = tmpTypes[i+7];
-            if (tmpTypes.Length > i+8)
-                ss.Mac = tmpTypes[i+8];
+            if (tmpTypes.Length > i + 3)
+            {
+                ss.DataId = tmpTypes[i + 3].Substring(0, 1);
+                ss.Data = tmpTypes[i + 3].Substring(1, tmpTypes[i + 3].Length - 1);
+            }
+
+            if (tmpTypes.Length > i + 4)
+                ss.Mac = tmpTypes[i + 4];
 
             return ss;
         }
     }
 }
-

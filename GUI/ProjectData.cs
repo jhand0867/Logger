@@ -2,6 +2,8 @@
 using System.Data;
 using System.Windows.Forms;
 
+// todo: fix loading of ProjectData after attaching it shows all columns for DGV.
+
 namespace Logger
 {
     public partial class ProjectData : Form
@@ -32,8 +34,21 @@ namespace Logger
         {
             //todo: scan button should not be available
             //unless there's been logs attached to the project
+
             scanToolStripMenuItem.Enabled = false;
             dataGridView1.DataSource = buildDataGridView1();
+
+            for (int i = 4; i < dataGridView1.Columns.Count; i++)
+            {
+                dataGridView1.Columns[i].Visible = false;
+            }
+
+            dataGridView1.Columns[0].Visible = false;
+            dataGridView1.Columns[1].Visible = false;
+            dataGridView1.Columns[2].HeaderText = "File Name";
+            dataGridView1.Columns[2].Width = 400;
+            dataGridView1.Columns[3].HeaderText = "Uploaded on";
+            dataGridView1.Columns[3].Width = 250;
 
             if (dataGridView1.DataSource != null &&
                 dataGridView1.Rows.Count > 0)
@@ -46,18 +61,6 @@ namespace Logger
             }
 
             fixLogNames(dataGridView1);
-
-            dataGridView1.Columns[0].Visible = false;
-            dataGridView1.Columns[1].Visible = false;
-            dataGridView1.Columns[2].HeaderText = "File Name";
-            dataGridView1.Columns[2].Width = 400;
-            dataGridView1.Columns[3].HeaderText = "Uploaded on";
-            dataGridView1.Columns[3].Width = 250;
-
-            for (int i = 4; i < dataGridView1.Columns.Count; i++)
-            {
-                dataGridView1.Columns[i].Visible = false;
-            }
             dataGridView1.Refresh();
         }
 

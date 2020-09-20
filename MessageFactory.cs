@@ -90,6 +90,17 @@ namespace Logger
             recTypeDic.Add("229", () => new SolicitedStatus9());
             recTypeDic.Add("22F1", () => new SolicitedStatusF1());
             recTypeDic.Add("22F2", () => new SolicitedStatusF2());
+            recTypeDic.Add("22F3", () => new SolicitedStatusF3());
+            recTypeDic.Add("22F4", () => new SolicitedStatusF4());
+            recTypeDic.Add("22F5", () => new SolicitedStatusF5());
+            recTypeDic.Add("22F6", () => new SolicitedStatusF6());
+            recTypeDic.Add("22FH", () => new SolicitedStatusFH());
+            recTypeDic.Add("22FI", () => new SolicitedStatusFI());
+            recTypeDic.Add("22FJ", () => new SolicitedStatusFJ());
+            recTypeDic.Add("22FK", () => new SolicitedStatusFK());
+            recTypeDic.Add("22FL", () => new SolicitedStatusFL());
+
+
 
             try
             {

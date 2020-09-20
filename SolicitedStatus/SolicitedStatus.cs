@@ -34,6 +34,8 @@ namespace Logger
             ssTypes.Add("FN", "22FN");
         }
 
+        // todo: Solicited Status F-1 to 6
+
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -77,7 +79,10 @@ namespace Logger
                 // todo: this is if temporal until others types are implemented.
 
                 if ((recordType == "229") || (recordType == "22B") ||
-                    (recordType == "22F1") || (recordType == "22F2"))
+                    (recordType == "22F1") || (recordType == "22F2" ||
+                    (recordType == "22F3") || (recordType == "22F4") || (recordType == "22F5") ||
+                    (recordType == "22F6") || (recordType == "22FH") || (recordType == "22FI") ||
+                    (recordType == "22FJ") || (recordType == "22FK") || (recordType == "22FL")))
                 {
                     IMessage theRecord = MessageFactory.Create_Record(recordType);
 

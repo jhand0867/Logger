@@ -71,7 +71,6 @@ namespace Logger
 
             ss.Rectype = "N";
             ss.Luno = tmpTypes[1];
-            // ss.TimeVariant = tmpTypes[2];
             ss.StatusDescriptor = tmpTypes[3];
 
                 if (tmpTypes.Length > 4)

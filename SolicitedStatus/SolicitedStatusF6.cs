@@ -4,39 +4,26 @@ using System.Data;
 
 namespace Logger
 {
-
-    struct solicitedStaB
+    struct solicitedStaF6
     {
         private string rectype;
         private string luno;
         private string timeVariant;
         private string statusDescriptor;
-        private string lastTranTSN;
-        private string dataId;
-        private string transactionData;
+        private string messageIdentificer;
+        private string configurationId;
         private string mac;
 
         public string Rectype { get => rectype; set => rectype = value; }
         public string Luno { get => luno; set => luno = value; }
         public string TimeVariant { get => timeVariant; set => timeVariant = value; }
         public string StatusDescriptor { get => statusDescriptor; set => statusDescriptor = value; }
-        public string LastTranTSN { get => lastTranTSN; set => lastTranTSN = value; }
-        public string DataId { get => dataId; set => dataId = value; }
-        public string TransactionData { get => transactionData; set => transactionData = value; }
+        public string MessageIdentificer { get => messageIdentificer; set => messageIdentificer = value; }
+        public string ConfigurationId { get => configurationId; set => configurationId = value; }
         public string Mac { get => mac; set => mac = value; }
     };
 
-    struct CassettesData {
-        private string cassetteType;
-
-    };
-    struct CashDepositRecyclerData
-    {
-        private string numberOfRecyclerCsctTypesReported;
-        private CassettesData cassetesDetail;
-    };
-
-    class SolicitedStatusB : EMVConfiguration, IMessage
+    class SolicitedStatusF6 : EMVConfiguration, IMessage
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -52,7 +39,7 @@ namespace Logger
         {
             throw new NotImplementedException();
         }
-        
+
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
             return null;
@@ -62,14 +49,14 @@ namespace Logger
         {
             foreach (typeRec r in typeRecs)
             {
-                solicitedStaB ss = parseData(r.typeContent);
+                solicitedStaF6 ss = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO solicitedStatusB([logkey],[rectype],
-	                        [luno],[timeVariant],[statusDescriptor],[lastTranTSN],
-                            [dataId],[transactionData],[mac],[prjkey],[logID]) " +
+                string sql = @"INSERT INTO solicitedStatusF6([logkey],[rectype],
+	                        [luno],[timeVariant],[statusDescriptor],[messageIdentificer],
+	                        [configurationId],[mac],[prjkey],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
                                ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
-                               ss.LastTranTSN + "','" + ss.DataId + "','" + ss.TransactionData + "','" + 
+                               ss.MessageIdentificer + "','" + ss.ConfigurationId + "','" + 
                                ss.Mac + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -79,35 +66,27 @@ namespace Logger
             return true;
         }
 
-        public solicitedStaB parseData(string r)
+        public solicitedStaF6 parseData(string r)
         {
-            solicitedStaB ss = new solicitedStaB();
+            solicitedStaF6 ss = new solicitedStaF6();
 
             string[] tmpTypes = r.Split((char)0x1c);
 
             ss.Rectype = "N";
             ss.Luno = tmpTypes[1];
-            ss.StatusDescriptor = tmpTypes[3];
-            
-            string[] statusInfo = tmpTypes[4].Split((char)0x1d);
-
-            ss.LastTranTSN = statusInfo[0];
-
-            if (statusInfo.Length > 1)
+            int i = 3;
+            if (tmpTypes[3].Length != 1)
             {
-                ss.DataId = statusInfo[1];
-                if (ss.DataId == "CAM")
-                {
-                    ss.TransactionData = iccTLVTags(statusInfo[2]);
-                }
-                else
-                {
-                    ss.TransactionData = statusInfo[2];
-                }
+                i = 4;
+                ss.TimeVariant = tmpTypes[3];
             }
 
-             if (tmpTypes.Length > 5)
-                    ss.Mac = tmpTypes[5];
+            ss.StatusDescriptor = tmpTypes[i].Substring(0, 1);
+            ss.MessageIdentificer = tmpTypes[i].Substring(1, 1);
+            ss.ConfigurationId = tmpTypes[i].Substring(2, 4);
+
+            if (tmpTypes.Length > i + 1)
+                ss.Mac = tmpTypes[i + 1];
 
             return ss;
         }

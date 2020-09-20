@@ -4,39 +4,30 @@ using System.Data;
 
 namespace Logger
 {
-
-    struct solicitedStaB
+    struct solicitedStaF4
     {
         private string rectype;
         private string luno;
         private string timeVariant;
         private string statusDescriptor;
-        private string lastTranTSN;
-        private string dataId;
-        private string transactionData;
+        private string messageIdentificer;
+        private string groupNumber;
+        private string newEntries;
+        private string dateLastCleared;
         private string mac;
 
         public string Rectype { get => rectype; set => rectype = value; }
         public string Luno { get => luno; set => luno = value; }
         public string TimeVariant { get => timeVariant; set => timeVariant = value; }
         public string StatusDescriptor { get => statusDescriptor; set => statusDescriptor = value; }
-        public string LastTranTSN { get => lastTranTSN; set => lastTranTSN = value; }
-        public string DataId { get => dataId; set => dataId = value; }
-        public string TransactionData { get => transactionData; set => transactionData = value; }
+        public string MessageIdentificer { get => messageIdentificer; set => messageIdentificer = value; }
+        public string GroupNumber { get => groupNumber; set => groupNumber = value; }
+        public string NewEntries { get => newEntries; set => newEntries = value; }
+        public string DateLastCleared { get => dateLastCleared; set => dateLastCleared = value; }
         public string Mac { get => mac; set => mac = value; }
     };
 
-    struct CassettesData {
-        private string cassetteType;
-
-    };
-    struct CashDepositRecyclerData
-    {
-        private string numberOfRecyclerCsctTypesReported;
-        private CassettesData cassetesDetail;
-    };
-
-    class SolicitedStatusB : EMVConfiguration, IMessage
+    class SolicitedStatusF4 : EMVConfiguration, IMessage
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -52,7 +43,7 @@ namespace Logger
         {
             throw new NotImplementedException();
         }
-        
+
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
             return null;
@@ -62,15 +53,15 @@ namespace Logger
         {
             foreach (typeRec r in typeRecs)
             {
-                solicitedStaB ss = parseData(r.typeContent);
+                solicitedStaF4 ss = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO solicitedStatusB([logkey],[rectype],
-	                        [luno],[timeVariant],[statusDescriptor],[lastTranTSN],
-                            [dataId],[transactionData],[mac],[prjkey],[logID]) " +
+                string sql = @"INSERT INTO solicitedStatusF4([logkey],[rectype],
+	                        [luno],[timeVariant],[statusDescriptor],[messageIdentificer],[groupNumber],
+	                        [newEntries],[dateLastCleared],[mac],[prjkey],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
                                ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
-                               ss.LastTranTSN + "','" + ss.DataId + "','" + ss.TransactionData + "','" + 
-                               ss.Mac + "','" + Key + "'," + logID + ")";
+                               ss.MessageIdentificer + "','" + ss.GroupNumber + "','" + ss.NewEntries + "','" +
+                               ss.DateLastCleared + "','" + ss.Mac + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)
@@ -79,35 +70,29 @@ namespace Logger
             return true;
         }
 
-        public solicitedStaB parseData(string r)
+        public solicitedStaF4 parseData(string r)
         {
-            solicitedStaB ss = new solicitedStaB();
+            solicitedStaF4 ss = new solicitedStaF4();
 
             string[] tmpTypes = r.Split((char)0x1c);
 
             ss.Rectype = "N";
             ss.Luno = tmpTypes[1];
-            ss.StatusDescriptor = tmpTypes[3];
-            
-            string[] statusInfo = tmpTypes[4].Split((char)0x1d);
-
-            ss.LastTranTSN = statusInfo[0];
-
-            if (statusInfo.Length > 1)
+            int i = 3;
+            if (tmpTypes[3].Length != 1)
             {
-                ss.DataId = statusInfo[1];
-                if (ss.DataId == "CAM")
-                {
-                    ss.TransactionData = iccTLVTags(statusInfo[2]);
-                }
-                else
-                {
-                    ss.TransactionData = statusInfo[2];
-                }
+                i = 4;
+                ss.TimeVariant = tmpTypes[3];
             }
 
-             if (tmpTypes.Length > 5)
-                    ss.Mac = tmpTypes[5];
+            ss.StatusDescriptor = tmpTypes[i].Substring(0, 1);
+            ss.MessageIdentificer = tmpTypes[i].Substring(1, 1);
+            ss.GroupNumber = tmpTypes[i].Substring(2, 1);
+            ss.NewEntries = tmpTypes[i].Substring(3, 2);
+            ss.DateLastCleared = tmpTypes[i].Substring(5, 12);
+
+            if (tmpTypes.Length > i + 1)
+                ss.Mac = tmpTypes[i + 1];
 
             return ss;
         }

@@ -127,6 +127,15 @@
     <Compile Include="SolicitedStatus\SolicitedStatus9.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusB.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusF2.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusF3.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusF4.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusF5.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusF6.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusFH.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusFI.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusFJ.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusFL.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusFK.cs" />
     <Compile Include="StateRecords\State26.cs" />
     <Compile Include="StateRecords\State2B.cs" />
     <Compile Include="StateRecords\State2C.cs" />
