@@ -80,7 +80,7 @@ namespace Logger
 
                 sql = @"INSERT INTO screeninfo([logkey],[rectype],[scrnum],[scrdata],[load],[prjkey],[logID])" +
                       " VALUES('" + r.typeIndex + "','" +
-                                   'N' + "','" +
+                                   'E' + "','" +
                       r.typeContent.Substring(0, 3) + "','" + // screenNum
                                    scrdata + "','" + // screenData
                                    loadNum.ToString() + "','" +

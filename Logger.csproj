@@ -58,6 +58,8 @@
     <Compile Include="DateAndTimeRec.cs" />
     <Compile Include="DbCrud.cs" />
     <Compile Include="EMV\EMVConfiguration.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatus8.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusC.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusF1.cs" />
     <Compile Include="EnhancedParamsRec.cs" />
     <Compile Include="ExtEncryptionRec.cs" />
@@ -136,6 +138,8 @@
     <Compile Include="SolicitedStatus\SolicitedStatusFJ.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusFL.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusFK.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusFM.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusFN.cs" />
     <Compile Include="StateRecords\State26.cs" />
     <Compile Include="StateRecords\State2B.cs" />
     <Compile Include="StateRecords\State2C.cs" />

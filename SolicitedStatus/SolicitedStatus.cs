@@ -42,7 +42,11 @@ namespace Logger
 
         public DataTable getDescription()
         {
-            throw new NotImplementedException();
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'N' ";
+
+            DbCrud db = new DbCrud();
+            DataTable dt = db.GetTableFromDb(sql);
+            return dt;
         }
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
@@ -52,7 +56,26 @@ namespace Logger
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            return null;
+            string[] tmpTypes = recValue.Split((char)0x1c);
+            string recordType = "";
+            int i = 3;
+
+            string[] tmp = tmpTypes[3].Split((char)0x1d);
+
+            if (tmp[0].Length != 1) i = 4;
+
+            if (tmpTypes[i] == "F")
+            {
+                recordType = ssTypes[tmpTypes[i] + tmpTypes[i + 1].Substring(0, 1)];
+            }
+            else
+            {
+                recordType = ssTypes[tmpTypes[i].Substring(0, 1)];
+            }
+
+            IMessage theRecord = MessageFactory.Create_Record(recordType);
+            return theRecord.parseToView(logKey, logID, projectKey, recValue);
+
         }
 
         public virtual bool writeData(List<typeRec> typeRecs, string Key, string logID)
@@ -63,9 +86,13 @@ namespace Logger
                 OneTypeRec.Add(r);
 
                 string[] tmpTypes = r.typeContent.Split((char)0x1c);
+
                 string recordType = "";
                 int i = 3;
-                if (tmpTypes[3].Length != 1) i = 4;
+
+                string[] tmp = tmpTypes[3].Split((char)0x1d);
+
+                if (tmp[0].Length != 1) i = 4;
 
                 if (tmpTypes[i] == "F")
                 {
@@ -73,22 +100,23 @@ namespace Logger
                 }
                 else
                 {
-                    recordType = ssTypes[tmpTypes[i]];
+                    recordType = ssTypes[tmpTypes[i].Substring(0,1)];
                 }
 
                 // todo: this is if temporal until others types are implemented.
 
-                if ((recordType == "229") || (recordType == "22B") ||
-                    (recordType == "22F1") || (recordType == "22F2" ||
-                    (recordType == "22F3") || (recordType == "22F4") || (recordType == "22F5") ||
-                    (recordType == "22F6") || (recordType == "22FH") || (recordType == "22FI") ||
-                    (recordType == "22FJ") || (recordType == "22FK") || (recordType == "22FL")))
-                {
+                //if ((recordType == "229") || (recordType == "22B") || (recordType == "228") ||
+                //    (recordType == "22C") || (recordType == "22F1") || (recordType == "22F2" ||
+                //    (recordType == "22F3") || (recordType == "22F4") || (recordType == "22F5") ||
+                //    (recordType == "22F6") || (recordType == "22FH") || (recordType == "22FI") ||
+                //    (recordType == "22FJ") || (recordType == "22FK") || (recordType == "22FL") ||
+                //    (recordType == "22FM") || (recordType == "22FN")))
+                //{
                     IMessage theRecord = MessageFactory.Create_Record(recordType);
 
                     if (theRecord.writeData(OneTypeRec, Key, logID) == false)
                         return false;
-                }
+                //}
             }
             return true;
         }

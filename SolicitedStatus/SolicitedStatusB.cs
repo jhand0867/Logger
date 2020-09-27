@@ -14,6 +14,11 @@ namespace Logger
         private string lastTranTSN;
         private string dataId;
         private string transactionData;
+        private string smartCardDataID;
+	    private string centralRequestedICCDO;
+	    private string rsltOfIssuerScriptProcessing;
+	    private string seqnumOfScriptCommand;
+	    private string scriptID;
         private string mac;
 
         public string Rectype { get => rectype; set => rectype = value; }
@@ -24,6 +29,11 @@ namespace Logger
         public string DataId { get => dataId; set => dataId = value; }
         public string TransactionData { get => transactionData; set => transactionData = value; }
         public string Mac { get => mac; set => mac = value; }
+        public string SmartCardDataID { get => smartCardDataID; set => smartCardDataID = value; }
+        public string CentralRequestedICCDO { get => centralRequestedICCDO; set => centralRequestedICCDO = value; }
+        public string RsltOfIssuerScriptProcessing { get => rsltOfIssuerScriptProcessing; set => rsltOfIssuerScriptProcessing = value; }
+        public string SeqnumOfScriptCommand { get => seqnumOfScriptCommand; set => seqnumOfScriptCommand = value; }
+        public string ScriptID { get => scriptID; set => scriptID = value; }
     };
 
     struct CassettesData {
@@ -66,10 +76,14 @@ namespace Logger
 
                 string sql = @"INSERT INTO solicitedStatusB([logkey],[rectype],
 	                        [luno],[timeVariant],[statusDescriptor],[lastTranTSN],
-                            [dataId],[transactionData],[mac],[prjkey],[logID]) " +
+                            [dataId],[transactionData],[smartCardDataID],
+	                        [centralRequestedICCDO],[rsltOfIssuerScriptProcessing],
+	                        [seqnumOfScriptCommand],[scriptID],[mac],[prjkey],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
                                ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
-                               ss.LastTranTSN + "','" + ss.DataId + "','" + ss.TransactionData + "','" + 
+                               ss.LastTranTSN + "','" + ss.DataId + "','" + ss.TransactionData + "','" +
+                               ss.SmartCardDataID + "','" + ss.CentralRequestedICCDO + "','" + ss.RsltOfIssuerScriptProcessing + "','" +
+                               ss.SeqnumOfScriptCommand + "','" + ss.ScriptID + "','" + 
                                ss.Mac + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -87,27 +101,69 @@ namespace Logger
 
             ss.Rectype = "N";
             ss.Luno = tmpTypes[1];
-            ss.StatusDescriptor = tmpTypes[3];
-            
-            string[] statusInfo = tmpTypes[4].Split((char)0x1d);
+            int i = 3;
 
-            ss.LastTranTSN = statusInfo[0];
+            string[] tmp = tmpTypes[3].Split((char)0x1d);
 
-            if (statusInfo.Length > 1)
+            if (tmp[0].Length != 1) 
             {
-                ss.DataId = statusInfo[1];
-                if (ss.DataId == "CAM")
+                i = 4;
+                ss.TimeVariant = tmpTypes[3];
+            }
+
+            tmp = tmpTypes[i].Split((char)0x1d);
+
+            if (tmp.Length > 1)
+            {
+                // CAM is included with Status Descriptor
+                ss.StatusDescriptor = tmp[0];
+                ss.SmartCardDataID = tmp[1];
+                ss.CentralRequestedICCDO = iccTLVTags(tmp[2]);
+                if (tmp.Length > 3)
                 {
-                    ss.TransactionData = iccTLVTags(statusInfo[2]);
+                    ss.RsltOfIssuerScriptProcessing = tmp[3].Substring(0,1);
+                    ss.SeqnumOfScriptCommand = tmp[3].Substring(1,1);
+                    ss.ScriptID = iccTLVTags(tmp[3].Substring(2,tmp[3].Length-2));
                 }
-                else
+            }
+            else
+            {
+                ss.StatusDescriptor = tmpTypes[i];
+            }
+
+            if (tmpTypes.Length > i + 1)
+            {
+                string[] statusInfo = tmpTypes[i + 1].Split((char)0x1d);
+                ss.LastTranTSN = statusInfo[0];
+
+                int x = 1;
+
+                if (statusInfo.Length > x)
                 {
-                    ss.TransactionData = statusInfo[2];
+                    if (statusInfo[x].Substring(0, 1) == "1" ||
+                        statusInfo[x].Substring(0, 1) == "2")
+                    {
+                        ss.DataId = statusInfo[x].Substring(0, 1);
+                        ss.TransactionData = statusInfo[x].Substring(1, statusInfo[x].Length - 1);
+                        x++;
+                    }
+                }
+
+                if (statusInfo.Length > x)
+                {
+                    ss.SmartCardDataID = statusInfo[x];
+                    ss.CentralRequestedICCDO = iccTLVTags(statusInfo[x+1]);
+                    if (statusInfo.Length > x+2)
+                    {
+                        ss.RsltOfIssuerScriptProcessing = statusInfo[x + 2].Substring(0, 1);
+                        ss.SeqnumOfScriptCommand = statusInfo[x + 2].Substring(1, 1);
+                        ss.ScriptID = iccTLVTags(statusInfo[x + 2].Substring(2, statusInfo[x + 2].Length - 2));
+                    }
                 }
             }
 
-             if (tmpTypes.Length > 5)
-                    ss.Mac = tmpTypes[5];
+             if (tmpTypes.Length > i+2)
+                    ss.Mac = tmpTypes[i+2];
 
             return ss;
         }

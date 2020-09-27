@@ -87,6 +87,8 @@ namespace Logger
             recTypeDic.Add("22", () => new SolicitedStatus());
             recTypeDic.Add("22A", () => new SolicitedStatus9());
             recTypeDic.Add("22B", () => new SolicitedStatusB());
+            recTypeDic.Add("22C", () => new SolicitedStatusC());
+            recTypeDic.Add("228", () => new SolicitedStatus8());
             recTypeDic.Add("229", () => new SolicitedStatus9());
             recTypeDic.Add("22F1", () => new SolicitedStatusF1());
             recTypeDic.Add("22F2", () => new SolicitedStatusF2());
@@ -99,8 +101,8 @@ namespace Logger
             recTypeDic.Add("22FJ", () => new SolicitedStatusFJ());
             recTypeDic.Add("22FK", () => new SolicitedStatusFK());
             recTypeDic.Add("22FL", () => new SolicitedStatusFL());
-
-
+            recTypeDic.Add("22FM", () => new SolicitedStatusFM());
+            recTypeDic.Add("22FN", () => new SolicitedStatusFN());
 
             try
             {
