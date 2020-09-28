@@ -41,52 +41,17 @@ namespace Logger
 
         public DataTable getDescription()
         {
-            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'N'  AND subRecType like '9%'";
-
-            DbCrud db = new DbCrud();
-            DataTable dt = db.GetTableFromDb(sql);
-            return dt;
+            return null;
         }
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
-            List<DataTable> dts = new List<DataTable>();
-            DbCrud db = new DbCrud();
-
-            string sql = @"SELECT TOP 1 * FROM solicitedStatus WHERE prjkey = '" + projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
-                                                               logKey + "%'";
-            DataTable dt = db.GetTableFromDb(sql);
-            dts.Add(dt);
-
-            return dts;
+            return null;
         }
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            List<DataTable> dts = getRecord(logKey, logID, projectKey);
-            string txtField = "";
-
-            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
-
-            DataTable ss9 = getDescription();
-
-            // txtField = ss9.Rows[0][3].ToString().Trim() + " = " + dts[0].Rows[0][3].ToString();
-
-            if (dts[0].Rows.Count > 0)
-            {
-                for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
-                {
-                    if (dts[0].Rows[0][colNum].ToString() != "" &&
-                        dts[0].Rows[0][colNum].ToString() != " ")
-                    {
-                        txtField += getOptionDescription(ss9, "9" + colNum.ToString("00"));
-                        txtField += " = " + dts[0].Rows[0][colNum].ToString();
-                        txtField += "\t" + System.Environment.NewLine;
-                    }
-                }
-            }
-
-            return txtField;
+            return null;
         }
 
         public virtual bool writeData(List<typeRec> typeRecs, string Key, string logID)
@@ -95,7 +60,10 @@ namespace Logger
             {
                 solicitedSta9 ss = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO solicitedStatus([logkey],[rectype],
+                if (ss.Luno == "") ss.Luno = null;
+
+
+                string sql = @"INSERT INTO solicitedStatus9([logkey],[rectype],
 	                        [luno],[timeVariant],[statusDescriptor],[statusInformation],[smartCardDataID],
 	                        [centralRequestedICCDO],[rsltOfIssuerScriptProcessing],[seqnumOfScriptCommand],
                         	[scriptID],[mac],[prjkey],[logID]) " +

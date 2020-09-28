@@ -39,10 +39,14 @@ namespace Logger
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-
         public DataTable getDescription()
         {
-            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'N' ";
+            throw new NotImplementedException();
+        }
+
+        public DataTable getDescription(string recType)
+        {
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'N'  AND subRecType like '" + recType + "%'";
 
             DbCrud db = new DbCrud();
             DataTable dt = db.GetTableFromDb(sql);
@@ -54,9 +58,84 @@ namespace Logger
             throw new NotImplementedException();
         }
 
+        public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recType)
+        {
+            List<DataTable> dts = new List<DataTable>();
+            DbCrud db = new DbCrud();
+
+            string sql = @"SELECT TOP 1 * FROM solicitedStatus" + recType + " WHERE prjkey = '" + projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
+                                                               logKey + "%'";
+            DataTable dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+
+            return dts;
+        }
+
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
+            string recordType = getRecordType(recValue);
+
+            // IMessage theRecord = MessageFactory.Create_Record(recordType);
+            List<DataTable> dts = getRecord(logKey, logID, projectKey, recordType.Substring(2, recordType.Length - 2));
+            string txtField = "";
+
+            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
+
+            DataTable ss = getDescription(recordType.Substring(2, recordType.Length - 2));
+
+            if (dts[0].Rows.Count > 0)
+            {
+                for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
+                {
+                    if (dts[0].Rows[0][colNum].ToString() != "" &&
+                        dts[0].Rows[0][colNum].ToString() != " ")
+                    {
+                        txtField += getOptionDescription(ss, recordType.Substring(2,recordType.Length-2) + colNum.ToString("00"));
+                        txtField += " = " + dts[0].Rows[0][colNum].ToString();
+                        txtField += "\t" + System.Environment.NewLine;
+                    }
+                }
+            }
+            return txtField;
+
+        }
+
+        public virtual bool writeData(List<typeRec> typeRecs, string Key, string logID)
+        {
+            foreach (typeRec r in typeRecs)
+            {
+                List<typeRec> OneTypeRec = new List<typeRec>();
+                OneTypeRec.Add(r);
+
+                string recordType = getRecordType(r.typeContent);
+
+                    IMessage theRecord = MessageFactory.Create_Record(recordType);
+
+                    if (theRecord.writeData(OneTypeRec, Key, logID) == false)
+                        return false;
+            }
+            return true;
+        }
+
+        internal string getOptionDescription(DataTable dataTable, string field)
+        {
+            string optionDesc = "";
+            // what's the description of the field
+            foreach (DataRow item in dataTable.Rows)
+            {
+                if (item[2].ToString().Trim() == field)
+                {
+                    optionDesc = item[3].ToString().Trim();
+                    break;
+                }
+            }
+            return optionDesc;
+        }
+
+        internal string getRecordType(string recValue)
+        {
             string[] tmpTypes = recValue.Split((char)0x1c);
+
             string recordType = "";
             int i = 3;
 
@@ -73,53 +152,9 @@ namespace Logger
                 recordType = ssTypes[tmpTypes[i].Substring(0, 1)];
             }
 
-            IMessage theRecord = MessageFactory.Create_Record(recordType);
-            return theRecord.parseToView(logKey, logID, projectKey, recValue);
-
+            return recordType;
         }
 
-        public virtual bool writeData(List<typeRec> typeRecs, string Key, string logID)
-        {
-            foreach (typeRec r in typeRecs)
-            {
-                List<typeRec> OneTypeRec = new List<typeRec>();
-                OneTypeRec.Add(r);
-
-                string[] tmpTypes = r.typeContent.Split((char)0x1c);
-
-                string recordType = "";
-                int i = 3;
-
-                string[] tmp = tmpTypes[3].Split((char)0x1d);
-
-                if (tmp[0].Length != 1) i = 4;
-
-                if (tmpTypes[i] == "F")
-                {
-                    recordType = ssTypes[tmpTypes[i] + tmpTypes[i+1].Substring(0, 1)];
-                }
-                else
-                {
-                    recordType = ssTypes[tmpTypes[i].Substring(0,1)];
-                }
-
-                // todo: this is if temporal until others types are implemented.
-
-                //if ((recordType == "229") || (recordType == "22B") || (recordType == "228") ||
-                //    (recordType == "22C") || (recordType == "22F1") || (recordType == "22F2" ||
-                //    (recordType == "22F3") || (recordType == "22F4") || (recordType == "22F5") ||
-                //    (recordType == "22F6") || (recordType == "22FH") || (recordType == "22FI") ||
-                //    (recordType == "22FJ") || (recordType == "22FK") || (recordType == "22FL") ||
-                //    (recordType == "22FM") || (recordType == "22FN")))
-                //{
-                    IMessage theRecord = MessageFactory.Create_Record(recordType);
-
-                    if (theRecord.writeData(OneTypeRec, Key, logID) == false)
-                        return false;
-                //}
-            }
-            return true;
-        }
 
     }
 }
