@@ -2,8 +2,6 @@
 using System.Data;
 using System.Windows.Forms;
 
-// todo: fix loading of ProjectData after attaching it shows all columns for DGV.
-
 namespace Logger
 {
     public partial class ProjectData : Form
@@ -70,7 +68,7 @@ namespace Logger
             ofd.Title = "Upload Log";
             try
             {
-                if (ofd.ShowDialog() == DialogResult.OK)
+                if (ofd.ShowDialog(this) == DialogResult.OK)
                 {
                     this.Cursor = Cursors.AppStarting;
                     App.Prj.uploadLog(ofd.FileName);

@@ -34,8 +34,6 @@ namespace Logger
             ssTypes.Add("FN", "22FN");
         }
 
-        // todo: Solicited Status F-1 to 6
-
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -87,13 +85,13 @@ namespace Logger
             {
                 for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
                 {
-                    if (dts[0].Rows[0][colNum].ToString() != "" &&
-                        dts[0].Rows[0][colNum].ToString() != " ")
-                    {
-                        txtField += getOptionDescription(ss, recordType.Substring(2,recordType.Length-2) + colNum.ToString("00"));
-                        txtField += " = " + dts[0].Rows[0][colNum].ToString();
+                    //if (dts[0].Rows[0][colNum].ToString() != "" &&
+                    //    dts[0].Rows[0][colNum].ToString() != " ")
+                    //{
+                        txtField += getOptionDescription(ss, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
+                                                             dts[0].Rows[0][colNum].ToString());
                         txtField += "\t" + System.Environment.NewLine;
-                    }
+                    //}
                 }
             }
             return txtField;
@@ -117,7 +115,7 @@ namespace Logger
             return true;
         }
 
-        internal string getOptionDescription(DataTable dataTable, string field)
+        internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)
         {
             string optionDesc = "";
             // what's the description of the field
@@ -126,6 +124,14 @@ namespace Logger
                 if (item[2].ToString().Trim() == field)
                 {
                     optionDesc = item[3].ToString().Trim();
+                    if (item[5].ToString() == "1")
+                    {
+                        fieldValue = fieldValue.Replace(";", " ");
+                        fieldValue = fieldValue.Replace(",", " ");
+
+                        //optionDesc += " = " + App.Prj.getEMVTags(fieldValue);
+                    }
+                    optionDesc += " = " + fieldValue;
                     break;
                 }
             }

@@ -200,6 +200,37 @@ namespace Logger
             }
             return dicData;
         }
+        /// <summary>
+        /// Received the DataDescription record 
+        /// Use a ENV tag finder on DataDescription table
+        /// </summary>
+        /// <returns></returns>
+        //public string getEMVTags(string CAMContent)
+        //{
+        //    string camDataField = "";
+
+        //    string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'X'  AND subRecType like '%'";
+
+        //    DbCrud db = new DbCrud();
+        //    DataTable dt = db.GetTableFromDb(sql);
+
+
+
+        //    foreach (DataRow dr in dtDataDescription.Rows)
+        //    {
+        //        // split CAMContent and look for offset
+        //        string[] contentFields = CAMContent.Split(' ');
+
+
+
+        //        if (dr[2] == contentFields[1])
+        //        {
+
+        //        }
+        //    }
+
+        //    return null;
+        //}
 
         public bool updateProjectByName(Project project, string pName, string pBrief)
         {
