@@ -58,7 +58,9 @@
     <Compile Include="DateAndTimeRec.cs" />
     <Compile Include="DbCrud.cs" />
     <Compile Include="EMV\EMVConfiguration.cs" />
-    <Compile Include="SolicitedStatus\SolicitedStaF7.cs" />
+    <Compile Include="Digester.cs" />
+    <Compile Include="IMessage.cs" />
+    <Compile Include="SolicitedStatus\SolicitedStatusF7.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatus8.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusC.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusF1.cs" />
@@ -70,7 +72,6 @@
     <Compile Include="EMV\ICCLanguageSupportT.cs" />
     <Compile Include="EMV\ICCTerminalDOT.cs" />
     <Compile Include="EMV\ICCTransactionDOT.cs" />
-    <Compile Include="IMessage.cs" />
     <Compile Include="GUI\LogData.cs">
       <SubType>Form</SubType>
     </Compile>

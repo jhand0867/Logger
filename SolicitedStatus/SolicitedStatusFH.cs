@@ -102,7 +102,7 @@ namespace Logger
             ss.HwConfigurationData = statusInfo[0].Substring(1,3);
             for(int x=1; x < statusInfo.Length; x++)
             {
-                ss.HwConfigurationData += "," + statusInfo[x];
+                ss.HwConfigurationData += ";" + statusInfo[x];
             }
 
             if (tmpTypes.Length > i + 4)

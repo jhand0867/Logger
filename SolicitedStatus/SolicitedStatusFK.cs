@@ -116,7 +116,7 @@ namespace Logger
 
                 for (int x = 2; x < statusInfo.Length; x++)
                 {
-                    ss.ExtendedTamperStatusData += "," + statusInfo[x];
+                    ss.ExtendedTamperStatusData += ";" + statusInfo[x];
                 }
             }
 

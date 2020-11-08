@@ -98,7 +98,7 @@ namespace Logger
             ss.HardwareFitnessData = statusInfo[0].Substring(2, statusInfo[0].Length - 2);
             for (int x = 1; x < statusInfo.Length; x++)
             {
-                ss.HardwareFitnessData += "," + statusInfo[x];
+                ss.HardwareFitnessData += ";" + statusInfo[x];
             }
 
             if (tmpTypes.Length > i + 2)

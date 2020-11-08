@@ -113,7 +113,7 @@ namespace Logger
                 offset += 10;
                 iccApp.NumberOfDataObjectTReq = tmpAids[x].Substring(offset, 2);
                 offset += 2;
-                // TLV
+                // ,
                 hexLength = Convert.ToInt32(iccApp.NumberOfDataObjectTReq, 16);
                 iccApp.DataObjectForTReq = iccTLVTags(tmpAids[x].Substring(offset, tmpAids[x].Length - offset), hexLength);
                 offset += iccApp.DataObjectForTReq.Length - hexLength;
@@ -121,7 +121,7 @@ namespace Logger
 
                 iccApp.NumberOfDataObjectCompletion = tmpAids[x].Substring(offset, 2);
                 offset += 2;
-                // TLV
+                // ,
                 hexLength = Convert.ToInt32(iccApp.NumberOfDataObjectCompletion, 16);
 
                 if (hexLength > 0)

@@ -163,7 +163,7 @@ namespace Logger
 
             Dictionary<string, Project> dicData = new Dictionary<string, Project>();
 
-            if (dt.Rows.Count > 0)
+            if (dt != null && dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {

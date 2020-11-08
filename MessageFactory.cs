@@ -26,6 +26,11 @@ namespace Logger
             return new StateRec();
         }
 
+        public static Digester Create_Digester()
+        { 
+            return new Digester();
+        }
+
         public static StateRec Create_StateRecord(string stateType)
         {
             var stateTypeDic = new Dictionary<string, Func<StateRec>>();
@@ -96,6 +101,7 @@ namespace Logger
             recTypeDic.Add("22F4", () => new SolicitedStatusF4());
             recTypeDic.Add("22F5", () => new SolicitedStatusF5());
             recTypeDic.Add("22F6", () => new SolicitedStatusF6());
+            recTypeDic.Add("22F7", () => new SolicitedStatusF7());
             recTypeDic.Add("22FH", () => new SolicitedStatusFH());
             recTypeDic.Add("22FI", () => new SolicitedStatusFI());
             recTypeDic.Add("22FJ", () => new SolicitedStatusFJ());
