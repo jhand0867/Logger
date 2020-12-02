@@ -6,7 +6,24 @@ namespace Logger
 {
     public class Digester
     {
-        public string fieldDigester1(string fieldType, string fieldValue)
+        public string fieldDigester(string fieldType, string fieldValue)
+        {
+            var recTypeDic = new Dictionary<string, Func<string>>();
+            recTypeDic.Add("1", () => new Digester().filterTLV(fieldType, fieldValue));
+            recTypeDic.Add("2", () => new Digester().filterConfiguration(fieldType, fieldValue));
+            recTypeDic.Add("3", () => new Digester().filterSupplies(fieldType, fieldValue));
+
+            try
+            {
+                return recTypeDic[fieldType]();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+        public string filterTLV(string fieldType, string fieldValue)
         {
 
             string fieldDesc = System.Environment.NewLine;
@@ -35,7 +52,7 @@ namespace Logger
             return fieldDesc;
         }
 
-        public string fieldDigester2(string fieldType, string fieldValue)
+        public string filterConfiguration(string fieldType, string fieldValue)
         {
 
             string fieldDesc = System.Environment.NewLine;
@@ -60,7 +77,7 @@ namespace Logger
             return fieldDesc;
         }
 
-        public string fieldDigester3(string fieldType, string fieldValue)
+        public string filterSupplies(string fieldType, string fieldValue)
         {
 
             string fieldDesc = System.Environment.NewLine;
@@ -109,23 +126,5 @@ namespace Logger
             return dt;
         }
 
-
-        public string fieldDigester(string fieldType, string fieldValue)
-        {
-            var recTypeDic = new Dictionary<string, Func<string>>();
-            recTypeDic.Add("1", () => new Digester().fieldDigester1(fieldType, fieldValue));
-            recTypeDic.Add("2", () => new Digester().fieldDigester2(fieldType, fieldValue));
-            recTypeDic.Add("3", () => new Digester().fieldDigester3(fieldType, fieldValue));
-
-            try
-            {
-                return recTypeDic[fieldType]();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-
-        }
     }
 }
