@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace Logger
 {
 
-    class SolicitedStatus : IMessage
+    class SolicitedStatus: Digester, IMessage 
     {
 
         public Dictionary<string, string> ssTypes = new Dictionary<string, string>();
@@ -45,6 +45,11 @@ namespace Logger
             throw new NotImplementedException();
         }
 
+        public List<DataTable> getRecord(string logKey, string logID, string projectKey)
+        {
+            throw new NotImplementedException();
+        }
+
         public DataTable getDescription(string recType)
         {
             string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'N'  AND subRecType like '" + recType + "%'";
@@ -52,11 +57,6 @@ namespace Logger
             DbCrud db = new DbCrud();
             DataTable dt = db.GetTableFromDb(sql);
             return dt;
-        }
-
-        public List<DataTable> getRecord(string logKey, string logID, string projectKey)
-        {
-            throw new NotImplementedException();
         }
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recType)
@@ -106,7 +106,7 @@ namespace Logger
                 string recordType = getRecordType(r.typeContent);
 
                     IMessage theRecord = MessageFactory.Create_Record(recordType);
-
+                
                     if (theRecord.writeData(OneTypeRec, Key, logID) == false)
                         return false;
             }
@@ -116,8 +116,7 @@ namespace Logger
         internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)
         {
 
-            // todo: Scanning all records for samples
-            // todo: enter data descriptions for all records
+             // todo: enter data descriptions for all records
             // todo: put together the digesting routines for all record types
 
             string optionDesc = "";

@@ -30,29 +30,13 @@ namespace Logger
         public string Mac { get => mac; set => mac = value; }
     };
 
-    class SolicitedStatusFH : EMVConfiguration, IMessage
+    class SolicitedStatusFH : SolicitedStatus
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-
-        public DataTable getDescription()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<DataTable> getRecord(string logKey, string logID, string projectKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string parseToView(string logKey, string logID, string projectKey, string recValue)
-        {
-            return null;
-        }
-
-        public virtual bool writeData(List<typeRec> typeRecs, string Key, string logID)
+        public override bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
             foreach (typeRec r in typeRecs)
             {

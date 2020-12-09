@@ -780,7 +780,17 @@ namespace Logger
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("iccApplicationIDT", count);
 
-            sql = @"SELECT COUNT(*) FROM solicitedStatus WHERE logID =" + logID;
+            /* 
+             * 
+                
+                select (SELECT COUNT(*) FROM solicitedStatusB where logid = 1) +  
+                       (SELECT COUNT(*) FROM solicitedStatus9 where logid = 1) +
+	                   (SELECT COUNT(*) FROM solicitedStatusF1 where logid = 1) count;
+             */
+
+            sql = @"SELECT (SELECT COUNT(*) FROM solicitedStatus8 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatus9 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusB WHERE logID =" + logID + ") ";
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("solicitedStatus", count);
             return dicBits;
