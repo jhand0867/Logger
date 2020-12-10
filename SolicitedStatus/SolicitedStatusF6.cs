@@ -66,8 +66,9 @@ namespace Logger
             }
 
             ss.StatusDescriptor = tmpTypes[i].Substring(0, 1);
-            ss.MessageIdentificer = tmpTypes[i].Substring(1, 1);
-            ss.ConfigurationId = tmpTypes[i].Substring(2, 4);
+            i++;
+            ss.MessageIdentificer = tmpTypes[i].Substring(0, 1);
+            ss.ConfigurationId = tmpTypes[i].Substring(1, 4);
 
             if (tmpTypes.Length > i + 1)
                 ss.Mac = tmpTypes[i + 1];

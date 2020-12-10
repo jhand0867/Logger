@@ -70,10 +70,11 @@ namespace Logger
             }
 
             ss.StatusDescriptor = tmpTypes[i].Substring(0, 1);
-            ss.MessageIdentificer = tmpTypes[i].Substring(1, 1);
-            ss.GroupNumber = tmpTypes[i].Substring(2, 1);
-            ss.NewEntries = tmpTypes[i].Substring(3, 2);
-            ss.DateLastCleared = tmpTypes[i].Substring(5, 12);
+            i++;
+            ss.MessageIdentificer = tmpTypes[i].Substring(0, 1);
+            ss.GroupNumber = tmpTypes[i].Substring(1, 1);
+            ss.NewEntries = tmpTypes[i].Substring(2, 2);
+            ss.DateLastCleared = tmpTypes[i].Substring(4, 12);
 
             if (tmpTypes.Length > i + 1)
                 ss.Mac = tmpTypes[i + 1];

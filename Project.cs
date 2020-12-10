@@ -780,17 +780,24 @@ namespace Logger
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("iccApplicationIDT", count);
 
-            /* 
-             * 
-                
-                select (SELECT COUNT(*) FROM solicitedStatusB where logid = 1) +  
-                       (SELECT COUNT(*) FROM solicitedStatus9 where logid = 1) +
-	                   (SELECT COUNT(*) FROM solicitedStatusF1 where logid = 1) count;
-             */
-
             sql = @"SELECT (SELECT COUNT(*) FROM solicitedStatus8 WHERE logID =" + logID + ") +" +
                 "          (SELECT COUNT(*) FROM solicitedStatus9 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusB WHERE logID =" + logID + ") ";
+                "          (SELECT COUNT(*) FROM solicitedStatusB WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusC WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusF1 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusF2 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusF3 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusF4 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusF5 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusF6 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusF7 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusFH WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusFI WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusFJ WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusFK WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusFL WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusFM WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM solicitedStatusFN WHERE logID =" + logID + ") ";
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("solicitedStatus", count);
             return dicBits;

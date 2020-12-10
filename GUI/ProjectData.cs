@@ -75,6 +75,7 @@ namespace Logger
                     this.Cursor = Cursors.AppStarting;
                     App.Prj.uploadLog(ofd.FileName);
                     this.Cursor = Cursors.Default;
+                    scanToolStripMenuItem.Enabled = true;
                     dataGridView1.DataSource = buildDataGridView1();
                     fixLogNames(dataGridView1);
                 }
@@ -118,6 +119,9 @@ namespace Logger
             App.Prj.detachLogByID(logID);
 
             dataGridView1.DataSource = buildDataGridView1();
+
+            if (dataGridView1.Rows.Count < 1)
+                scanToolStripMenuItem.Enabled = false;
 
             fixLogNames(dataGridView1);
 
@@ -330,6 +334,14 @@ namespace Logger
         private void allToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void logsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count < 1)
+                detachToolStripMenuItem.Enabled = false;
+            else
+                detachToolStripMenuItem.Enabled = true;
         }
     }
 }

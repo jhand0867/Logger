@@ -79,10 +79,12 @@ namespace Logger
         {
             iccApplication iccApp = new iccApplication();
             List<iccApplication> iccAppList = new List<iccApplication>();
-
+            Digester digester = MessageFactory.Create_Digester();
 
             string[] tmpAids = tmpTypes.Split((char)0x1d);
             int hexLength = 0;
+
+
             for (int x = 0; x < tmpAids.Length; x++)
             {
                 iccApp.Rectype = "85";
@@ -115,7 +117,7 @@ namespace Logger
                 offset += 2;
                 // ,
                 hexLength = Convert.ToInt32(iccApp.NumberOfDataObjectTReq, 16);
-                iccApp.DataObjectForTReq = iccTLVTags(tmpAids[x].Substring(offset, tmpAids[x].Length - offset), hexLength);
+                iccApp.DataObjectForTReq = digester.iccTLVTags(tmpAids[x].Substring(offset, tmpAids[x].Length - offset), hexLength);
                 offset += iccApp.DataObjectForTReq.Length - hexLength;
 
 
@@ -126,7 +128,7 @@ namespace Logger
 
                 if (hexLength > 0)
                 {
-                    iccApp.DataObjectForCompletion = iccTLVTags(tmpAids[x].Substring(offset, tmpAids[x].Length - offset), hexLength);
+                    iccApp.DataObjectForCompletion = digester.iccTLVTags(tmpAids[x].Substring(offset, tmpAids[x].Length - offset), hexLength);
                     offset += iccApp.DataObjectForCompletion.Length - hexLength;
                 }
 

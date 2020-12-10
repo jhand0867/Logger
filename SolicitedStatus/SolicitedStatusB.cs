@@ -80,6 +80,7 @@ namespace Logger
         public solicitedStaB parseData(string r)
         {
             solicitedStaB ss = new solicitedStaB();
+            Digester digester = MessageFactory.Create_Digester();
 
             string[] tmpTypes = r.Split((char)0x1c);
 
@@ -102,12 +103,12 @@ namespace Logger
                 // CAM is included with Status Descriptor
                 ss.StatusDescriptor = tmp[0];
                 ss.SmartCardDataID = tmp[1];
-                ss.CentralRequestedICCDO = iccTLVTags(tmp[2]);
+                ss.CentralRequestedICCDO = digester.iccTLVTags(tmp[2]);
                 if (tmp.Length > 3)
                 {
                     ss.RsltOfIssuerScriptProcessing = tmp[3].Substring(0,1);
                     ss.SeqnumOfScriptCommand = tmp[3].Substring(1,1);
-                    ss.ScriptID = iccTLVTags(tmp[3].Substring(2,tmp[3].Length-2));
+                    ss.ScriptID = digester.iccTLVTags(tmp[3].Substring(2,tmp[3].Length-2));
                 }
             }
             else
@@ -136,12 +137,12 @@ namespace Logger
                 if (statusInfo.Length > x)
                 {
                     ss.SmartCardDataID = statusInfo[x];
-                    ss.CentralRequestedICCDO = iccTLVTags(statusInfo[x+1]);
+                    ss.CentralRequestedICCDO = digester.iccTLVTags(statusInfo[x+1]);
                     if (statusInfo.Length > x+2)
                     {
                         ss.RsltOfIssuerScriptProcessing = statusInfo[x + 2].Substring(0, 1);
                         ss.SeqnumOfScriptCommand = statusInfo[x + 2].Substring(1, 1);
-                        ss.ScriptID = iccTLVTags(statusInfo[x + 2].Substring(2, statusInfo[x + 2].Length - 2));
+                        ss.ScriptID = digester.iccTLVTags(statusInfo[x + 2].Substring(2, statusInfo[x + 2].Length - 2));
                     }
                 }
             }

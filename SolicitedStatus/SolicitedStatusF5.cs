@@ -68,9 +68,10 @@ namespace Logger
             }
 
             ss.StatusDescriptor = tmpTypes[i].Substring(0, 1);
-            ss.MessageIdentificer = tmpTypes[i].Substring(1, 1);
-            ss.TypeOfDate = tmpTypes[i].Substring(2, 1);
-            ss.TerminalDateTime = tmpTypes[i].Substring(3, 12);
+            i++;
+            ss.MessageIdentificer = tmpTypes[i].Substring(0, 1);
+            ss.TypeOfDate = tmpTypes[i].Substring(1, 1);
+            ss.TerminalDateTime = tmpTypes[i].Substring(2, 12);
 
             if (tmpTypes.Length > i + 1)
                 ss.Mac = tmpTypes[i + 1];

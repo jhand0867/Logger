@@ -159,7 +159,7 @@ namespace Logger
         public string Mac { get => mac; set => mac = value; }
     };
     
-    class EMVConfiguration : Digester, IMessage
+    class EMVConfiguration : IMessage
     {
         //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         // System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace Logger
 {
 
-    class SolicitedStatus: Digester, IMessage 
+    class SolicitedStatus: IMessage 
     {
 
         public Dictionary<string, string> ssTypes = new Dictionary<string, string>();

@@ -67,6 +67,7 @@ namespace Logger
         public solicitedSta9 parseData(string r)
         {
             solicitedSta9 ss = new solicitedSta9();
+            Digester digester = MessageFactory.Create_Digester();
 
             string[] tmpTypes = r.Split((char)0x1c);
 
@@ -89,12 +90,12 @@ namespace Logger
                 // CAM is included with Status Descriptor
                 ss.StatusDescriptor = tmp[0];
                 ss.SmartCardDataID = tmp[1];
-                ss.CentralRequestedICCDO = iccTLVTags(tmp[2]);
+                ss.CentralRequestedICCDO = digester.iccTLVTags(tmp[2]);
                 if (tmp.Length > 3)
                 {
                     ss.RsltOfIssuerScriptProcessing = tmp[3].Substring(0, 1);
                     ss.SeqnumOfScriptCommand = tmp[3].Substring(1, 1);
-                    ss.ScriptID = iccTLVTags(tmp[3].Substring(2, tmp[3].Length - 2));
+                    ss.ScriptID = digester.iccTLVTags(tmp[3].Substring(2, tmp[3].Length - 2));
                 }
             }
             else

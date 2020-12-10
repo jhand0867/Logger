@@ -42,6 +42,9 @@ namespace Logger
 
         public override bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
+            // Digester digester = new Digester();
+           
+
             foreach (typeRec r in typeRecs)
             {
                 solicitedStaFK ss = parseData(r.typeContent);
