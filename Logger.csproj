@@ -175,6 +175,8 @@
     <Compile Include="TRec.cs" />
     <Compile Include="TReply.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatus.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusA.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusB.cs" />
     <EmbeddedResource Include="GUI\LogData.resx">
       <DependentUpon>LogData.cs</DependentUpon>
     </EmbeddedResource>

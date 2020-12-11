@@ -78,6 +78,7 @@ namespace Logger
                                           { "HOST2ATM: 8", "2","4", "84" },
                                           { "HOST2ATM: 8", "2","5", "85" },
                                           { "ATM2HOST: 22", "0","", "22" },
+                                          { "ATM2HOST: 12", "0","", "12" },
                                           };
 
 
@@ -125,6 +126,7 @@ namespace Logger
             recTypesDic.Add("84", "iccTerminalDOT");
             recTypesDic.Add("85", "iccApplicationIDT");
             recTypesDic.Add("22", "solicitedStatus");
+            recTypesDic.Add("12", "unsolicitedStatus");
         }
 
         public Project(string pName, string pBrief)
@@ -200,37 +202,7 @@ namespace Logger
             }
             return dicData;
         }
-        /// <summary>
-        /// Received the DataDescription record 
-        /// Use a ENV tag finder on DataDescription table
-        /// </summary>
-        /// <returns></returns>
-        //public string getEMVTags(string CAMContent)
-        //{
-        //    string camDataField = "";
 
-        //    string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'X'  AND subRecType like '%'";
-
-        //    DbCrud db = new DbCrud();
-        //    DataTable dt = db.GetTableFromDb(sql);
-
-
-
-        //    foreach (DataRow dr in dtDataDescription.Rows)
-        //    {
-        //        // split CAMContent and look for offset
-        //        string[] contentFields = CAMContent.Split(' ');
-
-
-
-        //        if (dr[2] == contentFields[1])
-        //        {
-
-        //        }
-        //    }
-
-        //    return null;
-        //}
 
         public bool updateProjectByName(Project project, string pName, string pBrief)
         {
@@ -397,11 +369,6 @@ namespace Logger
                 {
                     strLine = strLine.Substring(0, strLine.Length - 2);
                 }
-
-                if (strLine.Contains("2020-07-27 11:24:24-478"))
-                                    { 
-                }
-
 
                 // 
                 Regex openGroup9 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
@@ -572,29 +539,6 @@ namespace Logger
             foreach (KeyValuePair<string, string> rec in data)
             {
                 //// Request or Reply
-
-                //if (recordType == "4" || recordType == "11" || recordType == "22")
-                //{
-                //    typeRec r = new typeRec();
-                //    r.typeIndex = rec.Key;
-                //    r.typeContent = rec.Value;
-                //    typeList.Add(r);
-                //    continue;
-                //}
-
-                //tmpTypes = rec.Value.Split((char)0x1c);
-
-                //// EMV Configuration 81, 82, 83, 84, 85
-
-                //if (recordType.Substring(0, 1) == "8" &&
-                //    recordType.Substring(1, 1) == tmpTypes[2])
-                //{
-                //    typeRec r = new typeRec();
-                //    r.typeIndex = rec.Key;
-                //    r.typeContent = rec.Value;
-                //    typeList.Add(r);
-                //    continue;
-                //}
 
                 tmpTypes = rec.Value.Split((char)0x1c);
 
@@ -800,8 +744,13 @@ namespace Logger
                 "          (SELECT COUNT(*) FROM solicitedStatusFN WHERE logID =" + logID + ") ";
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("solicitedStatus", count);
-            return dicBits;
 
+
+            sql = @"SELECT COUNT(*) FROM unsolicitedStatusA WHERE logID =" + logID;
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("unsolicitedStatus", count);
+
+            return dicBits;
         }
 
         public new Dictionary<string, string> readData(string sql)

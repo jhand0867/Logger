@@ -109,6 +109,8 @@ namespace Logger
             recTypeDic.Add("22FL", () => new SolicitedStatusFL());
             recTypeDic.Add("22FM", () => new SolicitedStatusFM());
             recTypeDic.Add("22FN", () => new SolicitedStatusFN());
+            recTypeDic.Add("12", () => new UnsolicitedStatus());
+            recTypeDic.Add("12B", () => new UnsolicitedStatusB());
 
             try
             {

@@ -331,6 +331,11 @@ namespace Logger
             optionSelected(16);
         }
 
+        private void unsolicitedStatusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            optionSelected(17);
+        }
+
         private void allToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -343,5 +348,7 @@ namespace Logger
             else
                 detachToolStripMenuItem.Enabled = true;
         }
+
+
     }
 }
