@@ -135,7 +135,7 @@ namespace Logger
                         fieldValue = fieldValue.Replace(";", " ");
                     }
 
-                    optionDesc += " = " + fieldValue + fieldDesc;
+                    optionDesc += " = " + fieldValue + insertDescription(item[4].ToString()) + fieldDesc;
                     
                     break;
                 }
@@ -164,6 +164,28 @@ namespace Logger
             }
 
             return recordType;
+        }
+
+        private string insertDescription(string fieldDescription)
+        {
+            string description = "";
+
+            if (fieldDescription != "")
+            {
+                if (fieldDescription.Contains("\r\n"))
+                {
+                    description += System.Environment.NewLine + fieldDescription.Trim() + System.Environment.NewLine;
+                }
+                else
+                {
+                    description += "\t" + fieldDescription.Trim() + System.Environment.NewLine;
+                }
+            }
+            else
+            {
+                description += fieldDescription.Trim();
+            }
+            return description;
         }
 
     }
