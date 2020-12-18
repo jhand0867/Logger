@@ -59,7 +59,9 @@
     <Compile Include="DbCrud.cs" />
     <Compile Include="EMV\EMVConfiguration.cs" />
     <Compile Include="Digester.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitData3.cs" />
     <Compile Include="IMessage.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitData1.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusF7.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatus8.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusC.cs" />
@@ -174,6 +176,7 @@
     <Compile Include="StateRecords\StateZ.cs" />
     <Compile Include="TRec.cs" />
     <Compile Include="TReply.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitData.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatus.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusA.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusB.cs" />

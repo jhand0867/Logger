@@ -336,6 +336,11 @@ namespace Logger
             optionSelected(17);
         }
 
+        private void encryptorInitializationDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            optionSelected(18);
+        }
+
         private void allToolStripMenuItem_Click(object sender, EventArgs e)
         {
 

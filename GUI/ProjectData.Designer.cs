@@ -104,7 +104,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1857, 48);
+            this.menuStrip1.Size = new System.Drawing.Size(1857, 42);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -214,6 +214,7 @@
             this.encryptorInitializationDataToolStripMenuItem.Name = "encryptorInitializationDataToolStripMenuItem";
             this.encryptorInitializationDataToolStripMenuItem.Size = new System.Drawing.Size(442, 44);
             this.encryptorInitializationDataToolStripMenuItem.Text = "Encryptor Initialization Data";
+            this.encryptorInitializationDataToolStripMenuItem.Click += new System.EventHandler(this.encryptorInitializationDataToolStripMenuItem_Click);
             // 
             // exitToHostToolStripMenuItem
             // 
@@ -415,7 +416,7 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 48);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 42);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
@@ -423,7 +424,7 @@
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1857, 911);
+            this.dataGridView1.Size = new System.Drawing.Size(1857, 917);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);

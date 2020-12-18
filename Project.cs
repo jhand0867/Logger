@@ -79,6 +79,7 @@ namespace Logger
                                           { "HOST2ATM: 8", "2","5", "85" },
                                           { "ATM2HOST: 22", "0","", "22" },
                                           { "ATM2HOST: 12", "0","", "12" },
+                                          { "ATM2HOST: 23", "0","", "23" },
                                           };
 
 
@@ -127,6 +128,7 @@ namespace Logger
             recTypesDic.Add("85", "iccApplicationIDT");
             recTypesDic.Add("22", "solicitedStatus");
             recTypesDic.Add("12", "unsolicitedStatus");
+            recTypesDic.Add("23", "encryptorInitData");
         }
 
         public Project(string pName, string pBrief)
@@ -745,10 +747,25 @@ namespace Logger
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("solicitedStatus", count);
 
-
-            sql = @"SELECT COUNT(*) FROM unsolicitedStatusA WHERE logID =" + logID;
+            sql = @"SELECT COUNT(*) FROM unsolicitedStatus WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("unsolicitedStatus", count);
+
+            sql = @"SELECT (SELECT COUNT(*) FROM encryptorInitData1 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM encryptorInitData2 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM encryptorInitData3 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM encryptorInitData4 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM encryptorInitData6 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM encryptorInitData7 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM encryptorInitData8 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM encryptorInitData9 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM encryptorInitDataA WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM encryptorInitDataB WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM encryptorInitDataD WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM encryptorInitDataE WHERE logID =" + logID + ") ";
+
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("encryptorInitData", count);
 
             return dicBits;
         }
