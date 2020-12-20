@@ -18,6 +18,17 @@ namespace Logger
             kTypes.Add("1", "231");
             kTypes.Add("2", "232");
             kTypes.Add("3", "233");
+            kTypes.Add("4", "234");
+            kTypes.Add("5", "235");
+            kTypes.Add("6", "236");
+            kTypes.Add("7", "237");
+            kTypes.Add("8", "238");
+            kTypes.Add("9", "239");
+            kTypes.Add("A", "23A");
+            kTypes.Add("B", "23B");
+            kTypes.Add("C", "23C");
+            kTypes.Add("D", "23D");
+            kTypes.Add("E", "23E");
         }
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -131,15 +142,7 @@ namespace Logger
         internal string getRecordType(string recValue)
         {
             string[] tmpTypes = recValue.Split((char)0x1c);
-
-            //if (tmpTypes[3] == "1" or ) 
-            //{
-                return kTypes[tmpTypes[3]];
-            //}
-            //else
-            //{ return null; 
-            //}
-
+            return kTypes[tmpTypes[3]];
         }
 
         private string insertDescription(string fieldDescription)

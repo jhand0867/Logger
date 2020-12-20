@@ -59,6 +59,16 @@
     <Compile Include="DbCrud.cs" />
     <Compile Include="EMV\EMVConfiguration.cs" />
     <Compile Include="Digester.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitData8.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitDataA.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitDataE.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitDataD.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitDataB.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitData9.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitData7.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitData6.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitData4.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitData2.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData3.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData1.cs" />
@@ -178,7 +188,6 @@
     <Compile Include="TReply.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatus.cs" />
-    <Compile Include="UnsolicitedStatus\UnsolicitedStatusA.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusB.cs" />
     <EmbeddedResource Include="GUI\LogData.resx">
       <DependentUpon>LogData.cs</DependentUpon>

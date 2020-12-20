@@ -113,8 +113,19 @@ namespace Logger
             recTypeDic.Add("12B", () => new UnsolicitedStatusB());
             recTypeDic.Add("23", () => new EncryptorInitData());
             recTypeDic.Add("231", () => new EncryptorInitData1());
-           // recTypeDic.Add("232", () => new EncryptorInitData2());
+            recTypeDic.Add("232", () => new EncryptorInitData2());
             recTypeDic.Add("233", () => new EncryptorInitData3());
+            recTypeDic.Add("234", () => new EncryptorInitData4());
+            //recTypeDic.Add("235", () => new EncryptorInitData5());
+            recTypeDic.Add("236", () => new EncryptorInitData6());
+            recTypeDic.Add("237", () => new EncryptorInitData7());
+            recTypeDic.Add("238", () => new EncryptorInitData8());
+            recTypeDic.Add("239", () => new EncryptorInitData9());
+            recTypeDic.Add("23A", () => new EncryptorInitDataA());
+            recTypeDic.Add("23B", () => new EncryptorInitDataB());
+            // recTypeDic.Add("23C", () => new EncryptorInitDataC());
+            recTypeDic.Add("23D", () => new EncryptorInitDataD());
+            recTypeDic.Add("23E", () => new EncryptorInitDataE());
             try
             {
                 return recTypeDic[recType]();
@@ -124,13 +135,6 @@ namespace Logger
                 Console.WriteLine(ex.Message);
                 return null;
             }
-
-            //TODO:    case "1B":
-            //        //writeMAC(typeList);
-            //        return null;              
-            //    case "1E":
-            //        //writeDispenser(typeList);
-            //        return null;
 
         }
 
