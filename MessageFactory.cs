@@ -126,6 +126,7 @@ namespace Logger
             // recTypeDic.Add("23C", () => new EncryptorInitDataC());
             recTypeDic.Add("23D", () => new EncryptorInitDataD());
             recTypeDic.Add("23E", () => new EncryptorInitDataE());
+            recTypeDic.Add("61H", () => new UploadEjData());
             try
             {
                 return recTypeDic[recType]();

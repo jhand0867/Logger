@@ -341,6 +341,11 @@ namespace Logger
             optionSelected(18);
         }
 
+        private void uploadEJDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            optionSelected(19);
+        }
+
         private void allToolStripMenuItem_Click(object sender, EventArgs e)
         {
 

@@ -80,6 +80,7 @@ namespace Logger
                                           { "ATM2HOST: 22", "0","", "22" },
                                           { "ATM2HOST: 12", "0","", "12" },
                                           { "ATM2HOST: 23", "0","", "23" },
+                                          { "ATM2HOST: 61", "0","", "61H" },
                                           };
 
 
@@ -129,6 +130,7 @@ namespace Logger
             recTypesDic.Add("22", "solicitedStatus");
             recTypesDic.Add("12", "unsolicitedStatus");
             recTypesDic.Add("23", "encryptorInitData");
+            recTypesDic.Add("61H", "uploadEjData");
         }
 
         public Project(string pName, string pBrief)
@@ -352,13 +354,27 @@ namespace Logger
                     recSkipped++;
                     continue;
                 }
+                // mlh
+
+                //if (strLine.Length > 3 && strLine.Substring(0,1) == "[" && strLine.Substring(2,1) == "]")
+                //{
+                //    recSkipped++;
+                //    continue;
+                //}
+                Regex dateGroup = new Regex(@"\d\d\d\d-\d\d-\d\d.\d\d:\d\d:\d\d-\d\d\d");
+                MatchCollection itsADate;
+
+                if(lineProcess == 14270)
+                { }
 
                 while ((lineProcess < lstLines.Length && lstLines[lineProcess].Length > 0
                     && lstLines[lineProcess].Substring(0, 1) != "["
                     && lstLines[lineProcess].Substring(0, 1) != "="
                     ) ||
-                  (lineProcess < lstLines.Length && lstLines[lineProcess].Length == 0))
+                  (lineProcess < lstLines.Length && lstLines[lineProcess].Length == 0) || 
+                  (lineProcess < lstLines.Length && (itsADate = dateGroup.Matches(lstLines[lineProcess])).Count == 0))
                 {
+                   
                     if (lstLines[lineProcess] != "")
                     {
                         strLine += lstLines[lineProcess] + System.Environment.NewLine;
@@ -376,7 +392,7 @@ namespace Logger
                 Regex openGroup9 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
                 Regex openGroup8 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
                 Regex closeGroup = new Regex("]");
-                Regex dateGroup = new Regex(@"\d\d\d\d-\d\d-\d\d.\d\d:\d\d:\d\d-\d\d\d");
+                
 
                 MatchCollection openGroupContent = openGroup9.Matches(strLine);
                 if (openGroupContent.Count == 0)
@@ -488,6 +504,26 @@ namespace Logger
         public bool writeData(string recKey, dataLine data, int logID)
         {
             String sql = "";
+
+            // set groups straight
+
+            if  (data.allGroups[6].IndexOf("]") != data.allGroups[6].LastIndexOf("]") )
+            {
+               int indexGroup = data.allGroups[6].IndexOf("]") + 1;
+               data.allGroups[8] = data.allGroups[6].Substring(indexGroup, data.allGroups[6].Length - indexGroup) +
+                                    data.allGroups[7] + data.allGroups[8];
+               data.allGroups[6] = data.allGroups[6].Substring(0, indexGroup);
+               data.allGroups[7] = "";
+            }
+
+            if ((data.allGroups[7] != "") &&
+                (data.allGroups[7].IndexOf("]") != data.allGroups[7].LastIndexOf("]")))
+            {
+                int indexGroup = data.allGroups[7].IndexOf("]") + 1;
+                data.allGroups[8] = data.allGroups[7].Substring(indexGroup, data.allGroups[7].Length - indexGroup) +
+                                    data.allGroups[8];
+                data.allGroups[7] = data.allGroups[7].Substring(0, indexGroup);
+            }
 
             if ((data.allGroups[1].Length > 100) ||
                 (data.allGroups[2].Length > 100) ||
@@ -766,6 +802,10 @@ namespace Logger
 
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("encryptorInitData", count);
+
+            sql = @"SELECT COUNT(*) FROM uploadEjData WHERE logID =" + logID;
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("uploadEjData", count);
 
             return dicBits;
         }
