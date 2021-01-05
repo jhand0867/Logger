@@ -81,6 +81,7 @@ namespace Logger
                                           { "ATM2HOST: 12", "0","", "12" },
                                           { "ATM2HOST: 23", "0","", "23" },
                                           { "ATM2HOST: 61", "0","", "61H" },
+                                          { "HOST2ATM: 6", "3","1", "61J" },
                                           };
 
 
@@ -111,6 +112,7 @@ namespace Logger
             pLogs = 0;
 
             // mlh: New scans needs to be added here!
+            // This name must match the name in the logs table
 
             recTypesDic.Add("11", "treq");
             recTypesDic.Add("4", "treply");
@@ -131,6 +133,7 @@ namespace Logger
             recTypesDic.Add("12", "unsolicitedStatus");
             recTypesDic.Add("23", "encryptorInitData");
             recTypesDic.Add("61H", "uploadEjData");
+            recTypesDic.Add("61J", "ejAckBlock");
         }
 
         public Project(string pName, string pBrief)
@@ -463,7 +466,7 @@ namespace Logger
                                     //groupsData = groupsData + group.Value + strLineSub;
 
                                     string recKey = strDate + "-" + repLine.ToString();
-                                    if (recKey == "2020-07-27 11:24:24-478")
+                                    if (recKey == "2020-11-11 03:04:10-029")
                                     {
 
                                     }
@@ -806,6 +809,10 @@ namespace Logger
             sql = @"SELECT COUNT(*) FROM uploadEjData WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("uploadEjData", count);
+
+            sql = @"SELECT COUNT(*) FROM ackEjUploadBlock WHERE logID =" + logID;
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("ejAckBlock", count);
 
             return dicBits;
         }

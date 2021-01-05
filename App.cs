@@ -33,7 +33,7 @@ namespace Logger
                     break;
                 }
                 if (tmpTypes[0].Contains(App.Prj.RecordTypes[row, 0]) &&
-                (App.Prj.RecordTypes[row, 2] == tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[row, 1])]))
+                (App.Prj.RecordTypes[row, 2] == tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[row, 1])].Substring(0, App.Prj.RecordTypes[row, 2].Length)))
                 {
                     recType = App.Prj.RecordTypes[row, 3];
                     break;

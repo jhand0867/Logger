@@ -187,6 +187,7 @@
     <Compile Include="TRec.cs" />
     <Compile Include="TReply.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData.cs" />
+    <Compile Include="AckEjUploadBlock.cs" />
     <Compile Include="UploadEjData.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatus.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusB.cs" />

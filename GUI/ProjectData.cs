@@ -346,6 +346,11 @@ namespace Logger
             optionSelected(19);
         }
 
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            optionSelected(20);
+        }
+
         private void allToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
