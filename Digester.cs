@@ -147,25 +147,29 @@ namespace Logger
         ///  for the number of tags specified in tagsNumber
         ///  will return string with tags separated by space
         /// </summary>
-        /// <param name="strTag"></param>
+        /// <param name="strTags"></param>
         /// <param name="tagsNumber"></param>
         /// <returns>tags</returns>
 
-        public string iccTLVTags(string strTag, int tagsNumber)
+        public string iccTLVTags(string strTags, int tagsNumber)
         {
+            //todo: should check for number of valif offset
+            //todo: - F1 = 31 seem to show less tags than required
+            //todo: - is it that the number of tags is a max?
+
             // what tags?
             string tags = "";
             int offset = 0;
             for (int x = 0; x < tagsNumber; x++)
             {
-                if (emvTags.Contains("," + strTag.Substring(offset, 2) + ","))
+                if (emvTags.Contains("," + strTags.Substring(offset, 2) + ","))
                 {
-                    tags += strTag.Substring(offset, 2) + " ";
+                    tags += strTags.Substring(offset, 2) + " ";
                     offset += 2;
                 }
                 else
                 {
-                    tags += strTag.Substring(offset, 4) + " ";
+                    tags += strTags.Substring(offset, 4) + " ";
                     offset += 4;
                 }
             }

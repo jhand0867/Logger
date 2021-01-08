@@ -32,9 +32,6 @@ namespace Logger
 
         private void ProjectData_Load(object sender, EventArgs e)
         {
-            //todo: scan button should not be available
-            //unless there's been logs attached to the project
-
             scanToolStripMenuItem.Enabled = false;
             dataGridView1.DataSource = buildDataGridView1();
 
@@ -220,7 +217,7 @@ namespace Logger
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
             string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID);
+            App.Prj.getData(regExStr, recordType, logID, option);
             dataGridView1.DataSource = buildDataGridView1();
             log.Debug($"Scanning for '{recordType}' records completed");
             fixLogNames(dataGridView1);

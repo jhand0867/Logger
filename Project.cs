@@ -106,6 +106,7 @@ namespace Logger
         
         public Project()
         {
+            log.Info($"Accessing Project Data");
             pKey = "";
             pName = "";
             pBrief = "";
@@ -176,11 +177,18 @@ namespace Logger
             {
                 foreach (DataRow row in dt.Rows)
                 {
-                    this.pKey = row[1].ToString();
-                    this.Name = row[2].ToString();
-                    this.Brief = row[3].ToString();
-                    this.pLogs = Convert.ToInt32(row[4]);
-                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), this);
+                    Project prj = new Project();
+                    prj.pKey = row[1].ToString();
+                    prj.Name = row[2].ToString();
+                    prj.Brief = row[3].ToString();
+                    prj.pLogs = Convert.ToInt32(row[4]);
+                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), prj);
+
+                    //this.pKey = row[1].ToString();
+                    //this.Name = row[2].ToString();
+                    //this.Brief = row[3].ToString();
+                    //this.pLogs = Convert.ToInt32(row[4]);
+                    //dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), this);
                 }
             }
             return dicData;
@@ -561,7 +569,7 @@ namespace Logger
             return lines;
         }
 
-        public void getData(string regExStr, string recordType, string logID)
+        public void getData(string regExStr, string recordType, string logID, int option)
         {
             string sql = @"SELECT logkey,id,group8 from [logger].[dbo].[loginfo] " +
                           "WHERE group8 like '" + regExStr + "' " +
@@ -582,6 +590,16 @@ namespace Logger
                 //// Request or Reply
 
                 tmpTypes = rec.Value.Split((char)0x1c);
+
+                string subRecType = App.Prj.RecordTypes[option, 2];
+
+                if ((subRecType != "" ) &&
+                     subRecType != 
+                     tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[option, 1])].Substring(0, App.Prj.RecordTypes[option, 2].Length))
+
+                {
+                    continue;
+                }
 
                 if (recordType.Substring(0, 1) == "3" && 
                     recordType.Substring(1, 2) == tmpTypes[3])

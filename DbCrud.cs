@@ -178,6 +178,7 @@ catch (SqlException sqlError)
 
                 command.Dispose();
                 cnn.Close();
+                log.Info($"Scalar returned '{result}'");
                 return result;
             }
             catch (Exception dbEx)

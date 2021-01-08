@@ -141,8 +141,10 @@ namespace Logger
             int loadNum = 0;
             foreach (typeRec r in typeRecs)
             {
-                // MAC lenght
-                if (r.typeContent.Length == 8)
+                // record length must be 28
+                // otherwise rest of the read data is ignored
+
+                if (r.typeContent.Length < 28)
                 {
                     continue;
                 }

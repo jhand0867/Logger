@@ -77,6 +77,11 @@ namespace Logger
         }
         public new List<iccApplication> parseData(string tmpTypes)
         {
+            //todo: check on TLV tags number 
+            //When the DataObject containd less tags than the 
+            //set by the number of objects, the message cannot be
+            //parsed 
+
             iccApplication iccApp = new iccApplication();
             List<iccApplication> iccAppList = new List<iccApplication>();
             Digester digester = MessageFactory.Create_Digester();
@@ -175,7 +180,7 @@ namespace Logger
         }
 
 
-        public string parseToView(string logKey, string logID, string projectKey, string recValue)
+        public override string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
             List<DataTable> dts = new List<DataTable>();
             dts = getRecord(logKey, logID, projectKey);
