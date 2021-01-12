@@ -82,6 +82,7 @@ namespace Logger
                                           { "ATM2HOST: 23", "0","", "23" },
                                           { "ATM2HOST: 61", "0","", "61H" },
                                           { "HOST2ATM: 6", "3","1", "61J" },
+                                          { "HOST2ATM: 6", "3","2", "62" },
                                           };
 
 
@@ -135,6 +136,7 @@ namespace Logger
             recTypesDic.Add("23", "encryptorInitData");
             recTypesDic.Add("61H", "uploadEjData");
             recTypesDic.Add("61J", "ejAckBlock");
+            recTypesDic.Add("62", "ejAckStop");
         }
 
         public Project(string pName, string pBrief)
@@ -832,6 +834,9 @@ namespace Logger
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("ejAckBlock", count);
 
+            sql = @"SELECT COUNT(*) FROM ackStopEj WHERE logID =" + logID;
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("ejAckStop", count);
             return dicBits;
         }
 
