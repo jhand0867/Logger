@@ -83,7 +83,11 @@ namespace Logger
                                           { "ATM2HOST: 61", "0","", "61H" },
                                           { "HOST2ATM: 6", "3","1", "61J" },
                                           { "HOST2ATM: 6", "3","2", "62" },
-                                          };
+                                          { "HOST2ATM: 6", "3","3", "63" },
+                                          { "HOST2ATM: 3", "3","4", "34" },
+                                          { "HOST2ATM: 1", "0","", "1" },
+
+        };
 
 
         private List<StateRec> extensionsLst = new List<StateRec>();
@@ -126,6 +130,7 @@ namespace Logger
             recTypesDic.Add("31A", "enhancedParametersLoad");
             recTypesDic.Add("31B", "mac");
             recTypesDic.Add("31C", "dateandtime");
+            recTypesDic.Add("31E", "dispenserCurrency");
             recTypesDic.Add("81", "iccCurrencyDOT");
             recTypesDic.Add("82", "iccTransactionDOT");
             recTypesDic.Add("83", "iccLanguageSupportT");
@@ -137,6 +142,9 @@ namespace Logger
             recTypesDic.Add("61H", "uploadEjData");
             recTypesDic.Add("61J", "ejAckBlock");
             recTypesDic.Add("62", "ejAckStop");
+            recTypesDic.Add("63", "ejOptionsTimers");
+            recTypesDic.Add("34", "extendedEncrypKeyChange");
+            recTypesDic.Add("1", "terminalCommands");
         }
 
         public Project(string pName, string pBrief)
@@ -603,8 +611,24 @@ namespace Logger
                     continue;
                 }
 
+                // bypass messages that starts with  "HOST2ATM: 1"  but do not have value in subfield 3
+                // ie. [RECV]HOST2ATM: 170172376255118255139
+
+                if ((recordType == "1") &&
+                    (tmpTypes.Length < 4))
+                {
+                    continue;
+                }
+
+                // do  not parse in this format (31..) if 
+                //              31B (MAC Field Selection Load) or
+                //              31E (Dispenser Mapping Table)
+
                 if (recordType.Substring(0, 1) == "3" && 
-                    recordType.Substring(1, 2) == tmpTypes[3])
+                    recordType.Length > 2 &&
+                    recordType.Substring(1, 2) == tmpTypes[3] &&
+                    recordType.Substring(1, 2) != "1B" &&
+                    recordType.Substring(1, 2) != "1E" ) 
                 {
                     int myInd = tmpTypes[0].Length + tmpTypes[1].Length + tmpTypes[2].Length + tmpTypes[3].Length;
                     string typeData = rec.Value.Substring(myInd + 4, rec.Value.Length - (myInd + 4));
@@ -837,6 +861,27 @@ namespace Logger
             sql = @"SELECT COUNT(*) FROM ackStopEj WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("ejAckStop", count);
+
+            sql = @"SELECT COUNT(*) FROM ejOptionsTimers WHERE logID =" + logID;
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("ejOptionsTimers", count);
+
+            sql = @"SELECT COUNT(*) FROM extEncryption WHERE logID =" + logID;
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("extendedEncrypKeyChange", count);
+
+            sql = @"SELECT COUNT(*) FROM terminalCommands WHERE logID =" + logID;
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("terminalCommands", count);
+
+            sql = @"SELECT COUNT(*) FROM macFieldSelection WHERE logID =" + logID;
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("mac", count);
+
+            sql = @"SELECT COUNT(*) FROM dispenserMapping WHERE logID =" + logID;
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("dispenserCurrency", count);
+
             return dicBits;
         }
 

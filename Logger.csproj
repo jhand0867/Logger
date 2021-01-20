@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EjOptionsTimers.cs" />
     <Compile Include="AckStopEj.cs" />
     <Compile Include="App.cs" />
     <Compile Include="ConfigIdRec.cs" />
@@ -71,6 +72,8 @@
     <Compile Include="EncryptorInitData\EncryptorInitData4.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData2.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData3.cs" />
+    <Compile Include="DispenserMapping.cs" />
+    <Compile Include="TerminalCommands.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData1.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusF7.cs" />
@@ -78,7 +81,7 @@
     <Compile Include="SolicitedStatus\SolicitedStatusC.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusF1.cs" />
     <Compile Include="EnhancedParamsRec.cs" />
-    <Compile Include="ExtEncryptionRec.cs" />
+    <Compile Include="ExtEncryption.cs" />
     <Compile Include="FitRec.cs" />
     <Compile Include="EMV\ICCApplicationIDT.cs" />
     <Compile Include="EMV\ICCCurrencyDOT.cs" />
@@ -116,7 +119,7 @@
     <Compile Include="GUI\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="MACRec.cs" />
+    <Compile Include="MACFieldSelection.cs" />
     <Compile Include="MessageFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Project.cs" />

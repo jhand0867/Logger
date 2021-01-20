@@ -173,10 +173,20 @@ namespace Logger
             optionSelected(07);
         }
 
+        private void mACToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            optionSelected(08);
+        }
+
         private void dateAndTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             optionSelected(09);
 
+        }
+
+        private void dispenseCurrencyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            optionSelected(10);
         }
 
         private void iCCCurrencyDOTToolStripMenuItem_Click(object sender, EventArgs e)
@@ -253,16 +263,6 @@ namespace Logger
 
         }
 
-        private void mACToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dispenseCurrencyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void hostToATMToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (dataGridView1.Rows.Count == 0)
@@ -290,7 +290,7 @@ namespace Logger
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            for (int x = 0, i = 20; i < dgvr.Cells.Count - 6; i++, x++)
+            for (int x = 0, i = 21; i < dgvr.Cells.Count - 6; i++, x++)
             {
                 if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
                 {
@@ -310,7 +310,7 @@ namespace Logger
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            for (int x = 0, i = 26; i < dgvr.Cells.Count - 1; i++, x++)
+            for (int x = 0, i = 27; i < dgvr.Cells.Count - 1; i++, x++)
             {
                 if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
                 {
@@ -353,6 +353,20 @@ namespace Logger
             optionSelected(21);
         }
 
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            optionSelected(22);
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            optionSelected(23);
+        }
+        private void terminalCommandsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            optionSelected(24);
+        }
+
         private void allToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -365,6 +379,5 @@ namespace Logger
             else
                 detachToolStripMenuItem.Enabled = true;
         }
-
     }
 }

@@ -84,8 +84,10 @@ namespace Logger
             recTypeDic.Add("315", () => new FitRec());
             recTypeDic.Add("316", () => new ConfigIdRec());
             recTypeDic.Add("31A", () => new EnhancedParamsRec());
+            recTypeDic.Add("31B", () => new MACFieldSelection());
             recTypeDic.Add("31C", () => new DateAndTimeRec());
-            recTypeDic.Add("34", () => new ExtEncryptionRec());
+            recTypeDic.Add("31E", () => new DispenserMapping());
+            recTypeDic.Add("34", () => new ExtEncryption());
             recTypeDic.Add("81", () => new ICCCurrencyDOT());
             recTypeDic.Add("82", () => new ICCTransactionDOT());
             recTypeDic.Add("83", () => new ICCLanguageSupportT());
@@ -131,6 +133,8 @@ namespace Logger
             recTypeDic.Add("61H", () => new UploadEjData());
             recTypeDic.Add("61J", () => new AckEjUploadBlock());
             recTypeDic.Add("62", () => new AckStopEj());
+            recTypeDic.Add("63", () => new EjOptionsTimers());
+            recTypeDic.Add("1", () => new TerminalCommands());
             try
             {
                 return recTypeDic[recType]();

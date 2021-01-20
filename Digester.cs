@@ -162,6 +162,10 @@ namespace Logger
             int offset = 0;
             for (int x = 0; x < tagsNumber; x++)
             {
+                if (strTags.Length <= offset + 1)
+                {
+                    continue;
+                }
                 if (emvTags.Contains("," + strTags.Substring(offset, 2) + ","))
                 {
                     tags += strTags.Substring(offset, 2) + " ";

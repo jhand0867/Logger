@@ -63,6 +63,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.terminalCommandsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eMVConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iCCCurrencyDOTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iCCTransactionDOTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -248,6 +249,7 @@
             this.toolStripMenuItem3,
             this.toolStripMenuItem5,
             this.toolStripMenuItem6,
+            this.terminalCommandsToolStripMenuItem,
             this.eMVConfigurationToolStripMenuItem});
             this.hostToATMToolStripMenuItem1.Name = "hostToATMToolStripMenuItem1";
             this.hostToATMToolStripMenuItem1.Size = new System.Drawing.Size(359, 44);
@@ -336,6 +338,7 @@
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(496, 44);
             this.toolStripMenuItem2.Text = "Extended Encryption KeyChange";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripMenuItem4
             // 
@@ -356,12 +359,20 @@
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
             this.toolStripMenuItem5.Size = new System.Drawing.Size(496, 44);
             this.toolStripMenuItem5.Text = "EJ Options and Timers";
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
             this.toolStripMenuItem6.Size = new System.Drawing.Size(496, 44);
             this.toolStripMenuItem6.Text = "Host To Exit";
+            // 
+            // terminalCommandsToolStripMenuItem
+            // 
+            this.terminalCommandsToolStripMenuItem.Name = "terminalCommandsToolStripMenuItem";
+            this.terminalCommandsToolStripMenuItem.Size = new System.Drawing.Size(496, 44);
+            this.terminalCommandsToolStripMenuItem.Text = "Terminal Commands";
+            this.terminalCommandsToolStripMenuItem.Click += new System.EventHandler(this.terminalCommandsToolStripMenuItem_Click);
             // 
             // eMVConfigurationToolStripMenuItem
             // 
@@ -504,5 +515,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+        private System.Windows.Forms.ToolStripMenuItem terminalCommandsToolStripMenuItem;
     }
 }
