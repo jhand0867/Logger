@@ -7,26 +7,22 @@ using System.Threading.Tasks;
 
 namespace Logger
 {
-    struct dispenserMapping
+    struct interactiveTranRsp
     {
         private string rectype;
-        private string numberMappingEntries;
-        private string mappingTable;
-        //private string currencyType;
-        //private string cassetteType;
-        //private string denomination;
-        private string mac;
+        private string displayFlag;
+        private string activeKeys;
+        private string screenTimerField;
+        private string screenDataField;
 
         public string Rectype { get => rectype; set => rectype = value; }
-        public string NumberMappingEntries { get => numberMappingEntries; set => numberMappingEntries = value; }
-        public string MappingTable { get => mappingTable; set => mappingTable = value; }
-        //public string CurrencyType { get => currencyType; set => currencyType = value; }
-        //public string CassetteType { get => cassetteType; set => cassetteType = value; }
-        //public string Denomination { get => denomination; set => denomination = value; }
-        public string Mac { get => mac; set => mac = value; }
+        public string DisplayFlag { get => displayFlag; set => displayFlag = value; }
+        public string ActiveKeys { get => activeKeys; set => activeKeys = value; }
+        public string ScreenTimerField { get => screenTimerField; set => screenTimerField = value; }
+        public string ScreenDataField { get => screenDataField; set => screenDataField = value; }
     };
 
-    class DispenserMapping : IMessage
+    class InteractiveTranResponse : IMessage
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -34,7 +30,7 @@ namespace Logger
 
         public DataTable getDescription()
         {
-            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'G' ";
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'Q' ";
 
             DbCrud db = new DbCrud();
             DataTable dt = db.GetTableFromDb(sql);
@@ -46,7 +42,7 @@ namespace Logger
             List<DataTable> dts = new List<DataTable>();
             DbCrud db = new DbCrud();
 
-            string sql = @"SELECT TOP 1 * FROM dispenserMapping WHERE prjkey = '" + projectKey + "' AND logID = '" + logID +
+            string sql = @"SELECT TOP 1 * FROM interactiveTranResponse WHERE prjkey = '" + projectKey + "' AND logID = '" + logID +
                                                "' AND logkey LIKE '" + logKey + "%'";
             DataTable dt = db.GetTableFromDb(sql);
             dts.Add(dt);
@@ -79,13 +75,13 @@ namespace Logger
         {
             foreach (typeRec r in typeRecs)
             {
-                dispenserMapping dm = parseData(r.typeContent);
+                interactiveTranRsp itr = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO dispenserMapping([logkey],[rectype],[numberMappingEntries],
-                                        	[mappingTable],[mac],[prjkey],[logID])" +
-                            " VALUES('" + r.typeIndex + "','" + dm.Rectype + "','" + dm.NumberMappingEntries + "','" +
-                              //   dm.CurrencyType + "','" + dm.CassetteType + "','" + dm.Denomination + "','" +
-                              dm.MappingTable + "','" + dm.Mac + "','" + Key + "'," + logID + ")";
+                string sql = @"INSERT INTO interactiveTranResponse([logkey],[rectype],[displayFlag],
+	                                    [activeKeys],[screenTimerField],[screenDataField],[prjkey],[logID])" +
+                            " VALUES('" + r.typeIndex + "','" + itr.Rectype + "','" + itr.DisplayFlag + "','" +
+                              itr.ActiveKeys + "','" + itr.ScreenTimerField + "','" + itr.ScreenDataField + "','" +
+                              Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)
@@ -94,20 +90,19 @@ namespace Logger
             return true;
         }
 
-        public dispenserMapping parseData(string r)
+        public interactiveTranRsp parseData(string r)
         {
-            dispenserMapping dm = new dispenserMapping();
+            interactiveTranRsp itr = new interactiveTranRsp();
 
             string[] tmpTypes = r.Split((char)0x1c);
 
-            dm.Rectype = "G";
-            dm.NumberMappingEntries = tmpTypes[4].Substring(0,2);
-            dm.MappingTable = tmpTypes[4].Substring(2, tmpTypes[4].Length - 2);
-
-            if (tmpTypes.Length > 5)
-                dm.Mac = tmpTypes[5];
-
-            return dm;
+            itr.Rectype = "Q";
+            itr.DisplayFlag = tmpTypes[3].Substring(1,1);
+            itr.ActiveKeys = tmpTypes[3].Substring(2, tmpTypes[3].Length - 2);
+            itr.ScreenTimerField = tmpTypes[4];
+            itr.ScreenDataField = tmpTypes[5];
+ 
+            return itr;
         }
 
         internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)

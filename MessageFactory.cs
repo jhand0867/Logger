@@ -87,6 +87,7 @@ namespace Logger
             recTypeDic.Add("31B", () => new MACFieldSelection());
             recTypeDic.Add("31C", () => new DateAndTimeRec());
             recTypeDic.Add("31E", () => new DispenserMapping());
+            recTypeDic.Add("32", () => new InteractiveTranResponse());
             recTypeDic.Add("34", () => new ExtEncryption());
             recTypeDic.Add("81", () => new ICCCurrencyDOT());
             recTypeDic.Add("82", () => new ICCTransactionDOT());

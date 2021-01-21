@@ -86,6 +86,7 @@ namespace Logger
                                           { "HOST2ATM: 6", "3","3", "63" },
                                           { "HOST2ATM: 3", "3","4", "34" },
                                           { "HOST2ATM: 1", "0","", "1" },
+                                          { "HOST2ATM: 3", "3","2", "32" },
 
         };
 
@@ -145,6 +146,7 @@ namespace Logger
             recTypesDic.Add("63", "ejOptionsTimers");
             recTypesDic.Add("34", "extendedEncrypKeyChange");
             recTypesDic.Add("1", "terminalCommands");
+            recTypesDic.Add("32", "interactiveTranResponse");
         }
 
         public Project(string pName, string pBrief)
@@ -603,19 +605,19 @@ namespace Logger
 
                 string subRecType = App.Prj.RecordTypes[option, 2];
 
-                if ((subRecType != "" ) &&
-                     subRecType != 
-                     tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[option, 1])].Substring(0, App.Prj.RecordTypes[option, 2].Length))
+                // bypass messages that starts with  "HOST2ATM: 1" or ""HOST2ATM: 3" but do not have value in 
+                // subfield 3 ie. [RECV]HOST2ATM: 170172376255118255139        [RECV]HOST2ATM: 34
 
+                if (((recordType == "1") || (recordType.Substring(0,1) == "3")) &&
+                    (tmpTypes.Length < 4))
                 {
                     continue;
                 }
 
-                // bypass messages that starts with  "HOST2ATM: 1"  but do not have value in subfield 3
-                // ie. [RECV]HOST2ATM: 170172376255118255139
+                if ((subRecType != "" ) &&
+                     subRecType != 
+                     tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[option, 1])].Substring(0, App.Prj.RecordTypes[option, 2].Length))
 
-                if ((recordType == "1") &&
-                    (tmpTypes.Length < 4))
                 {
                     continue;
                 }
@@ -882,6 +884,10 @@ namespace Logger
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("dispenserCurrency", count);
 
+            sql = @"SELECT COUNT(*) FROM interactiveTranResponse WHERE logID =" + logID;
+            count = db.GetScalarIntFromDb(sql);
+            dicBits.Add("interactiveTranResponse", count);
+            
             return dicBits;
         }
 

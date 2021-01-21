@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InteractiveTranResponse.cs" />
     <Compile Include="EjOptionsTimers.cs" />
     <Compile Include="AckStopEj.cs" />
     <Compile Include="App.cs" />
