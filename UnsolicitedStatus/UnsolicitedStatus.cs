@@ -10,15 +10,16 @@ namespace Logger
     class UnsolicitedStatus : IMessage
     {
 
-        public Dictionary<string, string> usTypes = new Dictionary<string, string>();
+        //public Dictionary<string, string> usTypes = new Dictionary<string, string>();
 
         public UnsolicitedStatus()
         {
-            usTypes.Add("A", "12B");
-            usTypes.Add("B", "12B");
-            usTypes.Add("E", "12B");
-            usTypes.Add("P", "12B");
-            usTypes.Add("R", "12B");
+            //usTypes.Add("A", "12B");
+            //usTypes.Add("B", "12B");
+            //usTypes.Add("E", "12B");
+            //usTypes.Add("F", "12B");
+            //usTypes.Add("P", "12B");
+            //usTypes.Add("R", "12B");
         }
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -130,7 +131,8 @@ namespace Logger
         internal string getRecordType(string recValue)
         {
             string[] tmpTypes = recValue.Split((char)0x1c);
-            return usTypes[tmpTypes[3].Substring(0, 1)];
+            //return usTypes[tmpTypes[3].Substring(0, 1)];
+            return "12B";
         }
 
         private string insertDescription(string fieldDescription)

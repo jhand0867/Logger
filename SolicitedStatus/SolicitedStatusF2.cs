@@ -171,13 +171,17 @@ namespace Logger
             if (statusInfo.Length > 2) ss.Reserved3 = statusInfo[2];
             if (statusInfo.Length > 3) ss.Reserved4 = statusInfo[3];
             if (statusInfo.Length > 4) ss.Reserved5 = statusInfo[4];
-            if (statusInfo.Length > 5)
+
+            if ((statusInfo.Length > 5) &&
+                (statusInfo[5].Length == 60)) 
             {
+                
                 ss.CoinsRemaining = statusInfo[5].Substring(0, 20);
                 ss.CoinsDispensed = statusInfo[5].Substring(20, 20);
                 ss.LastTranCoinsDispensed = statusInfo[5].Substring(40, 20);
             }
-            if (statusInfo.Length > 6)
+            if ((statusInfo.Length > 6) &&
+                (statusInfo[6].Length == 20)) 
             {
                 ss.TotalNotesRefunded = statusInfo[6].Substring(0,5);
                 ss.TotalNotesRejected = statusInfo[6].Substring(5, 5);
@@ -188,7 +192,9 @@ namespace Logger
             if (statusInfo.Length > 8) ss.Reserved7 = statusInfo[8];
             if (statusInfo.Length > 9) ss.Reserved8 = statusInfo[9];
             if (statusInfo.Length > 10) ss.Reserved9 = statusInfo[10];
-            if (statusInfo.Length > 11)
+
+            if ((statusInfo.Length > 11) &&
+                (statusInfo[11].Length == 20)) 
             {
                 ss.ChequesDepositedBin1 = statusInfo[11].Substring(0,5);
                 ss.ChequesDepositedBin2 = statusInfo[11].Substring(5, 5);

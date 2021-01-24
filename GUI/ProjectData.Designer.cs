@@ -38,7 +38,6 @@
             this.projectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hostToATMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aTMToHostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transactionRequestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.solicitedStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,7 +104,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1857, 48);
+            this.menuStrip1.Size = new System.Drawing.Size(1857, 40);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -161,18 +160,10 @@
             // 
             // allToolStripMenuItem
             // 
-            this.allToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hostToATMToolStripMenuItem});
             this.allToolStripMenuItem.Name = "allToolStripMenuItem";
             this.allToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.allToolStripMenuItem.Text = "All";
             this.allToolStripMenuItem.Click += new System.EventHandler(this.allToolStripMenuItem_Click);
-            // 
-            // hostToATMToolStripMenuItem
-            // 
-            this.hostToATMToolStripMenuItem.Name = "hostToATMToolStripMenuItem";
-            this.hostToATMToolStripMenuItem.Size = new System.Drawing.Size(285, 44);
-            this.hostToATMToolStripMenuItem.Text = "Host To ATM";
             // 
             // aTMToHostToolStripMenuItem
             // 
@@ -431,7 +422,7 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 48);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 40);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
@@ -439,7 +430,7 @@
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1857, 911);
+            this.dataGridView1.Size = new System.Drawing.Size(1857, 919);
             this.dataGridView1.TabIndex = 4;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
@@ -485,7 +476,6 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripSeparator deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hostToATMToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aTMToHostToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transactionRequestToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hostToATMToolStripMenuItem1;

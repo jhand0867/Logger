@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
@@ -6,14 +7,30 @@ namespace Logger
 {
     public partial class LogData : Form
     {
+        private int prevHeight;
+
+        public int PrevHeight { get => prevHeight; set => prevHeight = value; }
+
         public LogData()
         {
             InitializeComponent();
+            PrevHeight = this.Height;
         }
 
         private void LogData_Load(object sender, EventArgs e)
         {
-            //txtGroup8.Text = "temp";
+            rtbRawData.Width = this.Width - 40;
+//            rtbRawData.Refresh();
+            txtFieldData.Width = this.Width - 40;
+            txtFieldData.Height = this.PrevHeight - 330;
+//            txtFieldData.Refresh();
+            Point prevButtonLocation = btnPrev.Location;
+            btnPrev.Location = new Point(this.Width - 80, prevButtonLocation.Y);
+            Point nextButtonLocation = btnNext.Location;
+            btnNext.Location = new Point(this.Width - 80, nextButtonLocation.Y);
+//            btnNext.Refresh();
+//            btnPrev.Refresh();
+
         }
 
         public void setData(DataGridViewRow dgvr)
@@ -73,6 +90,27 @@ namespace Logger
                 DataGridViewRow dgvr = dgv.SelectedRows[0];
                 setData(dgvr);
             }
+        }
+
+        private void LogData_Resize(object sender, EventArgs e)
+        {
+
+            rtbRawData.Width = this.Width - 40;
+            txtFieldData.Width = this.Width - 40;
+            Point prevButtonLocation = btnPrev.Location;
+            btnPrev.Location = new Point(this.Width - 80, prevButtonLocation.Y);
+            Point nextButtonLocation = btnNext.Location;
+            btnNext.Location = new Point(this.Width - 80, nextButtonLocation.Y);
+            txtFieldData.Height = this.PrevHeight - 350;
+            //this.Height = txtFieldData.Height;
+        }
+
+        private void LogData_ResizeBegin(object sender, EventArgs e)
+        {
+            //LogData.ActiveForm.Refresh();
+            this.PrevHeight = this.Height;
+
+
         }
     }
 }

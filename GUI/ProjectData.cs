@@ -39,7 +39,6 @@ namespace Logger
             {
                 dataGridView1.Columns[i].Visible = false;
             }
-
             dataGridView1.Columns[0].Visible = false;
             dataGridView1.Columns[1].Visible = false;
             dataGridView1.Columns[2].HeaderText = "File Name";
@@ -134,88 +133,88 @@ namespace Logger
 
         private void transactionRequestToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(00);
+            optionSelected(00, true);
         }
 
         private void transactionReplyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(01);
+            optionSelected(01, true);
         }
 
 
         private void screensToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(02);
+            optionSelected(02, true);
         }
 
         private void statesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(03);
+            optionSelected(03, true);
         }
 
         private void configurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(04);
+            optionSelected(04, true);
         }
 
         private void fITToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(05);
+            optionSelected(05, true);
         }
 
         private void configurationIDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(06);
+            optionSelected(06, true);
         }
 
         private void enhancedConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(07);
+            optionSelected(07, true);
         }
 
         private void mACToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(08);
+            optionSelected(08, true);
         }
 
         private void dateAndTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(09);
+            optionSelected(09, true);
 
         }
 
         private void dispenseCurrencyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(10);
+            optionSelected(10, true);
         }
 
         private void iCCCurrencyDOTToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(11);
+            optionSelected(11, true);
         }
 
         private void iCCTransactionDOTToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(12);
+            optionSelected(12, true);
         }
 
         private void iCCLanguageSupportTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(13);
+            optionSelected(13, true);
 
         }
 
         private void iCCTerminalDOTToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(14);
+            optionSelected(14, true);
         }
 
         private void iCCTerminalAcceptableAIDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(15);
+            optionSelected(15, true);
 
         }
-        private void optionSelected(int option)
+        private void optionSelected(int option, bool refresh)
         {
             // option is the entry position in the RecordTypes array
 
@@ -225,12 +224,19 @@ namespace Logger
             log.Debug($"Scanning for '{recordType}' records started");
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            int nrow = dgvr.Index;
             string logID = dgvr.Cells[0].Value.ToString();
 
             App.Prj.getData(regExStr, recordType, logID, option);
-            dataGridView1.DataSource = buildDataGridView1();
             log.Debug($"Scanning for '{recordType}' records completed");
-            fixLogNames(dataGridView1);
+
+            if (refresh)
+            {
+                dataGridView1.DataSource = buildDataGridView1();
+                dataGridView1.Rows[nrow].Selected = true;
+                //dataGridView1
+                fixLogNames(dataGridView1);
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -250,7 +256,24 @@ namespace Logger
 
         private void scanToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.Rows.Count == 0)
+                return;
 
+            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+
+            bool allScanned = true;
+            scanToolStripMenuItem.DropDownItems[0].Enabled = true;
+
+            for (int i = 4; i < dgvr.Cells.Count - 1; i++)
+                {
+                if (dgvr.Cells[i].Value.ToString() != "True" && dgvr.Cells[i].Value.ToString() != "true")
+                {
+                    allScanned = false;
+                    break;
+                }
+            }
+            if (allScanned)
+                scanToolStripMenuItem.DropDownItems[0].Enabled = false;
         }
 
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -325,56 +348,68 @@ namespace Logger
 
         private void solicitedStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(16);
+            optionSelected(16, true);
         }
 
         private void unsolicitedStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(17);
+            optionSelected(17, true);
         }
 
         private void encryptorInitializationDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(18);
+            optionSelected(18, true);
         }
 
         private void uploadEJDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(19);
+            optionSelected(19, true);
         }
 
         private void toolStripMenuItem4_Click(object sender, EventArgs e)
         {
-            optionSelected(20);
+            optionSelected(20, true);
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            optionSelected(21);
+            optionSelected(21, true);
         }
 
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
-            optionSelected(22);
+            optionSelected(22, true);
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            optionSelected(23);
+            optionSelected(23, true);
         }
         private void terminalCommandsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            optionSelected(24);
+            optionSelected(24, true);
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            optionSelected(25);
+            optionSelected(25, true);
+
         }
 
         private void allToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < 25; i++)
+                optionSelected(i, false);
+            
+            optionSelected(25, true);
 
+           // completed();
+
+        }
+
+        private void completed()
+        {
+            MessageBox.Show("Completed");
         }
 
         private void logsToolStripMenuItem_Click(object sender, EventArgs e)

@@ -54,9 +54,10 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label1.Location = new System.Drawing.Point(12, 27);
+            this.label1.Location = new System.Drawing.Point(16, 34);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 25);
+            this.label1.Size = new System.Drawing.Size(170, 31);
             this.label1.TabIndex = 1;
             this.label1.Text = "TimeStamp:";
             // 
@@ -65,9 +66,10 @@
             this.txtTimestamp.AutoSize = true;
             this.txtTimestamp.BackColor = System.Drawing.Color.White;
             this.txtTimestamp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTimestamp.Location = new System.Drawing.Point(138, 27);
+            this.txtTimestamp.Location = new System.Drawing.Point(184, 34);
+            this.txtTimestamp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.txtTimestamp.Name = "txtTimestamp";
-            this.txtTimestamp.Size = new System.Drawing.Size(47, 25);
+            this.txtTimestamp.Size = new System.Drawing.Size(70, 31);
             this.txtTimestamp.TabIndex = 2;
             this.txtTimestamp.Text = "ttttttt";
             // 
@@ -76,9 +78,10 @@
             this.txtMethod.AutoSize = true;
             this.txtMethod.BackColor = System.Drawing.Color.White;
             this.txtMethod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMethod.Location = new System.Drawing.Point(549, 69);
+            this.txtMethod.Location = new System.Drawing.Point(732, 86);
+            this.txtMethod.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.txtMethod.Name = "txtMethod";
-            this.txtMethod.Size = new System.Drawing.Size(47, 25);
+            this.txtMethod.Size = new System.Drawing.Size(70, 31);
             this.txtMethod.TabIndex = 4;
             this.txtMethod.Text = "ttttttt";
             // 
@@ -87,9 +90,10 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label3.Location = new System.Drawing.Point(438, 69);
+            this.label3.Location = new System.Drawing.Point(584, 86);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(91, 25);
+            this.label3.Size = new System.Drawing.Size(119, 31);
             this.label3.TabIndex = 3;
             this.label3.Text = "Method:";
             // 
@@ -98,9 +102,10 @@
             this.txtClass.AutoSize = true;
             this.txtClass.BackColor = System.Drawing.Color.White;
             this.txtClass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtClass.Location = new System.Drawing.Point(549, 27);
+            this.txtClass.Location = new System.Drawing.Point(732, 34);
+            this.txtClass.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.txtClass.Name = "txtClass";
-            this.txtClass.Size = new System.Drawing.Size(47, 25);
+            this.txtClass.Size = new System.Drawing.Size(70, 31);
             this.txtClass.TabIndex = 6;
             this.txtClass.Text = "ttttttt";
             // 
@@ -109,9 +114,10 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label5.Location = new System.Drawing.Point(438, 27);
+            this.label5.Location = new System.Drawing.Point(584, 34);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(74, 25);
+            this.label5.Size = new System.Drawing.Size(97, 31);
             this.label5.TabIndex = 5;
             this.label5.Text = "Class:";
             // 
@@ -120,9 +126,10 @@
             this.txtLogLevel.AutoSize = true;
             this.txtLogLevel.BackColor = System.Drawing.Color.White;
             this.txtLogLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLogLevel.Location = new System.Drawing.Point(138, 69);
+            this.txtLogLevel.Location = new System.Drawing.Point(184, 86);
+            this.txtLogLevel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.txtLogLevel.Name = "txtLogLevel";
-            this.txtLogLevel.Size = new System.Drawing.Size(47, 25);
+            this.txtLogLevel.Size = new System.Drawing.Size(70, 31);
             this.txtLogLevel.TabIndex = 8;
             this.txtLogLevel.Text = "ttttttt";
             // 
@@ -131,9 +138,10 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label7.Location = new System.Drawing.Point(12, 69);
+            this.label7.Location = new System.Drawing.Point(16, 86);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(113, 25);
+            this.label7.Size = new System.Drawing.Size(149, 31);
             this.label7.TabIndex = 7;
             this.label7.Text = "Log Level:";
             // 
@@ -142,9 +150,10 @@
             this.txtFileName.AutoSize = true;
             this.txtFileName.BackColor = System.Drawing.Color.White;
             this.txtFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFileName.Location = new System.Drawing.Point(138, 114);
+            this.txtFileName.Location = new System.Drawing.Point(184, 142);
+            this.txtFileName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(47, 25);
+            this.txtFileName.Size = new System.Drawing.Size(70, 31);
             this.txtFileName.TabIndex = 10;
             this.txtFileName.Text = "ttttttt";
             // 
@@ -153,9 +162,10 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label9.Location = new System.Drawing.Point(12, 114);
+            this.label9.Location = new System.Drawing.Point(16, 142);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(116, 25);
+            this.label9.Size = new System.Drawing.Size(155, 31);
             this.label9.TabIndex = 9;
             this.label9.Text = "File Name:";
             // 
@@ -164,9 +174,10 @@
             this.txtType.AutoSize = true;
             this.txtType.BackColor = System.Drawing.Color.White;
             this.txtType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtType.Location = new System.Drawing.Point(549, 114);
+            this.txtType.Location = new System.Drawing.Point(732, 142);
+            this.txtType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.txtType.Name = "txtType";
-            this.txtType.Size = new System.Drawing.Size(47, 25);
+            this.txtType.Size = new System.Drawing.Size(70, 31);
             this.txtType.TabIndex = 12;
             this.txtType.Text = "ttttttt";
             // 
@@ -175,9 +186,10 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label11.Location = new System.Drawing.Point(438, 114);
+            this.label11.Location = new System.Drawing.Point(584, 142);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(68, 25);
+            this.label11.Size = new System.Drawing.Size(88, 31);
             this.label11.TabIndex = 11;
             this.label11.Text = "Type:";
             // 
@@ -186,9 +198,10 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label2.Location = new System.Drawing.Point(16, 157);
+            this.label2.Location = new System.Drawing.Point(21, 196);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(111, 25);
+            this.label2.Size = new System.Drawing.Size(151, 31);
             this.label2.TabIndex = 13;
             this.label2.Text = "Raw Data:";
             // 
@@ -196,12 +209,13 @@
             // 
             this.txtFieldData.BackColor = System.Drawing.Color.White;
             this.txtFieldData.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFieldData.Location = new System.Drawing.Point(16, 451);
+            this.txtFieldData.Location = new System.Drawing.Point(21, 564);
+            this.txtFieldData.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtFieldData.Multiline = true;
             this.txtFieldData.Name = "txtFieldData";
             this.txtFieldData.ReadOnly = true;
             this.txtFieldData.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtFieldData.Size = new System.Drawing.Size(841, 234);
+            this.txtFieldData.Size = new System.Drawing.Size(1137, 290);
             this.txtFieldData.TabIndex = 14;
             // 
             // label4
@@ -209,9 +223,10 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label4.Location = new System.Drawing.Point(13, 421);
+            this.label4.Location = new System.Drawing.Point(17, 526);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(77, 25);
+            this.label4.Size = new System.Drawing.Size(102, 31);
             this.label4.TabIndex = 15;
             this.label4.Text = "Fields:";
             // 
@@ -219,19 +234,21 @@
             // 
             this.rtbRawData.BackColor = System.Drawing.Color.White;
             this.rtbRawData.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbRawData.Location = new System.Drawing.Point(17, 180);
+            this.rtbRawData.Location = new System.Drawing.Point(23, 225);
+            this.rtbRawData.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rtbRawData.Name = "rtbRawData";
             this.rtbRawData.ReadOnly = true;
-            this.rtbRawData.Size = new System.Drawing.Size(840, 239);
+            this.rtbRawData.Size = new System.Drawing.Size(1135, 298);
             this.rtbRawData.TabIndex = 16;
             this.rtbRawData.Text = "";
             // 
             // btnPrev
             // 
             this.btnPrev.Image = ((System.Drawing.Image)(resources.GetObject("btnPrev.Image")));
-            this.btnPrev.Location = new System.Drawing.Point(805, 30);
+            this.btnPrev.Location = new System.Drawing.Point(1073, 38);
+            this.btnPrev.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnPrev.Name = "btnPrev";
-            this.btnPrev.Size = new System.Drawing.Size(52, 34);
+            this.btnPrev.Size = new System.Drawing.Size(69, 42);
             this.btnPrev.TabIndex = 17;
             this.btnPrev.UseVisualStyleBackColor = true;
             this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
@@ -239,18 +256,19 @@
             // btnNext
             // 
             this.btnNext.Image = ((System.Drawing.Image)(resources.GetObject("btnNext.Image")));
-            this.btnNext.Location = new System.Drawing.Point(805, 105);
+            this.btnNext.Location = new System.Drawing.Point(1073, 131);
+            this.btnNext.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(52, 34);
+            this.btnNext.Size = new System.Drawing.Size(69, 42);
             this.btnNext.TabIndex = 18;
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // LogData
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(869, 697);
+            this.ClientSize = new System.Drawing.Size(1183, 881);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnPrev);
             this.Controls.Add(this.rtbRawData);
@@ -269,12 +287,14 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtTimestamp);
             this.Controls.Add(this.label1);
-            this.MaximizeBox = false;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MinimizeBox = false;
             this.Name = "LogData";
             this.ShowInTaskbar = false;
             this.Text = "Log Data";
             this.Load += new System.EventHandler(this.LogData_Load);
+            this.ResizeBegin += new System.EventHandler(this.LogData_ResizeBegin);
+            this.Resize += new System.EventHandler(this.LogData_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 

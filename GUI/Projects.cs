@@ -248,7 +248,7 @@ namespace Logger
 
         private void editProject()
         {
-            if (listView1.Items.Count == 0)
+            if (listView1.SelectedItems.Count != 1)
             {
                 return;
             }
