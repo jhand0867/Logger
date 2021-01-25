@@ -26,7 +26,7 @@ namespace Logger
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
             dgvLog.Columns["Log Data"].Width = 660;
-            dgvLog.RowsDefaultCellStyle.BackColor = Color.LightBlue;
+            dgvLog.RowsDefaultCellStyle.BackColor = Color.LightSteelBlue;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.Aquamarine;
 
 

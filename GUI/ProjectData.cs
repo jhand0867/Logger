@@ -261,19 +261,17 @@ namespace Logger
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            bool allScanned = true;
             scanToolStripMenuItem.DropDownItems[0].Enabled = true;
 
             for (int i = 4; i < dgvr.Cells.Count - 1; i++)
                 {
-                if (dgvr.Cells[i].Value.ToString() != "True" && dgvr.Cells[i].Value.ToString() != "true")
+                if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
                 {
-                    allScanned = false;
+                    scanToolStripMenuItem.DropDownItems[0].Enabled = false;
                     break;
                 }
             }
-            if (allScanned)
-                scanToolStripMenuItem.DropDownItems[0].Enabled = false;
+                
         }
 
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)

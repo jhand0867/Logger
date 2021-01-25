@@ -20,16 +20,13 @@ namespace Logger
         private void LogData_Load(object sender, EventArgs e)
         {
             rtbRawData.Width = this.Width - 40;
-//            rtbRawData.Refresh();
             txtFieldData.Width = this.Width - 40;
-            txtFieldData.Height = this.PrevHeight - 330;
-//            txtFieldData.Refresh();
+            txtFieldData.Height = this.PrevHeight - 350;
+            //txtFieldData.Height = this.Height - 350;
             Point prevButtonLocation = btnPrev.Location;
             btnPrev.Location = new Point(this.Width - 80, prevButtonLocation.Y);
             Point nextButtonLocation = btnNext.Location;
             btnNext.Location = new Point(this.Width - 80, nextButtonLocation.Y);
-//            btnNext.Refresh();
-//            btnPrev.Refresh();
 
         }
 
@@ -101,14 +98,14 @@ namespace Logger
             btnPrev.Location = new Point(this.Width - 80, prevButtonLocation.Y);
             Point nextButtonLocation = btnNext.Location;
             btnNext.Location = new Point(this.Width - 80, nextButtonLocation.Y);
-            txtFieldData.Height = this.PrevHeight - 350;
+            txtFieldData.Height = this.Height - 350;
             //this.Height = txtFieldData.Height;
         }
 
         private void LogData_ResizeBegin(object sender, EventArgs e)
         {
             //LogData.ActiveForm.Refresh();
-            this.PrevHeight = this.Height;
+            //this.PrevHeight = this.Height;
 
 
         }
