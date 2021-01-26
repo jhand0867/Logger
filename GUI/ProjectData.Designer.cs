@@ -116,7 +116,7 @@
             this.deleteToolStripMenuItem,
             this.projectsToolStripMenuItem});
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(84, 38);
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(84, 36);
             this.logsToolStripMenuItem.Text = "Logs";
             this.logsToolStripMenuItem.Click += new System.EventHandler(this.logsToolStripMenuItem_Click);
             // 
@@ -153,7 +153,7 @@
             this.aTMToHostToolStripMenuItem,
             this.hostToATMToolStripMenuItem1});
             this.scanToolStripMenuItem.Name = "scanToolStripMenuItem";
-            this.scanToolStripMenuItem.Size = new System.Drawing.Size(85, 44);
+            this.scanToolStripMenuItem.Size = new System.Drawing.Size(85, 36);
             this.scanToolStripMenuItem.Text = "Scan";
             this.scanToolStripMenuItem.Click += new System.EventHandler(this.scanToolStripMenuItem_Click);
             this.scanToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.scanToolStripMenuItem_MouseDown);
@@ -420,6 +420,7 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ScrollBar;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 40);

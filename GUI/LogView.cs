@@ -27,11 +27,11 @@ namespace Logger
             dgvLog.Columns["prjKey"].Visible = false;
             dgvLog.Columns["Log Data"].Width = 660;
             dgvLog.RowsDefaultCellStyle.BackColor = Color.LightSteelBlue;
-            dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.Aquamarine;
-
+            // dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.Aquamarine;
+            dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
 
             using (Font font = new Font(
-                dgvLog.DefaultCellStyle.Font.FontFamily, 10, FontStyle.Regular))
+                dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
             }
@@ -54,9 +54,8 @@ namespace Logger
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
             dgvLog.Columns["Log Data"].Width = 660;
-            dgvLog.RowsDefaultCellStyle.BackColor = Color.LightBlue;
-            dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.Aquamarine;
-
+            dgvLog.RowsDefaultCellStyle.BackColor = Color.LightSteelBlue;
+            dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
             cmbColumHeader2.SelectedItem = null;
 
 
@@ -215,7 +214,14 @@ namespace Logger
                 frmLogData.TopMost = true;
                 frmLogData.Show();
             }
+            
+            if (e.Button == MouseButtons.Right)
+            {
+                dgvLog.ContextMenuStrip = this.contextMenuStrip1;
+            }
         }
+
+
 
         private void searchTwoToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -234,6 +240,12 @@ namespace Logger
 
         private void dgvLog_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+
+        }
+
+        private void showInContextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(dgvLog.SelectedRows[0].Cells[1].Value.ToString(), dgvLog.SelectedRows[0].Cells[1].RowIndex.ToString());
 
         }
     }

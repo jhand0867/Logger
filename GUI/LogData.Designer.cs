@@ -64,7 +64,7 @@
             // txtTimestamp
             // 
             this.txtTimestamp.AutoSize = true;
-            this.txtTimestamp.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.txtTimestamp.BackColor = System.Drawing.Color.Transparent;
             this.txtTimestamp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTimestamp.Location = new System.Drawing.Point(184, 34);
             this.txtTimestamp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -76,7 +76,7 @@
             // txtMethod
             // 
             this.txtMethod.AutoSize = true;
-            this.txtMethod.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.txtMethod.BackColor = System.Drawing.Color.Transparent;
             this.txtMethod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMethod.Location = new System.Drawing.Point(732, 86);
             this.txtMethod.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -100,7 +100,7 @@
             // txtClass
             // 
             this.txtClass.AutoSize = true;
-            this.txtClass.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.txtClass.BackColor = System.Drawing.Color.Transparent;
             this.txtClass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtClass.Location = new System.Drawing.Point(732, 34);
             this.txtClass.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -124,7 +124,7 @@
             // txtLogLevel
             // 
             this.txtLogLevel.AutoSize = true;
-            this.txtLogLevel.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.txtLogLevel.BackColor = System.Drawing.Color.Transparent;
             this.txtLogLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLogLevel.Location = new System.Drawing.Point(184, 86);
             this.txtLogLevel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -148,7 +148,7 @@
             // txtFileName
             // 
             this.txtFileName.AutoSize = true;
-            this.txtFileName.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.txtFileName.BackColor = System.Drawing.Color.Transparent;
             this.txtFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFileName.Location = new System.Drawing.Point(184, 142);
             this.txtFileName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -172,7 +172,7 @@
             // txtType
             // 
             this.txtType.AutoSize = true;
-            this.txtType.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.txtType.BackColor = System.Drawing.Color.Transparent;
             this.txtType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtType.Location = new System.Drawing.Point(732, 142);
             this.txtType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -268,7 +268,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(1183, 881);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnPrev);

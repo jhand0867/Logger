@@ -8,6 +8,7 @@ namespace Logger
         public MainW()
         {
             InitializeComponent();
+            this.BackColor = System.Drawing.Color.LightGray;
 
         }
 
@@ -41,6 +42,12 @@ namespace Logger
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void MainW_Load(object sender, EventArgs e)
+        {
+            this.BackColor = System.Drawing.SystemColors.Control;
+
         }
     }
 }
