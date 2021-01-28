@@ -49,5 +49,10 @@ namespace Logger
             this.BackColor = System.Drawing.SystemColors.Control;
 
         }
+
+        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
     }
 }

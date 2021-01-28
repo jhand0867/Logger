@@ -15,6 +15,7 @@ namespace Logger
         {
 
             dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
+            dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             AddHeaders(dgvLog);
 
             dgvLog.Dock = DockStyle.Fill;
@@ -26,8 +27,8 @@ namespace Logger
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
             dgvLog.Columns["Log Data"].Width = 660;
-            dgvLog.RowsDefaultCellStyle.BackColor = Color.LightSteelBlue;
-            // dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.Aquamarine;
+            //         dgvLog.RowsDefaultCellStyle.BackColor =  Color.LightGray; Color.LightSteelBlue;
+            dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
 
             using (Font font = new Font(
@@ -42,7 +43,11 @@ namespace Logger
 
         private void LogView_reLoad(object sender, EventArgs e)
         {
+            reloadData();
+        }
 
+        private void reloadData()
+        {
             dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
 
             dgvLog.Dock = DockStyle.Fill;
@@ -54,26 +59,23 @@ namespace Logger
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
             dgvLog.Columns["Log Data"].Width = 660;
-            dgvLog.RowsDefaultCellStyle.BackColor = Color.LightSteelBlue;
+            // dgvLog.RowsDefaultCellStyle.BackColor = Color.LightGray; Color.LightSteelBlue;
+            dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
             cmbColumHeader2.SelectedItem = null;
 
-
-
-
-
             using (Font font = new Font(
-                dgvLog.DefaultCellStyle.Font.FontFamily, 10, FontStyle.Regular))
+                dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
+                dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.False;
             }
         }
+
         private void AddHeaders(DataGridView dataGridView)
         {
             Point loc;
             string logID = dgvLog.Rows[0].Cells["LogID"].Value.ToString();
-
-
 
             // header group4
             // ComboBox cmbColumHeader2 = new ComboBox();
@@ -87,7 +89,8 @@ namespace Logger
             cmbColumHeader2.DropDownStyle = ComboBoxStyle.DropDownList;
             loc = dgvLog.GetCellDisplayRectangle(2, -1, true).Location;
             cmbColumHeader2.Location = new Point(loc.X + dgvLog.Columns[2].Width, 1);
-            cmbColumHeader2.Size = dgvLog.Columns[2].HeaderCell.Size;
+            //  cmbColumHeader2.Size = dgvLog.Columns[2].HeaderCell.Size;
+            cmbColumHeader2.Width = dgvLog.Columns[3].Width;
             dgvLog.Controls.Clear();
             dgvLog.Controls.Add(cmbColumHeader2);
             cmbColumHeader2.SelectedIndex = -1;
@@ -225,7 +228,7 @@ namespace Logger
 
         private void searchTwoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LogView_reLoad(sender, e);
+            reloadData();
         }
 
         private void menuStrip1_MouseClick(object sender, MouseEventArgs e)
@@ -240,13 +243,97 @@ namespace Logger
 
         private void dgvLog_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            
 
         }
 
         private void showInContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(dgvLog.SelectedRows[0].Cells[1].Value.ToString(), dgvLog.SelectedRows[0].Cells[1].RowIndex.ToString());
+            logInContext();
+            
+        }
 
+        private void logInContext()
+        {
+            //string key = dgvLog.SelectedRows[0].Cells[1].Value.ToString();
+
+            int rowIndex = dgvLog.SelectedCells[0].RowIndex;
+            string key = dgvLog.Rows[rowIndex].Cells["logkey"].Value.ToString();
+
+            dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
+            // search the key in the datagridview
+            foreach (DataGridViewRow row in dgvLog.Rows)
+            {
+                Console.WriteLine(row.Cells[1].Value.ToString());
+
+                if (row.Cells[1].Value.ToString().Contains(key))
+                {
+                    dgvLog.FirstDisplayedScrollingRowIndex = row.Index;
+                    dgvLog.Rows[row.Index].Selected = true;
+
+                    // MessageBox.Show("Gotcha, it is " + row.Index);
+                }
+            }
+        }
+
+        private void logInContextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logInContext();
+        }
+
+        private void dataWrappingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataWrapping(e);
+        }
+
+        private void dataWrappingToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            dataWrapping(e);
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataCopy();
+        }
+
+        private void dataWrapping(EventArgs e)
+        {
+            dgvLog.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+            int rowIndex = dgvLog.SelectedCells[0].RowIndex;
+          //  dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+
+            if (dataWrappingToolStripMenuItem1.Text == "Data Wrapping")
+            {
+                dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+ //               contextMenuStrip1.Items[2].Text = "Data Unwrapping";
+ //               ContextMenuStrip.Items[2].Text = "Data Unwrapping";
+                dataWrappingToolStripMenuItem.Text = "Data Unwrapping";
+                dataWrappingToolStripMenuItem1.Text = "Data Unwrapping";
+                dgvLog.Refresh();
+            }
+            else
+            {
+                dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+                dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                dataWrappingToolStripMenuItem.Text = "Data Wrapping";
+                dataWrappingToolStripMenuItem1.Text = "Data Wrapping";
+                dgvLog.Refresh();
+            }
+
+        }
+
+        private void dataCopy()
+        {
+            //dgvLog.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            Clipboard.SetDataObject(dgvLog.GetClipboardContent());
+            //dgvLog.ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable;
+
+        }
+
+        private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataCopy();
         }
     }
 }
