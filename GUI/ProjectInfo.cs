@@ -9,6 +9,7 @@ namespace Logger
         public ProjectInfo()
         {
             InitializeComponent();
+            btnUpdate.Enabled = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -22,11 +23,12 @@ namespace Logger
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void createProject_Click(object sender, EventArgs e)
         {
-            if (tbPName.Text == "Untitled" || tbPName.Text == "")
+            // create button 
+            if (!validatePName())
             {
-                MessageBox.Show("Please enter a valid project name", "Errr", MessageBoxButtons.OK);
+                // MessageBox.Show("Please enter a valid project name", "Errr", MessageBoxButtons.OK);
                 tbPName.Focus();
             }
             else
@@ -37,18 +39,19 @@ namespace Logger
                 Dictionary<string, Project> pDict = pr.getProjectByName(tbPName.Text);
                 if (pDict.Count > 0)
                 {
-                    MessageBox.Show("Project already exists", "Error!!", MessageBoxButtons.OK);
+                    // MessageBox.Show("Project already exists", "Error!!", MessageBoxButtons.OK);
+                    validatePExist();
+                    //errorProvider1.SetError(tbPName, "Project already exists");
                     tbPName.Focus();
                 }
                 else
                 {
                     pr.createProject(tbPName.Text, tbPBrief.Text);
+                    Projects prj = new Projects();
+                    prj.TopMost = true;
+                    this.Close();
+                    prj.Show();
                 }
-                Projects prj = new Projects();
-                prj.TopMost = true;
-                this.Close();
-                prj.Show();
-
             }
 
 
@@ -79,11 +82,53 @@ namespace Logger
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             Project project = new Project();
-            project.updateProjectByName(App.Prj, tbPName.Text, tbPBrief.Text);
-            this.Close();
 
-            Projects obj = (Projects)Application.OpenForms["Projects"];
-            obj.Projects_Load(null, null);
+            // do we have this project name already?
+
+            Dictionary<string, Project> pDict = project.getProjectByName(tbPName.Text);
+
+            if (pDict.Count > 0)
+            {
+                validatePExist();
+                tbPName.Focus();
+            }
+            else
+            {
+                project.updateProjectByName(App.Prj, tbPName.Text, tbPBrief.Text);
+                this.Close();
+
+                Projects obj = (Projects)Application.OpenForms["Projects"];
+                obj.Projects_Load(null, null);
+            }
+        }
+
+        private void tbPName_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            validatePName();
+        }
+
+        private bool validatePName()
+        {
+            bool statusPName = true;
+            if ( tbPName.Text.Trim() == "untitled" ||
+                 tbPName.Text.Trim() == "Untitled" ||
+                 tbPName.Text.Trim() == "")
+            {
+                errorProvider1.SetError(tbPName, "Please enter a valid Project Name");
+                statusPName = false;
+            }
+            else
+            {
+                errorProvider1.SetError(tbPName, "");
+                statusPName = true;
+            }
+            return statusPName;
+        }
+
+        private bool validatePExist()
+        {
+            errorProvider1.SetError(tbPName, "Project already exists");
+            return false;
         }
     }
 }

@@ -40,6 +40,10 @@ namespace Logger
             listView1.SmallImageList = imageList1;
 
             listView1.LargeImageList = imageList1;
+            hamburguerMenu.ForeColor = Color.White;
+            hamburguerMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
+            hamburguerMenu.Text = char.ConvertFromUtf32('\u2630'); // "☰";
 
             Projects prForm = new Projects();
             prForm.TopMost = true;
@@ -258,8 +262,10 @@ namespace Logger
 
             dicData = App.Prj.getProjectByName(prjName);
 
+
             ProjectInfo prjInfo = MessageFactory.Create_ProjectInfo();
             Control[] formControls = prjInfo.Controls.Find("btnUpdate", false);
+            Control[] formControls1 = prjInfo.Controls.Find("tbPName", false);
             if (formControls.Length > 0)
             {
                 Button btn = (Button)formControls[0];
@@ -270,6 +276,7 @@ namespace Logger
                 App.Prj = pr;
                 prjInfo.displayProjectInfo(pr.Name.ToString(), pr.Brief.ToString());
             }
+            
             prjInfo.TopMost = true;
             prjInfo.Show();
         }
@@ -302,6 +309,16 @@ namespace Logger
                 }
 
             }
+        }
+
+        private void detailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.View = View.Details;
+        }
+
+        private void bigIconsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.View = View.LargeIcon;
         }
     }
 }
