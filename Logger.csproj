@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUI\AboutDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\AboutDialog.Designer.cs">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="InteractiveTranResponse.cs" />
     <Compile Include="EjOptionsTimers.cs" />
     <Compile Include="AckStopEj.cs" />
@@ -196,6 +202,9 @@
     <Compile Include="UploadEjData.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatus.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusB.cs" />
+    <EmbeddedResource Include="GUI\AboutDialog.resx">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\LogData.resx">
       <DependentUpon>LogData.cs</DependentUpon>
     </EmbeddedResource>

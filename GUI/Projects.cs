@@ -11,6 +11,10 @@ namespace Logger
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        // adding a list for the hamburger menu
+        private ListBox hamburguerMenuOptions;
+
+
         public Projects()
         {
             InitializeComponent();
@@ -43,7 +47,7 @@ namespace Logger
             hamburguerMenu.ForeColor = Color.White;
             hamburguerMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
-            hamburguerMenu.Text = char.ConvertFromUtf32('\u2630'); // "☰";
+            //hamburguerMenu.Text = char.ConvertFromUtf32('\u2630'); // "☰";
 
             Projects prForm = new Projects();
             prForm.TopMost = true;
@@ -63,6 +67,10 @@ namespace Logger
                 lvi.ImageIndex = 1;
                 listView1.Items.Add(lvi);
                 listView1.Items[0].Selected = true;
+                for (int i = 0; i < listView1.Columns.Count; i++)
+                {
+                    listView1.Columns[i].Width = 200;
+                }
 
                 listView1.Refresh();
 
@@ -82,6 +90,11 @@ namespace Logger
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            newProject();
+        }
+
+        private void newProject()
         {
             log.Debug("Open ProjectInfo");
             ProjectInfo pi = new ProjectInfo();
@@ -284,7 +297,6 @@ namespace Logger
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             deleteInfo();
-
             loadInfo();
         }
 
@@ -319,6 +331,47 @@ namespace Logger
         private void bigIconsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listView1.View = View.LargeIcon;
+        }
+
+        private void hamburguerMenu_MouseDown(object sender, MouseEventArgs e)
+        {
+            hamburguerMenuOptions = new ListBox();
+            hamburguerMenuOptions.SuspendLayout();
+            hamburguerMenuOptions.Size = new Size(100, 30);
+            hamburguerMenuOptions.Location = new Point(e.Location.X + 100,e.Location.Y + 100);
+            hamburguerMenuOptions.Visible = true;
+            hamburguerMenuOptions.Show();
+            hamburguerMenuOptions.Items.Add("Detail");
+            hamburguerMenuOptions.Items.Add("Big Icons");
+
+            
+            if (e.Button == MouseButtons.Left)
+            {
+                //create a list with the options
+                this.Controls.Add(hamburguerMenuOptions);
+                hamburguerMenuOptions.ResumeLayout();
+            }
+        }
+
+        private void detailsToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            listView1.View = View.Details;
+        }
+
+        private void listToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            listView1.View = View.List;
+        }
+
+        private void bigIconsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            listView1.View = View.LargeIcon;
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            // new on context menu
+            newProject();
         }
     }
 }

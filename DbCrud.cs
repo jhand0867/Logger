@@ -51,23 +51,7 @@ namespace Logger
             string connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
             SqlConnection cnn = new SqlConnection(connectionString);
             SqlTransaction transaction;
-            /*
-             * transaction = sqlConnection.BeginTransaction();    
-try     
-{    
-   new SqlCommand("INSERT Qwery1", sqlConnection, transaction)    
-      .ExecuteNonQuery();    
-   new SqlCommand("INSERT Qwery2 ", sqlConnection, transaction)    
-      .ExecuteNonQuery();    
-   new SqlCommand("INSERT Qwery3 ", sqlConnection, transaction)    
-      .ExecuteNonQuery();    
-   transaction.Commit();    
-}     
-catch (SqlException sqlError)     
-{    
-   transaction.Rollback();    
-}    
-            */
+
             transaction = cnn.BeginTransaction();
             try
             {
