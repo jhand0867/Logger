@@ -13,7 +13,6 @@ namespace Logger
 
         private void LogView_Load(object sender, EventArgs e)
         {
-
             dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
             dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             AddHeaders(dgvLog);
@@ -38,7 +37,10 @@ namespace Logger
             }
         }
 
-        ComboBox cmbColumHeader2 = new ComboBox();
+        private ComboBox cmbColumHeader2 = new ComboBox();
+        private ComboBox cmbColumHeader4 = new ComboBox();
+        private ComboBox cmbColumHeader5 = new ComboBox();
+        private ComboBox cmbColumHeader6 = new ComboBox();
 
 
         private void LogView_reLoad(object sender, EventArgs e)
@@ -48,6 +50,7 @@ namespace Logger
 
         private void reloadData()
         {
+
             dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
 
             dgvLog.Dock = DockStyle.Fill;
@@ -62,7 +65,14 @@ namespace Logger
             // dgvLog.RowsDefaultCellStyle.BackColor = Color.LightGray; Color.LightSteelBlue;
             dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
+            cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.SelectedItem = null;
+            cmbColumHeader4.SelectedIndex = -1;
+            cmbColumHeader4.SelectedItem = null;
+            cmbColumHeader5.SelectedIndex = -1;
+            cmbColumHeader5.SelectedItem = null;
+            cmbColumHeader6.SelectedIndex = -1;
+            cmbColumHeader6.SelectedItem = null;
 
             using (Font font = new Font(
                 dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
@@ -70,6 +80,9 @@ namespace Logger
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
                 dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.False;
             }
+
+            dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            //AddHeaders(dgvLog);
         }
 
         private void AddHeaders(DataGridView dataGridView)
@@ -80,10 +93,11 @@ namespace Logger
             // header group4
             // ComboBox cmbColumHeader2 = new ComboBox();
 
-            cmbColumHeader2.SelectedIndexChanged += delegate (object sender, EventArgs e)
+            cmbColumHeader2.SelectionChangeCommitted += delegate (object sender, EventArgs e)
             {
-                cmbColumHeader2_SelectedIndexChanged(sender, e, cmbColumHeader2, logID);
+                cmbColumHeader2_SelectionChangeCommitted(sender, e, cmbColumHeader2, logID);
             };
+            
             cmbColumHeader2.DataSource = App.Prj.getGroupOptions(logID, "group4");
             cmbColumHeader2.DisplayMember = "group4";
             cmbColumHeader2.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -93,14 +107,18 @@ namespace Logger
             cmbColumHeader2.Width = dgvLog.Columns[3].Width;
             dgvLog.Controls.Clear();
             dgvLog.Controls.Add(cmbColumHeader2);
+            //cmbColumHeader2.FormattingEnabled = true;
+            cmbColumHeader2.ResetText();
+            // ((ComboBox)cmbColumHeader2).Items.Insert(0, string.Empty);
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.Visible = true;
 
+
             // header group5
-            ComboBox cmbColumHeader4 = new ComboBox();
-            cmbColumHeader4.SelectedIndexChanged += delegate (object sender, EventArgs e)
+            
+            cmbColumHeader4.SelectionChangeCommitted += delegate (object sender, EventArgs e)
             {
-                cmbColumHeader4_SelectedIndexChanged(sender, e, cmbColumHeader4, logID);
+                cmbColumHeader4_SelectionChangeCommitted(sender, e, cmbColumHeader4, logID);
             };
             cmbColumHeader4.DataSource = App.Prj.getGroupOptions(logID, "group5");
             cmbColumHeader4.DisplayMember = "group5";
@@ -113,14 +131,14 @@ namespace Logger
             cmbColumHeader4.Visible = true;
 
             // header group6
-            ComboBox cmbColumHeader5 = new ComboBox();
             cmbColumHeader5.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbColumHeader5.Items.Add("NORMAL");
             cmbColumHeader5.Items.Add("RECV");
             cmbColumHeader5.Items.Add("SEND");
-            cmbColumHeader5.SelectedIndexChanged += delegate (object sender, EventArgs e)
+
+            cmbColumHeader5.SelectionChangeCommitted += delegate (object sender, EventArgs e)
             {
-                cmbColumHeader5_SelectedIndexChanged(sender, e, cmbColumHeader5, logID);
+                cmbColumHeader5_SelectionChangeCommitted(sender, e, cmbColumHeader5, logID);
             };
 
             loc = dgvLog.GetCellDisplayRectangle(4, -1, true).Location;
@@ -131,7 +149,7 @@ namespace Logger
             cmbColumHeader5.Visible = true;
 
             // header Log Data
-            ComboBox cmbColumHeader6 = new ComboBox();
+
             cmbColumHeader6.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbColumHeader6.Items.Add("ATM2HOST");
             cmbColumHeader6.Items.Add("HOST2ATM");
@@ -140,9 +158,9 @@ namespace Logger
             cmbColumHeader6.Items.Add("CashDispenser");
             cmbColumHeader6.Items.Add("State Created");
 
-            cmbColumHeader6.SelectedIndexChanged += delegate (object sender, EventArgs e)
+            cmbColumHeader6.SelectionChangeCommitted += delegate (object sender, EventArgs e)
             {
-                cmbColumHeader6_SelectedIndexChanged(sender, e, cmbColumHeader6, logID);
+                cmbColumHeader6_SelectionChangeCommitted(sender, e, cmbColumHeader6, logID);
             };
 
             loc = dgvLog.GetCellDisplayRectangle(5, -1, true).Location;
@@ -159,7 +177,7 @@ namespace Logger
 
 
 
-        private void cmbColumHeader2_SelectedIndexChanged(object sender, System.EventArgs e, ComboBox c, string logID)
+        private void cmbColumHeader2_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
         {
             if (c.Text != "")
             {
@@ -169,7 +187,7 @@ namespace Logger
             }
         }
 
-        private void cmbColumHeader4_SelectedIndexChanged(object sender, System.EventArgs e, ComboBox c, string logID)
+        private void cmbColumHeader4_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
         {
             if (c.Text != "")
             {
@@ -180,7 +198,7 @@ namespace Logger
 
         }
 
-        private void cmbColumHeader5_SelectedIndexChanged(object sender, System.EventArgs e, ComboBox c, string logID)
+        private void cmbColumHeader5_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
         {
             if (c.Text != "")
             {
@@ -191,7 +209,7 @@ namespace Logger
 
         }
 
-        private void cmbColumHeader6_SelectedIndexChanged(object sender, System.EventArgs e, ComboBox c, string logID)
+        private void cmbColumHeader6_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
         {
             if (c.Text != "")
             {
@@ -228,6 +246,7 @@ namespace Logger
 
         private void searchTwoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // cmbColumHeader2.SelectedIndex = -1;
             reloadData();
         }
 
