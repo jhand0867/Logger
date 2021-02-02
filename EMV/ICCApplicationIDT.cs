@@ -198,88 +198,88 @@ namespace Logger
                 {
                     for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                     {
-                            // Configuration Data
-                            txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
+                        // Configuration Data
+                        txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
 
-                            // Entry Number
-                            txtField += iccRecDt.Rows[0][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
+                        // Entry Number
+                        txtField += iccRecDt.Rows[0][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
 
-                            // primaryAIDLength
-                            txtField += iccRecDt.Rows[1][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
+                        // primaryAIDLength
+                        txtField += iccRecDt.Rows[1][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
 
-                            // primaryAIDvalue
-                            txtField += iccRecDt.Rows[2][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
+                        // primaryAIDvalue
+                        txtField += iccRecDt.Rows[2][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
 
-                            //  defaultAppLabelLength;
-                            txtField += iccRecDt.Rows[3][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][6].ToString().Trim() + System.Environment.NewLine;
+                        //  defaultAppLabelLength;
+                        txtField += iccRecDt.Rows[3][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][6].ToString().Trim() + System.Environment.NewLine;
 
-                            //  defaultAppLabelvalue
-                            txtField += iccRecDt.Rows[4][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
+                        //  defaultAppLabelvalue
+                        txtField += iccRecDt.Rows[4][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
 
-                            //primaryAIDICCAppType;
-                            txtField += iccRecDt.Rows[5][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][8].ToString().Trim() + System.Environment.NewLine;
+                        //primaryAIDICCAppType;
+                        txtField += iccRecDt.Rows[5][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][8].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string primaryAIDLowestAppVersion;
-                            txtField += iccRecDt.Rows[6][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][9].ToString().Trim() + System.Environment.NewLine;
+                        //private string primaryAIDLowestAppVersion;
+                        txtField += iccRecDt.Rows[6][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][9].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string primaryAIDHighestAppVersion;
-                            txtField += iccRecDt.Rows[7][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][10].ToString().Trim() + System.Environment.NewLine;
+                        //private string primaryAIDHighestAppVersion;
+                        txtField += iccRecDt.Rows[7][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][10].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string primaryAIDActionCode;
-                            txtField += iccRecDt.Rows[8][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][11].ToString().Trim() + System.Environment.NewLine;
+                        //private string primaryAIDActionCode;
+                        txtField += iccRecDt.Rows[8][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][11].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string numberOfDataObjectTReq;
-                            txtField += iccRecDt.Rows[9][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][12].ToString().Trim() + System.Environment.NewLine;
+                        //private string numberOfDataObjectTReq;
+                        txtField += iccRecDt.Rows[9][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][12].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string dataObjectForTReq;
-                            txtField += iccRecDt.Rows[10][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][13].ToString().Trim() + System.Environment.NewLine;
+                        //private string dataObjectForTReq;
+                        txtField += iccRecDt.Rows[10][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][13].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string numberOfDataObjectCompletion;
-                            txtField += iccRecDt.Rows[11][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][14].ToString().Trim() + System.Environment.NewLine;
+                        //private string numberOfDataObjectCompletion;
+                        txtField += iccRecDt.Rows[11][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][14].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string dataObjectForCompletion;
-                            txtField += iccRecDt.Rows[12][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][15].ToString().Trim() + System.Environment.NewLine;
+                        //private string dataObjectForCompletion;
+                        txtField += iccRecDt.Rows[12][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][15].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string numberOfSecondaryAID;
-                            txtField += iccRecDt.Rows[13][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][16].ToString().Trim() + System.Environment.NewLine;
+                        //private string numberOfSecondaryAID;
+                        txtField += iccRecDt.Rows[13][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][16].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string secondaryAIDLgthValue;
-                            txtField += iccRecDt.Rows[14][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][17].ToString().Trim() + System.Environment.NewLine;
+                        //private string secondaryAIDLgthValue;
+                        txtField += iccRecDt.Rows[14][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][17].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string appSelectionIndicator;
-                            txtField += iccRecDt.Rows[16][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][18].ToString().Trim() + System.Environment.NewLine;
+                        //private string appSelectionIndicator;
+                        txtField += iccRecDt.Rows[16][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][18].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string trk2DataForCentral;
-                            txtField += iccRecDt.Rows[17][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][19].ToString().Trim() + System.Environment.NewLine;
+                        //private string trk2DataForCentral;
+                        txtField += iccRecDt.Rows[17][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][19].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string trk2DataUsedDuringICCTransaction;
-                            txtField += iccRecDt.Rows[18][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][20].ToString().Trim() + System.Environment.NewLine;
+                        //private string trk2DataUsedDuringICCTransaction;
+                        txtField += iccRecDt.Rows[18][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][20].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string additionalTrk2DataLength;
-                            txtField += iccRecDt.Rows[19][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][21].ToString().Trim() + System.Environment.NewLine;
+                        //private string additionalTrk2DataLength;
+                        txtField += iccRecDt.Rows[19][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][21].ToString().Trim() + System.Environment.NewLine;
 
-                            //private string additionalTrk2Data;
-                            txtField += iccRecDt.Rows[20][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][22].ToString().Trim() + System.Environment.NewLine;
+                        //private string additionalTrk2Data;
+                        txtField += iccRecDt.Rows[20][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][22].ToString().Trim() + System.Environment.NewLine;
 
                     }
                 }

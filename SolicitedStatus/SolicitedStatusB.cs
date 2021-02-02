@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -15,10 +13,10 @@ namespace Logger
         private string dataId;
         private string transactionData;
         private string smartCardDataID;
-	    private string centralRequestedICCDO;
-	    private string rsltOfIssuerScriptProcessing;
-	    private string seqnumOfScriptCommand;
-	    private string scriptID;
+        private string centralRequestedICCDO;
+        private string rsltOfIssuerScriptProcessing;
+        private string seqnumOfScriptCommand;
+        private string scriptID;
         private string mac;
 
         public string Rectype { get => rectype; set => rectype = value; }
@@ -36,7 +34,8 @@ namespace Logger
         public string ScriptID { get => scriptID; set => scriptID = value; }
     };
 
-    struct CassettesData {
+    struct CassettesData
+    {
         private string cassetteType;
 
     };
@@ -67,7 +66,7 @@ namespace Logger
                                ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
                                ss.LastTranTSN + "','" + ss.DataId + "','" + ss.TransactionData + "','" +
                                ss.SmartCardDataID + "','" + ss.CentralRequestedICCDO + "','" + ss.RsltOfIssuerScriptProcessing + "','" +
-                               ss.SeqnumOfScriptCommand + "','" + ss.ScriptID + "','" + 
+                               ss.SeqnumOfScriptCommand + "','" + ss.ScriptID + "','" +
                                ss.Mac + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -90,7 +89,7 @@ namespace Logger
 
             string[] tmp = tmpTypes[3].Split((char)0x1d);
 
-            if (tmp[0].Length != 1) 
+            if (tmp[0].Length != 1)
             {
                 i = 4;
                 ss.TimeVariant = tmpTypes[3];
@@ -106,9 +105,9 @@ namespace Logger
                 ss.CentralRequestedICCDO = digester.iccTLVTags(tmp[2]);
                 if (tmp.Length > 3)
                 {
-                    ss.RsltOfIssuerScriptProcessing = tmp[3].Substring(0,1);
-                    ss.SeqnumOfScriptCommand = tmp[3].Substring(1,1);
-                    ss.ScriptID = digester.iccTLVTags(tmp[3].Substring(2,tmp[3].Length-2));
+                    ss.RsltOfIssuerScriptProcessing = tmp[3].Substring(0, 1);
+                    ss.SeqnumOfScriptCommand = tmp[3].Substring(1, 1);
+                    ss.ScriptID = digester.iccTLVTags(tmp[3].Substring(2, tmp[3].Length - 2));
                 }
             }
             else
@@ -137,8 +136,8 @@ namespace Logger
                 if (statusInfo.Length > x)
                 {
                     ss.SmartCardDataID = statusInfo[x];
-                    ss.CentralRequestedICCDO = digester.iccTLVTags(statusInfo[x+1]);
-                    if (statusInfo.Length > x+2)
+                    ss.CentralRequestedICCDO = digester.iccTLVTags(statusInfo[x + 1]);
+                    if (statusInfo.Length > x + 2)
                     {
                         ss.RsltOfIssuerScriptProcessing = statusInfo[x + 2].Substring(0, 1);
                         ss.SeqnumOfScriptCommand = statusInfo[x + 2].Substring(1, 1);
@@ -147,8 +146,8 @@ namespace Logger
                 }
             }
 
-             if (tmpTypes.Length > i+2)
-                    ss.Mac = tmpTypes[i+2];
+            if (tmpTypes.Length > i + 2)
+                ss.Mac = tmpTypes[i + 2];
 
             return ss;
         }

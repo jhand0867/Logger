@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlTypes;
-using System.Windows.Forms;
 
 namespace Logger
 {
 
-    class SolicitedStatus: IMessage 
+    class SolicitedStatus : IMessage
     {
 
         public Dictionary<string, string> ssTypes = new Dictionary<string, string>();
 
-    
+
         public SolicitedStatus()
         {
             ssTypes.Add("A", "229");
@@ -86,9 +84,9 @@ namespace Logger
             {
                 for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
                 {
-                        txtField += getOptionDescription(ss, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
-                                                             dts[0].Rows[0][colNum].ToString());
-                        txtField += "\t" + System.Environment.NewLine;
+                    txtField += getOptionDescription(ss, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
+                                                         dts[0].Rows[0][colNum].ToString());
+                    txtField += "\t" + System.Environment.NewLine;
 
                 }
             }
@@ -105,10 +103,10 @@ namespace Logger
 
                 string recordType = getRecordType(r.typeContent);
 
-                    IMessage theRecord = MessageFactory.Create_Record(recordType);
-                
-                    if (theRecord.writeData(OneTypeRec, Key, logID) == false)
-                        return false;
+                IMessage theRecord = MessageFactory.Create_Record(recordType);
+
+                if (theRecord.writeData(OneTypeRec, Key, logID) == false)
+                    return false;
             }
             return true;
         }
@@ -116,7 +114,7 @@ namespace Logger
         internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)
         {
 
-             // todo: enter data descriptions for all records
+            // todo: enter data descriptions for all records
             // todo: put together the digesting routines for all record types
 
             string optionDesc = "";
@@ -136,7 +134,7 @@ namespace Logger
                     }
 
                     optionDesc += " = " + fieldValue + insertDescription(item[4].ToString()) + fieldDesc;
-                    
+
                     break;
                 }
             }

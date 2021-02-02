@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -77,7 +75,7 @@ namespace Logger
 
             string[] eppAttributes = tmpTypes[4].Split((char)0x1d);
 
-            kD.EppVendorCo = eppAttributes[0].Substring(0,1);
+            kD.EppVendorCo = eppAttributes[0].Substring(0, 1);
             kD.PciVendorName = eppAttributes[0].Substring(1, eppAttributes[0].Length - 1);
             kD.EppModelId = eppAttributes[1].Substring(0, 1);
             kD.PciModelName = eppAttributes[1].Substring(1, eppAttributes[1].Length - 1);

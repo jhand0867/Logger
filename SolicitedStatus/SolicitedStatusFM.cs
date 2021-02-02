@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -13,9 +11,9 @@ namespace Logger
         private string statusDescriptor;
         private string messageIdentifier;
         private string localOptionsId;
-	    private string localOptionsDigits;
-	    private string dataId;
-	    private string data;
+        private string localOptionsDigits;
+        private string dataId;
+        private string data;
         private string mac;
 
         public string Rectype { get => rectype; set => rectype = value; }

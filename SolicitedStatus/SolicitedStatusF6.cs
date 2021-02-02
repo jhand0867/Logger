@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -40,7 +38,7 @@ namespace Logger
 	                        [configurationId],[mac],[prjkey],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
                                ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
-                               ss.MessageIdentificer + "','" + ss.ConfigurationId + "','" + 
+                               ss.MessageIdentificer + "','" + ss.ConfigurationId + "','" +
                                ss.Mac + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();

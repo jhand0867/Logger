@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Logger
@@ -103,11 +98,11 @@ namespace Logger
         private void AboutDialog_Load(object sender, EventArgs e)
         {
             // show splash window
-            
-            splashTimer.Interval = 10000;
-            
 
-            
+            splashTimer.Interval = 10000;
+
+
+
             //splashTimer.Stop();
             //this.Close();
         }

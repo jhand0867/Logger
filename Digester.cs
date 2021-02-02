@@ -45,13 +45,13 @@ namespace Logger
             string fieldDesc = System.Environment.NewLine;
             DataTable dataTable = getDescriptionX(fieldType);
             int offset = 0;
-            
+
             // this method expect to have the dataTable (dataDescription) ordered by subRecType
             // currently used by DispenserMapping class
 
             while (offset < fieldValue.Length)
             {
-                fieldDesc = fieldDesc + "   " + dataTable.Rows[0]["fieldname"].ToString().Trim() +  " = " + fieldValue.Substring(offset, 2) + System.Environment.NewLine;
+                fieldDesc = fieldDesc + "   " + dataTable.Rows[0]["fieldname"].ToString().Trim() + " = " + fieldValue.Substring(offset, 2) + System.Environment.NewLine;
                 offset += 2;
                 fieldDesc = fieldDesc + "   " + dataTable.Rows[1]["fieldname"].ToString().Trim() + " = " + fieldValue.Substring(offset, 1) + System.Environment.NewLine;
                 offset += 1;
@@ -71,23 +71,23 @@ namespace Logger
 
             // Use fieldType = 1 when fieldvalue from message is a "Tag Length Value (TLV)" format
 
-                foreach (string field in tmpfieldValue)
+            foreach (string field in tmpfieldValue)
+            {
+                string[] tlv = field.Split(' ');
+                foreach (DataRow item in dataTable.Rows)
                 {
-                    string[] tlv = field.Split(' ');
-                    foreach (DataRow item in dataTable.Rows)
+                    if (item[2].ToString().Trim() == tlv[0])
                     {
-                        if (item[2].ToString().Trim() == tlv[0])
+                        fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + " = " + tlv[0];
+                        if (tlv.Length > 1)
                         {
-                            fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + " = " + tlv[0];
-                            if (tlv.Length > 1)
-                            {
-                                fieldDesc = fieldDesc + " Length = " + tlv[1] + " Value = " + tlv[2];
-                            }
-                            fieldDesc = fieldDesc + System.Environment.NewLine;
-                            break;
+                            fieldDesc = fieldDesc + " Length = " + tlv[1] + " Value = " + tlv[2];
                         }
+                        fieldDesc = fieldDesc + System.Environment.NewLine;
+                        break;
                     }
                 }
+            }
             return fieldDesc;
         }
 
@@ -101,17 +101,17 @@ namespace Logger
 
             // Use fieldType = 2 when fieldvalue from message is equal to subRecType in the Data Description
 
-                foreach (string field in tmpfieldValue)
+            foreach (string field in tmpfieldValue)
+            {
+                foreach (DataRow item in dataTable.Rows)
                 {
-                    foreach (DataRow item in dataTable.Rows)
+                    if (item[2].ToString().Trim() == field)
                     {
-                        if (item[2].ToString().Trim() == field)
-                        {
-                            fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + " = " + item[4].ToString().Trim() + System.Environment.NewLine;
-                            break;
-                        }
+                        fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + " = " + item[4].ToString().Trim() + System.Environment.NewLine;
+                        break;
                     }
                 }
+            }
 
             return fieldDesc;
         }
@@ -130,28 +130,28 @@ namespace Logger
             //      will search for E0 in data description table to show the description for E
             //      and then will search for each of the positions (E1,E2,E3,E4, etc) in data description table
 
-                bool headerFlg = false;
+            bool headerFlg = false;
 
-                foreach (string field in tmpfieldValue)
+            foreach (string field in tmpfieldValue)
+            {
+                int pos = 0;
+                foreach (DataRow item in dataTable.Rows)
                 {
-                    int pos = 0;
-                    foreach (DataRow item in dataTable.Rows)
+                    if (!headerFlg && item[2].ToString().Trim().Length == 0)
                     {
-                        if (!headerFlg && item[2].ToString().Trim().Length == 0)
-                        {
-                            fieldDesc = fieldDesc + item[3].ToString().Trim() + System.Environment.NewLine;
-                            headerFlg = true;
-                            continue;
-                        }
-                        if (item[2].ToString().Trim().Length > 0 &&
-                            item[2].ToString().Trim().Substring(0, 1) == field.Substring(0, 1) &&
-                            field.Length > pos)
-                        {
-                            fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + " = " + field.Substring(pos, 1) + System.Environment.NewLine;
-                            pos++;
-                        }
+                        fieldDesc = fieldDesc + item[3].ToString().Trim() + System.Environment.NewLine;
+                        headerFlg = true;
+                        continue;
+                    }
+                    if (item[2].ToString().Trim().Length > 0 &&
+                        item[2].ToString().Trim().Substring(0, 1) == field.Substring(0, 1) &&
+                        field.Length > pos)
+                    {
+                        fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + " = " + field.Substring(pos, 1) + System.Environment.NewLine;
+                        pos++;
                     }
                 }
+            }
             return fieldDesc;
         }
 

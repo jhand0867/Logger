@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -37,7 +35,7 @@ namespace Logger
                 string sql = @"INSERT INTO encryptorInitDataB([logkey],[rectype],[luno],[informationIdentifier],
 	                        [remoteKeyProtocol],[certificateState],[eppVarLgthSNCap,[prjkey],[logID]) " +
                             " VALUES('" + r.typeIndex + "','" + kB.Rectype + "','" + kB.Luno + "','" +
-                               kB.InformationIdentifier + "','" + kB.RemoteKeyProtocol+ "','" + 
+                               kB.InformationIdentifier + "','" + kB.RemoteKeyProtocol + "','" +
                                kB.CertificateState + "','" + kB.EppVarLgthSNCap + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -57,7 +55,7 @@ namespace Logger
             kB.Luno = tmpTypes[1];
             kB.InformationIdentifier = tmpTypes[3];
 
-            kB.RemoteKeyProtocol = tmpTypes[4].Substring(0,2);
+            kB.RemoteKeyProtocol = tmpTypes[4].Substring(0, 2);
             kB.CertificateState = tmpTypes[4].Substring(2, 2);
             kB.EppVarLgthSNCap = tmpTypes[4].Substring(4, 1);
 

@@ -110,7 +110,7 @@ namespace Logger
         private bool validatePName()
         {
             bool statusPName = true;
-            if ( tbPName.Text.Trim() == "untitled" ||
+            if (tbPName.Text.Trim() == "untitled" ||
                  tbPName.Text.Trim() == "Untitled" ||
                  tbPName.Text.Trim() == "")
             {

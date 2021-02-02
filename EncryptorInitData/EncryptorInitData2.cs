@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -35,7 +33,7 @@ namespace Logger
                 string sql = @"INSERT INTO encryptorInitData2([logkey],[rectype],[luno],
 	                        [informationIdentifier],[eppPublicKey],[eppPublicKeySignature],[prjkey],[logID]) " +
                             " VALUES('" + r.typeIndex + "','" + k2.Rectype + "','" +
-                               k2.Luno + "','" + k2.InformationIdentifier + "','" + k2.EppPublicKey + "','" + 
+                               k2.Luno + "','" + k2.InformationIdentifier + "','" + k2.EppPublicKey + "','" +
                                k2.EppPublicKeySignature + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -55,7 +53,7 @@ namespace Logger
             k2.Luno = tmpTypes[1];
             k2.InformationIdentifier = tmpTypes[3];
 
-            k2.EppPublicKey = tmpTypes[4].Substring(0,320);
+            k2.EppPublicKey = tmpTypes[4].Substring(0, 320);
             k2.EppPublicKeySignature = tmpTypes[4].Substring(320, 320);
 
             return k2;

@@ -52,7 +52,7 @@ namespace Logger
             if (recType != "")
             {
                 IMessage theRecord = MessageFactory.Create_Record(recType);
-                if (theRecord != null) 
+                if (theRecord != null)
                     txtFieldData.Text = theRecord.parseToView(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             }
         }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -83,19 +81,19 @@ namespace Logger
 
             ss.StatusDescriptor = tmpTypes[i];
 
-            ss.MessageIdentifier = tmpTypes[i+1].Substring(0, 1);
-            ss.ConfigurationId = tmpTypes[i+1].Substring(1, 4);
-            ss.HardwareFitness = tmpTypes[i+2];
-            ss.HardwareConfig = tmpTypes[i+3];
-            ss.SupplyStatus = tmpTypes[i+4];
-            ss.SensorStatus = tmpTypes[i+5];
+            ss.MessageIdentifier = tmpTypes[i + 1].Substring(0, 1);
+            ss.ConfigurationId = tmpTypes[i + 1].Substring(1, 4);
+            ss.HardwareFitness = tmpTypes[i + 2];
+            ss.HardwareConfig = tmpTypes[i + 3];
+            ss.SupplyStatus = tmpTypes[i + 4];
+            ss.SensorStatus = tmpTypes[i + 5];
 
-            if (tmpTypes.Length > i+6)
-                 ss.ReleaseNumber = tmpTypes[i+6];
-            if (tmpTypes.Length > i+7)
-                ss.SoftwareId = tmpTypes[i+7];
-            if (tmpTypes.Length > i+8)
-                ss.Mac = tmpTypes[i+8];
+            if (tmpTypes.Length > i + 6)
+                ss.ReleaseNumber = tmpTypes[i + 6];
+            if (tmpTypes.Length > i + 7)
+                ss.SoftwareId = tmpTypes[i + 7];
+            if (tmpTypes.Length > i + 8)
+                ss.Mac = tmpTypes[i + 8];
 
             return ss;
         }

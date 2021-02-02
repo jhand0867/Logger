@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlTypes;
-using System.Windows.Forms;
 
 namespace Logger
 {
@@ -100,7 +98,7 @@ namespace Logger
                 string recordType = getRecordType(r.typeContent);
 
                 IMessage theRecord = MessageFactory.Create_Record(recordType);
-                
+
                 if (theRecord == null) { continue; }
 
                 if (theRecord.writeData(OneTypeRec, Key, logID) == false)

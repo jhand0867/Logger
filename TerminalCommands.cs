@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logger
 {
@@ -99,7 +95,7 @@ namespace Logger
 
             tc.Rectype = "A";
             if (tmpTypes[0].Length > 11)
-              { tc.ResponseFlag = tmpTypes[0].Substring(11, 1); }
+            { tc.ResponseFlag = tmpTypes[0].Substring(11, 1); }
             tc.Luno = tmpTypes[1];
             tc.MessageSeqNumber = tmpTypes[2];
 

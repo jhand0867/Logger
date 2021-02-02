@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -21,8 +19,8 @@ namespace Logger
         private string cardsCaptured;
         private string envelopesDeposited;
         private string cameraFilmRemaining;
-        private string lastEnvelopeSerialNum;        
-        private string reserved1;        
+        private string lastEnvelopeSerialNum;
+        private string reserved1;
         private string reserved2;
         private string reserved3;
         private string reserved4;
@@ -152,17 +150,17 @@ namespace Logger
 
             ss.StatusDescriptor = tmpTypes[i];
 
-            string[] statusInfo = tmpTypes[i+1].Split((char)0x1d);
+            string[] statusInfo = tmpTypes[i + 1].Split((char)0x1d);
 
             ss.MessageIdentifier = statusInfo[0].Substring(0, 1);
-            ss.TransactionSerialNumber = statusInfo[0].Substring(1, 4); 
+            ss.TransactionSerialNumber = statusInfo[0].Substring(1, 4);
             ss.AccumulatedTranCount = statusInfo[0].Substring(5, 7);
-            ss.NotesInCassette = statusInfo[0].Substring(12, 20); 
+            ss.NotesInCassette = statusInfo[0].Substring(12, 20);
             ss.NotesRejected = statusInfo[0].Substring(32, 20);
             ss.NotesDispensed = statusInfo[0].Substring(52, 20);
             ss.LastTranNotesDispensed = statusInfo[0].Substring(72, 20);
             ss.CardsCaptured = statusInfo[0].Substring(92, 5);
-            ss.EnvelopesDeposited = statusInfo[0].Substring(97, 5); 
+            ss.EnvelopesDeposited = statusInfo[0].Substring(97, 5);
             ss.CameraFilmRemaining = statusInfo[0].Substring(102, 5);
             ss.LastEnvelopeSerialNum = statusInfo[0].Substring(107, 5);
 
@@ -173,17 +171,17 @@ namespace Logger
             if (statusInfo.Length > 4) ss.Reserved5 = statusInfo[4];
 
             if ((statusInfo.Length > 5) &&
-                (statusInfo[5].Length == 60)) 
+                (statusInfo[5].Length == 60))
             {
-                
+
                 ss.CoinsRemaining = statusInfo[5].Substring(0, 20);
                 ss.CoinsDispensed = statusInfo[5].Substring(20, 20);
                 ss.LastTranCoinsDispensed = statusInfo[5].Substring(40, 20);
             }
             if ((statusInfo.Length > 6) &&
-                (statusInfo[6].Length == 20)) 
+                (statusInfo[6].Length == 20))
             {
-                ss.TotalNotesRefunded = statusInfo[6].Substring(0,5);
+                ss.TotalNotesRefunded = statusInfo[6].Substring(0, 5);
                 ss.TotalNotesRejected = statusInfo[6].Substring(5, 5);
                 ss.TotalNotesEncaged = statusInfo[6].Substring(10, 5);
                 ss.TotalNotesEscrow = statusInfo[6].Substring(15, 5);
@@ -194,9 +192,9 @@ namespace Logger
             if (statusInfo.Length > 10) ss.Reserved9 = statusInfo[10];
 
             if ((statusInfo.Length > 11) &&
-                (statusInfo[11].Length == 20)) 
+                (statusInfo[11].Length == 20))
             {
-                ss.ChequesDepositedBin1 = statusInfo[11].Substring(0,5);
+                ss.ChequesDepositedBin1 = statusInfo[11].Substring(0, 5);
                 ss.ChequesDepositedBin2 = statusInfo[11].Substring(5, 5);
                 ss.ChequesDepositedBin3 = statusInfo[11].Substring(10, 5);
                 ss.ChequesDepositedBin4 = statusInfo[11].Substring(15, 5);
@@ -205,9 +203,9 @@ namespace Logger
             if (statusInfo.Length > 13) ss.Reserved11 = statusInfo[13];
             if (statusInfo.Length > 14) ss.Reserved12 = statusInfo[14];
             if (statusInfo.Length > 15) ss.NumberOfPassBooksCaptured = statusInfo[15];
-            
-            if (tmpTypes.Length > i+2)
-                ss.Mac = tmpTypes[i+2];
+
+            if (tmpTypes.Length > i + 2)
+                ss.Mac = tmpTypes[i + 2];
 
             return ss;
         }

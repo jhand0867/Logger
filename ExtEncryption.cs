@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logger
 {
@@ -98,7 +94,7 @@ namespace Logger
             if (tmpTypes[4].Length > 0)
             {
                 eek.KeySize = tmpTypes[4].Substring(0, 3);
-                eek.KeyData = tmpTypes[4].Substring(3,  tmpTypes[4].Length - 3);
+                eek.KeyData = tmpTypes[4].Substring(3, tmpTypes[4].Length - 3);
             }
 
             return eek;

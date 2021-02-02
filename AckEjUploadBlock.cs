@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logger
 {
@@ -89,7 +85,7 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             kud.Rectype = "J";
-            kud.LastCharReceived = tmpTypes[3].Substring(1,6);
+            kud.LastCharReceived = tmpTypes[3].Substring(1, 6);
 
             return kud;
         }
@@ -108,7 +104,7 @@ namespace Logger
             {
                 if (item[2].ToString().Trim() == field)
                 {
-                    optionDesc = item[3].ToString().Trim(); 
+                    optionDesc = item[3].ToString().Trim();
 
                     if (item[5].ToString() != null && item[5].ToString() != "")
                     {

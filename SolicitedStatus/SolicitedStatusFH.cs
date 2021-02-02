@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -48,7 +46,7 @@ namespace Logger
                             " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
                             ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
                             ss.MessageIdentifier + "','" + ss.ConfiggurationID + "','" + ss.ProductClass + "','" +
-                            ss.HwConfigurationID + "','" + ss.HwConfigurationData + "','" + ss.Mac + "','" + 
+                            ss.HwConfigurationID + "','" + ss.HwConfigurationData + "','" + ss.Mac + "','" +
                             Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -75,16 +73,16 @@ namespace Logger
             }
 
             ss.StatusDescriptor = tmpTypes[i];
-            ss.MessageIdentifier = tmpTypes[i+1].Substring(0, 1);
-            ss.ConfiggurationID = tmpTypes[i+1].Substring(1, 5);
-            ss.ProductClass = tmpTypes[i+2];
+            ss.MessageIdentifier = tmpTypes[i + 1].Substring(0, 1);
+            ss.ConfiggurationID = tmpTypes[i + 1].Substring(1, 5);
+            ss.ProductClass = tmpTypes[i + 2];
 
             string[] statusInfo = tmpTypes[i + 3].Split((char)0x1d);
 
-            
+
             ss.HwConfigurationID = statusInfo[0].Substring(0, 1);
-            ss.HwConfigurationData = statusInfo[0].Substring(1,3);
-            for(int x=1; x < statusInfo.Length; x++)
+            ss.HwConfigurationData = statusInfo[0].Substring(1, 3);
+            for (int x = 1; x < statusInfo.Length; x++)
             {
                 ss.HwConfigurationData += ";" + statusInfo[x];
             }

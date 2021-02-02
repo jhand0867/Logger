@@ -110,40 +110,40 @@ namespace Logger
                     for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                     {
 
-                            // Configuration Data
-                            txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
+                        // Configuration Data
+                        txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
 
-                            // Response format tag
-                            txtField += iccRecDt.Rows[0][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
+                        // Response format tag
+                        txtField += iccRecDt.Rows[0][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
 
-                            // Response format length
-                            txtField += iccRecDt.Rows[1][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
+                        // Response format length
+                        txtField += iccRecDt.Rows[1][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
 
-                            //  Tag
-                            txtField += iccRecDt.Rows[2][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
+                        //  Tag
+                        txtField += iccRecDt.Rows[2][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
 
-                            //  lgth
-                            txtField += iccRecDt.Rows[3][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][6].ToString().Trim() + System.Environment.NewLine;
+                        //  lgth
+                        txtField += iccRecDt.Rows[3][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][6].ToString().Trim() + System.Environment.NewLine;
 
-                            //  value
-                            txtField += iccRecDt.Rows[4][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
+                        //  value
+                        txtField += iccRecDt.Rows[4][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
 
-                            // Tag
-                            txtField += iccRecDt.Rows[5][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][8].ToString().Trim() + System.Environment.NewLine;
+                        // Tag
+                        txtField += iccRecDt.Rows[5][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][8].ToString().Trim() + System.Environment.NewLine;
 
-                            // lgth
-                            txtField += iccRecDt.Rows[6][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][9].ToString().Trim() + System.Environment.NewLine;
+                        // lgth
+                        txtField += iccRecDt.Rows[6][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][9].ToString().Trim() + System.Environment.NewLine;
 
-                            // value
-                            txtField += iccRecDt.Rows[7][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][10].ToString().Trim() + System.Environment.NewLine;
+                        // value
+                        txtField += iccRecDt.Rows[7][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][10].ToString().Trim() + System.Environment.NewLine;
                     }
                 }
             }

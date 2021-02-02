@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -81,7 +79,7 @@ namespace Logger
             ss.StatusDescriptor = tmpTypes[i];
             ss.MessageIdentifier = tmpTypes[i + 1].Substring(0, 1);
             ss.ReleaseNumberId = tmpTypes[i + 1].Substring(1, 1);
-            ss.ReleaseNumber = tmpTypes[i + 1].Substring(2, tmpTypes[i+1].Length - 2);
+            ss.ReleaseNumber = tmpTypes[i + 1].Substring(2, tmpTypes[i + 1].Length - 2);
 
             ss.SoftwareIdId = tmpTypes[i + 2].Substring(0, 1);
             ss.SoftwareId = tmpTypes[i + 2].Substring(1, tmpTypes[i + 2].Length - 1);

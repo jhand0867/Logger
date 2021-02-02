@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -66,12 +64,12 @@ namespace Logger
             }
 
             ss.StatusDescriptor = tmpTypes[i];
-            ss.StatusValue = tmpTypes[i+1].Substring(0,1);
+            ss.StatusValue = tmpTypes[i + 1].Substring(0, 1);
 
-            if (tmpTypes[i+1].Length > 1 ) ss.StatusQualifier = tmpTypes[i+1].Substring(1, 2);
+            if (tmpTypes[i + 1].Length > 1) ss.StatusQualifier = tmpTypes[i + 1].Substring(1, 2);
 
-            if (tmpTypes.Length > i+2)
-                ss.Mac = tmpTypes[i+2];
+            if (tmpTypes.Length > i + 2)
+                ss.Mac = tmpTypes[i + 2];
 
             return ss;
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 
 namespace Logger
@@ -7,7 +6,7 @@ namespace Logger
     class ConfigIdRec : App, IMessage
     {
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
-        {        
+        {
             List<DataTable> dts = new List<DataTable>();
 
             string sql = @"SELECT TOP 1 * FROM configId WHERE prjkey = '" +

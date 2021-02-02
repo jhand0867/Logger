@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logger
 {
@@ -133,7 +129,7 @@ namespace Logger
             int i = 11;
 
             if ((tmpTypes.Length > i) &&
-                tmpTypes[i].Length !=8)
+                tmpTypes[i].Length != 8)
             {
                 mfs.EmvConfig = tmpTypes[i];
                 i++;

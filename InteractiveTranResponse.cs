@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logger
 {
@@ -97,11 +93,11 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             itr.Rectype = "Q";
-            itr.DisplayFlag = tmpTypes[3].Substring(1,1);
+            itr.DisplayFlag = tmpTypes[3].Substring(1, 1);
             itr.ActiveKeys = tmpTypes[3].Substring(2, tmpTypes[3].Length - 2);
             itr.ScreenTimerField = tmpTypes[4];
             itr.ScreenDataField = tmpTypes[5];
- 
+
             return itr;
         }
 

@@ -40,7 +40,7 @@ namespace Logger
                 }
             }
             return recType;
-         }
+        }
 
         public void WriteLog(string filePath, string fileName, string logLine)
         {
@@ -75,7 +75,7 @@ namespace Logger
             }
 
         }
-        
+
         public bool ValidateYesNo(string value)
         {
             if (!(value == "000" || value == "001"))
@@ -85,7 +85,7 @@ namespace Logger
             }
             return true;
         }
-        
+
         public bool ValidateRange(string value, int start, int end)
         {
             int valSta = Convert.ToInt32(value);

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -75,9 +73,9 @@ namespace Logger
 
             ss.StatusDescriptor = tmpTypes[i];
 
-            ss.DigId = tmpTypes[i + 1].Substring(0,1);
-            ss.TransactionStatus = tmpTypes[i + 1].Substring(1, tmpTypes[i+1].Length-1);
-            
+            ss.DigId = tmpTypes[i + 1].Substring(0, 1);
+            ss.TransactionStatus = tmpTypes[i + 1].Substring(1, tmpTypes[i + 1].Length - 1);
+
             if (tmpTypes.Length > i + 2)
             {
                 ss.ErrorSeverity = tmpTypes[i + 2];

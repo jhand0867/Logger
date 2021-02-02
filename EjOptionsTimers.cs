@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logger
 {
@@ -136,7 +132,7 @@ namespace Logger
             {
                 if (item[2].ToString().Trim() == field)
                 {
-                    optionDesc = item[3].ToString().Trim(); 
+                    optionDesc = item[3].ToString().Trim();
 
                     if (item[5].ToString() != null && item[5].ToString() != "")
                     {

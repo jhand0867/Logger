@@ -289,7 +289,7 @@ namespace Logger
                 App.Prj = pr;
                 prjInfo.displayProjectInfo(pr.Name.ToString(), pr.Brief.ToString());
             }
-            
+
             prjInfo.TopMost = true;
             prjInfo.Show();
         }
@@ -338,13 +338,13 @@ namespace Logger
             hamburguerMenuOptions = new ListBox();
             hamburguerMenuOptions.SuspendLayout();
             hamburguerMenuOptions.Size = new Size(100, 30);
-            hamburguerMenuOptions.Location = new Point(e.Location.X + 100,e.Location.Y + 100);
+            hamburguerMenuOptions.Location = new Point(e.Location.X + 100, e.Location.Y + 100);
             hamburguerMenuOptions.Visible = true;
             hamburguerMenuOptions.Show();
             hamburguerMenuOptions.Items.Add("Detail");
             hamburguerMenuOptions.Items.Add("Big Icons");
 
-            
+
             if (e.Button == MouseButtons.Left)
             {
                 //create a list with the options

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -43,7 +41,7 @@ namespace Logger
         public override bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
             // Digester digester = new Digester();
-           
+
 
             foreach (typeRec r in typeRecs)
             {
@@ -83,7 +81,7 @@ namespace Logger
             }
 
             ss.StatusDescriptor = tmpTypes[i];
-            ss.MessageIdentifier = tmpTypes[i+1].Substring(0, 1); ;
+            ss.MessageIdentifier = tmpTypes[i + 1].Substring(0, 1); ;
 
             // this is the initial element id A
             ss.SensorStatusId = tmpTypes[i + 1].Substring(1, 1);

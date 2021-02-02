@@ -14,6 +14,14 @@ namespace Logger
         private void LogView_Load(object sender, EventArgs e)
         {
             dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
+
+            if (dgvLog.DataSource == null)
+            {
+                MessageBox.Show("unable to access database, please retry");
+                return;
+            }
+
+
             dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             AddHeaders(dgvLog);
 
@@ -26,7 +34,6 @@ namespace Logger
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
             dgvLog.Columns["Log Data"].Width = 660;
-            //         dgvLog.RowsDefaultCellStyle.BackColor =  Color.LightGray; Color.LightSteelBlue;
             dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
 
@@ -53,6 +60,12 @@ namespace Logger
 
             dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
 
+            if (dgvLog.DataSource == null)
+            {
+                MessageBox.Show("unable to access database, please retry");
+                return;
+            }
+
             dgvLog.Dock = DockStyle.Fill;
             dgvLog.ColumnHeadersVisible = true;
             dgvLog.Columns["id"].Visible = false;
@@ -62,7 +75,6 @@ namespace Logger
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
             dgvLog.Columns["Log Data"].Width = 660;
-            // dgvLog.RowsDefaultCellStyle.BackColor = Color.LightGray; Color.LightSteelBlue;
             dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
             cmbColumHeader2.SelectedIndex = -1;
@@ -82,7 +94,6 @@ namespace Logger
             }
 
             dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            //AddHeaders(dgvLog);
         }
 
         private void AddHeaders(DataGridView dataGridView)
@@ -91,31 +102,26 @@ namespace Logger
             string logID = dgvLog.Rows[0].Cells["LogID"].Value.ToString();
 
             // header group4
-            // ComboBox cmbColumHeader2 = new ComboBox();
 
             cmbColumHeader2.SelectionChangeCommitted += delegate (object sender, EventArgs e)
             {
                 cmbColumHeader2_SelectionChangeCommitted(sender, e, cmbColumHeader2, logID);
             };
-            
+
             cmbColumHeader2.DataSource = App.Prj.getGroupOptions(logID, "group4");
             cmbColumHeader2.DisplayMember = "group4";
             cmbColumHeader2.DropDownStyle = ComboBoxStyle.DropDownList;
             loc = dgvLog.GetCellDisplayRectangle(2, -1, true).Location;
             cmbColumHeader2.Location = new Point(loc.X + dgvLog.Columns[2].Width, 1);
-            //  cmbColumHeader2.Size = dgvLog.Columns[2].HeaderCell.Size;
             cmbColumHeader2.Width = dgvLog.Columns[3].Width;
             dgvLog.Controls.Clear();
             dgvLog.Controls.Add(cmbColumHeader2);
-            //cmbColumHeader2.FormattingEnabled = true;
             cmbColumHeader2.ResetText();
-            // ((ComboBox)cmbColumHeader2).Items.Insert(0, string.Empty);
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.Visible = true;
 
-
             // header group5
-            
+
             cmbColumHeader4.SelectionChangeCommitted += delegate (object sender, EventArgs e)
             {
                 cmbColumHeader4_SelectionChangeCommitted(sender, e, cmbColumHeader4, logID);
@@ -179,45 +185,54 @@ namespace Logger
 
         private void cmbColumHeader2_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
         {
-            if (c.Text != "")
-            {
-                string sqlLike = "='" + c.Text + "'";
-                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group4", sqlLike);
-                this.dgvLog.Refresh();
-            }
+            string sqlLike = "='" + c.Text + "'";
+            this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group4", sqlLike);
+            cmbColumHeader4.SelectedIndex = -1;
+            cmbColumHeader4.SelectedItem = null;
+            cmbColumHeader5.SelectedIndex = -1;
+            cmbColumHeader5.SelectedItem = null;
+            cmbColumHeader6.SelectedIndex = -1;
+            cmbColumHeader6.SelectedItem = null;
+            this.dgvLog.Refresh();
         }
 
         private void cmbColumHeader4_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
         {
-            if (c.Text != "")
-            {
-                string sqlLike = "='" + c.Text + "'";
-                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group5", sqlLike);
-                this.dgvLog.Refresh();
-            }
-
+            string sqlLike = "='" + c.Text + "'";
+            this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group5", sqlLike);
+            cmbColumHeader2.SelectedIndex = -1;
+            cmbColumHeader2.SelectedItem = null;
+            cmbColumHeader5.SelectedIndex = -1;
+            cmbColumHeader5.SelectedItem = null;
+            cmbColumHeader6.SelectedIndex = -1;
+            cmbColumHeader6.SelectedItem = null;
+            this.dgvLog.Refresh();
         }
 
         private void cmbColumHeader5_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
         {
-            if (c.Text != "")
-            {
-                string sqlLike = " LIKE '%[[]" + c.Text + "%'";
-                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group6", sqlLike);
-                this.dgvLog.Refresh();
-            }
-
+            string sqlLike = " LIKE '%[[]" + c.Text + "%'";
+            this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group6", sqlLike);
+            cmbColumHeader2.SelectedIndex = -1;
+            cmbColumHeader2.SelectedItem = null;
+            cmbColumHeader4.SelectedIndex = -1;
+            cmbColumHeader4.SelectedItem = null;
+            cmbColumHeader6.SelectedIndex = -1;
+            cmbColumHeader6.SelectedItem = null;
+            this.dgvLog.Refresh();
         }
 
         private void cmbColumHeader6_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
         {
-            if (c.Text != "")
-            {
-                string sqlLike = " LIKE '%" + c.Text + "%'";
-                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", sqlLike);
-                this.dgvLog.Refresh();
-            }
-
+            string sqlLike = " LIKE '%" + c.Text + "%'";
+            this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", sqlLike);
+            cmbColumHeader2.SelectedIndex = -1;
+            cmbColumHeader2.SelectedItem = null;
+            cmbColumHeader4.SelectedIndex = -1;
+            cmbColumHeader4.SelectedItem = null;
+            cmbColumHeader5.SelectedIndex = -1;
+            cmbColumHeader5.SelectedItem = null;
+            this.dgvLog.Refresh();
         }
 
         private void dgvLog_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -229,13 +244,13 @@ namespace Logger
                 {
                     frmLogData = new LogData();
                 }
-                //setData = null;
+
                 setData = new passLogData(frmLogData.setData);
                 setData(dgvLog.Rows[e.RowIndex]);
                 frmLogData.TopMost = true;
                 frmLogData.Show();
             }
-            
+
             if (e.Button == MouseButtons.Right)
             {
                 dgvLog.ContextMenuStrip = this.contextMenuStrip1;
@@ -246,7 +261,6 @@ namespace Logger
 
         private void searchTwoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // cmbColumHeader2.SelectedIndex = -1;
             reloadData();
         }
 
@@ -262,20 +276,18 @@ namespace Logger
 
         private void dgvLog_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
 
         }
 
         private void showInContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             logInContext();
-            
+
         }
 
         private void logInContext()
         {
-            //string key = dgvLog.SelectedRows[0].Cells[1].Value.ToString();
-
             int rowIndex = dgvLog.SelectedCells[0].RowIndex;
             string key = dgvLog.Rows[rowIndex].Cells["logkey"].Value.ToString();
 
@@ -289,8 +301,6 @@ namespace Logger
                 {
                     dgvLog.FirstDisplayedScrollingRowIndex = row.Index;
                     dgvLog.Rows[row.Index].Selected = true;
-
-                    // MessageBox.Show("Gotcha, it is " + row.Index);
                 }
             }
         }
@@ -319,14 +329,11 @@ namespace Logger
         {
             dgvLog.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
             int rowIndex = dgvLog.SelectedCells[0].RowIndex;
-          //  dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
             if (dataWrappingToolStripMenuItem1.Text == "Data Wrapping")
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
- //               contextMenuStrip1.Items[2].Text = "Data Unwrapping";
- //               ContextMenuStrip.Items[2].Text = "Data Unwrapping";
                 dataWrappingToolStripMenuItem.Text = "Data Unwrapping";
                 dataWrappingToolStripMenuItem1.Text = "Data Unwrapping";
                 dgvLog.Refresh();
@@ -344,15 +351,24 @@ namespace Logger
 
         private void dataCopy()
         {
-            //dgvLog.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             Clipboard.SetDataObject(dgvLog.GetClipboardContent());
-            //dgvLog.ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable;
 
         }
 
         private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dataCopy();
+        }
+
+        private void serchOneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            advancedFilter();
+        }
+
+        private void advancedFilter()
+        {
+            AdvancedFilter af = new AdvancedFilter();
+            af.Show();
         }
     }
 }

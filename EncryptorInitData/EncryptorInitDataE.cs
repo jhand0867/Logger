@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -35,7 +33,7 @@ namespace Logger
                 string sql = @"INSERT INTO encryptorInitDataE([logkey],[rectype],[luno],
 	                        [informationIdentifier],[eppSerialNumber],[snMultipliedbySKvendor],[prjkey],[logID]) " +
                             " VALUES('" + r.typeIndex + "','" + kE.Rectype + "','" +
-                               kE.Luno + "','" + kE.InformationIdentifier + "','" + kE.EppSerialNumber + "','" + 
+                               kE.Luno + "','" + kE.InformationIdentifier + "','" + kE.EppSerialNumber + "','" +
                                kE.SnMultipliedbySKvendor + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();

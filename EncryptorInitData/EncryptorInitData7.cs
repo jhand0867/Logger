@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -11,7 +9,7 @@ namespace Logger
         private string luno;
         private string informationIdentifier;
         private string binaryDataLength;
-	    private string rsaKVV;
+        private string rsaKVV;
 
         public string Rectype { get => rectype; set => rectype = value; }
         public string Luno { get => luno; set => luno = value; }
@@ -35,11 +33,11 @@ namespace Logger
                 string sql = @"INSERT INTO encryptorInitData7([logkey],[rectype],[luno],
 	                        [informationIdentifier],[binaryDataLength],[rsaKVV],[prjkey],[logID]) " +
                             " VALUES('" + r.typeIndex + "','" + k7.Rectype + "','" +
-                               k7.Luno + "','" + k7.InformationIdentifier + "','" + k7.BinaryDataLength+ "','" + 
+                               k7.Luno + "','" + k7.InformationIdentifier + "','" + k7.BinaryDataLength + "','" +
                                k7.RsaKVV + "','" + Key + "'," + logID + ")";
 
 
-                
+
 
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)

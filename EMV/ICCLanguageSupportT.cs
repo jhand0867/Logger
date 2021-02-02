@@ -103,28 +103,28 @@ namespace Logger
                 {
                     for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                     {
-                            // Configuration Data
-                            txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
+                        // Configuration Data
+                        txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
 
-                            // Language Code
-                            txtField += iccRecDt.Rows[1][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
+                        // Language Code
+                        txtField += iccRecDt.Rows[1][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
 
-                            // Screen Base
-                            txtField += iccRecDt.Rows[2][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
+                        // Screen Base
+                        txtField += iccRecDt.Rows[2][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
 
-                            // Audio Base
-                            txtField += iccRecDt.Rows[3][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
+                        // Audio Base
+                        txtField += iccRecDt.Rows[3][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
 
-                            //  OpCode Buffer Positions
-                            txtField += iccRecDt.Rows[4][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][6].ToString().Trim() + System.Environment.NewLine;
+                        //  OpCode Buffer Positions
+                        txtField += iccRecDt.Rows[4][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][6].ToString().Trim() + System.Environment.NewLine;
 
-                            //  OpCode Buffer Values
-                            txtField += iccRecDt.Rows[5][3].ToString().Trim() + " = ";
-                            txtField += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
+                        //  OpCode Buffer Values
+                        txtField += iccRecDt.Rows[5][3].ToString().Trim() + " = ";
+                        txtField += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
                     }
                 }
             }

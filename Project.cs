@@ -109,7 +109,7 @@ namespace Logger
         /// <summary>
         /// Constructor setup Dictionary with recordtypes with its matching class name
         /// </summary>
-        
+
         public Project()
         {
             log.Info($"Accessing Project Data");
@@ -387,17 +387,17 @@ namespace Logger
                 Regex dateGroup = new Regex(@"\d\d\d\d-\d\d-\d\d.\d\d:\d\d:\d\d-\d\d\d");
                 MatchCollection itsADate;
 
-                if(lineProcess == 14270)
+                if (lineProcess == 14270)
                 { }
 
                 while ((lineProcess < lstLines.Length && lstLines[lineProcess].Length > 0
                     && lstLines[lineProcess].Substring(0, 1) != "["
                     && lstLines[lineProcess].Substring(0, 1) != "="
                     ) ||
-                  (lineProcess < lstLines.Length && lstLines[lineProcess].Length == 0) || 
+                  (lineProcess < lstLines.Length && lstLines[lineProcess].Length == 0) ||
                   (lineProcess < lstLines.Length && (itsADate = dateGroup.Matches(lstLines[lineProcess])).Count == 0))
                 {
-                   
+
                     if (lstLines[lineProcess] != "")
                     {
                         strLine += lstLines[lineProcess] + System.Environment.NewLine;
@@ -415,7 +415,7 @@ namespace Logger
                 Regex openGroup9 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
                 Regex openGroup8 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
                 Regex closeGroup = new Regex("]");
-                
+
 
                 MatchCollection openGroupContent = openGroup9.Matches(strLine);
                 if (openGroupContent.Count == 0)
@@ -530,13 +530,13 @@ namespace Logger
 
             // set groups straight
 
-            if  (data.allGroups[6].IndexOf("]") != data.allGroups[6].LastIndexOf("]") )
+            if (data.allGroups[6].IndexOf("]") != data.allGroups[6].LastIndexOf("]"))
             {
-               int indexGroup = data.allGroups[6].IndexOf("]") + 1;
-               data.allGroups[8] = data.allGroups[6].Substring(indexGroup, data.allGroups[6].Length - indexGroup) +
-                                    data.allGroups[7] + data.allGroups[8];
-               data.allGroups[6] = data.allGroups[6].Substring(0, indexGroup);
-               data.allGroups[7] = "";
+                int indexGroup = data.allGroups[6].IndexOf("]") + 1;
+                data.allGroups[8] = data.allGroups[6].Substring(indexGroup, data.allGroups[6].Length - indexGroup) +
+                                     data.allGroups[7] + data.allGroups[8];
+                data.allGroups[6] = data.allGroups[6].Substring(0, indexGroup);
+                data.allGroups[7] = "";
             }
 
             if ((data.allGroups[7] != "") &&
@@ -608,14 +608,14 @@ namespace Logger
                 // bypass messages that starts with  "HOST2ATM: 1" or ""HOST2ATM: 3" but do not have value in 
                 // subfield 3 ie. [RECV]HOST2ATM: 170172376255118255139        [RECV]HOST2ATM: 34
 
-                if (((recordType == "1") || (recordType.Substring(0,1) == "3")) &&
+                if (((recordType == "1") || (recordType.Substring(0, 1) == "3")) &&
                     (tmpTypes.Length < 4))
                 {
                     continue;
                 }
 
-                if ((subRecType != "" ) &&
-                     subRecType != 
+                if ((subRecType != "") &&
+                     subRecType !=
                      tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[option, 1])].Substring(0, App.Prj.RecordTypes[option, 2].Length))
 
                 {
@@ -626,11 +626,11 @@ namespace Logger
                 //              31B (MAC Field Selection Load) or
                 //              31E (Dispenser Mapping Table)
 
-                if (recordType.Substring(0, 1) == "3" && 
+                if (recordType.Substring(0, 1) == "3" &&
                     recordType.Length > 2 &&
                     recordType.Substring(1, 2) == tmpTypes[3] &&
                     recordType.Substring(1, 2) != "1B" &&
-                    recordType.Substring(1, 2) != "1E" ) 
+                    recordType.Substring(1, 2) != "1E")
                 {
                     int myInd = tmpTypes[0].Length + tmpTypes[1].Length + tmpTypes[2].Length + tmpTypes[3].Length;
                     string typeData = rec.Value.Substring(myInd + 4, rec.Value.Length - (myInd + 4));
@@ -887,7 +887,7 @@ namespace Logger
             sql = @"SELECT COUNT(*) FROM interactiveTranResponse WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("interactiveTranResponse", count);
-            
+
             return dicBits;
         }
 

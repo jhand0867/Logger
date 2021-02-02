@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -60,7 +58,7 @@ namespace Logger
             int i = 3;
 
             us.Dig = tmpTypes[i].Substring(0, 1);
-            us.DeviceStatus = tmpTypes[i].Substring(1, tmpTypes[i].Length-1);
+            us.DeviceStatus = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
 
             if (tmpTypes.Length > i + 1)
             {

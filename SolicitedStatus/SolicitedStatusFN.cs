@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -12,12 +10,12 @@ namespace Logger
         private string timeVariant;
         private string statusDescriptor;
         private string messageIdentifier;
-	    private string acceptedCashItemsId;
-	    private string cashTypeData;
-	    private string ecb6NoteRetationModeId;
-	    private string ecb6NoteRetantionMode;
-	    private string dataId;
-	    private string data;
+        private string acceptedCashItemsId;
+        private string cashTypeData;
+        private string ecb6NoteRetationModeId;
+        private string ecb6NoteRetantionMode;
+        private string dataId;
+        private string data;
         private string mac;
 
         public string Rectype { get => rectype; set => rectype = value; }
@@ -82,9 +80,9 @@ namespace Logger
             ss.StatusDescriptor = tmpTypes[i];
             ss.MessageIdentifier = tmpTypes[i + 1].Substring(0, 1);
             ss.AcceptedCashItemsId = tmpTypes[i + 1].Substring(1, 1);
-            if (tmpTypes[i+1].Length > 2) ss.CashTypeData = tmpTypes[i + 1].Substring(2, tmpTypes[i + 1].Length - 2);
+            if (tmpTypes[i + 1].Length > 2) ss.CashTypeData = tmpTypes[i + 1].Substring(2, tmpTypes[i + 1].Length - 2);
 
-            if (tmpTypes.Length > i+2)
+            if (tmpTypes.Length > i + 2)
             {
                 ss.Ecb6NoteRetationModeId = tmpTypes[i + 2].Substring(0, 1);
                 ss.Ecb6NoteRetationModeId = tmpTypes[i + 2].Substring(1, 3);

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logger
 {
@@ -89,7 +85,7 @@ namespace Logger
 	                            [responseData],[prjkey],[logID]) " +
                             " VALUES('" + r.typeIndex + "','" + ud.Rectype + "','" + ud.MachineNumRange + "','" +
                                ud.DateRange + "','" + ud.TimeRange + "','" + ud.LastCharPrevBlock + "','" +
-                               ud.LastCharThisBlock + "','" + ud.BlockLength + "','" + ud.ResponseData + "','" + 
+                               ud.LastCharThisBlock + "','" + ud.BlockLength + "','" + ud.ResponseData + "','" +
                                Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -106,13 +102,13 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             ud.Rectype = "H";
-            ud.MachineNumRange = tmpTypes[4].Substring(0,6);
+            ud.MachineNumRange = tmpTypes[4].Substring(0, 6);
             ud.DateRange = tmpTypes[4].Substring(6, 6);
             ud.TimeRange = tmpTypes[4].Substring(12, 6);
             ud.LastCharPrevBlock = tmpTypes[4].Substring(18, 6);
             ud.LastCharThisBlock = tmpTypes[4].Substring(24, 6);
             ud.BlockLength = tmpTypes[4].Substring(30, 3);
-            ud.ResponseData = tmpTypes[4].Substring(33, tmpTypes[4].Length-33);
+            ud.ResponseData = tmpTypes[4].Substring(33, tmpTypes[4].Length - 33);
 
             return ud;
         }
@@ -131,7 +127,7 @@ namespace Logger
             {
                 if (item[2].ToString().Trim() == field)
                 {
-                    optionDesc = item[3].ToString().Trim(); 
+                    optionDesc = item[3].ToString().Trim();
 
                     if (item[5].ToString() != null && item[5].ToString() != "")
                     {

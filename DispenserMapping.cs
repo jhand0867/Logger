@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logger
 {
@@ -101,7 +97,7 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             dm.Rectype = "G";
-            dm.NumberMappingEntries = tmpTypes[4].Substring(0,2);
+            dm.NumberMappingEntries = tmpTypes[4].Substring(0, 2);
             dm.MappingTable = tmpTypes[4].Substring(2, tmpTypes[4].Length - 2);
 
             if (tmpTypes.Length > 5)

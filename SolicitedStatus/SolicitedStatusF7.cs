@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Logger
 {
@@ -16,40 +14,40 @@ namespace Logger
         private string accumulatedTransactionCount;
         private string cardReaderDGIdB;
         private string cardsCaptured;
-	    private string cashHandler0DGIdC;
+        private string cashHandler0DGIdC;
         private string cashHandler0DGDataC;
-	    private string cashHandler1DGIdD;
+        private string cashHandler1DGIdD;
         private string cashHandler1DGDataD;
-	    private string coinDispenserDGIdE;
+        private string coinDispenserDGIdE;
         private string coinDispenserDGDataE;
-	    private string envelopeDepositoryDGIdF;
-	    private string envelopesDeposited;
-	    private string lastEnvelopeSerialNumber;
-	    private string cameraDGIdG;
-	    private string cameraFilmRemaining;
-	    private string bnaCassetteCountDGIdI;
+        private string envelopeDepositoryDGIdF;
+        private string envelopesDeposited;
+        private string lastEnvelopeSerialNumber;
+        private string cameraDGIdG;
+        private string cameraFilmRemaining;
+        private string bnaCassetteCountDGIdI;
         private string ndcCassetteTypeData;
-	    private string noteTypeIdentifier;
-	    private string numberOfNotes;
-    	private string chequeProcessorDGIdJ;
-	    private string binNumber;
-	    private string chequeDepositedInBin;
-	    private string bnaEmulationDepositedDGIdK;
-	    private string totalNotesRefunded;
-	    private string totalNotesReturnedRejected;
-	    private string totalNotesEncashed;
-	    private string totalNotesEscrowed;
-	    private string dualDispenserCombinedDGIdL;
+        private string noteTypeIdentifier;
+        private string numberOfNotes;
+        private string chequeProcessorDGIdJ;
+        private string binNumber;
+        private string chequeDepositedInBin;
+        private string bnaEmulationDepositedDGIdK;
+        private string totalNotesRefunded;
+        private string totalNotesReturnedRejected;
+        private string totalNotesEncashed;
+        private string totalNotesEscrowed;
+        private string dualDispenserCombinedDGIdL;
         private string dualDispenserCombinedData;
-	    private string ecb6Cat2NotesDGIdN;
+        private string ecb6Cat2NotesDGIdN;
         private string ecb6Cat2NotesData;
         private string cat2NoteTypeIdentifier;
-	    private string cat2Notes;
-	    private string ecb6Cat3NotesDGIdO;
+        private string cat2Notes;
+        private string ecb6Cat3NotesDGIdO;
         private string ecb6Cat3NotesData;
         private string cat3NoteTypeIdentifier;
-    	private string cat3Notes;
-	    private string mac;
+        private string cat3Notes;
+        private string mac;
 
         public string Rectype { get => rectype; set => rectype = value; }
         public string Luno { get => luno; set => luno = value; }
@@ -124,15 +122,15 @@ namespace Logger
                             ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
                             ss.MessageIdentifier + "','" + ss.TransactionGroupIdA + "','" + ss.TransactionSerialNumber + "','" +
                             ss.AccumulatedTransactionCount + "','" + ss.CardReaderDGIdB + "','" + ss.CardsCaptured + "','" +
-                            ss.CashHandler0DGIdC + "','" + ss.CashHandler0DGDataC + "','" + ss.CashHandler1DGIdD + "','" + 
+                            ss.CashHandler0DGIdC + "','" + ss.CashHandler0DGDataC + "','" + ss.CashHandler1DGIdD + "','" +
                             ss.CashHandler1DGDataD + "','" + ss.CoinDispenserDGIdE + "','" + ss.CoinDispenserDGDataE + "','" +
                             ss.EnvelopeDepositoryDGIdF + "','" + ss.EnvelopesDeposited + "','" + ss.LastEnvelopeSerialNumber + "','" +
-                            ss.CameraDGIdG + "','" + ss.CameraFilmRemaining + "','" + ss.BnaCassetteCountDGIdI + "','" + 
+                            ss.CameraDGIdG + "','" + ss.CameraFilmRemaining + "','" + ss.BnaCassetteCountDGIdI + "','" +
                             ss.NdcCassetteTypeData + "','" + ss.NoteTypeIdentifier + "','" + ss.NumberOfNotes + "','" +
                             ss.ChequeProcessorDGIdJ + "','" + ss.BinNumber + "','" + ss.ChequeDepositedInBin + "','" +
                             ss.BnaEmulationDepositedDGIdK + "','" + ss.TotalNotesRefunded + "','" + ss.TotalNotesReturnedRejected + "','" +
                             ss.TotalNotesEncashed + "','" + ss.TotalNotesEscrowed + "','" +
-                            ss.DualDispenserCombinedDGIdL + "','" + ss.DualDispenserCombinedData + "','" + ss.Ecb6Cat2NotesDGIdN + "','" + 
+                            ss.DualDispenserCombinedDGIdL + "','" + ss.DualDispenserCombinedData + "','" + ss.Ecb6Cat2NotesDGIdN + "','" +
                             ss.Ecb6Cat2NotesData + "','" + ss.Cat2NoteTypeIdentifier + "','" + ss.Cat2Notes + "','" + ss.Ecb6Cat3NotesDGIdO + "','" +
                             ss.Ecb6Cat3NotesData + "','" + ss.Cat3NoteTypeIdentifier + "','" + ss.Cat3Notes + "','" +
                             ss.Mac + "','" + Key + "'," + logID + ")";
@@ -150,7 +148,7 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             ss.Rectype = "N";
-            ss.Luno = tmpTypes[1]; 
+            ss.Luno = tmpTypes[1];
             int i = 3;
             if (tmpTypes[3].Length != 1)
             {
@@ -168,7 +166,7 @@ namespace Logger
             ss.CardReaderDGIdB = statusInfo[1].Substring(0, 1);
             ss.CardsCaptured = statusInfo[1].Substring(1, 5);
             ss.CashHandler0DGIdC = statusInfo[2].Substring(0, 1);
- 
+
             int numEntries = (statusInfo[2].Length - 1) / 28;
             int offset = 1;
             ss.CashHandler0DGDataC = "";

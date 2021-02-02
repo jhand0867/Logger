@@ -7,7 +7,7 @@ namespace Logger
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-       
+
         public static Project Create_Project()
         {
             return new Project();
@@ -29,7 +29,7 @@ namespace Logger
         }
 
         public static Digester Create_Digester()
-        { 
+        {
             return new Digester();
         }
 

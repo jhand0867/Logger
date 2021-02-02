@@ -217,9 +217,9 @@ namespace Logger
             {
                 for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                 {
-                 timers += dt.Columns[3].ColumnName.Trim() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-                 string optionDesc = getOptionDescription(configDt, "T" + dt.Rows[rowNum][3].ToString());
-                 timers += "\t" + optionDesc + System.Environment.NewLine;
+                    timers += dt.Columns[3].ColumnName.Trim() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
+                    string optionDesc = getOptionDescription(configDt, "T" + dt.Rows[rowNum][3].ToString());
+                    timers += "\t" + optionDesc + System.Environment.NewLine;
                 }
             }
             return timers;

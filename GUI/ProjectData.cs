@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Logger
 
-    //todo: check the form refresh after log is attached for first time, not enabling scan option from menu.
+//todo: check the form refresh after log is attached for first time, not enabling scan option from menu.
 {
     public partial class ProjectData : Form
     {
@@ -48,7 +48,7 @@ namespace Logger
 
             if (dataGridView1.DataSource != null &&
                 dataGridView1.Rows.Count > 0)
-            {                
+            {
                 scanToolStripMenuItem.Enabled = true;
             }
             else
@@ -264,14 +264,14 @@ namespace Logger
             scanToolStripMenuItem.DropDownItems[0].Enabled = true;
 
             for (int i = 4; i < dgvr.Cells.Count - 1; i++)
-                {
+            {
                 if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
                 {
                     scanToolStripMenuItem.DropDownItems[0].Enabled = false;
                     break;
                 }
             }
-                
+
         }
 
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -398,10 +398,10 @@ namespace Logger
         {
             for (int i = 0; i < 25; i++)
                 optionSelected(i, false);
-            
+
             optionSelected(25, true);
 
-           // completed();
+            // completed();
 
         }
 
