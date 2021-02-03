@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Logger
 {
@@ -7,7 +9,7 @@ namespace Logger
     {
 
         private string[] fields = { "", "[group1]", "[group4]", "[group5]", "[group6]", "[group8]" };
-        private string[] operators = { "", "=", "<>", "Like", ">", "<" };
+        private string[] operators = { "", "Like", "=", "<>", ">", "<" };
         private string[] conditions = { "", "AND", "OR" };
         private string[] fieldSelected = { "", "", "", "", "", "" };
         private string[] fieldOutput = { "", "", "", "", "", "" };
@@ -54,6 +56,8 @@ namespace Logger
 
             fieldSelected[i] = fields[cb.SelectedIndex];
             fieldOutput[i] = cb.SelectedItem.ToString();
+
+            
         }
 
         // Operators selection
@@ -70,16 +74,25 @@ namespace Logger
 
         // Text selection  
 
-        private void tbLineValue_TextChanged(object sender, EventArgs e)
+        //private void tbLineValue_TextChanged(object sender, EventArgs e)
+        //{
+        //    TextBox tb = sender as TextBox;
+        //    string iStr = tb.Name.Substring(6, 1);
+        //    int i = Convert.ToInt32(iStr) - 1;
+
+        //    textSelected[i] = tb.Text;
+        //    preview();
+        //}
+
+        private void cbLineValue_Leave(object sender, EventArgs e)
         {
-            TextBox tb = sender as TextBox;
-            string iStr = tb.Name.Substring(6, 1);
+            ComboBox cb = sender as ComboBox;
+            string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            textSelected[i] = tb.Text;
+            textSelected[i] = cb.Text;
             preview();
         }
-
 
         //  condition selection 
 
@@ -111,18 +124,25 @@ namespace Logger
             cbOperators.Items.Clear();
             cbOperators.Items.Add(String.Empty);
 
-            if (fieldOutput[i] == "Timestamp")
+            if (fieldOutput[i] == "") 
+                return;
+
+            if ( (fieldOutput[i] == "Timestamp") ||
+                 (fieldOutput[i] == "Direction") ||
+                 (fieldOutput[i] == "Data") )
+
             {
                 cbOperators.Items.Add("Like");
+                return;
             }
-            else
-            {
-                cbOperators.Items.Add("Equal");
-                cbOperators.Items.Add("Not Equal");
-                cbOperators.Items.Add("Like");
-                cbOperators.Items.Add("Greater Than");
-                cbOperators.Items.Add("Less Than");
-            }
+
+            cbOperators.Items.Add("Like");
+            cbOperators.Items.Add("Equal");
+            cbOperators.Items.Add("Not Equal");
+            cbOperators.Items.Add("Greater Than");
+            cbOperators.Items.Add("Less Than");
+            return;
+
         }
 
         private void cbLine1AndOr_Click(object sender, EventArgs e)
@@ -270,6 +290,46 @@ namespace Logger
                 }
             }
 
+
+        }
+
+        private void cbLineValue_MouseClick(object sender, MouseEventArgs e)
+        {
+            ComboBox cb = (sender as ComboBox);
+            string iStr = cb.Name.Substring(6, 1);
+            int i = Convert.ToInt32(iStr) - 1;
+
+            cb.Items.Clear();
+            cb.Items.Add(string.Empty);
+
+            string groupName = "";
+
+            if (fieldOutput[i] == "Class") groupName = "group4";
+            else if (fieldOutput[i] == "Method") groupName = "group5";
+            else if (fieldOutput[i] == "Direction") groupName = "group6";
+
+            if (groupName != "")
+            {
+                DataTable dt = new DataTable();
+                dt = App.Prj.getGroupOptions(ProjectData.logID, groupName);
+
+                foreach (DataRow theRow in dt.Rows)
+                {
+                    string str = (theRow[0].ToString());
+                    cb.Items.Add(str);
+
+                }
+
+            }
+        }
+
+        private void cbLine1Field_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbLine1Value_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
     }

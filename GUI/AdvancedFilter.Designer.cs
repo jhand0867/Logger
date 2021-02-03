@@ -36,18 +36,12 @@ namespace Logger
             this.cbLine2Operator = new System.Windows.Forms.ComboBox();
             this.cbLine2Field = new System.Windows.Forms.ComboBox();
             this.cbLine2AndOr = new System.Windows.Forms.ComboBox();
-            this.tbLine1Value = new System.Windows.Forms.TextBox();
-            this.tbLine2Value = new System.Windows.Forms.TextBox();
-            this.tbLine4Value = new System.Windows.Forms.TextBox();
-            this.tbLine3Value = new System.Windows.Forms.TextBox();
             this.cbLine4Operator = new System.Windows.Forms.ComboBox();
             this.cbLine4Field = new System.Windows.Forms.ComboBox();
             this.cbLine4AndOr = new System.Windows.Forms.ComboBox();
             this.cbLine3Operator = new System.Windows.Forms.ComboBox();
             this.cbLine3Field = new System.Windows.Forms.ComboBox();
             this.cbLine3AndOr = new System.Windows.Forms.ComboBox();
-            this.tbLine6Value = new System.Windows.Forms.TextBox();
-            this.tbLine5Value = new System.Windows.Forms.TextBox();
             this.cbLine6Operator = new System.Windows.Forms.ComboBox();
             this.cbLine6Field = new System.Windows.Forms.ComboBox();
             this.cbLine6AndOr = new System.Windows.Forms.ComboBox();
@@ -57,6 +51,12 @@ namespace Logger
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.rtbSQLResult = new System.Windows.Forms.RichTextBox();
+            this.cbLine1Value = new System.Windows.Forms.ComboBox();
+            this.cbLine2Value = new System.Windows.Forms.ComboBox();
+            this.cbLine3Value = new System.Windows.Forms.ComboBox();
+            this.cbLine4Value = new System.Windows.Forms.ComboBox();
+            this.cbLine5Value = new System.Windows.Forms.ComboBox();
+            this.cbLine6Value = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // cbLine1AndOr
@@ -86,6 +86,7 @@ namespace Logger
             this.cbLine1Field.Name = "cbLine1Field";
             this.cbLine1Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine1Field.TabIndex = 1;
+            this.cbLine1Field.SelectedIndexChanged += new System.EventHandler(this.cbLine1Field_SelectedIndexChanged_1);
             this.cbLine1Field.SelectionChangeCommitted += new System.EventHandler(this.cbLineField_SelectionChangeCommitted);
             this.cbLine1Field.Click += new System.EventHandler(this.cbLine1Field_Click);
             // 
@@ -150,42 +151,6 @@ namespace Logger
             this.cbLine2AndOr.TabIndex = 4;
             this.cbLine2AndOr.SelectionChangeCommitted += new System.EventHandler(this.cbLineAndOr_SelectionChangeCommitted);
             this.cbLine2AndOr.Click += new System.EventHandler(this.cbLine2AndOr_Click);
-            // 
-            // tbLine1Value
-            // 
-            this.tbLine1Value.BackColor = System.Drawing.SystemColors.Window;
-            this.tbLine1Value.Location = new System.Drawing.Point(440, 86);
-            this.tbLine1Value.Name = "tbLine1Value";
-            this.tbLine1Value.Size = new System.Drawing.Size(314, 31);
-            this.tbLine1Value.TabIndex = 7;
-            this.tbLine1Value.Leave += new System.EventHandler(this.tbLineValue_TextChanged);
-            // 
-            // tbLine2Value
-            // 
-            this.tbLine2Value.BackColor = System.Drawing.SystemColors.Window;
-            this.tbLine2Value.Location = new System.Drawing.Point(440, 137);
-            this.tbLine2Value.Name = "tbLine2Value";
-            this.tbLine2Value.Size = new System.Drawing.Size(314, 31);
-            this.tbLine2Value.TabIndex = 8;
-            this.tbLine2Value.Leave += new System.EventHandler(this.tbLineValue_TextChanged);
-            // 
-            // tbLine4Value
-            // 
-            this.tbLine4Value.BackColor = System.Drawing.SystemColors.Window;
-            this.tbLine4Value.Location = new System.Drawing.Point(440, 244);
-            this.tbLine4Value.Name = "tbLine4Value";
-            this.tbLine4Value.Size = new System.Drawing.Size(314, 31);
-            this.tbLine4Value.TabIndex = 16;
-            this.tbLine4Value.Leave += new System.EventHandler(this.tbLineValue_TextChanged);
-            // 
-            // tbLine3Value
-            // 
-            this.tbLine3Value.BackColor = System.Drawing.SystemColors.Window;
-            this.tbLine3Value.Location = new System.Drawing.Point(440, 193);
-            this.tbLine3Value.Name = "tbLine3Value";
-            this.tbLine3Value.Size = new System.Drawing.Size(314, 31);
-            this.tbLine3Value.TabIndex = 15;
-            this.tbLine3Value.Leave += new System.EventHandler(this.tbLineValue_TextChanged);
             // 
             // cbLine4Operator
             // 
@@ -270,24 +235,6 @@ namespace Logger
             this.cbLine3AndOr.TabIndex = 9;
             this.cbLine3AndOr.SelectionChangeCommitted += new System.EventHandler(this.cbLineAndOr_SelectionChangeCommitted);
             this.cbLine3AndOr.Click += new System.EventHandler(this.cbLine3AndOr_Click);
-            // 
-            // tbLine6Value
-            // 
-            this.tbLine6Value.BackColor = System.Drawing.SystemColors.Window;
-            this.tbLine6Value.Location = new System.Drawing.Point(440, 350);
-            this.tbLine6Value.Name = "tbLine6Value";
-            this.tbLine6Value.Size = new System.Drawing.Size(314, 31);
-            this.tbLine6Value.TabIndex = 24;
-            this.tbLine6Value.Leave += new System.EventHandler(this.tbLineValue_TextChanged);
-            // 
-            // tbLine5Value
-            // 
-            this.tbLine5Value.BackColor = System.Drawing.SystemColors.Window;
-            this.tbLine5Value.Location = new System.Drawing.Point(440, 299);
-            this.tbLine5Value.Name = "tbLine5Value";
-            this.tbLine5Value.Size = new System.Drawing.Size(314, 31);
-            this.tbLine5Value.TabIndex = 23;
-            this.tbLine5Value.Leave += new System.EventHandler(this.tbLineValue_TextChanged);
             // 
             // cbLine6Operator
             // 
@@ -402,33 +349,93 @@ namespace Logger
             this.rtbSQLResult.TabIndex = 34;
             this.rtbSQLResult.Text = "";
             // 
+            // cbLine1Value
+            // 
+            this.cbLine1Value.FormattingEnabled = true;
+            this.cbLine1Value.Location = new System.Drawing.Point(431, 84);
+            this.cbLine1Value.Name = "cbLine1Value";
+            this.cbLine1Value.Size = new System.Drawing.Size(318, 33);
+            this.cbLine1Value.TabIndex = 35;
+            this.cbLine1Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
+            this.cbLine1Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
+            // 
+            // cbLine2Value
+            // 
+            this.cbLine2Value.FormattingEnabled = true;
+            this.cbLine2Value.Location = new System.Drawing.Point(431, 135);
+            this.cbLine2Value.Name = "cbLine2Value";
+            this.cbLine2Value.Size = new System.Drawing.Size(318, 33);
+            this.cbLine2Value.TabIndex = 36;
+            this.cbLine2Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
+            this.cbLine2Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
+            // 
+            // cbLine3Value
+            // 
+            this.cbLine3Value.FormattingEnabled = true;
+            this.cbLine3Value.Location = new System.Drawing.Point(431, 193);
+            this.cbLine3Value.Name = "cbLine3Value";
+            this.cbLine3Value.Size = new System.Drawing.Size(318, 33);
+            this.cbLine3Value.TabIndex = 37;
+            this.cbLine3Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
+            this.cbLine3Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
+            // 
+            // cbLine4Value
+            // 
+            this.cbLine4Value.FormattingEnabled = true;
+            this.cbLine4Value.Location = new System.Drawing.Point(431, 242);
+            this.cbLine4Value.Name = "cbLine4Value";
+            this.cbLine4Value.Size = new System.Drawing.Size(318, 33);
+            this.cbLine4Value.TabIndex = 38;
+            this.cbLine4Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
+            this.cbLine4Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
+            // 
+            // cbLine5Value
+            // 
+            this.cbLine5Value.FormattingEnabled = true;
+            this.cbLine5Value.Location = new System.Drawing.Point(431, 297);
+            this.cbLine5Value.Name = "cbLine5Value";
+            this.cbLine5Value.Size = new System.Drawing.Size(318, 33);
+            this.cbLine5Value.TabIndex = 39;
+            this.cbLine5Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
+            this.cbLine5Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
+            // 
+            // cbLine6Value
+            // 
+            this.cbLine6Value.FormattingEnabled = true;
+            this.cbLine6Value.Location = new System.Drawing.Point(431, 348);
+            this.cbLine6Value.Name = "cbLine6Value";
+            this.cbLine6Value.Size = new System.Drawing.Size(318, 33);
+            this.cbLine6Value.TabIndex = 40;
+            this.cbLine6Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
+            this.cbLine6Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
+            // 
             // AdvancedFilter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.ClientSize = new System.Drawing.Size(1006, 634);
+            this.Controls.Add(this.cbLine6Value);
+            this.Controls.Add(this.cbLine5Value);
+            this.Controls.Add(this.cbLine4Value);
+            this.Controls.Add(this.cbLine3Value);
+            this.Controls.Add(this.cbLine2Value);
+            this.Controls.Add(this.cbLine1Value);
             this.Controls.Add(this.rtbSQLResult);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.tbLine6Value);
-            this.Controls.Add(this.tbLine5Value);
             this.Controls.Add(this.cbLine6Operator);
             this.Controls.Add(this.cbLine6Field);
             this.Controls.Add(this.cbLine6AndOr);
             this.Controls.Add(this.cbLine5Operator);
             this.Controls.Add(this.cbLine5Field);
             this.Controls.Add(this.cbLine5AndOr);
-            this.Controls.Add(this.tbLine4Value);
-            this.Controls.Add(this.tbLine3Value);
             this.Controls.Add(this.cbLine4Operator);
             this.Controls.Add(this.cbLine4Field);
             this.Controls.Add(this.cbLine4AndOr);
             this.Controls.Add(this.cbLine3Operator);
             this.Controls.Add(this.cbLine3Field);
             this.Controls.Add(this.cbLine3AndOr);
-            this.Controls.Add(this.tbLine2Value);
-            this.Controls.Add(this.tbLine1Value);
             this.Controls.Add(this.cbLine2Operator);
             this.Controls.Add(this.cbLine2Field);
             this.Controls.Add(this.cbLine2AndOr);
@@ -441,7 +448,6 @@ namespace Logger
             this.Name = "AdvancedFilter";
             this.Text = "AdvancedFilter";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -454,18 +460,12 @@ namespace Logger
         private System.Windows.Forms.ComboBox cbLine2Operator;
         private System.Windows.Forms.ComboBox cbLine2Field;
         private System.Windows.Forms.ComboBox cbLine2AndOr;
-        private System.Windows.Forms.TextBox tbLine1Value;
-        private System.Windows.Forms.TextBox tbLine2Value;
-        private System.Windows.Forms.TextBox tbLine4Value;
-        private System.Windows.Forms.TextBox tbLine3Value;
         private System.Windows.Forms.ComboBox cbLine4Operator;
         private System.Windows.Forms.ComboBox cbLine4Field;
         private System.Windows.Forms.ComboBox cbLine4AndOr;
         private System.Windows.Forms.ComboBox cbLine3Operator;
         private System.Windows.Forms.ComboBox cbLine3Field;
         private System.Windows.Forms.ComboBox cbLine3AndOr;
-        private System.Windows.Forms.TextBox tbLine6Value;
-        private System.Windows.Forms.TextBox tbLine5Value;
         private System.Windows.Forms.ComboBox cbLine6Operator;
         private System.Windows.Forms.ComboBox cbLine6Field;
         private System.Windows.Forms.ComboBox cbLine6AndOr;
@@ -475,5 +475,11 @@ namespace Logger
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.RichTextBox rtbSQLResult;
+        private System.Windows.Forms.ComboBox cbLine1Value;
+        private System.Windows.Forms.ComboBox cbLine2Value;
+        private System.Windows.Forms.ComboBox cbLine3Value;
+        private System.Windows.Forms.ComboBox cbLine4Value;
+        private System.Windows.Forms.ComboBox cbLine5Value;
+        private System.Windows.Forms.ComboBox cbLine6Value;
     }
 }
