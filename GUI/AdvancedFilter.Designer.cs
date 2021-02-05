@@ -343,6 +343,7 @@ namespace Logger
             // 
             // rtbSQLResult
             // 
+            this.rtbSQLResult.Enabled = false;
             this.rtbSQLResult.Location = new System.Drawing.Point(12, 466);
             this.rtbSQLResult.Name = "rtbSQLResult";
             this.rtbSQLResult.Size = new System.Drawing.Size(980, 114);

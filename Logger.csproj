@@ -102,6 +102,7 @@
     <Compile Include="EncryptorInitData\EncryptorInitData2.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData3.cs" />
     <Compile Include="DispenserMapping.cs" />
+    <Compile Include="SQLSearchCondition.cs" />
     <Compile Include="TerminalCommands.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData1.cs" />

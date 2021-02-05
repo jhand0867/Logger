@@ -11,21 +11,28 @@ namespace Logger
         private string[] fields = { "", "[group1]", "[group4]", "[group5]", "[group6]", "[group8]" };
         private string[] operators = { "", "Like", "=", "<>", ">", "<" };
         private string[] conditions = { "", "AND", "OR" };
-        private string[] fieldSelected = { "", "", "", "", "", "" };
         private string[] fieldOutput = { "", "", "", "", "", "" };
-        private string[] operatorSelected = { "", "", "", "", "", "" };
-        private string[] textSelected = { "", "", "", "", "", "" };
-        private string[] andOrSelected = { "", "", "", "", "", "" };
+
+        private SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
+
 
         public AdvancedFilter()
         {
             InitializeComponent();
 
-
             dtpTimestamp.Format = DateTimePickerFormat.Custom;
             dtpTimestamp.CustomFormat = "yyyy-MM-dd HH:mm:ss";
 
             dtpTimestamp.ShowUpDown = true;
+
+            // intitialize sql fields
+
+            SQLSearchCondition sc = new SQLSearchCondition();
+            
+            for (int x =0; x<6; x++)
+            {
+                gridrows[x] = new SQLSearchCondition("", "", "", "","");
+            }
 
         }
 
@@ -48,16 +55,17 @@ namespace Logger
 
         // Fields selection  
 
+        
         private void cbLineField_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
             string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            fieldSelected[i] = fields[cb.SelectedIndex];
             fieldOutput[i] = cb.SelectedItem.ToString();
+            gridrows[i].FieldName = fields[cb.SelectedIndex];
+            preview();
 
-            
         }
 
         // Operators selection
@@ -68,21 +76,12 @@ namespace Logger
             string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            operatorSelected[i] = operators[cb.SelectedIndex];
+            gridrows[i].Condition = operators[cb.SelectedIndex];
+            preview();
         }
 
 
         // Text selection  
-
-        //private void tbLineValue_TextChanged(object sender, EventArgs e)
-        //{
-        //    TextBox tb = sender as TextBox;
-        //    string iStr = tb.Name.Substring(6, 1);
-        //    int i = Convert.ToInt32(iStr) - 1;
-
-        //    textSelected[i] = tb.Text;
-        //    preview();
-        //}
 
         private void cbLineValue_Leave(object sender, EventArgs e)
         {
@@ -90,7 +89,7 @@ namespace Logger
             string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            textSelected[i] = cb.Text;
+            gridrows[i].FieldValue = cb.Text;
             preview();
         }
 
@@ -102,7 +101,7 @@ namespace Logger
             string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            andOrSelected[i] = conditions[cb.SelectedIndex];
+            gridrows[i].AndOr = conditions[cb.SelectedIndex];
             preview();
         }
 
@@ -252,23 +251,23 @@ namespace Logger
              
              */
 
-            //System.Windows.Forms.ComboBox[] comboBoxes = new System.Windows.Forms.ComboBox()[];
-
-
-            // comboBoxes[0] = new ComboBox();
-            ////addAndOr(comboBoxes[0]);
-            //comboBoxes[0].Name = "line1";
-            //comboBoxes[0].Size = Size(100, 100);
-            //comboBoxes[0].Show();
-
             string sqlLike = " AND";
 
             for (int i = 0; i < 6; i++)
             {
-                sqlLike += " " + fieldSelected[i] + operatorSelected[i] +
-                           " '" + textSelected[i] + "' " + andOrSelected[i];
-                if (andOrSelected[i] == "" || andOrSelected[i] == String.Empty)
-                    break;
+
+                if (gridrows[i].FieldName != "" && gridrows[i].Condition != "" && gridrows[i].FieldValue != "")
+                {
+                    sqlLike += " " + gridrows[i].FieldName + gridrows[i].Condition +
+                           " '" + gridrows[i].FieldValue + "' ";
+                }
+
+                if ( i < 5 &&
+                    gridrows[i].AndOr != "" &&
+                    gridrows[i].FieldName != "" && gridrows[i].Condition != "" && gridrows[i].FieldValue != "")
+                {
+                    sqlLike += gridrows[i].AndOr;
+                }
 
 
             }
@@ -283,10 +282,17 @@ namespace Logger
 
             for (int i = 0; i < 6; i++)
             {
-                if (fieldOutput[i] != "" && operatorSelected[i] != "" && textSelected[i] != "")
+                if (gridrows[i].FieldName != "" && gridrows[i].Condition != "" && gridrows[i].FieldValue != "")
                 {
                     rtbSQLResult.Text = rtbSQLResult.Text + fieldOutput[i] + " " +
-                    operatorSelected[i] + " " + textSelected[i] + " " + andOrSelected[i] + " ";
+                    gridrows[i].Condition + " " + gridrows[i].FieldValue + " ";
+                }
+
+                if (i < 5 &&
+                    gridrows[i].AndOr != "" &&
+                    gridrows[i].FieldName != "" && gridrows[i].Condition != "" && gridrows[i].FieldValue != "")
+                {
+                    rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].AndOr + " "; 
                 }
             }
 
