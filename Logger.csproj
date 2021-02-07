@@ -102,6 +102,12 @@
     <Compile Include="EncryptorInitData\EncryptorInitData2.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData3.cs" />
     <Compile Include="DispenserMapping.cs" />
+    <Compile Include="SaveQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaveQuery.Designer.cs">
+      <DependentUpon>SaveQuery.cs</DependentUpon>
+    </Compile>
     <Compile Include="SQLSearchCondition.cs" />
     <Compile Include="TerminalCommands.cs" />
     <Compile Include="IMessage.cs" />
@@ -259,6 +265,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SaveQuery.resx">
+      <DependentUpon>SaveQuery.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="loggerDataSet.xsc">
       <DependentUpon>loggerDataSet.xsd</DependentUpon>
     </None>

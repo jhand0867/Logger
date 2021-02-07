@@ -57,6 +57,9 @@ namespace Logger
             this.cbLine4Value = new System.Windows.Forms.ComboBox();
             this.cbLine5Value = new System.Windows.Forms.ComboBox();
             this.cbLine6Value = new System.Windows.Forms.ComboBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // cbLine1AndOr
@@ -86,7 +89,6 @@ namespace Logger
             this.cbLine1Field.Name = "cbLine1Field";
             this.cbLine1Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine1Field.TabIndex = 1;
-            this.cbLine1Field.SelectedIndexChanged += new System.EventHandler(this.cbLine1Field_SelectedIndexChanged_1);
             this.cbLine1Field.SelectionChangeCommitted += new System.EventHandler(this.cbLineField_SelectionChangeCommitted);
             this.cbLine1Field.Click += new System.EventHandler(this.cbLine1Field_Click);
             // 
@@ -275,6 +277,7 @@ namespace Logger
             this.cbLine6AndOr.Name = "cbLine6AndOr";
             this.cbLine6AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine6AndOr.TabIndex = 20;
+            this.cbLine6AndOr.Visible = false;
             this.cbLine6AndOr.SelectionChangeCommitted += new System.EventHandler(this.cbLineAndOr_SelectionChangeCommitted);
             this.cbLine6AndOr.Click += new System.EventHandler(this.cbLine6AndOr_Click);
             // 
@@ -343,9 +346,10 @@ namespace Logger
             // 
             // rtbSQLResult
             // 
-            this.rtbSQLResult.Enabled = false;
+            this.rtbSQLResult.BackColor = System.Drawing.SystemColors.Window;
             this.rtbSQLResult.Location = new System.Drawing.Point(12, 466);
             this.rtbSQLResult.Name = "rtbSQLResult";
+            this.rtbSQLResult.ReadOnly = true;
             this.rtbSQLResult.Size = new System.Drawing.Size(980, 114);
             this.rtbSQLResult.TabIndex = 34;
             this.rtbSQLResult.Text = "";
@@ -410,6 +414,25 @@ namespace Logger
             this.cbLine6Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
             this.cbLine6Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1006, 42);
+            this.menuStrip1.TabIndex = 41;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(85, 38);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
             // AdvancedFilter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -444,11 +467,16 @@ namespace Logger
             this.Controls.Add(this.cbLine1Operator);
             this.Controls.Add(this.cbLine1Field);
             this.Controls.Add(this.cbLine1AndOr);
+            this.Controls.Add(this.menuStrip1);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "AdvancedFilter";
             this.Text = "AdvancedFilter";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -482,5 +510,7 @@ namespace Logger
         private System.Windows.Forms.ComboBox cbLine4Value;
         private System.Windows.Forms.ComboBox cbLine5Value;
         private System.Windows.Forms.ComboBox cbLine6Value;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
     }
 }

@@ -11,7 +11,6 @@ namespace Logger
         private string[] fields = { "", "[group1]", "[group4]", "[group5]", "[group6]", "[group8]" };
         private string[] operators = { "", "Like", "=", "<>", ">", "<" };
         private string[] conditions = { "", "AND", "OR" };
-        private string[] fieldOutput = { "", "", "", "", "", "" };
 
         private SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
 
@@ -62,7 +61,7 @@ namespace Logger
             string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            fieldOutput[i] = cb.SelectedItem.ToString();
+            gridrows[i].FieldOutput = cb.SelectedItem.ToString();
             gridrows[i].FieldName = fields[cb.SelectedIndex];
             preview();
 
@@ -123,24 +122,18 @@ namespace Logger
             cbOperators.Items.Clear();
             cbOperators.Items.Add(String.Empty);
 
-            if (fieldOutput[i] == "") 
+            if (gridrows[i].FieldOutput == "") 
                 return;
-
-            if ( (fieldOutput[i] == "Timestamp") ||
-                 (fieldOutput[i] == "Direction") ||
-                 (fieldOutput[i] == "Data") )
-
-            {
-                cbOperators.Items.Add("Like");
-                return;
-            }
 
             cbOperators.Items.Add("Like");
-            cbOperators.Items.Add("Equal");
-            cbOperators.Items.Add("Not Equal");
-            cbOperators.Items.Add("Greater Than");
-            cbOperators.Items.Add("Less Than");
-            return;
+
+            if (gridrows[i].FieldOutput != "Data")
+            {
+                cbOperators.Items.Add("Equal");
+                cbOperators.Items.Add("Not Equal");
+                cbOperators.Items.Add("Greater Than");
+                cbOperators.Items.Add("Less Than");
+            }
 
         }
 
@@ -239,8 +232,8 @@ namespace Logger
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            /*
-             
+            
+            /*             
               SELECT [id],[logkey],[group1] as 'Timestamp',
                      [group2] as 'Log Level',[group3] as 'File Name',
                      [group4] as 'Class',[group5] as 'Method',
@@ -251,29 +244,44 @@ namespace Logger
              
              */
 
-            string sqlLike = " AND";
+            string sqlLike = "";
+            DataTable dt = new DataTable();
+            string temp = "";
 
             for (int i = 0; i < 6; i++)
             {
 
                 if (gridrows[i].FieldName != "" && gridrows[i].Condition != "" && gridrows[i].FieldValue != "")
                 {
+                    temp = gridrows[i].FieldValue;
+
+                    if (gridrows[i].Condition == "Like")
+                    {
+                        if (gridrows[i].FieldValue.StartsWith("["))
+                            temp = gridrows[i].FieldValue.Substring(1, gridrows[i].FieldValue.Length - 1);
+                    
+                        temp = "%" + temp + "%";
+                    }
                     sqlLike += " " + gridrows[i].FieldName + gridrows[i].Condition +
-                           " '" + gridrows[i].FieldValue + "' ";
+                           " '" + temp + "' ";
                 }
 
                 if ( i < 5 &&
                     gridrows[i].AndOr != "" &&
-                    gridrows[i].FieldName != "" && gridrows[i].Condition != "" && gridrows[i].FieldValue != "")
+                    gridrows[i+1].FieldName != "" && gridrows[i+1].Condition != "" && gridrows[i+1].FieldValue != "")
                 {
                     sqlLike += gridrows[i].AndOr;
                 }
 
-
             }
 
-            //  this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group4", sqlLike);
-
+            if (sqlLike != "")
+            {
+                object ob = Application.OpenForms["LogView"].Controls[0];
+                DataGridView dg = (DataGridView)ob;
+                dg.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
+                dg.Refresh();
+            }
         }
 
         private void preview()
@@ -284,13 +292,13 @@ namespace Logger
             {
                 if (gridrows[i].FieldName != "" && gridrows[i].Condition != "" && gridrows[i].FieldValue != "")
                 {
-                    rtbSQLResult.Text = rtbSQLResult.Text + fieldOutput[i] + " " +
+                    rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].FieldOutput + " " +
                     gridrows[i].Condition + " " + gridrows[i].FieldValue + " ";
                 }
 
                 if (i < 5 &&
                     gridrows[i].AndOr != "" &&
-                    gridrows[i].FieldName != "" && gridrows[i].Condition != "" && gridrows[i].FieldValue != "")
+                    gridrows[i+1].FieldName != "" && gridrows[i+1].Condition != "" && gridrows[i+1].FieldValue != "")
                 {
                     rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].AndOr + " "; 
                 }
@@ -310,9 +318,9 @@ namespace Logger
 
             string groupName = "";
 
-            if (fieldOutput[i] == "Class") groupName = "group4";
-            else if (fieldOutput[i] == "Method") groupName = "group5";
-            else if (fieldOutput[i] == "Direction") groupName = "group6";
+            if (gridrows[i].FieldOutput == "Class") groupName = "group4";
+            else if (gridrows[i].FieldOutput == "Method") groupName = "group5";
+            else if (gridrows[i].FieldOutput == "Direction") groupName = "group6";
 
             if (groupName != "")
             {
@@ -329,14 +337,10 @@ namespace Logger
             }
         }
 
-        private void cbLine1Field_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void cbLine1Value_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            SaveQuery saveQuery = new SaveQuery(gridrows);
+            saveQuery.ShowDialog();
         }
     }
 }
