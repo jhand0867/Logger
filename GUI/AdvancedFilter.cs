@@ -12,7 +12,7 @@ namespace Logger
         private string[] operators = { "", "Like", "=", "<>", ">", "<" };
         private string[] conditions = { "", "AND", "OR" };
 
-        private SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
+        internal SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
 
 
         public AdvancedFilter()
@@ -32,6 +32,26 @@ namespace Logger
             {
                 gridrows[x] = new SQLSearchCondition("", "", "", "","");
             }
+
+        }
+
+        public AdvancedFilter(object sQLSearchConditions)
+        {
+            InitializeComponent();
+
+            dtpTimestamp.Format = DateTimePickerFormat.Custom;
+            dtpTimestamp.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+
+            dtpTimestamp.ShowUpDown = true;
+
+            gridrows = (SQLSearchCondition[])sQLSearchConditions;
+
+            string fieldName = "cbLine" + (1).ToString("0") + "Field";
+            //ComboBox cb2 = (ComboBox)(fieldName) ; // ();
+            //
+            
+            cb2.Items.Add(gridrows[0].SQLCondition);
+            cb2.SelectedIndex = 0;
 
         }
 
@@ -61,8 +81,8 @@ namespace Logger
             string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            gridrows[i].FieldOutput = cb.SelectedItem.ToString();
-            gridrows[i].FieldName = fields[cb.SelectedIndex];
+            gridrows[i].SQLFieldOutput = cb.SelectedItem.ToString();
+            gridrows[i].SQLFieldName = fields[cb.SelectedIndex];
             preview();
 
         }
@@ -75,7 +95,7 @@ namespace Logger
             string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            gridrows[i].Condition = operators[cb.SelectedIndex];
+            gridrows[i].SQLCondition = operators[cb.SelectedIndex];
             preview();
         }
 
@@ -88,7 +108,7 @@ namespace Logger
             string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            gridrows[i].FieldValue = cb.Text;
+            gridrows[i].SQLFieldValue = cb.Text;
             preview();
         }
 
@@ -100,7 +120,7 @@ namespace Logger
             string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            gridrows[i].AndOr = conditions[cb.SelectedIndex];
+            gridrows[i].SQLAndOr = conditions[cb.SelectedIndex];
             preview();
         }
 
@@ -122,12 +142,12 @@ namespace Logger
             cbOperators.Items.Clear();
             cbOperators.Items.Add(String.Empty);
 
-            if (gridrows[i].FieldOutput == "") 
+            if (gridrows[i].SQLFieldOutput == "") 
                 return;
 
             cbOperators.Items.Add("Like");
 
-            if (gridrows[i].FieldOutput != "Data")
+            if (gridrows[i].SQLFieldOutput != "Data")
             {
                 cbOperators.Items.Add("Equal");
                 cbOperators.Items.Add("Not Equal");
@@ -251,26 +271,26 @@ namespace Logger
             for (int i = 0; i < 6; i++)
             {
 
-                if (gridrows[i].FieldName != "" && gridrows[i].Condition != "" && gridrows[i].FieldValue != "")
+                if (gridrows[i].SQLFieldName != "" && gridrows[i].SQLCondition != "" && gridrows[i].SQLFieldValue != "")
                 {
-                    temp = gridrows[i].FieldValue;
+                    temp = gridrows[i].SQLFieldValue;
 
-                    if (gridrows[i].Condition == "Like")
+                    if (gridrows[i].SQLCondition == "Like")
                     {
-                        if (gridrows[i].FieldValue.StartsWith("["))
-                            temp = gridrows[i].FieldValue.Substring(1, gridrows[i].FieldValue.Length - 1);
+                        if (gridrows[i].SQLFieldValue.StartsWith("["))
+                            temp = gridrows[i].SQLFieldValue.Substring(1, gridrows[i].SQLFieldValue.Length - 1);
                     
                         temp = "%" + temp + "%";
                     }
-                    sqlLike += " " + gridrows[i].FieldName + gridrows[i].Condition +
+                    sqlLike += " " + gridrows[i].SQLFieldName + gridrows[i].SQLCondition +
                            " '" + temp + "' ";
                 }
 
                 if ( i < 5 &&
-                    gridrows[i].AndOr != "" &&
-                    gridrows[i+1].FieldName != "" && gridrows[i+1].Condition != "" && gridrows[i+1].FieldValue != "")
+                    gridrows[i].SQLAndOr != "" &&
+                    gridrows[i+1].SQLFieldName != "" && gridrows[i+1].SQLCondition != "" && gridrows[i+1].SQLFieldValue != "")
                 {
-                    sqlLike += gridrows[i].AndOr;
+                    sqlLike += gridrows[i].SQLAndOr;
                 }
 
             }
@@ -290,17 +310,17 @@ namespace Logger
 
             for (int i = 0; i < 6; i++)
             {
-                if (gridrows[i].FieldName != "" && gridrows[i].Condition != "" && gridrows[i].FieldValue != "")
+                if (gridrows[i].SQLFieldName != "" && gridrows[i].SQLCondition != "" && gridrows[i].SQLFieldValue != "")
                 {
-                    rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].FieldOutput + " " +
-                    gridrows[i].Condition + " " + gridrows[i].FieldValue + " ";
+                    rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].SQLFieldOutput + " " +
+                    gridrows[i].SQLCondition + " " + gridrows[i].SQLFieldValue + " ";
                 }
 
                 if (i < 5 &&
-                    gridrows[i].AndOr != "" &&
-                    gridrows[i+1].FieldName != "" && gridrows[i+1].Condition != "" && gridrows[i+1].FieldValue != "")
+                    gridrows[i].SQLAndOr != "" &&
+                    gridrows[i+1].SQLFieldName != "" && gridrows[i+1].SQLCondition != "" && gridrows[i+1].SQLFieldValue != "")
                 {
-                    rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].AndOr + " "; 
+                    rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].SQLAndOr + " "; 
                 }
             }
 
@@ -318,9 +338,9 @@ namespace Logger
 
             string groupName = "";
 
-            if (gridrows[i].FieldOutput == "Class") groupName = "group4";
-            else if (gridrows[i].FieldOutput == "Method") groupName = "group5";
-            else if (gridrows[i].FieldOutput == "Direction") groupName = "group6";
+            if (gridrows[i].SQLFieldOutput == "Class") groupName = "group4";
+            else if (gridrows[i].SQLFieldOutput == "Method") groupName = "group5";
+            else if (gridrows[i].SQLFieldOutput == "Direction") groupName = "group6";
 
             if (groupName != "")
             {
@@ -341,6 +361,12 @@ namespace Logger
         {
             SaveQuery saveQuery = new SaveQuery(gridrows);
             saveQuery.ShowDialog();
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadQuery loadQuery = new LoadQuery();
+            loadQuery.ShowDialog();
         }
     }
 }

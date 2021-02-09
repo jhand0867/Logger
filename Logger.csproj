@@ -102,6 +102,12 @@
     <Compile Include="EncryptorInitData\EncryptorInitData2.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData3.cs" />
     <Compile Include="DispenserMapping.cs" />
+    <Compile Include="LoadQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadQuery.Designer.cs">
+      <DependentUpon>LoadQuery.cs</DependentUpon>
+    </Compile>
     <Compile Include="SaveQuery.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -254,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Projects.resx">
       <DependentUpon>Projects.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadQuery.resx">
+      <DependentUpon>LoadQuery.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

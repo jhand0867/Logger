@@ -59,6 +59,17 @@ namespace Logger
             this.cbLine6Value = new System.Windows.Forms.ComboBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,7 +78,7 @@ namespace Logger
             this.cbLine1AndOr.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine1AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine1AndOr.FormattingEnabled = true;
-            this.cbLine1AndOr.Location = new System.Drawing.Point(767, 86);
+            this.cbLine1AndOr.Location = new System.Drawing.Point(806, 86);
             this.cbLine1AndOr.Name = "cbLine1AndOr";
             this.cbLine1AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine1AndOr.TabIndex = 0;
@@ -85,7 +96,7 @@ namespace Logger
             "Method",
             "Direction",
             "Data"});
-            this.cbLine1Field.Location = new System.Drawing.Point(23, 84);
+            this.cbLine1Field.Location = new System.Drawing.Point(62, 84);
             this.cbLine1Field.Name = "cbLine1Field";
             this.cbLine1Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine1Field.TabIndex = 1;
@@ -97,7 +108,7 @@ namespace Logger
             this.cbLine1Operator.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine1Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine1Operator.FormattingEnabled = true;
-            this.cbLine1Operator.Location = new System.Drawing.Point(256, 84);
+            this.cbLine1Operator.Location = new System.Drawing.Point(295, 84);
             this.cbLine1Operator.Name = "cbLine1Operator";
             this.cbLine1Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine1Operator.TabIndex = 2;
@@ -117,7 +128,7 @@ namespace Logger
             this.cbLine2Operator.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine2Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine2Operator.FormattingEnabled = true;
-            this.cbLine2Operator.Location = new System.Drawing.Point(256, 135);
+            this.cbLine2Operator.Location = new System.Drawing.Point(295, 135);
             this.cbLine2Operator.Name = "cbLine2Operator";
             this.cbLine2Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine2Operator.TabIndex = 6;
@@ -135,7 +146,7 @@ namespace Logger
             "Method",
             "Direction",
             "Data"});
-            this.cbLine2Field.Location = new System.Drawing.Point(23, 135);
+            this.cbLine2Field.Location = new System.Drawing.Point(62, 135);
             this.cbLine2Field.Name = "cbLine2Field";
             this.cbLine2Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine2Field.TabIndex = 5;
@@ -147,7 +158,7 @@ namespace Logger
             this.cbLine2AndOr.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine2AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine2AndOr.FormattingEnabled = true;
-            this.cbLine2AndOr.Location = new System.Drawing.Point(767, 135);
+            this.cbLine2AndOr.Location = new System.Drawing.Point(806, 135);
             this.cbLine2AndOr.Name = "cbLine2AndOr";
             this.cbLine2AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine2AndOr.TabIndex = 4;
@@ -159,7 +170,7 @@ namespace Logger
             this.cbLine4Operator.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine4Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine4Operator.FormattingEnabled = true;
-            this.cbLine4Operator.Location = new System.Drawing.Point(256, 242);
+            this.cbLine4Operator.Location = new System.Drawing.Point(295, 242);
             this.cbLine4Operator.Name = "cbLine4Operator";
             this.cbLine4Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine4Operator.TabIndex = 14;
@@ -177,7 +188,7 @@ namespace Logger
             "Method",
             "Direction",
             "Data"});
-            this.cbLine4Field.Location = new System.Drawing.Point(23, 242);
+            this.cbLine4Field.Location = new System.Drawing.Point(62, 242);
             this.cbLine4Field.Name = "cbLine4Field";
             this.cbLine4Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine4Field.TabIndex = 13;
@@ -189,7 +200,7 @@ namespace Logger
             this.cbLine4AndOr.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine4AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine4AndOr.FormattingEnabled = true;
-            this.cbLine4AndOr.Location = new System.Drawing.Point(767, 242);
+            this.cbLine4AndOr.Location = new System.Drawing.Point(806, 242);
             this.cbLine4AndOr.Name = "cbLine4AndOr";
             this.cbLine4AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine4AndOr.TabIndex = 12;
@@ -201,7 +212,7 @@ namespace Logger
             this.cbLine3Operator.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine3Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine3Operator.FormattingEnabled = true;
-            this.cbLine3Operator.Location = new System.Drawing.Point(256, 191);
+            this.cbLine3Operator.Location = new System.Drawing.Point(295, 191);
             this.cbLine3Operator.Name = "cbLine3Operator";
             this.cbLine3Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine3Operator.TabIndex = 11;
@@ -219,7 +230,7 @@ namespace Logger
             "Method",
             "Direction",
             "Data"});
-            this.cbLine3Field.Location = new System.Drawing.Point(23, 191);
+            this.cbLine3Field.Location = new System.Drawing.Point(62, 191);
             this.cbLine3Field.Name = "cbLine3Field";
             this.cbLine3Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine3Field.TabIndex = 10;
@@ -231,7 +242,7 @@ namespace Logger
             this.cbLine3AndOr.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine3AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine3AndOr.FormattingEnabled = true;
-            this.cbLine3AndOr.Location = new System.Drawing.Point(767, 193);
+            this.cbLine3AndOr.Location = new System.Drawing.Point(806, 193);
             this.cbLine3AndOr.Name = "cbLine3AndOr";
             this.cbLine3AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine3AndOr.TabIndex = 9;
@@ -243,7 +254,7 @@ namespace Logger
             this.cbLine6Operator.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine6Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine6Operator.FormattingEnabled = true;
-            this.cbLine6Operator.Location = new System.Drawing.Point(256, 348);
+            this.cbLine6Operator.Location = new System.Drawing.Point(295, 348);
             this.cbLine6Operator.Name = "cbLine6Operator";
             this.cbLine6Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine6Operator.TabIndex = 22;
@@ -261,7 +272,7 @@ namespace Logger
             "Method",
             "Direction",
             "Data"});
-            this.cbLine6Field.Location = new System.Drawing.Point(23, 348);
+            this.cbLine6Field.Location = new System.Drawing.Point(62, 348);
             this.cbLine6Field.Name = "cbLine6Field";
             this.cbLine6Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine6Field.TabIndex = 21;
@@ -273,7 +284,7 @@ namespace Logger
             this.cbLine6AndOr.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine6AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine6AndOr.FormattingEnabled = true;
-            this.cbLine6AndOr.Location = new System.Drawing.Point(767, 348);
+            this.cbLine6AndOr.Location = new System.Drawing.Point(806, 348);
             this.cbLine6AndOr.Name = "cbLine6AndOr";
             this.cbLine6AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine6AndOr.TabIndex = 20;
@@ -286,7 +297,7 @@ namespace Logger
             this.cbLine5Operator.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine5Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine5Operator.FormattingEnabled = true;
-            this.cbLine5Operator.Location = new System.Drawing.Point(256, 297);
+            this.cbLine5Operator.Location = new System.Drawing.Point(295, 297);
             this.cbLine5Operator.Name = "cbLine5Operator";
             this.cbLine5Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine5Operator.TabIndex = 19;
@@ -304,7 +315,7 @@ namespace Logger
             "Method",
             "Direction",
             "Data"});
-            this.cbLine5Field.Location = new System.Drawing.Point(23, 297);
+            this.cbLine5Field.Location = new System.Drawing.Point(62, 297);
             this.cbLine5Field.Name = "cbLine5Field";
             this.cbLine5Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine5Field.TabIndex = 18;
@@ -316,7 +327,7 @@ namespace Logger
             this.cbLine5AndOr.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine5AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine5AndOr.FormattingEnabled = true;
-            this.cbLine5AndOr.Location = new System.Drawing.Point(767, 299);
+            this.cbLine5AndOr.Location = new System.Drawing.Point(806, 299);
             this.cbLine5AndOr.Name = "cbLine5AndOr";
             this.cbLine5AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine5AndOr.TabIndex = 17;
@@ -350,14 +361,14 @@ namespace Logger
             this.rtbSQLResult.Location = new System.Drawing.Point(12, 466);
             this.rtbSQLResult.Name = "rtbSQLResult";
             this.rtbSQLResult.ReadOnly = true;
-            this.rtbSQLResult.Size = new System.Drawing.Size(980, 114);
+            this.rtbSQLResult.Size = new System.Drawing.Size(980, 116);
             this.rtbSQLResult.TabIndex = 34;
             this.rtbSQLResult.Text = "";
             // 
             // cbLine1Value
             // 
             this.cbLine1Value.FormattingEnabled = true;
-            this.cbLine1Value.Location = new System.Drawing.Point(431, 84);
+            this.cbLine1Value.Location = new System.Drawing.Point(470, 84);
             this.cbLine1Value.Name = "cbLine1Value";
             this.cbLine1Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine1Value.TabIndex = 35;
@@ -367,7 +378,7 @@ namespace Logger
             // cbLine2Value
             // 
             this.cbLine2Value.FormattingEnabled = true;
-            this.cbLine2Value.Location = new System.Drawing.Point(431, 135);
+            this.cbLine2Value.Location = new System.Drawing.Point(470, 135);
             this.cbLine2Value.Name = "cbLine2Value";
             this.cbLine2Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine2Value.TabIndex = 36;
@@ -377,7 +388,7 @@ namespace Logger
             // cbLine3Value
             // 
             this.cbLine3Value.FormattingEnabled = true;
-            this.cbLine3Value.Location = new System.Drawing.Point(431, 193);
+            this.cbLine3Value.Location = new System.Drawing.Point(470, 193);
             this.cbLine3Value.Name = "cbLine3Value";
             this.cbLine3Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine3Value.TabIndex = 37;
@@ -387,7 +398,7 @@ namespace Logger
             // cbLine4Value
             // 
             this.cbLine4Value.FormattingEnabled = true;
-            this.cbLine4Value.Location = new System.Drawing.Point(431, 242);
+            this.cbLine4Value.Location = new System.Drawing.Point(470, 242);
             this.cbLine4Value.Name = "cbLine4Value";
             this.cbLine4Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine4Value.TabIndex = 38;
@@ -397,7 +408,7 @@ namespace Logger
             // cbLine5Value
             // 
             this.cbLine5Value.FormattingEnabled = true;
-            this.cbLine5Value.Location = new System.Drawing.Point(431, 297);
+            this.cbLine5Value.Location = new System.Drawing.Point(470, 297);
             this.cbLine5Value.Name = "cbLine5Value";
             this.cbLine5Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine5Value.TabIndex = 39;
@@ -407,7 +418,7 @@ namespace Logger
             // cbLine6Value
             // 
             this.cbLine6Value.FormattingEnabled = true;
-            this.cbLine6Value.Location = new System.Drawing.Point(431, 348);
+            this.cbLine6Value.Location = new System.Drawing.Point(470, 348);
             this.cbLine6Value.Name = "cbLine6Value";
             this.cbLine6Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine6Value.TabIndex = 40;
@@ -419,7 +430,8 @@ namespace Logger
             this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem});
+            this.saveToolStripMenuItem,
+            this.loadToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1006, 42);
@@ -433,12 +445,139 @@ namespace Logger
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(22, 90);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 29);
+            this.label1.TabIndex = 42;
+            this.label1.Text = "1.";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(22, 139);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 29);
+            this.label2.TabIndex = 43;
+            this.label2.Text = "2.";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(22, 191);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(34, 29);
+            this.label3.TabIndex = 44;
+            this.label3.Text = "3.";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(22, 242);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(34, 29);
+            this.label4.TabIndex = 45;
+            this.label4.Text = "4.";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(22, 297);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(34, 29);
+            this.label5.TabIndex = 46;
+            this.label5.Text = "5.";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(22, 348);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(34, 29);
+            this.label6.TabIndex = 47;
+            this.label6.Text = "6.";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(57, 52);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(73, 29);
+            this.label7.TabIndex = 48;
+            this.label7.Text = "Field";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.White;
+            this.label8.Location = new System.Drawing.Point(290, 52);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(125, 29);
+            this.label8.TabIndex = 49;
+            this.label8.Text = "Condition";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(470, 52);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(79, 29);
+            this.label9.TabIndex = 50;
+            this.label9.Text = "Value";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(814, 52);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(95, 29);
+            this.label10.TabIndex = 51;
+            this.label10.Text = "And/Or";
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(86, 38);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
+            // 
             // AdvancedFilter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(1006, 634);
+            this.ClientSize = new System.Drawing.Size(1006, 594);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.cbLine6Value);
             this.Controls.Add(this.cbLine5Value);
             this.Controls.Add(this.cbLine4Value);
@@ -512,5 +651,16 @@ namespace Logger
         private System.Windows.Forms.ComboBox cbLine6Value;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
     }
 }

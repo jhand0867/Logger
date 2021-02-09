@@ -18,7 +18,7 @@ namespace Logger
         {
             InitializeComponent();
             gridrows = (SQLSearchCondition[])sQLSearchCondition;
-    }
+        }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -32,14 +32,38 @@ namespace Logger
 
         private void btOk_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 6; i++)
+            // getting the content of the query
+            // each query line is the combination of 
+            // - fieldName
+            // - condition
+            // - fieldValue
+            // - andOr
+
+            // check if query already exist
+
+            DataTable dt = new DataTable();
+            SQLSearchCondition ssc = new SQLSearchCondition();
+            
+            dt = ssc.getQueryInfo(tbName.Text);
+            int sqlID = 0;
+
+            if (dt.Rows.Count == 0)
             {
-                if (gridrows[i].FieldName != "" && gridrows[i].Condition != "" && gridrows[i].FieldValue != "")
+                sqlID = ssc.setSearchConditionBuilder(tbName.Text, tbDescription.Text);
+
+                for (int i = 0; i < 6; i++)
                 {
+                    ssc.SQLFieldName = gridrows[i].SQLFieldName;
+                    ssc.SQLCondition = gridrows[i].SQLCondition;
+                    ssc.SQLFieldValue = gridrows[i].SQLFieldValue;
+                    ssc.SQLAndOr = gridrows[i].SQLAndOr;
 
+                    ssc.setSearchConditionDetail(ssc, sqlID);
                 }
-
             }
+            Application.OpenForms["AdvancedFilter"].Text = Application.OpenForms["AdvancedFilter"].Text + "." +
+                tbName.Text;
+            this.Close();
         }
     }
 }
