@@ -59,6 +59,7 @@ namespace Logger
             this.cbLine6Value = new System.Windows.Forms.ComboBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -69,7 +70,6 @@ namespace Logger
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,12 +90,6 @@ namespace Logger
             this.cbLine1Field.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine1Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine1Field.FormattingEnabled = true;
-            this.cbLine1Field.Items.AddRange(new object[] {
-            "Timestamp",
-            "Class",
-            "Method",
-            "Direction",
-            "Data"});
             this.cbLine1Field.Location = new System.Drawing.Point(62, 84);
             this.cbLine1Field.Name = "cbLine1Field";
             this.cbLine1Field.Size = new System.Drawing.Size(219, 33);
@@ -140,12 +134,6 @@ namespace Logger
             this.cbLine2Field.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine2Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine2Field.FormattingEnabled = true;
-            this.cbLine2Field.Items.AddRange(new object[] {
-            "Timestamp",
-            "Class",
-            "Method",
-            "Direction",
-            "Data"});
             this.cbLine2Field.Location = new System.Drawing.Point(62, 135);
             this.cbLine2Field.Name = "cbLine2Field";
             this.cbLine2Field.Size = new System.Drawing.Size(219, 33);
@@ -182,12 +170,6 @@ namespace Logger
             this.cbLine4Field.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine4Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine4Field.FormattingEnabled = true;
-            this.cbLine4Field.Items.AddRange(new object[] {
-            "Timestamp",
-            "Class",
-            "Method",
-            "Direction",
-            "Data"});
             this.cbLine4Field.Location = new System.Drawing.Point(62, 242);
             this.cbLine4Field.Name = "cbLine4Field";
             this.cbLine4Field.Size = new System.Drawing.Size(219, 33);
@@ -224,12 +206,6 @@ namespace Logger
             this.cbLine3Field.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine3Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine3Field.FormattingEnabled = true;
-            this.cbLine3Field.Items.AddRange(new object[] {
-            "Timestamp",
-            "Class",
-            "Method",
-            "Direction",
-            "Data"});
             this.cbLine3Field.Location = new System.Drawing.Point(62, 191);
             this.cbLine3Field.Name = "cbLine3Field";
             this.cbLine3Field.Size = new System.Drawing.Size(219, 33);
@@ -266,12 +242,6 @@ namespace Logger
             this.cbLine6Field.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine6Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine6Field.FormattingEnabled = true;
-            this.cbLine6Field.Items.AddRange(new object[] {
-            "Timestamp",
-            "Class",
-            "Method",
-            "Direction",
-            "Data"});
             this.cbLine6Field.Location = new System.Drawing.Point(62, 348);
             this.cbLine6Field.Name = "cbLine6Field";
             this.cbLine6Field.Size = new System.Drawing.Size(219, 33);
@@ -309,12 +279,6 @@ namespace Logger
             this.cbLine5Field.BackColor = System.Drawing.SystemColors.Window;
             this.cbLine5Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine5Field.FormattingEnabled = true;
-            this.cbLine5Field.Items.AddRange(new object[] {
-            "Timestamp",
-            "Class",
-            "Method",
-            "Direction",
-            "Data"});
             this.cbLine5Field.Location = new System.Drawing.Point(62, 297);
             this.cbLine5Field.Name = "cbLine5Field";
             this.cbLine5Field.Size = new System.Drawing.Size(219, 33);
@@ -354,6 +318,7 @@ namespace Logger
             this.btnCancel.TabIndex = 27;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // rtbSQLResult
             // 
@@ -434,16 +399,23 @@ namespace Logger
             this.loadToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1006, 42);
+            this.menuStrip1.Size = new System.Drawing.Size(1006, 40);
             this.menuStrip1.TabIndex = 41;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(85, 38);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(85, 36);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(86, 36);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -554,13 +526,6 @@ namespace Logger
             this.label10.Size = new System.Drawing.Size(95, 29);
             this.label10.TabIndex = 51;
             this.label10.Text = "And/Or";
-            // 
-            // loadToolStripMenuItem
-            // 
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(86, 38);
-            this.loadToolStripMenuItem.Text = "Load";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // AdvancedFilter
             // 

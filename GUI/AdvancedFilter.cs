@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Data;
+using Microsoft.Office.Interop.Excel;
+using Application = System.Windows.Forms.Application;
 
 namespace Logger
 {
@@ -9,8 +11,8 @@ namespace Logger
     {
 
         private string[] fields = { "", "[group1]", "[group4]", "[group5]", "[group6]", "[group8]" };
-        private string[] operators = { "", "Like", "=", "<>", ">", "<" };
-        private string[] conditions = { "", "AND", "OR" };
+        private string[] conditions = { "", "Like", "=", "<>", ">", "<" };
+        private string[] andOr = { "", "AND", "OR" };
 
         internal SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
 
@@ -46,13 +48,35 @@ namespace Logger
 
             gridrows = (SQLSearchCondition[])sQLSearchConditions;
 
-            string fieldName = "cbLine" + (1).ToString("0") + "Field";
-            //ComboBox cb2 = (ComboBox)(fieldName) ; // ();
-            //
-            
-            cb2.Items.Add(gridrows[0].SQLCondition);
-            cb2.SelectedIndex = 0;
+            for (int x = 0; x < 6; x++)
+            {
+                string fieldName = "cbLine" + (x+1).ToString("0") + "Field";
+                string fieldCondition = "cbLine" + (x+1).ToString("0") + "Operator";
+                string fieldValue = "cbLine" + (x + 1).ToString("0") + "Value";
+                string fieldAndOr = "cbLine" + (x + 1).ToString("0") + "AndOr";
 
+            object ob = this.Controls[fieldName];
+            ComboBox cb = (ComboBox)ob;
+            addFieldNames(cb);
+            int idx = Array.IndexOf(fields, gridrows[x].SQLFieldName);
+            cb.SelectedIndex = idx;
+
+            ob = this.Controls[fieldCondition];
+            cb = (ComboBox)ob;
+            addOperators(cb);
+            idx = Array.IndexOf(conditions, gridrows[x].SQLCondition);
+            cb.SelectedIndex = idx;
+
+            ob = this.Controls[fieldValue];
+            cb = (ComboBox)ob;
+            cb.Text = gridrows[x].SQLFieldValue;
+
+                ob = this.Controls[fieldAndOr];
+                cb = (ComboBox)ob;
+                addAndOr(cb);
+                idx = Array.IndexOf(andOr, gridrows[x].SQLAndOr);
+                cb.SelectedIndex = idx;
+            }
         }
 
         private void cbLine1Field_Click(object sender, EventArgs e)
@@ -95,7 +119,7 @@ namespace Logger
             string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            gridrows[i].SQLCondition = operators[cb.SelectedIndex];
+            gridrows[i].SQLCondition = conditions[cb.SelectedIndex];
             preview();
         }
 
@@ -120,7 +144,7 @@ namespace Logger
             string iStr = cb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
 
-            gridrows[i].SQLAndOr = conditions[cb.SelectedIndex];
+            gridrows[i].SQLAndOr = andOr[cb.SelectedIndex];
             preview();
         }
 
@@ -265,7 +289,7 @@ namespace Logger
              */
 
             string sqlLike = "";
-            DataTable dt = new DataTable();
+            System.Data.DataTable dt = new System.Data.DataTable();
             string temp = "";
 
             for (int i = 0; i < 6; i++)
@@ -297,7 +321,7 @@ namespace Logger
 
             if (sqlLike != "")
             {
-                object ob = Application.OpenForms["LogView"].Controls[0];
+                object ob = Application.OpenForms["LogView"].Controls["dgvLog"];
                 DataGridView dg = (DataGridView)ob;
                 dg.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
                 dg.Refresh();
@@ -336,15 +360,11 @@ namespace Logger
             cb.Items.Clear();
             cb.Items.Add(string.Empty);
 
-            string groupName = "";
-
-            if (gridrows[i].SQLFieldOutput == "Class") groupName = "group4";
-            else if (gridrows[i].SQLFieldOutput == "Method") groupName = "group5";
-            else if (gridrows[i].SQLFieldOutput == "Direction") groupName = "group6";
+            string groupName = gridrows[i].SQLFieldName;
 
             if (groupName != "")
             {
-                DataTable dt = new DataTable();
+                System.Data.DataTable dt = new System.Data.DataTable();
                 dt = App.Prj.getGroupOptions(ProjectData.logID, groupName);
 
                 foreach (DataRow theRow in dt.Rows)
@@ -357,16 +377,23 @@ namespace Logger
             }
         }
 
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveQuery saveQuery = new SaveQuery(gridrows);
             saveQuery.ShowDialog();
         }
 
+
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadQuery loadQuery = new LoadQuery();
             loadQuery.ShowDialog();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

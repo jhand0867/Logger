@@ -57,6 +57,7 @@ namespace Logger
                     ssc.SQLCondition = gridrows[i].SQLCondition;
                     ssc.SQLFieldValue = gridrows[i].SQLFieldValue;
                     ssc.SQLAndOr = gridrows[i].SQLAndOr;
+                    ssc.SQLFieldOutput = gridrows[i].SQLFieldOutput;
 
                     ssc.setSearchConditionDetail(ssc, sqlID);
                 }

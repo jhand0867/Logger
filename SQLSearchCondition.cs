@@ -99,6 +99,7 @@ namespace Logger
                 "[condition] = '" + _searchCondition.SQLCondition + "', " +
                 "[fieldValue] = '" + _searchCondition.SQLFieldValue + ", " +
                 "[andOr] = '" + _searchCondition.SQLAndOr + "' " +
+                "[fieldOutput] = '" + _searchCondition.SQLFieldOutput + "' " +
                 "WHERE [queryID] ='" + dt.Rows[0]["sqlID"] + "'";
 
             DbCrud db = new DbCrud();
@@ -125,10 +126,10 @@ namespace Logger
         public bool setSearchConditionDetail(SQLSearchCondition _searchCondition, int _sqlID)
         {
             // insert the Detail
-            string sql = @"INSERT INTO [sqlDetail]([fieldName],[condition],[fieldValue],[andOr],[sqlID]) " +
+            string sql = @"INSERT INTO [sqlDetail]([fieldName],[condition],[fieldValue],[andOr],[sqlID],[fieldOutput]) " +
                 "VALUES('" + _searchCondition.SQLFieldName + "', '" + _searchCondition.SQLCondition + "', '" +
                              _searchCondition.SQLFieldValue + "', '" +  _searchCondition.SQLAndOr + "', '" +
-                             _sqlID + "')";
+                             _sqlID + "', '" + _searchCondition.SQLFieldOutput + "')";
 
             DbCrud db = new DbCrud();
             return db.crudToDb(sql);

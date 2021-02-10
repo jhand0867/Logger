@@ -38,32 +38,14 @@ namespace Logger
                     gridrows[i].SQLCondition = dt.Rows[i][3].ToString();
                     gridrows[i].SQLFieldValue = dt.Rows[i][4].ToString();
                     gridrows[i].SQLAndOr = dt.Rows[i][5].ToString();
-
-                    string fieldName = "cbLine" + (i+1).ToString("0") + "Field";
-
-                    //ComboBox cb1 = cc[fieldName] as ComboBox;
-                    //cb1.SelectedIndex = cb1.FindString(dt.Rows[i][2].ToString());
-//                    cb1.SelectedIndex = 0;
-                    
-                    //string condition = "cbLine" + (i+1).ToString("0") + "Operator";
-
-                    //cb1 = cc[condition] as ComboBox;
-                    //cb1.Text = dt.Rows[i][3].ToString();
-
+                    gridrows[i].SQLFieldOutput = dt.Rows[i][6].ToString();
                 }
             }
-
-            //
-
-            //Application.OpenForms["AdvancedFilter"].Text = Application.OpenForms["AdvancedFilter"].Text + "." +
-            //                                                tbName.Text;
 
             Application.OpenForms["AdvancedFilter"].Close();
             AdvancedFilter advanceFilter = new AdvancedFilter(gridrows);
             advanceFilter.Text = "AdvancedFilter" + "." + tbName.Text; 
             advanceFilter.ShowDialog();
-            advanceFilter.Text = Application.OpenForms["AdvancedFilter"].Text + "." +
-                                                            tbName.Text;
             this.Close();
         }
 

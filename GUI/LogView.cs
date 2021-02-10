@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Data;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace Logger
 {
@@ -369,6 +372,94 @@ namespace Logger
         {
             AdvancedFilter af = new AdvancedFilter();
             af.Show();
+        }
+
+        private void btExport_MouseClick(object sender, MouseEventArgs e)
+        {
+            ExportDataFromSQLServer();
+
+        }
+
+
+
+        protected System.Data.DataTable ExportDataFromSQLServer()
+        {
+            System.Data.DataTable dataTable = new System.Data.DataTable();
+
+            string connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+            SqlConnection cnn = new SqlConnection(connectionString);
+            System.Data.DataTable dt = new System.Data.DataTable();
+
+            using (cnn)
+            {
+                cnn.Open();
+
+                // Define the query to be performed to export desired data
+                SqlCommand command = new SqlCommand(@"select TOP 100 [group1],[group2],[group3],[group4]
+                                                    ,[group5],[group6],[group8] from[LogInfo]", cnn);
+
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
+
+                dataAdapter.Fill(dt);
+
+                var excelApplication = new Microsoft.Office.Interop.Excel.Application();
+
+                var excelWorkBook = excelApplication.Application.Workbooks.Add(Type.Missing);
+
+                DataColumnCollection dataColumnCollection = dt.Columns;
+
+                // including the header = +1 
+                for (int i = 1; i <= dt.Rows.Count; i++)
+                {
+                    for (int j = 1; j <= dt.Columns.Count; j++)
+                    {
+                        if (i == 1)
+                            excelApplication.Cells[i, j] = dataColumnCollection[j - 1].ToString();
+                        else
+                        {
+                            string columnData = dt.Rows[i - 2][j - 1].ToString();
+
+                            excelApplication.Cells[i, j] = "'" + columnData;
+
+                        }
+                    }
+                }
+
+                // Save the excel file at specified location
+                excelApplication.ActiveWorkbook.SaveCopyAs(@"C:\temp\test.xlsx");
+
+                excelApplication.ActiveWorkbook.Saved = true;
+
+                // Close the Excel Application
+                excelApplication.Quit();
+
+                cnn.Close();
+
+                //Release or clear the COM object
+                releaseObject(excelWorkBook);
+                releaseObject(excelApplication);
+
+                MessageBox.Show(@"Your data was exported to the Excel File C:\temp\test.xlsx.");
+            }
+            return dataTable;
+        }
+
+        private void releaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception ex)
+            {
+                obj = null;
+                MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
+            }
+            finally
+            {
+                GC.Collect();
+            }
         }
     }
 }
