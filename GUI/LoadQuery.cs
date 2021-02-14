@@ -26,7 +26,7 @@ namespace Logger
             SQLSearchCondition ssc = new SQLSearchCondition();
             Control.ControlCollection cc = Application.OpenForms["AdvancedFilter"].Controls;
 
-            dt = ssc.getSearchCondition(tbName.Text);
+            dt = ssc.getSearchCondition(cbQueryName.Text);
 
             if (dt.Rows.Count != 0)
             {
@@ -41,17 +41,42 @@ namespace Logger
                     gridrows[i].SQLFieldOutput = dt.Rows[i][6].ToString();
                 }
             }
-
-            Application.OpenForms["AdvancedFilter"].Close();
+            if (Application.OpenForms["AdvancedFilter"].Visible == true)
+            { 
+                Application.OpenForms["AdvancedFilter"].Close();
+            }
             AdvancedFilter advanceFilter = new AdvancedFilter(gridrows);
-            advanceFilter.Text = "AdvancedFilter" + "." + tbName.Text; 
-            advanceFilter.ShowDialog();
+            advanceFilter.Text = "AdvancedFilter" + "." + cbQueryName.Text; 
+            advanceFilter.Show();
             this.Close();
         }
 
         private void btCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cbQueryName_Click(object sender, EventArgs e)
+        {
+
+            ComboBox cb = (sender as ComboBox);
+            cb.Items.Clear();
+
+            SQLSearchCondition ssc = new SQLSearchCondition();
+            DataTable dt = ssc.getAllQueries();
+
+            foreach (DataRow theRow in dt.Rows)
+            {
+                string str = (theRow[1].ToString());
+                cb.Items.Add(str);
+
+            }
+
+        }
+
+        private void cbQueryName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

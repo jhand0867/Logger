@@ -37,7 +37,6 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serchOneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchTwoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.option2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.option3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logInContextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -49,9 +48,21 @@
             this.dataWrappingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btExport = new System.Windows.Forms.Button();
+            this.cbQueryName = new System.Windows.Forms.ComboBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.printToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLog)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvLog
@@ -63,9 +74,6 @@
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.MenuHighlight;
             this.dgvLog.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvLog.BackgroundColor = System.Drawing.Color.LightGray;
             this.dgvLog.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -84,7 +92,8 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvLog.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvLog.Location = new System.Drawing.Point(0, 69);
+            this.dgvLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvLog.Location = new System.Drawing.Point(3, 3);
             this.dgvLog.Margin = new System.Windows.Forms.Padding(4);
             this.dgvLog.Name = "dgvLog";
             this.dgvLog.ReadOnly = true;
@@ -92,7 +101,7 @@
             this.dgvLog.RowHeadersWidth = 62;
             this.dgvLog.RowTemplate.Height = 28;
             this.dgvLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvLog.Size = new System.Drawing.Size(2348, 530);
+            this.dgvLog.Size = new System.Drawing.Size(2326, 511);
             this.dgvLog.TabIndex = 0;
             this.dgvLog.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLog_CellContentClick);
             this.dgvLog.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvLog_CellMouseDown);
@@ -104,15 +113,15 @@
             this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
             this.searchToolStripMenuItem,
-            this.option2ToolStripMenuItem,
             this.option3ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(2348, 40);
+            this.menuStrip1.ShowItemToolTips = true;
+            this.menuStrip1.Size = new System.Drawing.Size(2348, 42);
             this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.menuStrip1_MouseClick);
             // 
             // searchToolStripMenuItem
@@ -122,29 +131,22 @@
             this.searchTwoToolStripMenuItem});
             this.searchToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(88, 36);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(88, 38);
             this.searchToolStripMenuItem.Text = "Filter";
             // 
             // serchOneToolStripMenuItem
             // 
             this.serchOneToolStripMenuItem.Name = "serchOneToolStripMenuItem";
-            this.serchOneToolStripMenuItem.Size = new System.Drawing.Size(254, 44);
+            this.serchOneToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.serchOneToolStripMenuItem.Text = "Advanced";
             this.serchOneToolStripMenuItem.Click += new System.EventHandler(this.serchOneToolStripMenuItem_Click);
             // 
             // searchTwoToolStripMenuItem
             // 
             this.searchTwoToolStripMenuItem.Name = "searchTwoToolStripMenuItem";
-            this.searchTwoToolStripMenuItem.Size = new System.Drawing.Size(254, 44);
+            this.searchTwoToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.searchTwoToolStripMenuItem.Text = "Clear";
             this.searchTwoToolStripMenuItem.Click += new System.EventHandler(this.searchTwoToolStripMenuItem_Click);
-            // 
-            // option2ToolStripMenuItem
-            // 
-            this.option2ToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.option2ToolStripMenuItem.Name = "option2ToolStripMenuItem";
-            this.option2ToolStripMenuItem.Size = new System.Drawing.Size(129, 36);
-            this.option2ToolStripMenuItem.Text = "Option 2";
             // 
             // option3ToolStripMenuItem
             // 
@@ -155,32 +157,32 @@
             this.copyToClipboardToolStripMenuItem});
             this.option3ToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.option3ToolStripMenuItem.Name = "option3ToolStripMenuItem";
-            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(86, 36);
+            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(86, 38);
             this.option3ToolStripMenuItem.Text = "View";
             // 
             // logInContextToolStripMenuItem
             // 
             this.logInContextToolStripMenuItem.Name = "logInContextToolStripMenuItem";
-            this.logInContextToolStripMenuItem.Size = new System.Drawing.Size(343, 44);
+            this.logInContextToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.logInContextToolStripMenuItem.Text = "Log in Context";
             this.logInContextToolStripMenuItem.Click += new System.EventHandler(this.logInContextToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(340, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(356, 6);
             // 
             // dataWrappingToolStripMenuItem1
             // 
             this.dataWrappingToolStripMenuItem1.Name = "dataWrappingToolStripMenuItem1";
-            this.dataWrappingToolStripMenuItem1.Size = new System.Drawing.Size(343, 44);
+            this.dataWrappingToolStripMenuItem1.Size = new System.Drawing.Size(359, 44);
             this.dataWrappingToolStripMenuItem1.Text = "Data Wrapping";
             this.dataWrappingToolStripMenuItem1.Click += new System.EventHandler(this.dataWrappingToolStripMenuItem1_Click);
             // 
             // copyToClipboardToolStripMenuItem
             // 
             this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
-            this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(343, 44);
+            this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.copyToClipboardToolStripMenuItem.Text = "Copy to Clipboard";
             this.copyToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyToClipboardToolStripMenuItem_Click);
             // 
@@ -191,9 +193,11 @@
             this.showInContextToolStripMenuItem,
             this.toolStripSeparator1,
             this.dataWrappingToolStripMenuItem,
-            this.copyToolStripMenuItem});
+            this.copyToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.printToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(285, 124);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(285, 168);
             // 
             // showInContextToolStripMenuItem
             // 
@@ -229,7 +233,96 @@
             this.btExport.TabIndex = 2;
             this.btExport.Text = "Excel";
             this.btExport.UseVisualStyleBackColor = true;
+            this.btExport.Click += new System.EventHandler(this.btExport_Click);
             this.btExport.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btExport_MouseClick);
+            // 
+            // cbQueryName
+            // 
+            this.cbQueryName.FormattingEnabled = true;
+            this.cbQueryName.Location = new System.Drawing.Point(1611, 4);
+            this.cbQueryName.Name = "cbQueryName";
+            this.cbQueryName.Size = new System.Drawing.Size(340, 33);
+            this.cbQueryName.TabIndex = 3;
+            this.cbQueryName.SelectedIndexChanged += new System.EventHandler(this.cbQueryName_SelectedIndexChanged);
+            this.cbQueryName.Click += new System.EventHandler(this.cbQueryName_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 42);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(2348, 564);
+            this.tabControl1.TabIndex = 4;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.dgvLog);
+            this.tabPage1.Location = new System.Drawing.Point(8, 39);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(2332, 517);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(8, 39);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(2332, 511);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.SteelBlue;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(1433, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(136, 32);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Apply Filter";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportToolStripMenuItem,
+            this.printToolStripMenuItem});
+            this.toolStripMenuItem1.ForeColor = System.Drawing.Color.White;
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(242, 38);
+            this.toolStripMenuItem1.Text = "File";
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.exportToolStripMenuItem.Text = "Export";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+            // 
+            // printToolStripMenuItem
+            // 
+            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.printToolStripMenuItem.Text = "Print";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(281, 6);
+            // 
+            // printToolStripMenuItem1
+            // 
+            this.printToolStripMenuItem1.Name = "printToolStripMenuItem1";
+            this.printToolStripMenuItem1.Size = new System.Drawing.Size(284, 38);
+            this.printToolStripMenuItem1.Text = "Print";
             // 
             // LogView
             // 
@@ -237,8 +330,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(2348, 606);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.cbQueryName);
             this.Controls.Add(this.btExport);
-            this.Controls.Add(this.dgvLog);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -252,6 +347,8 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -262,7 +359,6 @@
         private System.Windows.Forms.DataGridView dgvLog;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem option2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem option3ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem serchOneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem searchTwoToolStripMenuItem;
@@ -276,5 +372,15 @@
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyToClipboardToolStripMenuItem;
         private System.Windows.Forms.Button btExport;
+        private System.Windows.Forms.ComboBox cbQueryName;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem1;
     }
 }

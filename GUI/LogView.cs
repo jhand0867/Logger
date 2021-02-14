@@ -4,6 +4,9 @@ using System.Windows.Forms;
 using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Runtime.InteropServices;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.IO;
 
 namespace Logger
 {
@@ -32,11 +35,11 @@ namespace Logger
             dgvLog.ColumnHeadersVisible = true;
             dgvLog.Columns["id"].Visible = false;
             dgvLog.Columns["logKey"].Visible = false;
-            dgvLog.Columns["group7"].Visible = false;
+          //  dgvLog.Columns["Log"].Visible = false;
             dgvLog.Columns["group9"].Visible = false;
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
-            dgvLog.Columns["Log Data"].Width = 660;
+            dgvLog.Columns["Log Data"].Width = 620;
             dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
 
@@ -51,7 +54,7 @@ namespace Logger
         private ComboBox cmbColumHeader4 = new ComboBox();
         private ComboBox cmbColumHeader5 = new ComboBox();
         private ComboBox cmbColumHeader6 = new ComboBox();
-
+        private ComboBox cmbColumHeader7 = new ComboBox();
 
         private void LogView_reLoad(object sender, EventArgs e)
         {
@@ -73,11 +76,11 @@ namespace Logger
             dgvLog.ColumnHeadersVisible = true;
             dgvLog.Columns["id"].Visible = false;
             dgvLog.Columns["logKey"].Visible = false;
-            dgvLog.Columns["group7"].Visible = false;
+          //  dgvLog.Columns["Log"].Visible = false;
             dgvLog.Columns["group9"].Visible = false;
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
-            dgvLog.Columns["Log Data"].Width = 660;
+            dgvLog.Columns["Log Data"].Width = 620;
             dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
             cmbColumHeader2.SelectedIndex = -1;
@@ -88,6 +91,8 @@ namespace Logger
             cmbColumHeader5.SelectedItem = null;
             cmbColumHeader6.SelectedIndex = -1;
             cmbColumHeader6.SelectedItem = null;
+            cmbColumHeader7.SelectedIndex = -1;
+            cmbColumHeader7.SelectedItem = null;
 
             using (Font font = new Font(
                 dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
@@ -157,6 +162,23 @@ namespace Logger
             cmbColumHeader5.SelectedIndex = -1;
             cmbColumHeader5.Visible = true;
 
+            // header group7 - Log
+
+            cmbColumHeader7.SelectionChangeCommitted += delegate (object sender, EventArgs e)
+            {
+                cmbColumHeader7_SelectionChangeCommitted(sender, e, cmbColumHeader7, logID);
+            };
+
+            cmbColumHeader7.DataSource = App.Prj.getGroupOptions(logID, "group7");
+            cmbColumHeader7.DisplayMember = "group7";
+            cmbColumHeader7.DropDownStyle = ComboBoxStyle.DropDownList;
+            loc = dgvLog.GetCellDisplayRectangle(5, -1, true).Location;
+            cmbColumHeader7.Location = new Point(loc.X + dgvLog.Columns[5].Width, 1);
+            cmbColumHeader7.Size = dgvLog.Columns[5].HeaderCell.Size;
+            dgvLog.Controls.Add(cmbColumHeader7);
+            cmbColumHeader7.SelectedIndex = -1;
+            cmbColumHeader7.Visible = true;
+
             // header Log Data
 
             cmbColumHeader6.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -172,9 +194,9 @@ namespace Logger
                 cmbColumHeader6_SelectionChangeCommitted(sender, e, cmbColumHeader6, logID);
             };
 
-            loc = dgvLog.GetCellDisplayRectangle(5, -1, true).Location;
-            cmbColumHeader6.Location = new Point(loc.X + dgvLog.Columns[5].Width, 1);
-            cmbColumHeader6.Width = 660;
+            loc = dgvLog.GetCellDisplayRectangle(6, -1, true).Location;
+            cmbColumHeader6.Location = new Point(loc.X + dgvLog.Columns[6].Width, 1);
+            cmbColumHeader6.Width = 620;
             cmbColumHeader6.Height = 21;
             dgvLog.Controls.Add(cmbColumHeader6);
             cmbColumHeader6.SelectedIndex = -1;
@@ -196,6 +218,8 @@ namespace Logger
             cmbColumHeader5.SelectedItem = null;
             cmbColumHeader6.SelectedIndex = -1;
             cmbColumHeader6.SelectedItem = null;
+            cmbColumHeader7.SelectedIndex = -1;
+            cmbColumHeader7.SelectedItem = null;
             this.dgvLog.Refresh();
         }
 
@@ -209,6 +233,8 @@ namespace Logger
             cmbColumHeader5.SelectedItem = null;
             cmbColumHeader6.SelectedIndex = -1;
             cmbColumHeader6.SelectedItem = null;
+            cmbColumHeader7.SelectedIndex = -1;
+            cmbColumHeader7.SelectedItem = null;
             this.dgvLog.Refresh();
         }
 
@@ -220,6 +246,23 @@ namespace Logger
             cmbColumHeader2.SelectedItem = null;
             cmbColumHeader4.SelectedIndex = -1;
             cmbColumHeader4.SelectedItem = null;
+            cmbColumHeader6.SelectedIndex = -1;
+            cmbColumHeader6.SelectedItem = null;
+            cmbColumHeader7.SelectedIndex = -1;
+            cmbColumHeader7.SelectedItem = null;
+            this.dgvLog.Refresh();
+        }
+
+        private void cmbColumHeader7_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
+        {
+            string sqlLike = "='" + c.Text + "'";
+            this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group7", sqlLike);
+            cmbColumHeader2.SelectedIndex = -1;
+            cmbColumHeader2.SelectedItem = null;
+            cmbColumHeader4.SelectedIndex = -1;
+            cmbColumHeader4.SelectedItem = null;
+            cmbColumHeader5.SelectedIndex = -1;
+            cmbColumHeader5.SelectedItem = null;
             cmbColumHeader6.SelectedIndex = -1;
             cmbColumHeader6.SelectedItem = null;
             this.dgvLog.Refresh();
@@ -235,6 +278,8 @@ namespace Logger
             cmbColumHeader4.SelectedItem = null;
             cmbColumHeader5.SelectedIndex = -1;
             cmbColumHeader5.SelectedItem = null;
+            cmbColumHeader7.SelectedIndex = -1;
+            cmbColumHeader7.SelectedItem = null;
             this.dgvLog.Refresh();
         }
 
@@ -386,60 +431,63 @@ namespace Logger
         {
             System.Data.DataTable dataTable = new System.Data.DataTable();
 
-            string connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            SqlConnection cnn = new SqlConnection(connectionString);
-            System.Data.DataTable dt = new System.Data.DataTable();
+                object dt1 = dgvLog.DataSource;
 
-            using (cnn)
-            {
-                cnn.Open();
-
-                // Define the query to be performed to export desired data
-                SqlCommand command = new SqlCommand(@"select TOP 100 [group1],[group2],[group3],[group4]
-                                                    ,[group5],[group6],[group8] from[LogInfo]", cnn);
-
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
-
-                dataAdapter.Fill(dt);
+                DataTable dt2 = dt1 as DataTable;
 
                 var excelApplication = new Microsoft.Office.Interop.Excel.Application();
 
                 var excelWorkBook = excelApplication.Application.Workbooks.Add(Type.Missing);
 
-                DataColumnCollection dataColumnCollection = dt.Columns;
+                DataColumnCollection dataColumnCollection = dt2.Columns;
 
                 // including the header = +1 
-                for (int i = 1; i <= dt.Rows.Count; i++)
-                {
-                    for (int j = 1; j <= dt.Columns.Count; j++)
+                for (int i = 1; i <= dt2.Rows.Count - 2; i++)
+//                  for (int i = 1; i <= 200; i++)
                     {
+                        for (int j = 3; j <= dt2.Columns.Count; j++)
+                    {
+                        if (j > 10 ) continue;
                         if (i == 1)
-                            excelApplication.Cells[i, j] = dataColumnCollection[j - 1].ToString();
+                            excelApplication.Cells[i, j-2] = dataColumnCollection[j - 1].ToString();
                         else
                         {
-                            string columnData = dt.Rows[i - 2][j - 1].ToString();
+                            string columnData = dt2.Rows[i - 2][j - 1].ToString();
 
-                            excelApplication.Cells[i, j] = "'" + columnData;
+                            excelApplication.Cells[i, j-2] = "'" + columnData;
 
                         }
                     }
                 }
 
-                // Save the excel file at specified location
+            try
+            {
+
                 excelApplication.ActiveWorkbook.SaveCopyAs(@"C:\temp\test.xlsx");
 
                 excelApplication.ActiveWorkbook.Saved = true;
+                excelApplication.ActiveWorkbook.Close();
 
                 // Close the Excel Application
-                excelApplication.Quit();
+                //excelApplication.Quit();
 
-                cnn.Close();
+                excelWorkBook = excelApplication.Workbooks.Open(@"C:\temp\test.xlsx", 0, false, 5, "", "", true,
+                    Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+
+                excelApplication.Visible = true;
 
                 //Release or clear the COM object
                 releaseObject(excelWorkBook);
                 releaseObject(excelApplication);
-
-                MessageBox.Show(@"Your data was exported to the Excel File C:\temp\test.xlsx.");
+            }
+            catch (COMException ec)
+            {
+                //todo: add exception handling fro file i/o
+                MessageBox.Show ("File in use by other application");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Application Error: {0}", e.ToString());
             }
             return dataTable;
         }
@@ -460,6 +508,79 @@ namespace Logger
             {
                 GC.Collect();
             }
+        }
+
+        private void btExport_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbQueryName_Click(object sender, EventArgs e)
+        {
+            SQLSearchCondition sQLSearchCondition = new SQLSearchCondition();
+            DataTable dt = sQLSearchCondition.getAllQueries();
+
+            // is there any saved queries?
+            if(dt.Rows.Count > -1)
+            {
+                // fill the combo box with the names
+                cbQueryName.Items.Clear();
+                foreach(DataRow row in dt.Rows)
+                {
+                    cbQueryName.Items.Add(row["name"]);
+                }
+            }
+
+        }
+
+        private void cbQueryName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DataTable dt = new DataTable();
+            SQLSearchCondition ssc = new SQLSearchCondition();
+
+            dt = ssc.getSearchCondition(cbQueryName.Text);
+
+            string sqlLike = "";
+            string temp = "";
+
+            if (dt.Rows.Count != 0)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+
+                if (dt.Rows[i][2].ToString() != "" && dt.Rows[i][3].ToString() != "" && dt.Rows[i][4].ToString() != "")
+                {
+                    temp = dt.Rows[i][4].ToString();
+
+                    if (dt.Rows[i][3].ToString() == "Like")
+                    {
+                        if (dt.Rows[i][4].ToString().StartsWith("["))
+                            temp = dt.Rows[i][4].ToString().Substring(1, dt.Rows[i][4].ToString().Length - 1);
+                        temp = "%" + temp + "%";
+                    }
+                    sqlLike += " " + dt.Rows[i][2].ToString() + dt.Rows[i][3].ToString() +
+                           " '" + temp + "' ";
+                }
+
+                if (i < 5 &&
+                    dt.Rows[i][5].ToString() != "" &&
+                    dt.Rows[i+1][2].ToString() != "" && dt.Rows[i+1][3].ToString() != "" && dt.Rows[i+1][4].ToString() != "")
+                {
+                    sqlLike += dt.Rows[i][5].ToString();
+                }
+
+                }
+            }
+            if (sqlLike != "")
+            {          
+                dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
+                dgvLog.Refresh();
+            }
+        }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportDataFromSQLServer();
         }
     }
 }

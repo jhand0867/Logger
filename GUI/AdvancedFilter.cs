@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.Office.Interop.Excel;
 using Application = System.Windows.Forms.Application;
+using Logger.GUI;
 
 namespace Logger
 {
     public partial class AdvancedFilter : Form
     {
 
-        private string[] fields = { "", "[group1]", "[group4]", "[group5]", "[group6]", "[group8]" };
+        private string[] fields = { "", "[group1]", "[group4]", "[group5]", "[group6]", "[group7]", "[group8]" };
         private string[] conditions = { "", "Like", "=", "<>", ">", "<" };
         private string[] andOr = { "", "AND", "OR" };
 
@@ -92,7 +93,8 @@ namespace Logger
             cbField.Items.Add("Timestamp");
             cbField.Items.Add("Class");
             cbField.Items.Add("Method");
-            cbField.Items.Add("Direction");
+            cbField.Items.Add("Type");
+            cbField.Items.Add("Log");
             cbField.Items.Add("Data");
         }
 
@@ -321,10 +323,13 @@ namespace Logger
 
             if (sqlLike != "")
             {
-                object ob = Application.OpenForms["LogView"].Controls["dgvLog"];
-                DataGridView dg = (DataGridView)ob;
-                dg.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
-                dg.Refresh();
+                object ob = Application.OpenForms["LogView"].Controls[1].Controls[0].Controls["dgvLog"];
+                if (ob != null)
+                {
+                    DataGridView dg = (DataGridView)ob;
+                    dg.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
+                    dg.Refresh();
+                }
             }
         }
 
@@ -365,22 +370,33 @@ namespace Logger
             if (groupName != "")
             {
                 System.Data.DataTable dt = new System.Data.DataTable();
+                
                 dt = App.Prj.getGroupOptions(ProjectData.logID, groupName);
 
-                foreach (DataRow theRow in dt.Rows)
+                if (dt != null)
                 {
-                    string str = (theRow[0].ToString());
-                    cb.Items.Add(str);
+                    foreach (DataRow theRow in dt.Rows)
+                    {
+                        string str = (theRow[0].ToString());
+                        cb.Items.Add(str);
 
+                    }
                 }
-
             }
         }
 
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveQuery saveQuery = new SaveQuery(gridrows);
+            string queryName = "";
+
+            if (this.Text != "AdvancedFilter")
+            {
+                int idx = this.Text.IndexOf(".") + 1;
+                queryName = this.Text.Substring(idx);
+            }
+
+            SaveQuery saveQuery = new SaveQuery(gridrows, queryName);
             saveQuery.ShowDialog();
         }
 
@@ -394,6 +410,25 @@ namespace Logger
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cbLineValue_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox cb = sender as ComboBox;
+            string iStr = cb.Name.Substring(6, 1);
+            int i = Convert.ToInt32(iStr) - 1;
+
+            gridrows[i].SQLFieldValue = cb.Text;
+            preview();
+
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // SQLSearchCondition scc = new SQLSearchCondition()
+            DeleteQuery dq = new DeleteQuery();
+            dq.ShowDialog();
+            
         }
     }
 }

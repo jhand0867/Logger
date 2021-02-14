@@ -70,6 +70,7 @@ namespace Logger
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -311,6 +312,7 @@ namespace Logger
             // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.ForeColor = System.Drawing.Color.Black;
             this.btnCancel.Location = new System.Drawing.Point(108, 402);
             this.btnCancel.Name = "btnCancel";
@@ -337,6 +339,7 @@ namespace Logger
             this.cbLine1Value.Name = "cbLine1Value";
             this.cbLine1Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine1Value.TabIndex = 35;
+            this.cbLine1Value.SelectedIndexChanged += new System.EventHandler(this.cbLineValue_SelectedIndexChanged);
             this.cbLine1Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
             this.cbLine1Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
             // 
@@ -347,6 +350,7 @@ namespace Logger
             this.cbLine2Value.Name = "cbLine2Value";
             this.cbLine2Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine2Value.TabIndex = 36;
+            this.cbLine2Value.SelectedIndexChanged += new System.EventHandler(this.cbLineValue_SelectedIndexChanged);
             this.cbLine2Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
             this.cbLine2Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
             // 
@@ -357,6 +361,7 @@ namespace Logger
             this.cbLine3Value.Name = "cbLine3Value";
             this.cbLine3Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine3Value.TabIndex = 37;
+            this.cbLine3Value.SelectedIndexChanged += new System.EventHandler(this.cbLineValue_SelectedIndexChanged);
             this.cbLine3Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
             this.cbLine3Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
             // 
@@ -367,6 +372,7 @@ namespace Logger
             this.cbLine4Value.Name = "cbLine4Value";
             this.cbLine4Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine4Value.TabIndex = 38;
+            this.cbLine4Value.SelectedIndexChanged += new System.EventHandler(this.cbLineValue_SelectedIndexChanged);
             this.cbLine4Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
             this.cbLine4Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
             // 
@@ -377,6 +383,7 @@ namespace Logger
             this.cbLine5Value.Name = "cbLine5Value";
             this.cbLine5Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine5Value.TabIndex = 39;
+            this.cbLine5Value.SelectedIndexChanged += new System.EventHandler(this.cbLineValue_SelectedIndexChanged);
             this.cbLine5Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
             this.cbLine5Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
             // 
@@ -387,6 +394,7 @@ namespace Logger
             this.cbLine6Value.Name = "cbLine6Value";
             this.cbLine6Value.Size = new System.Drawing.Size(318, 33);
             this.cbLine6Value.TabIndex = 40;
+            this.cbLine6Value.SelectedIndexChanged += new System.EventHandler(this.cbLineValue_SelectedIndexChanged);
             this.cbLine6Value.Leave += new System.EventHandler(this.cbLineValue_Leave);
             this.cbLine6Value.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbLineValue_MouseClick);
             // 
@@ -396,24 +404,25 @@ namespace Logger
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
-            this.loadToolStripMenuItem});
+            this.loadToolStripMenuItem,
+            this.deleteToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1006, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(1006, 42);
             this.menuStrip1.TabIndex = 41;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(85, 36);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(85, 38);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(86, 36);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(86, 38);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
@@ -527,11 +536,19 @@ namespace Logger
             this.label10.TabIndex = 51;
             this.label10.Text = "And/Or";
             // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(105, 38);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
             // AdvancedFilter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(1006, 594);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
@@ -627,5 +644,6 @@ namespace Logger
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }

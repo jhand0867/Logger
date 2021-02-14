@@ -693,7 +693,8 @@ namespace Logger
             string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
                             [group2] as 'Log Level',[group3] as 'File Name',
                             [group4] as 'Class',[group5] as 'Method',
-                            [group6] as 'Type',[group7],
+                            [group6] as 'Type',
+                            [group7] as 'Log',
                             [group8] as 'Log Data',[group9],
                             [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
                       " AND " + columnName + sqlLike;
@@ -721,7 +722,8 @@ namespace Logger
             string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
                                                               [group2] as 'Log Level',[group3] as 'File Name',
                                                               [group4] as 'Class',[group5] as 'Method',
-                                                              [group6] as 'Type',[group7],
+                                                              [group6] as 'Type',
+                                                              [group7] as 'Log',
                                                               [group8] as 'Log Data',[group9],
                                                               [prjKey],[logID] FROM [loginfo] 
                                                               WHERE logID =" + logID;

@@ -44,6 +44,21 @@ namespace Logger
         }
 
         /// <summary>
+        /// Get the header info of all queries
+        /// </summary>
+        /// <returns>dt</returns>
+        public DataTable getAllQueries()
+        {
+            // get the query info
+            string sql = @"SELECT * FROM [sqlBuilder]";
+
+            DbCrud db = new DbCrud();
+            DataTable dt = db.GetTableFromDb(sql);
+
+            return dt;
+        }
+
+        /// <summary>
         /// Get the header info of the query by name
         /// </summary>
         /// <param name="_queryName"></param>
@@ -105,6 +120,31 @@ namespace Logger
             DbCrud db = new DbCrud();
             db.crudToDb(sql);
         }
+        
+        public bool deleteSearchConditionBuilder(int _sqlID)
+        {
+            // update the Builder
+            string sql = @"DELETE FROM [sqlBuilder] WHERE [id] ='" + _sqlID + "'; " +
+                          "DELETE FROM [sqlDetail] WHERE [sqlId] = '" + _sqlID + "'";
+
+            DbCrud db = new DbCrud();
+            return db.crudToDb(sql);
+
+        }
+        
+        public bool updateSearchConditionBuilder(string _queryName, string _queryDescription, int _sqlID)
+        {
+            // update the Builder
+            string sql = @"UPDATE [sqlBuilder] SET " + 
+                    " [name] = '" + _queryName + "'," +
+                    " [description] = '" + _queryDescription + "'," + 
+                    " [date] = '" + DateTime.Now + "' " +
+                    "WHERE [id] ='" + _sqlID + "'; DELETE FROM [sqlDetail] WHERE [sqlId] = '" + _sqlID + "'";
+
+            DbCrud db = new DbCrud();
+            return db.crudToDb(sql);
+            
+        }
 
         public int setSearchConditionBuilder(string _queryName, string _queryDescription)
         {
@@ -115,10 +155,6 @@ namespace Logger
             // insert the Builder
             string sql = @"INSERT INTO [sqlBuilder]([name],[description],[date]) " +
                    " VALUES('" + _queryName + "','" + _queryDescription + "','" + DateTime.Now + "'); SELECT CAST(scope_identity() AS int); ";
-
-            //string sql = @"INSERT INTO logs(prjKey, logFile, uploadDate) 
-            //        VALUES('" + pKey + "','" + pFilename + "', GETDATE()); SELECT CAST(scope_identity() AS int);";
-
 
             return db.GetScalarIntFromDb(sql);
         }
@@ -133,7 +169,6 @@ namespace Logger
 
             DbCrud db = new DbCrud();
             return db.crudToDb(sql);
-            
         }
     }
 }

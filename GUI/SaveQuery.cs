@@ -14,10 +14,22 @@ namespace Logger
     {
         private SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
 
-        public SaveQuery(object sQLSearchCondition)
+
+        public SaveQuery(object sQLSearchCondition, string queryName)
         {
             InitializeComponent();
             gridrows = (SQLSearchCondition[])sQLSearchCondition;
+
+            if (queryName != "")
+            {
+                tbName.Text = queryName;
+
+                DataTable dt = new DataTable();
+                SQLSearchCondition ssc = new SQLSearchCondition();
+                dt = ssc.getQueryInfo(tbName.Text);
+                tbDescription.Text = dt.Rows[0][2].ToString();
+             }
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -43,13 +55,17 @@ namespace Logger
 
             DataTable dt = new DataTable();
             SQLSearchCondition ssc = new SQLSearchCondition();
-            
+
             dt = ssc.getQueryInfo(tbName.Text);
             int sqlID = 0;
 
             if (dt.Rows.Count == 0)
-            {
                 sqlID = ssc.setSearchConditionBuilder(tbName.Text, tbDescription.Text);
+            else
+            {
+                sqlID = (int)dt.Rows[0]["id"];
+                ssc.updateSearchConditionBuilder(tbName.Text, tbDescription.Text, sqlID);
+            }
 
                 for (int i = 0; i < 6; i++)
                 {
@@ -61,9 +77,7 @@ namespace Logger
 
                     ssc.setSearchConditionDetail(ssc, sqlID);
                 }
-            }
-            Application.OpenForms["AdvancedFilter"].Text = Application.OpenForms["AdvancedFilter"].Text + "." +
-                tbName.Text;
+            Application.OpenForms["AdvancedFilter"].Text = "AdvancedFilter." + tbName.Text;
             this.Close();
         }
     }

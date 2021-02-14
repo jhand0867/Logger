@@ -78,6 +78,7 @@ namespace Logger
             // 
             // btCancel
             // 
+            this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btCancel.Location = new System.Drawing.Point(191, 239);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(127, 41);
@@ -102,8 +103,10 @@ namespace Logger
             // 
             // SaveQuery
             // 
+            this.AcceptButton = this.btOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btCancel;
             this.ClientSize = new System.Drawing.Size(704, 300);
             this.ControlBox = false;
             this.Controls.Add(this.btOk);
