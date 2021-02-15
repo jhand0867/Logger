@@ -63,7 +63,7 @@
             // tbPName
             // 
             this.tbPName.Location = new System.Drawing.Point(257, 80);
-            this.tbPName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbPName.Margin = new System.Windows.Forms.Padding(4);
             this.tbPName.Name = "tbPName";
             this.tbPName.Size = new System.Drawing.Size(304, 31);
             this.tbPName.TabIndex = 1;
@@ -74,7 +74,7 @@
             // tbPBrief
             // 
             this.tbPBrief.Location = new System.Drawing.Point(257, 139);
-            this.tbPBrief.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbPBrief.Margin = new System.Windows.Forms.Padding(4);
             this.tbPBrief.Multiline = true;
             this.tbPBrief.Name = "tbPBrief";
             this.tbPBrief.Size = new System.Drawing.Size(672, 124);
@@ -84,7 +84,7 @@
             // 
             this.btnCreate.Enabled = false;
             this.btnCreate.Location = new System.Drawing.Point(257, 360);
-            this.btnCreate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCreate.Margin = new System.Windows.Forms.Padding(4);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(205, 50);
             this.btnCreate.TabIndex = 3;
@@ -95,7 +95,7 @@
             // btnMenu
             // 
             this.btnMenu.Location = new System.Drawing.Point(725, 360);
-            this.btnMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMenu.Margin = new System.Windows.Forms.Padding(4);
             this.btnMenu.Name = "btnMenu";
             this.btnMenu.Size = new System.Drawing.Size(205, 50);
             this.btnMenu.TabIndex = 3;
@@ -107,7 +107,7 @@
             // 
             this.btnUpdate.Enabled = false;
             this.btnUpdate.Location = new System.Drawing.Point(497, 360);
-            this.btnUpdate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnUpdate.Margin = new System.Windows.Forms.Padding(4);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(205, 50);
             this.btnUpdate.TabIndex = 4;
@@ -133,7 +133,7 @@
             this.Controls.Add(this.tbPName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProjectInfo";

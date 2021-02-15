@@ -75,19 +75,20 @@ namespace Logger
             this.cbQueryName.SelectedIndexChanged += new System.EventHandler(this.cbQueryName_SelectedIndexChanged);
             this.cbQueryName.Click += new System.EventHandler(this.cbQueryName_Click);
             // 
-            // DeleteQuery1
+            // LoadQuery
             // 
             this.AcceptButton = this.btOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btCancel;
-            this.ClientSize = new System.Drawing.Size(698, 248);
+            this.ClientSize = new System.Drawing.Size(704, 249);
             this.ControlBox = false;
             this.Controls.Add(this.cbQueryName);
             this.Controls.Add(this.btOk);
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.label1);
-            this.Name = "DeleteQuery1";
+            this.Name = "LoadQuery";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "LoadQuery";
             this.ResumeLayout(false);
             this.PerformLayout();

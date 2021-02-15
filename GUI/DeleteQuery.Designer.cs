@@ -38,7 +38,7 @@ namespace Logger.GUI
             // cbQueryName
             // 
             this.cbQueryName.FormattingEnabled = true;
-            this.cbQueryName.Location = new System.Drawing.Point(248, 47);
+            this.cbQueryName.Location = new System.Drawing.Point(190, 63);
             this.cbQueryName.Name = "cbQueryName";
             this.cbQueryName.Size = new System.Drawing.Size(424, 33);
             this.cbQueryName.TabIndex = 16;
@@ -47,7 +47,7 @@ namespace Logger.GUI
             // 
             // btOk
             // 
-            this.btOk.Location = new System.Drawing.Point(545, 126);
+            this.btOk.Location = new System.Drawing.Point(487, 142);
             this.btOk.Name = "btOk";
             this.btOk.Size = new System.Drawing.Size(127, 41);
             this.btOk.TabIndex = 15;
@@ -58,7 +58,7 @@ namespace Logger.GUI
             // btCancel
             // 
             this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btCancel.Location = new System.Drawing.Point(248, 126);
+            this.btCancel.Location = new System.Drawing.Point(190, 142);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(127, 41);
             this.btCancel.TabIndex = 14;
@@ -68,7 +68,7 @@ namespace Logger.GUI
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(133, 51);
+            this.label1.Location = new System.Drawing.Point(75, 67);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 25);
             this.label1.TabIndex = 13;
@@ -80,12 +80,13 @@ namespace Logger.GUI
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btCancel;
-            this.ClientSize = new System.Drawing.Size(804, 214);
+            this.ClientSize = new System.Drawing.Size(704, 249);
             this.Controls.Add(this.cbQueryName);
             this.Controls.Add(this.btOk);
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.label1);
             this.Name = "DeleteQuery";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Delete Query";
             this.ResumeLayout(false);
             this.PerformLayout();

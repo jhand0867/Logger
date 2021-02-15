@@ -24,7 +24,6 @@ namespace Logger
             
             DataTable dt = new DataTable();
             SQLSearchCondition ssc = new SQLSearchCondition();
-            Control.ControlCollection cc = Application.OpenForms["AdvancedFilter"].Controls;
 
             dt = ssc.getSearchCondition(cbQueryName.Text);
 
@@ -41,13 +40,11 @@ namespace Logger
                     gridrows[i].SQLFieldOutput = dt.Rows[i][6].ToString();
                 }
             }
-            if (Application.OpenForms["AdvancedFilter"].Visible == true)
-            { 
-                Application.OpenForms["AdvancedFilter"].Close();
-            }
-            AdvancedFilter advanceFilter = new AdvancedFilter(gridrows);
-            advanceFilter.Text = "AdvancedFilter" + "." + cbQueryName.Text; 
-            advanceFilter.Show();
+            //AdvancedFilterw advancedFilter = (AdvancedFilterw)Application.OpenForms["advancedFilterw"];
+            //advancedFilter.Text = "AdvancedFilter" + "." + cbQueryName.Text;
+            this.Owner.Text = "AdvancedFilter" + "." + cbQueryName.Text;
+            AdvancedFilterw myAdv = (AdvancedFilterw)this.Owner;
+            myAdv.AdvancedFilterLoad(gridrows);
             this.Close();
         }
 

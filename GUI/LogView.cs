@@ -15,7 +15,16 @@ namespace Logger
         public LogView()
         {
             InitializeComponent();
+            this.FormClosing += LogView_FormClosing;
         }
+
+        private void LogView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            dgvLog.DataSource = null;
+            dgvLog.Rows.Clear();
+            GC.Collect();
+        }
+
 
         private void LogView_Load(object sender, EventArgs e)
         {
@@ -203,11 +212,6 @@ namespace Logger
             cmbColumHeader6.Visible = true;
         }
 
-        public delegate void passLogData(DataGridViewRow dgvr);
-        public passLogData setData;
-
-
-
         private void cmbColumHeader2_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
         {
             string sqlLike = "='" + c.Text + "'";
@@ -282,6 +286,9 @@ namespace Logger
             cmbColumHeader7.SelectedItem = null;
             this.dgvLog.Refresh();
         }
+
+        public delegate void passLogData(DataGridViewRow dgvr);
+        public passLogData setData;
 
         private void dgvLog_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -415,8 +422,8 @@ namespace Logger
 
         private void advancedFilter()
         {
-            AdvancedFilter af = new AdvancedFilter();
-            af.Show();
+            AdvancedFilterw advancedFilter = new AdvancedFilterw();
+            advancedFilter.Show();
         }
 
         private void btExport_MouseClick(object sender, MouseEventArgs e)

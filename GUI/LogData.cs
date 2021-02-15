@@ -61,14 +61,13 @@ namespace Logger
         {
             LogView frmLogView = (LogView)Application.OpenForms["LogView"];
             DataGridView dgv = (DataGridView)frmLogView.ActiveControl;
-            int nrow = dgv.SelectedRows[0].Index;
+            int nrow = dgv.SelectedCells[0].RowIndex;
 
             if (dgv.RowCount > nrow + 1)
             {
-                dgv.Rows[nrow].Selected = false;
-                dgv.Rows[nrow + 1].Selected = true;
-                nrow = dgv.SelectedRows[0].Index;
-                DataGridViewRow dgvr = dgv.SelectedRows[0];
+                int col = dgv.CurrentCell.ColumnIndex;
+                dgv.CurrentCell = dgv[col, nrow + 1];
+                DataGridViewRow dgvr = dgv.CurrentCell.OwningRow;
                 setData(dgvr);
             }
         }
@@ -77,14 +76,13 @@ namespace Logger
         {
             LogView frmLogView = (LogView)Application.OpenForms["LogView"];
             DataGridView dgv = (DataGridView)frmLogView.ActiveControl;
-            int nrow = dgv.SelectedRows[0].Index;
+            int nrow = dgv.SelectedCells[0].RowIndex;
 
             if (nrow != 0)
             {
-                dgv.Rows[nrow].Selected = false;
-                dgv.Rows[nrow - 1].Selected = true;
-                nrow = dgv.SelectedRows[0].Index;
-                DataGridViewRow dgvr = dgv.SelectedRows[0];
+                int col = dgv.CurrentCell.ColumnIndex;
+                dgv.CurrentCell = dgv[col, nrow-1];
+                DataGridViewRow dgvr = dgv.CurrentCell.OwningRow;
                 setData(dgvr);
             }
         }

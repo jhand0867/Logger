@@ -8,17 +8,17 @@ using Logger.GUI;
 
 namespace Logger
 {
-    public partial class AdvancedFilter : Form
+    public partial class AdvancedFilterw : Form
     {
 
-        private string[] fields = { "", "[group1]", "[group4]", "[group5]", "[group6]", "[group7]", "[group8]" };
+        public string[] fields = { "", "[group1]", "[group4]", "[group5]", "[group6]", "[group7]", "[group8]" };
         private string[] conditions = { "", "Like", "=", "<>", ">", "<" };
         private string[] andOr = { "", "AND", "OR" };
 
         internal SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
 
 
-        public AdvancedFilter()
+        public AdvancedFilterw()
         {
             InitializeComponent();
 
@@ -38,15 +38,8 @@ namespace Logger
 
         }
 
-        public AdvancedFilter(object sQLSearchConditions)
+        internal void AdvancedFilterLoad(object sQLSearchConditions)
         {
-            InitializeComponent();
-
-            dtpTimestamp.Format = DateTimePickerFormat.Custom;
-            dtpTimestamp.CustomFormat = "yyyy-MM-dd HH:mm:ss";
-
-            dtpTimestamp.ShowUpDown = true;
-
             gridrows = (SQLSearchCondition[])sQLSearchConditions;
 
             for (int x = 0; x < 6; x++)
@@ -96,6 +89,9 @@ namespace Logger
             cbField.Items.Add("Type");
             cbField.Items.Add("Log");
             cbField.Items.Add("Data");
+            
+            //cbField.SelectedIndex = (int)cbField.Tag;
+            //cbField.Refresh();
         }
 
         // Fields selection  
@@ -404,6 +400,9 @@ namespace Logger
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadQuery loadQuery = new LoadQuery();
+
+            //Lore
+            loadQuery.Owner = this;
             loadQuery.ShowDialog();
         }
 

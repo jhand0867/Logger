@@ -37,6 +37,10 @@ namespace Logger
 
             catch (Exception dbEx)
             {
+                if (cnn.State == ConnectionState.Open)
+                {
+                    cnn.Close();
+                }
                 log.Error("Database Error: " + dbEx.Message);
                 return false;
             }
@@ -52,7 +56,7 @@ namespace Logger
             SqlConnection cnn = new SqlConnection(connectionString);
             SqlTransaction transaction;
 
-            transaction = cnn.BeginTransaction();
+            // transaction = cnn.BeginTransaction();
             try
             {
                 cnn.Open();
@@ -73,6 +77,10 @@ namespace Logger
 
             catch (Exception dbEx)
             {
+                if (cnn.State == ConnectionState.Open)
+                {
+                    cnn.Close();
+                }
                 log.Error("Database Error: " + dbEx.Message);
                 return false;
             }
@@ -96,10 +104,16 @@ namespace Logger
                 using (SqlDataAdapter sda = new SqlDataAdapter(sql, cnn))
                 {
                     sda.Fill(dt);
+                    sda.Dispose();
                 }
+                cnn.Close();
             }
             catch (Exception dbEx)
             {
+                if (cnn.State == ConnectionState.Open)
+                {
+                    cnn.Close();
+                }
                 log.Error("Database Error: " + dbEx.ToString());
                 return null;
             }
@@ -134,6 +148,10 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
+                if (cnn.State == ConnectionState.Open)
+                {
+                    cnn.Close();
+                }
                 log.Error("Database Error: " + dbEx.Message);
                 return 0;
             }
@@ -167,6 +185,10 @@ namespace Logger
             }
             catch (Exception dbEx)
             {
+                if (cnn.State == ConnectionState.Open)
+                {
+                    cnn.Close();
+                }
                 log.Error("Database Error: " + dbEx.Message);
                 return null;
             }
