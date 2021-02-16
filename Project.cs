@@ -233,8 +233,8 @@ namespace Logger
 
         public bool updateProjectByName(Project project, string pName, string pBrief)
         {
-            string sql = @"UPDATE Project SET prjName ='" + pName +
-                   "', prjBrief ='" + pBrief +
+            string sql = @"UPDATE Project SET prjName ='" + pName + "', " +
+                                             "prjBrief ='" + pBrief +
                    "' WHERE prjKey ='" + project.pKey + "'";
 
             DbCrud db = new DbCrud();

@@ -97,7 +97,6 @@ namespace Logger
         {
             log.Debug("Open ProjectInfo");
             ProjectInfo pi = new ProjectInfo();
-            this.Close();
             pi.ShowDialog();
         }
 
@@ -276,6 +275,7 @@ namespace Logger
 
 
             ProjectInfo prjInfo = MessageFactory.Create_ProjectInfo();
+            // prjInfo.Controls["btnUpdate"].Enabled = true
             Control[] formControls = prjInfo.Controls.Find("btnUpdate", false);
             Control[] formControls1 = prjInfo.Controls.Find("tbPName", false);
             if (formControls.Length > 0)
@@ -290,7 +290,7 @@ namespace Logger
             }
 
             prjInfo.TopMost = true;
-            prjInfo.Show();
+            prjInfo.ShowDialog();
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)

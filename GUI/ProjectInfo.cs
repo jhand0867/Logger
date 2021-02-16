@@ -6,6 +6,8 @@ namespace Logger
 {
     public partial class ProjectInfo : Form
     {
+        private string prevName = "";
+
         public ProjectInfo()
         {
             InitializeComponent();
@@ -61,6 +63,7 @@ namespace Logger
         {
             this.tbPName.Text = name;
             this.tbPBrief.Text = brief;
+            this.prevName = name;
         }
 
         private void tbPName_TextChanged(object sender, EventArgs e)
@@ -87,8 +90,9 @@ namespace Logger
 
             Dictionary<string, Project> pDict = project.getProjectByName(tbPName.Text);
 
-            if (pDict.Count > 0)
-            {
+            if (pDict.Count > 0 &&
+                prevName != tbPName.Text)
+            {         
                 validatePExist();
                 tbPName.Focus();
             }
