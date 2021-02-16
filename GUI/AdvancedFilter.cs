@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Collections.Generic;
 using System.Data;
-using Microsoft.Office.Interop.Excel;
 using Application = System.Windows.Forms.Application;
 using Logger.GUI;
 
@@ -32,9 +30,7 @@ namespace Logger
             SQLSearchCondition sc = new SQLSearchCondition();
             
             for (int x =0; x<6; x++)
-            {
                 gridrows[x] = new SQLSearchCondition("", "", "", "","");
-            }
 
         }
 
@@ -65,11 +61,11 @@ namespace Logger
             cb = (ComboBox)ob;
             cb.Text = gridrows[x].SQLFieldValue;
 
-                ob = this.Controls[fieldAndOr];
-                cb = (ComboBox)ob;
-                addAndOr(cb);
-                idx = Array.IndexOf(andOr, gridrows[x].SQLAndOr);
-                cb.SelectedIndex = idx;
+            ob = this.Controls[fieldAndOr];
+            cb = (ComboBox)ob;
+            addAndOr(cb);
+            idx = Array.IndexOf(andOr, gridrows[x].SQLAndOr);
+            cb.SelectedIndex = idx;
             }
         }
 
@@ -90,13 +86,10 @@ namespace Logger
             cbField.Items.Add("Log");
             cbField.Items.Add("Data");
             
-            //cbField.SelectedIndex = (int)cbField.Tag;
-            //cbField.Refresh();
         }
 
         // Fields selection  
-
-        
+   
         private void cbLineField_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
@@ -375,7 +368,6 @@ namespace Logger
                     {
                         string str = (theRow[0].ToString());
                         cb.Items.Add(str);
-
                     }
                 }
             }
@@ -400,8 +392,6 @@ namespace Logger
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadQuery loadQuery = new LoadQuery();
-
-            //Lore
             loadQuery.Owner = this;
             loadQuery.ShowDialog();
         }
@@ -424,10 +414,20 @@ namespace Logger
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // SQLSearchCondition scc = new SQLSearchCondition()
             DeleteQuery dq = new DeleteQuery();
             dq.ShowDialog();
             
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.Text != "AdvancedFilter")
+                this.Text = "AdvancedFilter";
+
+            for (int x = 0; x < 6; x++)
+                gridrows[x] = new SQLSearchCondition("", "", "", "", "");
+
+            AdvancedFilterLoad(gridrows);
         }
     }
 }

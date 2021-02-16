@@ -204,19 +204,20 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(21, 188);
+            this.label2.Location = new System.Drawing.Point(16, 184);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(147, 37);
             this.label2.TabIndex = 13;
             this.label2.Text = "Raw Data:";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // txtFieldData
             // 
             this.txtFieldData.BackColor = System.Drawing.Color.White;
             this.txtFieldData.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFieldData.Location = new System.Drawing.Point(21, 564);
-            this.txtFieldData.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtFieldData.Margin = new System.Windows.Forms.Padding(4);
             this.txtFieldData.Multiline = true;
             this.txtFieldData.Name = "txtFieldData";
             this.txtFieldData.ReadOnly = true;
@@ -229,7 +230,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(17, 526);
+            this.label4.Location = new System.Drawing.Point(16, 527);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(98, 37);
@@ -241,7 +242,7 @@
             this.rtbRawData.BackColor = System.Drawing.Color.White;
             this.rtbRawData.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbRawData.Location = new System.Drawing.Point(23, 225);
-            this.rtbRawData.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rtbRawData.Margin = new System.Windows.Forms.Padding(4);
             this.rtbRawData.Name = "rtbRawData";
             this.rtbRawData.ReadOnly = true;
             this.rtbRawData.Size = new System.Drawing.Size(1135, 298);
@@ -252,7 +253,7 @@
             // 
             this.btnPrev.Image = ((System.Drawing.Image)(resources.GetObject("btnPrev.Image")));
             this.btnPrev.Location = new System.Drawing.Point(1073, 38);
-            this.btnPrev.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPrev.Margin = new System.Windows.Forms.Padding(4);
             this.btnPrev.Name = "btnPrev";
             this.btnPrev.Size = new System.Drawing.Size(69, 42);
             this.btnPrev.TabIndex = 17;
@@ -263,7 +264,7 @@
             // 
             this.btnNext.Image = ((System.Drawing.Image)(resources.GetObject("btnNext.Image")));
             this.btnNext.Location = new System.Drawing.Point(1073, 131);
-            this.btnNext.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnNext.Margin = new System.Windows.Forms.Padding(4);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(69, 42);
             this.btnNext.TabIndex = 18;
@@ -295,8 +296,9 @@
             this.Controls.Add(this.txtTimestamp);
             this.Controls.Add(this.label1);
             this.ForeColor = System.Drawing.Color.Black;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(1195, 952);
             this.Name = "LogData";
             this.ShowInTaskbar = false;
             this.Text = "Log Data";

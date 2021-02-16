@@ -77,7 +77,7 @@ namespace Logger
 
                     ssc.setSearchConditionDetail(ssc, sqlID);
                 }
-            Application.OpenForms["AdvancedFilter"].Text = "AdvancedFilter." + tbName.Text;
+            Application.OpenForms["AdvancedFilterw"].Text = "AdvancedFilter." + tbName.Text;
             this.Close();
         }
     }

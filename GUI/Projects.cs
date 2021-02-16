@@ -77,11 +77,10 @@ namespace Logger
 
             }
 
+            treeView1.Nodes.Clear();
+
             if (prjList.Count > 0)
-            {
-                treeView1.Nodes.Clear();
                 listView1_Load(listView1.Items[0]);
-            }
             else
             {
                 editToolStripMenuItem.Enabled = false;
@@ -372,6 +371,11 @@ namespace Logger
         {
             // new on context menu
             newProject();
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
         }
     }
 }

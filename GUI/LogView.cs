@@ -2,11 +2,8 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Data;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.IO;
 
 namespace Logger
 {
@@ -423,7 +420,7 @@ namespace Logger
         private void advancedFilter()
         {
             AdvancedFilterw advancedFilter = new AdvancedFilterw();
-            advancedFilter.Show();
+            advancedFilter.ShowDialog();
         }
 
         private void btExport_MouseClick(object sender, MouseEventArgs e)
@@ -434,38 +431,55 @@ namespace Logger
 
 
 
-        protected System.Data.DataTable ExportDataFromSQLServer()
+        protected void ExportDataFromSQLServer()
         {
-            System.Data.DataTable dataTable = new System.Data.DataTable();
+            object dt1 = dgvLog.DataSource;
 
-                object dt1 = dgvLog.DataSource;
+            DataTable dt2 = dt1 as DataTable;
 
-                DataTable dt2 = dt1 as DataTable;
+            var excelApplication = new Microsoft.Office.Interop.Excel.Application();
 
-                var excelApplication = new Microsoft.Office.Interop.Excel.Application();
+            var excelWorkBook = excelApplication.Application.Workbooks.Add(Type.Missing);
 
-                var excelWorkBook = excelApplication.Application.Workbooks.Add(Type.Missing);
+            DataColumnCollection dataColumnCollection = dt2.Columns;
 
-                DataColumnCollection dataColumnCollection = dt2.Columns;
+            // including the header = +1 
 
-                // including the header = +1 
-                for (int i = 1; i <= dt2.Rows.Count - 2; i++)
+            if (dt2.Rows.Count > 1000)
+            {
+                string message = "This query will take long time\nDo you want to continue?";
+                string title = "Long Query Warning";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                MessageBoxIcon icon = MessageBoxIcon.Warning;
+                DialogResult result = MessageBox.Show(message, title, buttons,icon);
+                if (result == DialogResult.Yes)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+
+            for (int i = 1; i <= dt2.Rows.Count - 2; i++)
 //                  for (int i = 1; i <= 200; i++)
+                {
+                    for (int j = 3; j <= dt2.Columns.Count; j++)
+                {
+                    if (j > 10 ) continue;
+                    if (i == 1)
+                        excelApplication.Cells[i, j-2] = dataColumnCollection[j - 1].ToString();
+                    else
                     {
-                        for (int j = 3; j <= dt2.Columns.Count; j++)
-                    {
-                        if (j > 10 ) continue;
-                        if (i == 1)
-                            excelApplication.Cells[i, j-2] = dataColumnCollection[j - 1].ToString();
-                        else
-                        {
-                            string columnData = dt2.Rows[i - 2][j - 1].ToString();
+                        string columnData = dt2.Rows[i - 2][j - 1].ToString();
 
-                            excelApplication.Cells[i, j-2] = "'" + columnData;
+                        excelApplication.Cells[i, j-2] = "'" + columnData;
 
-                        }
                     }
                 }
+            }
 
             try
             {
@@ -496,7 +510,6 @@ namespace Logger
             {
                 MessageBox.Show("Application Error: {0}", e.ToString());
             }
-            return dataTable;
         }
 
         private void releaseObject(object obj)
