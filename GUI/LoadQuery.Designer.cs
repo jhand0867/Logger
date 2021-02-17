@@ -80,6 +80,7 @@ namespace Logger
             this.AcceptButton = this.btOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.CancelButton = this.btCancel;
             this.ClientSize = new System.Drawing.Size(704, 249);
             this.ControlBox = false;

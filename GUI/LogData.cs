@@ -22,12 +22,10 @@ namespace Logger
             rtbRawData.Width = this.Width - 40;
             txtFieldData.Width = this.Width - 40;
             txtFieldData.Height = this.PrevHeight - 350;
-            //txtFieldData.Height = this.Height - 350;
             Point prevButtonLocation = btnPrev.Location;
             btnPrev.Location = new Point(this.Width - 80, prevButtonLocation.Y);
             Point nextButtonLocation = btnNext.Location;
             btnNext.Location = new Point(this.Width - 80, nextButtonLocation.Y);
-
         }
 
         public void setData(DataGridViewRow dgvr)
@@ -44,8 +42,6 @@ namespace Logger
             string logID = dgvr.Cells["logID"].Value.ToString();
 
             string prjKey = dgvr.Cells["prjKey"].Value.ToString();
-
-            //List<DataTable> dts = App.Prj.getRecord(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             txtFieldData.Text = "";
 
             string recType = App.Prj.getRecord(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
@@ -81,7 +77,7 @@ namespace Logger
             if (nrow != 0)
             {
                 int col = dgv.CurrentCell.ColumnIndex;
-                dgv.CurrentCell = dgv[col, nrow-1];
+                dgv.CurrentCell = dgv[col, nrow - 1];
                 DataGridViewRow dgvr = dgv.CurrentCell.OwningRow;
                 setData(dgvr);
             }
@@ -89,7 +85,6 @@ namespace Logger
 
         private void LogData_Resize(object sender, EventArgs e)
         {
-
             rtbRawData.Width = this.Width - 40;
             txtFieldData.Width = this.Width - 40;
             Point prevButtonLocation = btnPrev.Location;
@@ -97,20 +92,6 @@ namespace Logger
             Point nextButtonLocation = btnNext.Location;
             btnNext.Location = new Point(this.Width - 80, nextButtonLocation.Y);
             txtFieldData.Height = this.Height - 350;
-            //this.Height = txtFieldData.Height;
-        }
-
-        private void LogData_ResizeBegin(object sender, EventArgs e)
-        {
-            //LogData.ActiveForm.Refresh();
-            //this.PrevHeight = this.Height;
-
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

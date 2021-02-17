@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Logger.GUI;
 
 namespace Logger.GUI
 {
@@ -33,6 +26,8 @@ namespace Logger.GUI
             dt = ssc.getQueryInfo(cbQueryName.Text);
             int sqlID = 0;
 
+            if (dt == null) return;
+
             if (dt.Rows.Count == 0)
                 MessageBox.Show("Filter not found");
             else
@@ -51,6 +46,8 @@ namespace Logger.GUI
 
             SQLSearchCondition ssc = new SQLSearchCondition();
             DataTable dt = ssc.getAllQueries();
+
+            if (dt == null) return;
 
             foreach (DataRow theRow in dt.Rows)
             {

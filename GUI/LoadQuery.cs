@@ -15,27 +15,25 @@ namespace Logger
 
         private void btOk_Click(object sender, EventArgs e)
         {
-            
             DataTable dt = new DataTable();
             SQLSearchCondition ssc = new SQLSearchCondition();
 
             dt = ssc.getSearchCondition(cbQueryName.Text);
 
+            if (dt == null) return;
+
             if (dt.Rows.Count != 0)
             {
-
                 for (int i = 0; i < 6; i++)
                 {
                     gridrows[i] = new SQLSearchCondition("", "", "", "", "");
-                    gridrows[i].SQLFieldName = dt.Rows[i][2].ToString(); 
+                    gridrows[i].SQLFieldName = dt.Rows[i][2].ToString();
                     gridrows[i].SQLCondition = dt.Rows[i][3].ToString();
                     gridrows[i].SQLFieldValue = dt.Rows[i][4].ToString();
                     gridrows[i].SQLAndOr = dt.Rows[i][5].ToString();
                     gridrows[i].SQLFieldOutput = dt.Rows[i][6].ToString();
                 }
             }
-            //AdvancedFilterw advancedFilter = (AdvancedFilterw)Application.OpenForms["advancedFilterw"];
-            //advancedFilter.Text = "AdvancedFilter" + "." + cbQueryName.Text;
             this.Owner.Text = "AdvancedFilter" + "." + cbQueryName.Text;
             AdvancedFilterw myAdv = (AdvancedFilterw)this.Owner;
             myAdv.AdvancedFilterLoad(gridrows);
@@ -49,18 +47,18 @@ namespace Logger
 
         private void cbQueryName_Click(object sender, EventArgs e)
         {
-
             ComboBox cb = (sender as ComboBox);
             cb.Items.Clear();
 
             SQLSearchCondition ssc = new SQLSearchCondition();
             DataTable dt = ssc.getAllQueries();
 
+            if (dt == null) return;
+
             foreach (DataRow theRow in dt.Rows)
             {
                 string str = (theRow[1].ToString());
                 cb.Items.Add(str);
-
             }
 
         }

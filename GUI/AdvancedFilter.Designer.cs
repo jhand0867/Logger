@@ -29,6 +29,7 @@ namespace Logger
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdvancedFilterw));
             this.cbLine1AndOr = new System.Windows.Forms.ComboBox();
             this.cbLine1Field = new System.Windows.Forms.ComboBox();
             this.cbLine1Operator = new System.Windows.Forms.ComboBox();
@@ -61,6 +62,7 @@ namespace Logger
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -71,7 +73,6 @@ namespace Logger
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,7 +86,7 @@ namespace Logger
             this.cbLine1AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine1AndOr.TabIndex = 0;
             this.cbLine1AndOr.SelectionChangeCommitted += new System.EventHandler(this.cbLineAndOr_SelectionChangeCommitted);
-            this.cbLine1AndOr.Click += new System.EventHandler(this.cbLine1AndOr_Click);
+            this.cbLine1AndOr.Click += new System.EventHandler(this.cbLineAndOr_Click);
             // 
             // cbLine1Field
             // 
@@ -97,7 +98,7 @@ namespace Logger
             this.cbLine1Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine1Field.TabIndex = 1;
             this.cbLine1Field.SelectionChangeCommitted += new System.EventHandler(this.cbLineField_SelectionChangeCommitted);
-            this.cbLine1Field.Click += new System.EventHandler(this.cbLine1Field_Click);
+            this.cbLine1Field.Click += new System.EventHandler(this.cbLineField_Click);
             // 
             // cbLine1Operator
             // 
@@ -109,7 +110,7 @@ namespace Logger
             this.cbLine1Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine1Operator.TabIndex = 2;
             this.cbLine1Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
-            this.cbLine1Operator.Click += new System.EventHandler(this.cbLine1Operator_Click);
+            this.cbLine1Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // dtpTimestamp
             // 
@@ -129,7 +130,7 @@ namespace Logger
             this.cbLine2Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine2Operator.TabIndex = 6;
             this.cbLine2Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
-            this.cbLine2Operator.Click += new System.EventHandler(this.cbLine2Operator_Click);
+            this.cbLine2Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // cbLine2Field
             // 
@@ -141,7 +142,7 @@ namespace Logger
             this.cbLine2Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine2Field.TabIndex = 5;
             this.cbLine2Field.SelectionChangeCommitted += new System.EventHandler(this.cbLineField_SelectionChangeCommitted);
-            this.cbLine2Field.Click += new System.EventHandler(this.cbLine2Field_Click);
+            this.cbLine2Field.Click += new System.EventHandler(this.cbLineField_Click);
             // 
             // cbLine2AndOr
             // 
@@ -153,7 +154,7 @@ namespace Logger
             this.cbLine2AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine2AndOr.TabIndex = 4;
             this.cbLine2AndOr.SelectionChangeCommitted += new System.EventHandler(this.cbLineAndOr_SelectionChangeCommitted);
-            this.cbLine2AndOr.Click += new System.EventHandler(this.cbLine2AndOr_Click);
+            this.cbLine2AndOr.Click += new System.EventHandler(this.cbLineAndOr_Click);
             // 
             // cbLine4Operator
             // 
@@ -165,7 +166,7 @@ namespace Logger
             this.cbLine4Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine4Operator.TabIndex = 14;
             this.cbLine4Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
-            this.cbLine4Operator.Click += new System.EventHandler(this.cbLine4Operator_Click);
+            this.cbLine4Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // cbLine4Field
             // 
@@ -177,7 +178,7 @@ namespace Logger
             this.cbLine4Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine4Field.TabIndex = 13;
             this.cbLine4Field.SelectionChangeCommitted += new System.EventHandler(this.cbLineField_SelectionChangeCommitted);
-            this.cbLine4Field.Click += new System.EventHandler(this.cbLine4Field_Click);
+            this.cbLine4Field.Click += new System.EventHandler(this.cbLineField_Click);
             // 
             // cbLine4AndOr
             // 
@@ -189,7 +190,7 @@ namespace Logger
             this.cbLine4AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine4AndOr.TabIndex = 12;
             this.cbLine4AndOr.SelectionChangeCommitted += new System.EventHandler(this.cbLineAndOr_SelectionChangeCommitted);
-            this.cbLine4AndOr.Click += new System.EventHandler(this.cbLine4AndOr_Click);
+            this.cbLine4AndOr.Click += new System.EventHandler(this.cbLineAndOr_Click);
             // 
             // cbLine3Operator
             // 
@@ -201,7 +202,7 @@ namespace Logger
             this.cbLine3Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine3Operator.TabIndex = 11;
             this.cbLine3Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
-            this.cbLine3Operator.Click += new System.EventHandler(this.cbLine3Operator_Click);
+            this.cbLine3Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // cbLine3Field
             // 
@@ -213,7 +214,7 @@ namespace Logger
             this.cbLine3Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine3Field.TabIndex = 10;
             this.cbLine3Field.SelectionChangeCommitted += new System.EventHandler(this.cbLineField_SelectionChangeCommitted);
-            this.cbLine3Field.Click += new System.EventHandler(this.cbLine3Field_Click);
+            this.cbLine3Field.Click += new System.EventHandler(this.cbLineField_Click);
             // 
             // cbLine3AndOr
             // 
@@ -225,7 +226,7 @@ namespace Logger
             this.cbLine3AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine3AndOr.TabIndex = 9;
             this.cbLine3AndOr.SelectionChangeCommitted += new System.EventHandler(this.cbLineAndOr_SelectionChangeCommitted);
-            this.cbLine3AndOr.Click += new System.EventHandler(this.cbLine3AndOr_Click);
+            this.cbLine3AndOr.Click += new System.EventHandler(this.cbLineAndOr_Click);
             // 
             // cbLine6Operator
             // 
@@ -237,7 +238,7 @@ namespace Logger
             this.cbLine6Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine6Operator.TabIndex = 22;
             this.cbLine6Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
-            this.cbLine6Operator.Click += new System.EventHandler(this.cbLine6Operator_Click);
+            this.cbLine6Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // cbLine6Field
             // 
@@ -249,7 +250,7 @@ namespace Logger
             this.cbLine6Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine6Field.TabIndex = 21;
             this.cbLine6Field.SelectionChangeCommitted += new System.EventHandler(this.cbLineField_SelectionChangeCommitted);
-            this.cbLine6Field.Click += new System.EventHandler(this.cbLine6Field_Click);
+            this.cbLine6Field.Click += new System.EventHandler(this.cbLineField_Click);
             // 
             // cbLine6AndOr
             // 
@@ -262,7 +263,7 @@ namespace Logger
             this.cbLine6AndOr.TabIndex = 20;
             this.cbLine6AndOr.Visible = false;
             this.cbLine6AndOr.SelectionChangeCommitted += new System.EventHandler(this.cbLineAndOr_SelectionChangeCommitted);
-            this.cbLine6AndOr.Click += new System.EventHandler(this.cbLine6AndOr_Click);
+            this.cbLine6AndOr.Click += new System.EventHandler(this.cbLineAndOr_Click);
             // 
             // cbLine5Operator
             // 
@@ -274,7 +275,7 @@ namespace Logger
             this.cbLine5Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine5Operator.TabIndex = 19;
             this.cbLine5Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
-            this.cbLine5Operator.Click += new System.EventHandler(this.cbLine5Operator_Click);
+            this.cbLine5Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // cbLine5Field
             // 
@@ -286,7 +287,7 @@ namespace Logger
             this.cbLine5Field.Size = new System.Drawing.Size(219, 33);
             this.cbLine5Field.TabIndex = 18;
             this.cbLine5Field.SelectionChangeCommitted += new System.EventHandler(this.cbLineField_SelectionChangeCommitted);
-            this.cbLine5Field.Click += new System.EventHandler(this.cbLine5Field_Click);
+            this.cbLine5Field.Click += new System.EventHandler(this.cbLineField_Click);
             // 
             // cbLine5AndOr
             // 
@@ -298,7 +299,7 @@ namespace Logger
             this.cbLine5AndOr.Size = new System.Drawing.Size(159, 33);
             this.cbLine5AndOr.TabIndex = 17;
             this.cbLine5AndOr.SelectionChangeCommitted += new System.EventHandler(this.cbLineAndOr_SelectionChangeCommitted);
-            this.cbLine5AndOr.Click += new System.EventHandler(this.cbLine5AndOr_Click);
+            this.cbLine5AndOr.Click += new System.EventHandler(this.cbLineAndOr_Click);
             // 
             // btnOK
             // 
@@ -410,30 +411,37 @@ namespace Logger
             this.clearToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1006, 42);
+            this.menuStrip1.Size = new System.Drawing.Size(1006, 40);
             this.menuStrip1.TabIndex = 41;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(85, 38);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(85, 36);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(86, 38);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(86, 36);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(105, 38);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(105, 36);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(89, 36);
+            this.clearToolStripMenuItem.Text = "Clear";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -545,13 +553,6 @@ namespace Logger
             this.label10.TabIndex = 51;
             this.label10.Text = "And/Or";
             // 
-            // clearToolStripMenuItem
-            // 
-            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(89, 38);
-            this.clearToolStripMenuItem.Text = "Clear";
-            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
-            // 
             // AdvancedFilterw
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -600,6 +601,7 @@ namespace Logger
             this.Controls.Add(this.cbLine1AndOr);
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "AdvancedFilterw";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

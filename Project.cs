@@ -712,7 +712,7 @@ namespace Logger
             return dt;
         }
 
-  
+
 
 
         public DataTable getALogByID(string logID)

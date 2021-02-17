@@ -92,7 +92,7 @@ namespace Logger
 
             if (pDict.Count > 0 &&
                 prevName != tbPName.Text)
-            {         
+            {
                 validatePExist();
                 tbPName.Focus();
             }

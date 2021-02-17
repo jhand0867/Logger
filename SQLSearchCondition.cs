@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logger
 {
-    class SQLSearchCondition
+    public class SQLSearchCondition
     {
         /// <summary>
         /// Represents a row from the advanced search grid
@@ -36,7 +32,7 @@ namespace Logger
 
         public SQLSearchCondition(string _andOr, string _fieldName, string _condition, string _value, string _output)
         {
-            SQLAndOr = _andOr; 
+            SQLAndOr = _andOr;
             SQLFieldName = _fieldName;
             SQLCondition = _condition;
             SQLFieldValue = _value;
@@ -70,7 +66,7 @@ namespace Logger
 
             DbCrud db = new DbCrud();
             DataTable dt = db.GetTableFromDb(sql);
-            
+
             return dt;
         }
         /// <summary>
@@ -105,22 +101,26 @@ namespace Logger
         /// <param name="_searchCondition"></param>
         /// <param name="_queryName"></param>
         /// 
-        public void updateSearchCondition(SQLSearchCondition _searchCondition, string _queryName)
+        public bool updateSearchCondition(SQLSearchCondition _searchCondition, string _queryName)
         {
             // get the builder ID
             DataTable dt = getQueryInfo(_queryName);
 
-            string sql = @"UPDATE [sqlDetail] SET [fieldName] ='" + _searchCondition.SQLFieldName + "', " +
+            if (dt.Rows.Count != 0)
+            {
+                string sql = @"UPDATE [sqlDetail] SET [fieldName] ='" + _searchCondition.SQLFieldName + "', " +
                 "[condition] = '" + _searchCondition.SQLCondition + "', " +
                 "[fieldValue] = '" + _searchCondition.SQLFieldValue + ", " +
                 "[andOr] = '" + _searchCondition.SQLAndOr + "' " +
                 "[fieldOutput] = '" + _searchCondition.SQLFieldOutput + "' " +
                 "WHERE [queryID] ='" + dt.Rows[0]["sqlID"] + "'";
 
-            DbCrud db = new DbCrud();
-            db.crudToDb(sql);
+                DbCrud db = new DbCrud();
+                return db.crudToDb(sql);
+            }
+            return false;
         }
-        
+
         public bool deleteSearchConditionBuilder(int _sqlID)
         {
             // update the Builder
@@ -129,21 +129,19 @@ namespace Logger
 
             DbCrud db = new DbCrud();
             return db.crudToDb(sql);
-
         }
-        
+
         public bool updateSearchConditionBuilder(string _queryName, string _queryDescription, int _sqlID)
         {
             // update the Builder
-            string sql = @"UPDATE [sqlBuilder] SET " + 
+            string sql = @"UPDATE [sqlBuilder] SET " +
                     " [name] = '" + _queryName + "'," +
-                    " [description] = '" + _queryDescription + "'," + 
+                    " [description] = '" + _queryDescription + "'," +
                     " [date] = '" + DateTime.Now + "' " +
                     "WHERE [id] ='" + _sqlID + "'; DELETE FROM [sqlDetail] WHERE [sqlId] = '" + _sqlID + "'";
 
             DbCrud db = new DbCrud();
             return db.crudToDb(sql);
-            
         }
 
         public int setSearchConditionBuilder(string _queryName, string _queryDescription)
@@ -164,7 +162,7 @@ namespace Logger
             // insert the Detail
             string sql = @"INSERT INTO [sqlDetail]([fieldName],[condition],[fieldValue],[andOr],[sqlID],[fieldOutput]) " +
                 "VALUES('" + _searchCondition.SQLFieldName + "', '" + _searchCondition.SQLCondition + "', '" +
-                             _searchCondition.SQLFieldValue + "', '" +  _searchCondition.SQLAndOr + "', '" +
+                             _searchCondition.SQLFieldValue + "', '" + _searchCondition.SQLAndOr + "', '" +
                              _sqlID + "', '" + _searchCondition.SQLFieldOutput + "')";
 
             DbCrud db = new DbCrud();

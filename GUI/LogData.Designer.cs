@@ -210,7 +210,6 @@
             this.label2.Size = new System.Drawing.Size(147, 37);
             this.label2.TabIndex = 13;
             this.label2.Text = "Raw Data:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // txtFieldData
             // 
@@ -303,7 +302,6 @@
             this.ShowInTaskbar = false;
             this.Text = "Log Data";
             this.Load += new System.EventHandler(this.LogData_Load);
-            this.ResizeBegin += new System.EventHandler(this.LogData_ResizeBegin);
             this.Resize += new System.EventHandler(this.LogData_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();

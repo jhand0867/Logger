@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
 using System.Data;
+using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Logger
@@ -41,7 +41,7 @@ namespace Logger
             dgvLog.ColumnHeadersVisible = true;
             dgvLog.Columns["id"].Visible = false;
             dgvLog.Columns["logKey"].Visible = false;
-          //  dgvLog.Columns["Log"].Visible = false;
+            //  dgvLog.Columns["Log"].Visible = false;
             dgvLog.Columns["group9"].Visible = false;
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
@@ -82,7 +82,7 @@ namespace Logger
             dgvLog.ColumnHeadersVisible = true;
             dgvLog.Columns["id"].Visible = false;
             dgvLog.Columns["logKey"].Visible = false;
-          //  dgvLog.Columns["Log"].Visible = false;
+            //  dgvLog.Columns["Log"].Visible = false;
             dgvLog.Columns["group9"].Visible = false;
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
@@ -451,7 +451,7 @@ namespace Logger
                 string title = "Long Query Warning";
                 MessageBoxButtons buttons = MessageBoxButtons.YesNo;
                 MessageBoxIcon icon = MessageBoxIcon.Warning;
-                DialogResult result = MessageBox.Show(message, title, buttons,icon);
+                DialogResult result = MessageBox.Show(message, title, buttons, icon);
                 if (result == DialogResult.Yes)
                 {
                     this.Close();
@@ -464,18 +464,18 @@ namespace Logger
 
 
             for (int i = 1; i <= dt2.Rows.Count - 2; i++)
-//                  for (int i = 1; i <= 200; i++)
+            //                  for (int i = 1; i <= 200; i++)
+            {
+                for (int j = 3; j <= dt2.Columns.Count; j++)
                 {
-                    for (int j = 3; j <= dt2.Columns.Count; j++)
-                {
-                    if (j > 10 ) continue;
+                    if (j > 10) continue;
                     if (i == 1)
-                        excelApplication.Cells[i, j-2] = dataColumnCollection[j - 1].ToString();
+                        excelApplication.Cells[i, j - 2] = dataColumnCollection[j - 1].ToString();
                     else
                     {
                         string columnData = dt2.Rows[i - 2][j - 1].ToString();
 
-                        excelApplication.Cells[i, j-2] = "'" + columnData;
+                        excelApplication.Cells[i, j - 2] = "'" + columnData;
 
                     }
                 }
@@ -504,7 +504,7 @@ namespace Logger
             catch (COMException ec)
             {
                 //todo: add exception handling fro file i/o
-                MessageBox.Show ("File in use by other application");
+                MessageBox.Show("File in use by other application");
             }
             catch (Exception e)
             {
@@ -541,11 +541,11 @@ namespace Logger
             DataTable dt = sQLSearchCondition.getAllQueries();
 
             // is there any saved queries?
-            if(dt.Rows.Count > -1)
+            if (dt.Rows.Count > -1)
             {
                 // fill the combo box with the names
                 cbQueryName.Items.Clear();
-                foreach(DataRow row in dt.Rows)
+                foreach (DataRow row in dt.Rows)
                 {
                     cbQueryName.Items.Add(row["name"]);
                 }
@@ -568,31 +568,31 @@ namespace Logger
                 for (int i = 0; i < 6; i++)
                 {
 
-                if (dt.Rows[i][2].ToString() != "" && dt.Rows[i][3].ToString() != "" && dt.Rows[i][4].ToString() != "")
-                {
-                    temp = dt.Rows[i][4].ToString();
-
-                    if (dt.Rows[i][3].ToString() == "Like")
+                    if (dt.Rows[i][2].ToString() != "" && dt.Rows[i][3].ToString() != "" && dt.Rows[i][4].ToString() != "")
                     {
-                        if (dt.Rows[i][4].ToString().StartsWith("["))
-                            temp = dt.Rows[i][4].ToString().Substring(1, dt.Rows[i][4].ToString().Length - 1);
-                        temp = "%" + temp + "%";
-                    }
-                    sqlLike += " " + dt.Rows[i][2].ToString() + dt.Rows[i][3].ToString() +
-                           " '" + temp + "' ";
-                }
+                        temp = dt.Rows[i][4].ToString();
 
-                if (i < 5 &&
-                    dt.Rows[i][5].ToString() != "" &&
-                    dt.Rows[i+1][2].ToString() != "" && dt.Rows[i+1][3].ToString() != "" && dt.Rows[i+1][4].ToString() != "")
-                {
-                    sqlLike += dt.Rows[i][5].ToString();
-                }
+                        if (dt.Rows[i][3].ToString() == "Like")
+                        {
+                            if (dt.Rows[i][4].ToString().StartsWith("["))
+                                temp = dt.Rows[i][4].ToString().Substring(1, dt.Rows[i][4].ToString().Length - 1);
+                            temp = "%" + temp + "%";
+                        }
+                        sqlLike += " " + dt.Rows[i][2].ToString() + dt.Rows[i][3].ToString() +
+                               " '" + temp + "' ";
+                    }
+
+                    if (i < 5 &&
+                        dt.Rows[i][5].ToString() != "" &&
+                        dt.Rows[i + 1][2].ToString() != "" && dt.Rows[i + 1][3].ToString() != "" && dt.Rows[i + 1][4].ToString() != "")
+                    {
+                        sqlLike += dt.Rows[i][5].ToString();
+                    }
 
                 }
             }
             if (sqlLike != "")
-            {          
+            {
                 dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
                 dgvLog.Refresh();
             }

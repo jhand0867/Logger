@@ -1,20 +1,18 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using Logger.GUI;
+using System;
 using System.Data;
+using System.Windows.Forms;
 using Application = System.Windows.Forms.Application;
-using Logger.GUI;
 
 namespace Logger
 {
     public partial class AdvancedFilterw : Form
     {
-
         public string[] fields = { "", "[group1]", "[group4]", "[group5]", "[group6]", "[group7]", "[group8]" };
         private string[] conditions = { "", "Like", "=", "<>", ">", "<" };
         private string[] andOr = { "", "AND", "OR" };
 
         internal SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
-
 
         public AdvancedFilterw()
         {
@@ -22,16 +20,14 @@ namespace Logger
 
             dtpTimestamp.Format = DateTimePickerFormat.Custom;
             dtpTimestamp.CustomFormat = "yyyy-MM-dd HH:mm:ss";
-
             dtpTimestamp.ShowUpDown = true;
 
             // intitialize sql fields
 
-            SQLSearchCondition sc = new SQLSearchCondition();
-            
-            for (int x =0; x<6; x++)
-                gridrows[x] = new SQLSearchCondition("", "", "", "","");
+            SQLSearchCondition sc = MessageFactory.Create_SQLSearchCondition();
 
+            for (int x = 0; x < 6; x++)
+                gridrows[x] = MessageFactory.Create_SQLSearchCondition("", "", "", "", "");
         }
 
         internal void AdvancedFilterLoad(object sQLSearchConditions)
@@ -40,38 +36,33 @@ namespace Logger
 
             for (int x = 0; x < 6; x++)
             {
-                string fieldName = "cbLine" + (x+1).ToString("0") + "Field";
-                string fieldCondition = "cbLine" + (x+1).ToString("0") + "Operator";
+                string fieldName = "cbLine" + (x + 1).ToString("0") + "Field";
+                string fieldCondition = "cbLine" + (x + 1).ToString("0") + "Operator";
                 string fieldValue = "cbLine" + (x + 1).ToString("0") + "Value";
                 string fieldAndOr = "cbLine" + (x + 1).ToString("0") + "AndOr";
 
-            object ob = this.Controls[fieldName];
-            ComboBox cb = (ComboBox)ob;
-            addFieldNames(cb);
-            int idx = Array.IndexOf(fields, gridrows[x].SQLFieldName);
-            cb.SelectedIndex = idx;
+                object ob = this.Controls[fieldName];
+                ComboBox cb = (ComboBox)ob;
+                addFieldNames(cb);
+                int idx = Array.IndexOf(fields, gridrows[x].SQLFieldName);
+                cb.SelectedIndex = idx;
 
-            ob = this.Controls[fieldCondition];
-            cb = (ComboBox)ob;
-            addOperators(cb);
-            idx = Array.IndexOf(conditions, gridrows[x].SQLCondition);
-            cb.SelectedIndex = idx;
+                ob = this.Controls[fieldCondition];
+                cb = (ComboBox)ob;
+                addOperators(cb);
+                idx = Array.IndexOf(conditions, gridrows[x].SQLCondition);
+                cb.SelectedIndex = idx;
 
-            ob = this.Controls[fieldValue];
-            cb = (ComboBox)ob;
-            cb.Text = gridrows[x].SQLFieldValue;
+                ob = this.Controls[fieldValue];
+                cb = (ComboBox)ob;
+                cb.Text = gridrows[x].SQLFieldValue;
 
-            ob = this.Controls[fieldAndOr];
-            cb = (ComboBox)ob;
-            addAndOr(cb);
-            idx = Array.IndexOf(andOr, gridrows[x].SQLAndOr);
-            cb.SelectedIndex = idx;
+                ob = this.Controls[fieldAndOr];
+                cb = (ComboBox)ob;
+                addAndOr(cb);
+                idx = Array.IndexOf(andOr, gridrows[x].SQLAndOr);
+                cb.SelectedIndex = idx;
             }
-        }
-
-        private void cbLine1Field_Click(object sender, EventArgs e)
-        {
-            addFieldNames(sender as ComboBox);
         }
 
         private void addFieldNames(ComboBox cbField)
@@ -85,11 +76,10 @@ namespace Logger
             cbField.Items.Add("Type");
             cbField.Items.Add("Log");
             cbField.Items.Add("Data");
-            
         }
 
         // Fields selection  
-   
+
         private void cbLineField_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
@@ -99,7 +89,6 @@ namespace Logger
             gridrows[i].SQLFieldOutput = cb.SelectedItem.ToString();
             gridrows[i].SQLFieldName = fields[cb.SelectedIndex];
             preview();
-
         }
 
         // Operators selection
@@ -139,16 +128,6 @@ namespace Logger
             preview();
         }
 
-        private void cbLine1Field_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbLine1Operator_Click(object sender, EventArgs e)
-        {
-            addOperators(sender as ComboBox);
-        }
-
         private void addOperators(ComboBox cbOperators)
         {
             string iStr = cbOperators.Name.Substring(6, 1);
@@ -157,7 +136,7 @@ namespace Logger
             cbOperators.Items.Clear();
             cbOperators.Items.Add(String.Empty);
 
-            if (gridrows[i].SQLFieldOutput == "") 
+            if (gridrows[i].SQLFieldOutput == "")
                 return;
 
             cbOperators.Items.Add("Like");
@@ -169,12 +148,6 @@ namespace Logger
                 cbOperators.Items.Add("Greater Than");
                 cbOperators.Items.Add("Less Than");
             }
-
-        }
-
-        private void cbLine1AndOr_Click(object sender, EventArgs e)
-        {
-            addAndOr(sender as ComboBox);
         }
 
         private void addAndOr(ComboBox cbAndOr)
@@ -185,89 +158,23 @@ namespace Logger
             cbAndOr.Items.Add("Or");
         }
 
-        private void cbLine2Field_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbLine2Field_Click(object sender, EventArgs e)
+        private void cbLineField_Click(object sender, EventArgs e)
         {
             addFieldNames(sender as ComboBox);
         }
 
-        private void cbLine3Field_Click(object sender, EventArgs e)
-        {
-            addFieldNames(sender as ComboBox);
-        }
-
-        private void cbLine4Field_Click(object sender, EventArgs e)
-        {
-            addFieldNames(sender as ComboBox);
-        }
-
-        private void cbLine5Field_Click(object sender, EventArgs e)
-        {
-            addFieldNames(sender as ComboBox);
-        }
-
-        private void cbLine6Field_Click(object sender, EventArgs e)
-        {
-            addFieldNames(sender as ComboBox);
-        }
-
-        private void cbLine2Operator_Click(object sender, EventArgs e)
+        private void cbLineOperator_Click(object sender, EventArgs e)
         {
             addOperators(sender as ComboBox);
         }
 
-        private void cbLine3Operator_Click(object sender, EventArgs e)
-        {
-            addOperators(sender as ComboBox);
-        }
-
-        private void cbLine4Operator_Click(object sender, EventArgs e)
-        {
-            addOperators(sender as ComboBox);
-        }
-
-        private void cbLine5Operator_Click(object sender, EventArgs e)
-        {
-            addOperators(sender as ComboBox);
-        }
-
-        private void cbLine6Operator_Click(object sender, EventArgs e)
-        {
-            addOperators(sender as ComboBox);
-        }
-
-        private void cbLine2AndOr_Click(object sender, EventArgs e)
-        {
-            addAndOr(sender as ComboBox);
-        }
-
-        private void cbLine3AndOr_Click(object sender, EventArgs e)
-        {
-            addAndOr(sender as ComboBox);
-        }
-
-        private void cbLine4AndOr_Click(object sender, EventArgs e)
-        {
-            addAndOr(sender as ComboBox);
-        }
-
-        private void cbLine5AndOr_Click(object sender, EventArgs e)
-        {
-            addAndOr(sender as ComboBox);
-        }
-
-        private void cbLine6AndOr_Click(object sender, EventArgs e)
+        private void cbLineAndOr_Click(object sender, EventArgs e)
         {
             addAndOr(sender as ComboBox);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            
             /*             
               SELECT [id],[logkey],[group1] as 'Timestamp',
                      [group2] as 'Log Level',[group3] as 'File Name',
@@ -278,14 +185,12 @@ namespace Logger
               WHERE logID =9 and 
              
              */
-
             string sqlLike = "";
             System.Data.DataTable dt = new System.Data.DataTable();
             string temp = "";
 
             for (int i = 0; i < 6; i++)
             {
-
                 if (gridrows[i].SQLFieldName != "" && gridrows[i].SQLCondition != "" && gridrows[i].SQLFieldValue != "")
                 {
                     temp = gridrows[i].SQLFieldValue;
@@ -294,20 +199,18 @@ namespace Logger
                     {
                         if (gridrows[i].SQLFieldValue.StartsWith("["))
                             temp = gridrows[i].SQLFieldValue.Substring(1, gridrows[i].SQLFieldValue.Length - 1);
-                    
+
                         temp = "%" + temp + "%";
                     }
                     sqlLike += " " + gridrows[i].SQLFieldName + gridrows[i].SQLCondition +
                            " '" + temp + "' ";
                 }
 
-                if ( i < 5 &&
+                if (i < 5 &&
                     gridrows[i].SQLAndOr != "" &&
-                    gridrows[i+1].SQLFieldName != "" && gridrows[i+1].SQLCondition != "" && gridrows[i+1].SQLFieldValue != "")
-                {
-                    sqlLike += gridrows[i].SQLAndOr;
-                }
+                    gridrows[i + 1].SQLFieldName != "" && gridrows[i + 1].SQLCondition != "" && gridrows[i + 1].SQLFieldValue != "")
 
+                    sqlLike += gridrows[i].SQLAndOr;
             }
 
             if (sqlLike != "")
@@ -329,20 +232,16 @@ namespace Logger
             for (int i = 0; i < 6; i++)
             {
                 if (gridrows[i].SQLFieldName != "" && gridrows[i].SQLCondition != "" && gridrows[i].SQLFieldValue != "")
-                {
+
                     rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].SQLFieldOutput + " " +
                     gridrows[i].SQLCondition + " " + gridrows[i].SQLFieldValue + " ";
-                }
 
                 if (i < 5 &&
                     gridrows[i].SQLAndOr != "" &&
-                    gridrows[i+1].SQLFieldName != "" && gridrows[i+1].SQLCondition != "" && gridrows[i+1].SQLFieldValue != "")
-                {
-                    rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].SQLAndOr + " "; 
-                }
+                    gridrows[i + 1].SQLFieldName != "" && gridrows[i + 1].SQLCondition != "" && gridrows[i + 1].SQLFieldValue != "")
+
+                    rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].SQLAndOr + " ";
             }
-
-
         }
 
         private void cbLineValue_MouseClick(object sender, MouseEventArgs e)
@@ -354,22 +253,18 @@ namespace Logger
             cb.Items.Clear();
             cb.Items.Add(string.Empty);
 
-            string groupName = gridrows[i].SQLFieldName;
+            if (gridrows[i].SQLFieldName == "") return;
 
-            if (groupName != "")
+            System.Data.DataTable dt = new System.Data.DataTable();
+
+            dt = App.Prj.getGroupOptions(ProjectData.logID, gridrows[i].SQLFieldName);
+
+            if (dt == null) return;
+
+            foreach (DataRow theRow in dt.Rows)
             {
-                System.Data.DataTable dt = new System.Data.DataTable();
-                
-                dt = App.Prj.getGroupOptions(ProjectData.logID, groupName);
-
-                if (dt != null)
-                {
-                    foreach (DataRow theRow in dt.Rows)
-                    {
-                        string str = (theRow[0].ToString());
-                        cb.Items.Add(str);
-                    }
-                }
+                string str = (theRow[0].ToString());
+                cb.Items.Add(str);
             }
         }
 
@@ -383,15 +278,14 @@ namespace Logger
                 int idx = this.Text.IndexOf(".") + 1;
                 queryName = this.Text.Substring(idx);
             }
-
-            SaveQuery saveQuery = new SaveQuery(gridrows, queryName);
+            SaveQuery saveQuery = MessageFactory.Create_SaveQuery(gridrows, queryName);
             saveQuery.ShowDialog();
         }
 
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadQuery loadQuery = new LoadQuery();
+            LoadQuery loadQuery = MessageFactory.Create_LoadQuery();
             loadQuery.Owner = this;
             loadQuery.ShowDialog();
         }
@@ -414,9 +308,8 @@ namespace Logger
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DeleteQuery dq = new DeleteQuery();
+            DeleteQuery dq = MessageFactory.Create_DeleteQuery();
             dq.ShowDialog();
-            
         }
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
@@ -425,7 +318,7 @@ namespace Logger
                 this.Text = "AdvancedFilter";
 
             for (int x = 0; x < 6; x++)
-                gridrows[x] = new SQLSearchCondition("", "", "", "", "");
+                gridrows[x] = MessageFactory.Create_SQLSearchCondition("", "", "", "", "");
 
             AdvancedFilterLoad(gridrows);
         }

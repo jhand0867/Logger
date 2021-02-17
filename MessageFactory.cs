@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logger.GUI;
 
 namespace Logger
 {
@@ -32,6 +33,32 @@ namespace Logger
         {
             return new Digester();
         }
+
+        public static SQLSearchCondition Create_SQLSearchCondition()
+        {
+            return new SQLSearchCondition();
+        }
+
+        public static SQLSearchCondition Create_SQLSearchCondition(string _field, string _cond, string _value, string _AndOr, string _fieldOutput)
+        {
+            return new SQLSearchCondition("", "", "", "", "");
+        }
+
+        public static LoadQuery Create_LoadQuery()
+        {
+            return new LoadQuery();
+        }
+
+        public static DeleteQuery Create_DeleteQuery()
+        { 
+            return new DeleteQuery();
+        }
+
+        public static SaveQuery Create_SaveQuery(object _gridrows, string _queryName)
+        {
+            return new SaveQuery(_gridrows, _queryName);
+        }
+
 
         public static StateRec Create_StateRecord(string stateType)
         {

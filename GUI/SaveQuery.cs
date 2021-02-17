@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Logger
@@ -27,9 +21,11 @@ namespace Logger
                 DataTable dt = new DataTable();
                 SQLSearchCondition ssc = new SQLSearchCondition();
                 dt = ssc.getQueryInfo(tbName.Text);
-                tbDescription.Text = dt.Rows[0][2].ToString();
-             }
 
+                if (dt != null &&
+                    dt.Rows.Count > 0)
+                    tbDescription.Text = dt.Rows[0][2].ToString();
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -59,6 +55,8 @@ namespace Logger
             dt = ssc.getQueryInfo(tbName.Text);
             int sqlID = 0;
 
+            if (dt == null) return;
+
             if (dt.Rows.Count == 0)
                 sqlID = ssc.setSearchConditionBuilder(tbName.Text, tbDescription.Text);
             else
@@ -67,16 +65,16 @@ namespace Logger
                 ssc.updateSearchConditionBuilder(tbName.Text, tbDescription.Text, sqlID);
             }
 
-                for (int i = 0; i < 6; i++)
-                {
-                    ssc.SQLFieldName = gridrows[i].SQLFieldName;
-                    ssc.SQLCondition = gridrows[i].SQLCondition;
-                    ssc.SQLFieldValue = gridrows[i].SQLFieldValue;
-                    ssc.SQLAndOr = gridrows[i].SQLAndOr;
-                    ssc.SQLFieldOutput = gridrows[i].SQLFieldOutput;
+            for (int i = 0; i < 6; i++)
+            {
+                ssc.SQLFieldName = gridrows[i].SQLFieldName;
+                ssc.SQLCondition = gridrows[i].SQLCondition;
+                ssc.SQLFieldValue = gridrows[i].SQLFieldValue;
+                ssc.SQLAndOr = gridrows[i].SQLAndOr;
+                ssc.SQLFieldOutput = gridrows[i].SQLFieldOutput;
 
-                    ssc.setSearchConditionDetail(ssc, sqlID);
-                }
+                ssc.setSearchConditionDetail(ssc, sqlID);
+            }
             Application.OpenForms["AdvancedFilterw"].Text = "AdvancedFilter." + tbName.Text;
             this.Close();
         }
