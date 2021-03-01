@@ -109,7 +109,7 @@ namespace Logger
             this.cbLine1Operator.Name = "cbLine1Operator";
             this.cbLine1Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine1Operator.TabIndex = 2;
-            this.cbLine1Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
+            this.cbLine1Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineCondition_SelectionChangeCommitted);
             this.cbLine1Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // dtpTimestamp
@@ -129,7 +129,7 @@ namespace Logger
             this.cbLine2Operator.Name = "cbLine2Operator";
             this.cbLine2Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine2Operator.TabIndex = 6;
-            this.cbLine2Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
+            this.cbLine2Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineCondition_SelectionChangeCommitted);
             this.cbLine2Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // cbLine2Field
@@ -165,7 +165,7 @@ namespace Logger
             this.cbLine4Operator.Name = "cbLine4Operator";
             this.cbLine4Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine4Operator.TabIndex = 14;
-            this.cbLine4Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
+            this.cbLine4Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineCondition_SelectionChangeCommitted);
             this.cbLine4Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // cbLine4Field
@@ -201,7 +201,7 @@ namespace Logger
             this.cbLine3Operator.Name = "cbLine3Operator";
             this.cbLine3Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine3Operator.TabIndex = 11;
-            this.cbLine3Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
+            this.cbLine3Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineCondition_SelectionChangeCommitted);
             this.cbLine3Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // cbLine3Field
@@ -237,7 +237,7 @@ namespace Logger
             this.cbLine6Operator.Name = "cbLine6Operator";
             this.cbLine6Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine6Operator.TabIndex = 22;
-            this.cbLine6Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
+            this.cbLine6Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineCondition_SelectionChangeCommitted);
             this.cbLine6Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // cbLine6Field
@@ -274,7 +274,7 @@ namespace Logger
             this.cbLine5Operator.Name = "cbLine5Operator";
             this.cbLine5Operator.Size = new System.Drawing.Size(169, 33);
             this.cbLine5Operator.TabIndex = 19;
-            this.cbLine5Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineOperator_SelectionChangeCommitted);
+            this.cbLine5Operator.SelectionChangeCommitted += new System.EventHandler(this.cbLineCondition_SelectionChangeCommitted);
             this.cbLine5Operator.Click += new System.EventHandler(this.cbLineOperator_Click);
             // 
             // cbLine5Field

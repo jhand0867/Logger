@@ -67,6 +67,9 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Logger01.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -187,7 +190,7 @@
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="MACFieldSelection.cs" />
-    <Compile Include="MessageFactory.cs" />
+    <Compile Include="LoggerFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="GUI\ProjectData.cs">
@@ -399,6 +402,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GUI\Icon1.ico" />
+    <Content Include="Logger01.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

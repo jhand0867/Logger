@@ -79,7 +79,7 @@ namespace Logger
         public solicitedStaB parseData(string r)
         {
             solicitedStaB ss = new solicitedStaB();
-            Digester digester = MessageFactory.Create_Digester();
+            Digester digester = LoggerFactory.Create_Digester();
 
             string[] tmpTypes = r.Split((char)0x1c);
 

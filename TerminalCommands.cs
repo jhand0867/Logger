@@ -127,7 +127,7 @@ namespace Logger
 
                     if (item[5].ToString() != null && item[5].ToString() != "")
                     {
-                        Digester myDigester = MessageFactory.Create_Digester();
+                        Digester myDigester = LoggerFactory.Create_Digester();
                         fieldDesc = myDigester.fieldDigester(item[5].ToString(), fieldValue);
                         fieldValue = fieldValue.Replace(";", " ");
                     }

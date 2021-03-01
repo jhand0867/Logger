@@ -57,19 +57,25 @@ namespace Logger
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
             string recordType = getRecordType(recValue);
-            List<DataTable> dts = getRecord(logKey, logID, projectKey, recordType.Substring(2, recordType.Length - 2));
+            List<DataTable> dts = getRecord(logKey, logID, projectKey, recordType);
+
             string txtField = "";
 
             if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
 
-            DataTable ss = getDescription(recordType.Substring(2, recordType.Length - 2));
+            // MLH Temporarly using same description (B) for all unsolicited status
+            // should replace later tmpType with the recordType field and eliminate tmpType
+
+            string tmpType = "B";
+
+            DataTable us = getDescription(tmpType);
 
             if (dts[0].Rows.Count > 0)
             {
                 for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
                 {
-                    txtField += getOptionDescription(ss, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
-                                                         dts[0].Rows[0][colNum].ToString());
+                    txtField += getOptionDescription(us, tmpType + colNum.ToString("00"),
+                                     dts[0].Rows[0][colNum].ToString());
                     txtField += "\t" + System.Environment.NewLine;
 
                 }
@@ -87,7 +93,7 @@ namespace Logger
 
                 string recordType = getRecordType(r.typeContent);
 
-                IMessage theRecord = MessageFactory.Create_Record(recordType);
+                IMessage theRecord = LoggerFactory.Create_Record(recordType);
 
                 if (theRecord.writeData(OneTypeRec, key, logID) == false)
                     return false;
@@ -113,7 +119,7 @@ namespace Logger
 
                     if (item[5].ToString() != null && item[5].ToString() != "")
                     {
-                        Digester myDigester = MessageFactory.Create_Digester();
+                        Digester myDigester = LoggerFactory.Create_Digester();
                         fieldDesc = myDigester.fieldDigester(item[5].ToString(), fieldValue);
                         fieldValue = fieldValue.Replace(";", " ");
                     }
@@ -128,8 +134,9 @@ namespace Logger
         internal string getRecordType(string recValue)
         {
             string[] tmpTypes = recValue.Split((char)0x1c);
+            return tmpTypes[3].Substring(0, 1);
             //return usTypes[tmpTypes[3].Substring(0, 1)];
-            return "12B";
+            //return "12B";
         }
 
         private string insertDescription(string fieldDescription)

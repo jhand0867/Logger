@@ -63,9 +63,5 @@ namespace Logger
 
         }
 
-        private void cbQueryName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

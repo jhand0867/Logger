@@ -3,6 +3,9 @@ using System.Data;
 
 namespace Logger
 {
+    /// <summary>
+    /// Manages the AdvancedFilter
+    /// </summary>
     public class SQLSearchCondition
     {
         /// <summary>
@@ -106,6 +109,8 @@ namespace Logger
             // get the builder ID
             DataTable dt = getQueryInfo(_queryName);
 
+            if (dt == null) return false;
+
             if (dt.Rows.Count != 0)
             {
                 string sql = @"UPDATE [sqlDetail] SET [fieldName] ='" + _searchCondition.SQLFieldName + "', " +
@@ -120,7 +125,11 @@ namespace Logger
             }
             return false;
         }
-
+        /// <summary>
+        /// Delete the whole 6 lines of the SearchConditionBuilder and the header
+        /// </summary>
+        /// <param name="_sqlID"></param>
+        /// <returns></returns>
         public bool deleteSearchConditionBuilder(int _sqlID)
         {
             // update the Builder
@@ -130,9 +139,16 @@ namespace Logger
             DbCrud db = new DbCrud();
             return db.crudToDb(sql);
         }
-
+        /// <summary>
+        /// Update the content of the SearchConditionBuilder 
+        /// </summary>
+        /// <param name="_queryName"></param>
+        /// <param name="_queryDescription"></param>
+        /// <param name="_sqlID"></param>
+        /// <returns></returns>
         public bool updateSearchConditionBuilder(string _queryName, string _queryDescription, int _sqlID)
         {
+            // jmh
             // update the Builder
             string sql = @"UPDATE [sqlBuilder] SET " +
                     " [name] = '" + _queryName + "'," +
@@ -143,7 +159,12 @@ namespace Logger
             DbCrud db = new DbCrud();
             return db.crudToDb(sql);
         }
-
+        /// <summary>
+        /// Add-Create-Set a new AdvancedFilter header
+        /// </summary>
+        /// <param name="_queryName"></param>
+        /// <param name="_queryDescription"></param>
+        /// <returns>ID of the query just created</returns>
         public int setSearchConditionBuilder(string _queryName, string _queryDescription)
         {
 
@@ -156,7 +177,13 @@ namespace Logger
 
             return db.GetScalarIntFromDb(sql);
         }
-
+        /// <summary>
+        /// Set the content of the 6 lines of the AdvancedFilter
+        /// 
+        /// </summary>
+        /// <param name="_searchCondition">Contains or holds one line of the AdvancedFilter</param>
+        /// <param name="_sqlID">ID of the Query Name this is associated to</param>
+        /// <returns></returns>
         public bool setSearchConditionDetail(SQLSearchCondition _searchCondition, int _sqlID)
         {
             // insert the Detail

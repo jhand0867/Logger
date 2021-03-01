@@ -8,6 +8,7 @@ namespace Logger
 {
     public partial class AdvancedFilterw : Form
     {
+        // options for SQLSearchCondition properties (fields, conditions, andOr)
         public string[] fields = { "", "[group1]", "[group4]", "[group5]", "[group6]", "[group7]", "[group8]" };
         private string[] conditions = { "", "Like", "=", "<>", ">", "<" };
         private string[] andOr = { "", "AND", "OR" };
@@ -18,21 +19,22 @@ namespace Logger
         {
             InitializeComponent();
 
-            dtpTimestamp.Format = DateTimePickerFormat.Custom;
-            dtpTimestamp.CustomFormat = "yyyy-MM-dd HH:mm:ss";
-            dtpTimestamp.ShowUpDown = true;
-
             // intitialize sql fields
 
-            SQLSearchCondition sc = MessageFactory.Create_SQLSearchCondition();
+            SQLSearchCondition sc = LoggerFactory.Create_SQLSearchCondition();
 
             for (int x = 0; x < 6; x++)
-                gridrows[x] = MessageFactory.Create_SQLSearchCondition("", "", "", "", "");
+                gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "");
         }
 
         internal void AdvancedFilterLoad(object sQLSearchConditions)
         {
             gridrows = (SQLSearchCondition[])sQLSearchConditions;
+
+            // for each line in the AdvancedFilter (condition)
+            // - build the name of the condition's field (Field, Operator, Value, AndOr)
+            // - 
+            if (gridrows[0] == null) return;
 
             for (int x = 0; x < 6; x++)
             {
@@ -41,6 +43,8 @@ namespace Logger
                 string fieldValue = "cbLine" + (x + 1).ToString("0") + "Value";
                 string fieldAndOr = "cbLine" + (x + 1).ToString("0") + "AndOr";
 
+                // add the options for FieldName
+                // show list with item selected index
                 object ob = this.Controls[fieldName];
                 ComboBox cb = (ComboBox)ob;
                 addFieldNames(cb);
@@ -65,6 +69,12 @@ namespace Logger
             }
         }
 
+        /// <summary>
+        /// Add the options for condition's FieldName
+        /// 
+        /// </summary>
+        /// <param name="cbField"></param>
+        /// cbField is the Options ComboBox. 
         private void addFieldNames(ComboBox cbField)
         {
             // adding options to combo
@@ -78,8 +88,13 @@ namespace Logger
             cbField.Items.Add("Data");
         }
 
-        // Fields selection  
 
+        /// <summary>
+        /// Fields selection
+        /// -- This is the only driver of the FieldName all lines combos --
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbLineField_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
@@ -91,9 +106,13 @@ namespace Logger
             preview();
         }
 
-        // Operators selection
-
-        private void cbLineOperator_SelectionChangeCommitted(object sender, EventArgs e)
+        /// <summary>
+        /// Condition selection
+        /// -- This is the only driver of the Condition all lines combos --
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbLineCondition_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
             string iStr = cb.Name.Substring(6, 1);
@@ -103,9 +122,13 @@ namespace Logger
             preview();
         }
 
-
-        // Text selection  
-
+        /// <summary>
+        /// Value Selection
+        /// -- This is the only driver of the Value all lines combos --
+        /// </summary>
+        /// 
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbLineValue_Leave(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
@@ -116,8 +139,11 @@ namespace Logger
             preview();
         }
 
-        //  condition selection 
-
+        /// <summary>
+        /// AndOr Selection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbLineAndOr_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
@@ -127,7 +153,10 @@ namespace Logger
             gridrows[i].SQLAndOr = andOr[cb.SelectedIndex];
             preview();
         }
-
+        /// <summary>
+        /// Load values to the Conditions combobox
+        /// </summary>
+        /// <param name="cbOperators"></param>
         private void addOperators(ComboBox cbOperators)
         {
             string iStr = cbOperators.Name.Substring(6, 1);
@@ -150,6 +179,10 @@ namespace Logger
             }
         }
 
+        /// <summary>
+        /// AndOr options loading
+        /// </summary>
+        /// <param name="cbAndOr"></param>
         private void addAndOr(ComboBox cbAndOr)
         {
             cbAndOr.Items.Clear();
@@ -278,14 +311,14 @@ namespace Logger
                 int idx = this.Text.IndexOf(".") + 1;
                 queryName = this.Text.Substring(idx);
             }
-            SaveQuery saveQuery = MessageFactory.Create_SaveQuery(gridrows, queryName);
+            SaveQuery saveQuery = LoggerFactory.Create_SaveQuery(gridrows, queryName);
             saveQuery.ShowDialog();
         }
 
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadQuery loadQuery = MessageFactory.Create_LoadQuery();
+            LoadQuery loadQuery = LoggerFactory.Create_LoadQuery();
             loadQuery.Owner = this;
             loadQuery.ShowDialog();
         }
@@ -308,7 +341,7 @@ namespace Logger
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DeleteQuery dq = MessageFactory.Create_DeleteQuery();
+            DeleteQuery dq = LoggerFactory.Create_DeleteQuery();
             dq.ShowDialog();
         }
 
@@ -318,7 +351,7 @@ namespace Logger
                 this.Text = "AdvancedFilter";
 
             for (int x = 0; x < 6; x++)
-                gridrows[x] = MessageFactory.Create_SQLSearchCondition("", "", "", "", "");
+                gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "");
 
             AdvancedFilterLoad(gridrows);
         }

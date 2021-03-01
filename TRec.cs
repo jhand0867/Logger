@@ -329,7 +329,7 @@ namespace Logger
                         digitPad = 3;
                     }
 
-                    int entries = (tmpTypes[i].Length - 1) / digitPad + 2;
+                    int entries = (tmpTypes[i].Length - 1) / (digitPad + 2);
                     int offset = 1;
 
                     for (int z = 0; z < entries; z++)

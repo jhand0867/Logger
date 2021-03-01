@@ -47,7 +47,7 @@ namespace Logger
             string recType = App.Prj.getRecord(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             if (recType != "")
             {
-                IMessage theRecord = MessageFactory.Create_Record(recType);
+                IMessage theRecord = LoggerFactory.Create_Record(recType);
                 if (theRecord != null)
                     txtFieldData.Text = theRecord.parseToView(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             }

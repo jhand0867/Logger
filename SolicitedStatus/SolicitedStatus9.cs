@@ -66,7 +66,7 @@ namespace Logger
         public solicitedSta9 parseData(string r)
         {
             solicitedSta9 ss = new solicitedSta9();
-            Digester digester = MessageFactory.Create_Digester();
+            Digester digester = LoggerFactory.Create_Digester();
 
             string[] tmpTypes = r.Split((char)0x1c);
 

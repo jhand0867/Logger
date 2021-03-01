@@ -655,7 +655,7 @@ namespace Logger
                 }
             }
 
-            IMessage theRecord = MessageFactory.Create_Record(recordType);
+            IMessage theRecord = LoggerFactory.Create_Record(recordType);
 
             if (theRecord != null)
             {
@@ -891,6 +891,7 @@ namespace Logger
 
             sql = @"SELECT COUNT(*) FROM interactiveTranResponse WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
+
             dicBits.Add("interactiveTranResponse", count);
 
             return dicBits;

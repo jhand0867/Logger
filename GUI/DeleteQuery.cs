@@ -11,11 +11,6 @@ namespace Logger.GUI
             InitializeComponent();
         }
 
-        private void cbQueryName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btOk_Click(object sender, EventArgs e)
         {
             // delete all records of the selected query
@@ -28,9 +23,13 @@ namespace Logger.GUI
 
             if (dt == null) return;
 
-            if (dt.Rows.Count == 0)
-                MessageBox.Show("Filter not found");
-            else
+            if (cbQueryName.Text == null || cbQueryName.Text == "")
+            {
+                MessageBox.Show("Select filter Name");
+                return;
+            }
+
+            if (dt.Rows.Count != 0)
             {
                 sqlID = (int)dt.Rows[0]["id"];
                 if (ssc.deleteSearchConditionBuilder(sqlID) == false)

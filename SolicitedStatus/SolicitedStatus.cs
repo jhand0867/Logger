@@ -103,7 +103,7 @@ namespace Logger
 
                 string recordType = getRecordType(r.typeContent);
 
-                IMessage theRecord = MessageFactory.Create_Record(recordType);
+                IMessage theRecord = LoggerFactory.Create_Record(recordType);
 
                 if (theRecord.writeData(OneTypeRec, Key, logID) == false)
                     return false;
@@ -128,7 +128,7 @@ namespace Logger
                     optionDesc = item[3].ToString().Trim();
                     if (item[5].ToString() != null && item[5].ToString() != "")
                     {
-                        Digester myDigester = MessageFactory.Create_Digester();
+                        Digester myDigester = LoggerFactory.Create_Digester();
                         fieldDesc = myDigester.fieldDigester(item[5].ToString(), fieldValue);
                         fieldValue = fieldValue.Replace(";", " ");
                     }

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Logger.GUI;
+using System;
 using System.Collections.Generic;
-using Logger.GUI;
 
 namespace Logger
 {
-    public static class MessageFactory
+    public static class LoggerFactory
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -50,7 +50,7 @@ namespace Logger
         }
 
         public static DeleteQuery Create_DeleteQuery()
-        { 
+        {
             return new DeleteQuery();
         }
 

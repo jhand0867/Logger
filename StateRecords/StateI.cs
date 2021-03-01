@@ -49,7 +49,6 @@ namespace Logger
 
                 // validate Amount Data
                 resp = this.ValidateYesNo(stateData.Val6);
-                bool extState = false;
 
                 // validate PIN Buffer/Extended Format
                 if (!(stateData.Val7 == "000" || stateData.Val7 == "001" ||
@@ -59,7 +58,7 @@ namespace Logger
                 }
                 else if (stateData.Val7 == "128" || stateData.Val7 == "129")
                 {
-                    extState = true;
+                    
                 }
 
                 // validate General Purpose Buffer B or Extension State Number

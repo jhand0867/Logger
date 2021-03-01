@@ -8,7 +8,6 @@ namespace Logger
     {
         private SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
 
-
         public SaveQuery(object sQLSearchCondition, string queryName)
         {
             InitializeComponent();
@@ -26,11 +25,6 @@ namespace Logger
                     dt.Rows.Count > 0)
                     tbDescription.Text = dt.Rows[0][2].ToString();
             }
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void btCancel_Click(object sender, EventArgs e)
@@ -52,6 +46,13 @@ namespace Logger
             DataTable dt = new DataTable();
             SQLSearchCondition ssc = new SQLSearchCondition();
 
+            if (tbName.Text == "" || tbName.Text == null)
+            {
+                errorProvider1.SetError(tbName, "Please enter Query Name");
+                tbName.Focus();
+                return;
+            }
+
             dt = ssc.getQueryInfo(tbName.Text);
             int sqlID = 0;
 
@@ -64,6 +65,8 @@ namespace Logger
                 sqlID = (int)dt.Rows[0]["id"];
                 ssc.updateSearchConditionBuilder(tbName.Text, tbDescription.Text, sqlID);
             }
+
+            if (gridrows[0] == null) return;
 
             for (int i = 0; i < 6; i++)
             {

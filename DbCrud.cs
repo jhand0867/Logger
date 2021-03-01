@@ -54,9 +54,7 @@ namespace Logger
 
             string connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
             SqlConnection cnn = new SqlConnection(connectionString);
-            SqlTransaction transaction;
 
-            // transaction = cnn.BeginTransaction();
             try
             {
                 cnn.Open();

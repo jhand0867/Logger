@@ -65,7 +65,6 @@ namespace Logger
             this.tbDescription.Name = "tbDescription";
             this.tbDescription.Size = new System.Drawing.Size(424, 99);
             this.tbDescription.TabIndex = 3;
-            this.tbDescription.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label2
             // 
@@ -106,6 +105,7 @@ namespace Logger
             this.AcceptButton = this.btOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.CancelButton = this.btCancel;
             this.ClientSize = new System.Drawing.Size(704, 300);
             this.ControlBox = false;

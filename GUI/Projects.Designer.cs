@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Projects));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Logs");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Logs", 0, 0);
             this.listView1 = new System.Windows.Forms.ListView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -137,10 +137,11 @@
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "cajero.jpg");
+            this.imageList1.Images.SetKeyName(0, "folder01.ico");
             this.imageList1.Images.SetKeyName(1, "document.png");
-            this.imageList1.Images.SetKeyName(2, "Hamburger_icon.svg.png");
-            this.imageList1.Images.SetKeyName(3, "download.png");
+            this.imageList1.Images.SetKeyName(2, "cajero.jpg");
+            this.imageList1.Images.SetKeyName(3, "Hamburger_icon.svg.png");
+            this.imageList1.Images.SetKeyName(4, "download.png");
             // 
             // newToolStripMenuItem
             // 
@@ -185,16 +186,23 @@
             // 
             // treeView1
             // 
+            this.treeView1.ImageIndex = 0;
+            this.treeView1.ImageList = this.imageList1;
             this.treeView1.Location = new System.Drawing.Point(1085, 58);
             this.treeView1.Margin = new System.Windows.Forms.Padding(4);
             this.treeView1.Name = "treeView1";
+            treeNode1.ImageIndex = 0;
             treeNode1.Name = "Node0";
+            treeNode1.SelectedImageIndex = 0;
             treeNode1.Text = "Logs";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
+            this.treeView1.SelectedImageIndex = 0;
+            this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(619, 505);
             this.treeView1.TabIndex = 2;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.treeView1.Click += new System.EventHandler(this.treeView1_Click);
             // 
             // hamburguerMenu
             // 

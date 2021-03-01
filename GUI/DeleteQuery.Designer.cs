@@ -37,12 +37,12 @@ namespace Logger.GUI
             // 
             // cbQueryName
             // 
+            this.cbQueryName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbQueryName.FormattingEnabled = true;
             this.cbQueryName.Location = new System.Drawing.Point(190, 63);
             this.cbQueryName.Name = "cbQueryName";
             this.cbQueryName.Size = new System.Drawing.Size(424, 33);
             this.cbQueryName.TabIndex = 16;
-            this.cbQueryName.SelectedIndexChanged += new System.EventHandler(this.cbQueryName_SelectedIndexChanged);
             this.cbQueryName.Click += new System.EventHandler(this.cbQueryName_Click);
             // 
             // btOk
@@ -79,6 +79,7 @@ namespace Logger.GUI
             this.AcceptButton = this.btOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.CancelButton = this.btCancel;
             this.ClientSize = new System.Drawing.Size(704, 249);
             this.Controls.Add(this.cbQueryName);

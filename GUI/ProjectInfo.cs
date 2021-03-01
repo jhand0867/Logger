@@ -30,7 +30,6 @@ namespace Logger
             // create button 
             if (!validatePName())
             {
-                // MessageBox.Show("Please enter a valid project name", "Errr", MessageBoxButtons.OK);
                 tbPName.Focus();
             }
             else
@@ -41,18 +40,20 @@ namespace Logger
                 Dictionary<string, Project> pDict = pr.getProjectByName(tbPName.Text);
                 if (pDict.Count > 0)
                 {
-                    // MessageBox.Show("Project already exists", "Error!!", MessageBoxButtons.OK);
+                    // Project already exists
                     validatePExist();
-                    //errorProvider1.SetError(tbPName, "Project already exists");
                     tbPName.Focus();
                 }
                 else
                 {
                     pr.createProject(tbPName.Text, tbPBrief.Text);
-                    Projects prj = new Projects();
-                    prj.TopMost = true;
+                    Projects prj = (Projects)Application.OpenForms["Projects"];
+                    // ListView lv = (ListView)prj.Controls["listView1"];
+                    prj.loadInfo();
                     this.Close();
                     prj.Show();
+                    
+
                 }
             }
 

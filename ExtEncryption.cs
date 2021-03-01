@@ -91,7 +91,8 @@ namespace Logger
             eek.Rectype = "O";
             eek.Modifier = tmpTypes[3].Substring(1, 1);
 
-            if (tmpTypes[4].Length > 0)
+
+            if (tmpTypes.Length > 4 && tmpTypes[4].Length > 0)
             {
                 eek.KeySize = tmpTypes[4].Substring(0, 3);
                 eek.KeyData = tmpTypes[4].Substring(3, tmpTypes[4].Length - 3);
@@ -118,7 +119,7 @@ namespace Logger
 
                     if (item[5].ToString() != null && item[5].ToString() != "")
                     {
-                        Digester myDigester = MessageFactory.Create_Digester();
+                        Digester myDigester = LoggerFactory.Create_Digester();
                         fieldDesc = myDigester.fieldDigester(item[5].ToString(), fieldValue);
                         fieldValue = fieldValue.Replace(";", " ");
                     }

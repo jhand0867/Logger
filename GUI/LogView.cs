@@ -2,6 +2,7 @@
 using System.Data;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -34,7 +35,8 @@ namespace Logger
             }
 
 
-            dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            //dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dgvLog.Columns["Timestamp"].Width = 134;
             AddHeaders(dgvLog);
 
             dgvLog.Dock = DockStyle.Fill;
@@ -50,17 +52,17 @@ namespace Logger
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
 
             using (Font font = new Font(
-                dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
+                dgvLog.DefaultCellStyle.Font.FontFamily, 8, FontStyle.Regular))
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
             }
         }
 
-        private ComboBox cmbColumHeader2 = new ComboBox();
-        private ComboBox cmbColumHeader4 = new ComboBox();
-        private ComboBox cmbColumHeader5 = new ComboBox();
-        private ComboBox cmbColumHeader6 = new ComboBox();
-        private ComboBox cmbColumHeader7 = new ComboBox();
+        private System.Windows.Forms.ComboBox cmbColumHeader2 = new System.Windows.Forms.ComboBox();
+        private System.Windows.Forms.ComboBox cmbColumHeader4 = new System.Windows.Forms.ComboBox();
+        private System.Windows.Forms.ComboBox cmbColumHeader5 = new System.Windows.Forms.ComboBox();
+        private System.Windows.Forms.ComboBox cmbColumHeader6 = new System.Windows.Forms.ComboBox();
+        private System.Windows.Forms.ComboBox cmbColumHeader7 = new System.Windows.Forms.ComboBox();
 
         private void LogView_reLoad(object sender, EventArgs e)
         {
@@ -78,15 +80,8 @@ namespace Logger
                 return;
             }
 
-            dgvLog.Dock = DockStyle.Fill;
-            dgvLog.ColumnHeadersVisible = true;
-            dgvLog.Columns["id"].Visible = false;
-            dgvLog.Columns["logKey"].Visible = false;
-            //  dgvLog.Columns["Log"].Visible = false;
-            dgvLog.Columns["group9"].Visible = false;
-            dgvLog.Columns["LogID"].Visible = false;
-            dgvLog.Columns["prjKey"].Visible = false;
-            dgvLog.Columns["Log Data"].Width = 620;
+            doDgvColumns();
+
             dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
             cmbColumHeader2.SelectedIndex = -1;
@@ -101,13 +96,26 @@ namespace Logger
             cmbColumHeader7.SelectedItem = null;
 
             using (Font font = new Font(
-                dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
+                dgvLog.DefaultCellStyle.Font.FontFamily, 8, FontStyle.Regular))
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
                 dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.False;
             }
 
             dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+        }
+
+        private void doDgvColumns()
+        {
+            dgvLog.Dock = DockStyle.Fill;
+            dgvLog.ColumnHeadersVisible = true;
+            dgvLog.Columns["id"].Visible = false;
+            dgvLog.Columns["logKey"].Visible = false;
+            //  dgvLog.Columns["Log"].Visible = false;
+            dgvLog.Columns["group9"].Visible = false;
+            dgvLog.Columns["LogID"].Visible = false;
+            dgvLog.Columns["prjKey"].Visible = false;
+            dgvLog.Columns["Log Data"].Width = 620;
         }
 
         private void AddHeaders(DataGridView dataGridView)
@@ -209,8 +217,9 @@ namespace Logger
             cmbColumHeader6.Visible = true;
         }
 
-        private void cmbColumHeader2_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
+        private void cmbColumHeader2_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
+            //this.dgvLog.DataSource = null;
             string sqlLike = "='" + c.Text + "'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group4", sqlLike);
             cmbColumHeader4.SelectedIndex = -1;
@@ -224,8 +233,9 @@ namespace Logger
             this.dgvLog.Refresh();
         }
 
-        private void cmbColumHeader4_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
+        private void cmbColumHeader4_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
+            //this.dgvLog.DataSource = null;
             string sqlLike = "='" + c.Text + "'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group5", sqlLike);
             cmbColumHeader2.SelectedIndex = -1;
@@ -239,10 +249,15 @@ namespace Logger
             this.dgvLog.Refresh();
         }
 
-        private void cmbColumHeader5_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
+        private void cmbColumHeader5_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
+            //this.dgvLog.DataSource = null;
+
             string sqlLike = " LIKE '%[[]" + c.Text + "%'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group6", sqlLike);
+            
+            //doDgvColumns();
+
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.SelectedItem = null;
             cmbColumHeader4.SelectedIndex = -1;
@@ -254,8 +269,9 @@ namespace Logger
             this.dgvLog.Refresh();
         }
 
-        private void cmbColumHeader7_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
+        private void cmbColumHeader7_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
+            //this.dgvLog.DataSource = null;
             string sqlLike = "='" + c.Text + "'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group7", sqlLike);
             cmbColumHeader2.SelectedIndex = -1;
@@ -269,10 +285,15 @@ namespace Logger
             this.dgvLog.Refresh();
         }
 
-        private void cmbColumHeader6_SelectionChangeCommitted(object sender, System.EventArgs e, ComboBox c, string logID)
+        private void cmbColumHeader6_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
+            //this.dgvLog.DataSource = null;
+            
             string sqlLike = " LIKE '%" + c.Text + "%'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", sqlLike);
+
+            //doDgvColumns();
+
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.SelectedItem = null;
             cmbColumHeader4.SelectedIndex = -1;
@@ -298,6 +319,9 @@ namespace Logger
                 }
 
                 setData = new passLogData(frmLogData.setData);
+                
+                //mlh  -> e.RowIndex could be -1 and thrown an exception
+
                 setData(dgvLog.Rows[e.RowIndex]);
                 frmLogData.TopMost = true;
                 frmLogData.Show();
@@ -316,26 +340,9 @@ namespace Logger
             reloadData();
         }
 
-        private void menuStrip1_MouseClick(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void dgvLog_MouseDown(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void dgvLog_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-
-        }
-
         private void showInContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             logInContext();
-
         }
 
         private void logInContext()
@@ -504,7 +511,7 @@ namespace Logger
             catch (COMException ec)
             {
                 //todo: add exception handling fro file i/o
-                MessageBox.Show("File in use by other application");
+                MessageBox.Show("File in use by other application", ec.ToString());
             }
             catch (Exception e)
             {
@@ -557,6 +564,7 @@ namespace Logger
         {
             DataTable dt = new DataTable();
             SQLSearchCondition ssc = new SQLSearchCondition();
+           
 
             dt = ssc.getSearchCondition(cbQueryName.Text);
 
@@ -596,11 +604,46 @@ namespace Logger
                 dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
                 dgvLog.Refresh();
             }
+
+            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            ToolTip1.SetToolTip(cbQueryName, cbQueryName.Items[cbQueryName.SelectedIndex].ToString());
+            ToolTip1.AutoPopDelay = 5000;
+            ToolTip1.InitialDelay = 1000;
+            ToolTip1.ReshowDelay = 500;
+            ToolTip1.ShowAlways = true;
         }
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ExportDataFromSQLServer();
+        }
+
+        private void cbQueryName_MouseHover(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void cbQueryName_MouseClick(object sender, MouseEventArgs e)
+        {
+            System.Windows.Forms.ComboBox cb = (System.Windows.Forms.ComboBox)sender;
+            //if (e. >= 0) { }
+            foreach (object cbi in cb.Items)
+            {
+                //ComboBoxItem item = (ComboBoxItem)cbi;
+                //item.ToolTip = "Hello!";
+            }
+            //System.Windows.Controls.ComboBoxItem cbi = cb.SelectionBoxItem as System.Windows.Controls.ComboBoxItem;
+            // cbi.ToolTip = "jajajaja ";
+
+
+        }
+
+        private void cbQueryName_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            System.Windows.Forms.ComboBox cb = (System.Windows.Forms.ComboBox)sender;
+            if (e.Index >= 0) { }
+            System.Windows.Controls.ComboBoxItem cbi = cb.Items[0] as System.Windows.Controls.ComboBoxItem;
+            cbi.ToolTip = "jajajaja ";
         }
     }
 }

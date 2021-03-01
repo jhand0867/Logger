@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvLog = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,29 +69,30 @@
             // 
             this.dgvLog.AllowUserToAddRows = false;
             this.dgvLog.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightBlue;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.dgvLog.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvLog.AllowUserToResizeColumns = false;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.LightBlue;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.dgvLog.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvLog.BackgroundColor = System.Drawing.Color.LightGray;
             this.dgvLog.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dgvLog.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dgvLog.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvLog.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvLog.DefaultCellStyle = dataGridViewCellStyle9;
             this.dgvLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvLog.Location = new System.Drawing.Point(3, 3);
             this.dgvLog.Margin = new System.Windows.Forms.Padding(4);
@@ -101,11 +102,9 @@
             this.dgvLog.RowHeadersWidth = 62;
             this.dgvLog.RowTemplate.Height = 28;
             this.dgvLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvLog.Size = new System.Drawing.Size(2326, 511);
+            this.dgvLog.Size = new System.Drawing.Size(2326, 505);
             this.dgvLog.TabIndex = 0;
-            this.dgvLog.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLog_CellContentClick);
             this.dgvLog.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvLog_CellMouseDown);
-            this.dgvLog.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvLog_MouseDown);
             // 
             // menuStrip1
             // 
@@ -120,9 +119,8 @@
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
             this.menuStrip1.ShowItemToolTips = true;
-            this.menuStrip1.Size = new System.Drawing.Size(2348, 42);
+            this.menuStrip1.Size = new System.Drawing.Size(2348, 48);
             this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.menuStrip1_MouseClick);
             // 
             // toolStripMenuItem1
             // 
@@ -131,7 +129,7 @@
             this.printToolStripMenuItem});
             this.toolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(72, 38);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(72, 44);
             this.toolStripMenuItem1.Text = "File";
             // 
             // exportToolStripMenuItem
@@ -154,20 +152,20 @@
             this.searchTwoToolStripMenuItem});
             this.searchToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(88, 38);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(88, 44);
             this.searchToolStripMenuItem.Text = "Filter";
             // 
             // serchOneToolStripMenuItem
             // 
             this.serchOneToolStripMenuItem.Name = "serchOneToolStripMenuItem";
-            this.serchOneToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.serchOneToolStripMenuItem.Size = new System.Drawing.Size(254, 44);
             this.serchOneToolStripMenuItem.Text = "Advanced";
             this.serchOneToolStripMenuItem.Click += new System.EventHandler(this.serchOneToolStripMenuItem_Click);
             // 
             // searchTwoToolStripMenuItem
             // 
             this.searchTwoToolStripMenuItem.Name = "searchTwoToolStripMenuItem";
-            this.searchTwoToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.searchTwoToolStripMenuItem.Size = new System.Drawing.Size(254, 44);
             this.searchTwoToolStripMenuItem.Text = "Clear";
             this.searchTwoToolStripMenuItem.Click += new System.EventHandler(this.searchTwoToolStripMenuItem_Click);
             // 
@@ -180,7 +178,7 @@
             this.copyToClipboardToolStripMenuItem});
             this.option3ToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.option3ToolStripMenuItem.Name = "option3ToolStripMenuItem";
-            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(86, 38);
+            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(86, 44);
             this.option3ToolStripMenuItem.Text = "View";
             // 
             // logInContextToolStripMenuItem
@@ -272,23 +270,27 @@
             // 
             // cbQueryName
             // 
+            this.cbQueryName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbQueryName.FormattingEnabled = true;
             this.cbQueryName.Location = new System.Drawing.Point(1611, 4);
             this.cbQueryName.Name = "cbQueryName";
             this.cbQueryName.Size = new System.Drawing.Size(340, 33);
             this.cbQueryName.TabIndex = 3;
+            this.cbQueryName.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbQueryName_DrawItem);
             this.cbQueryName.SelectedIndexChanged += new System.EventHandler(this.cbQueryName_SelectedIndexChanged);
             this.cbQueryName.Click += new System.EventHandler(this.cbQueryName_Click);
+            this.cbQueryName.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbQueryName_MouseClick);
+            this.cbQueryName.MouseHover += new System.EventHandler(this.cbQueryName_MouseHover);
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 42);
+            this.tabControl1.Location = new System.Drawing.Point(0, 48);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2348, 564);
+            this.tabControl1.Size = new System.Drawing.Size(2348, 558);
             this.tabControl1.TabIndex = 4;
             // 
             // tabPage1
@@ -297,7 +299,7 @@
             this.tabPage1.Location = new System.Drawing.Point(8, 39);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(2332, 517);
+            this.tabPage1.Size = new System.Drawing.Size(2332, 511);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;

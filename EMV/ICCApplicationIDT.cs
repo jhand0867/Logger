@@ -84,7 +84,7 @@ namespace Logger
 
             iccApplication iccApp = new iccApplication();
             List<iccApplication> iccAppList = new List<iccApplication>();
-            Digester digester = MessageFactory.Create_Digester();
+            Digester digester = LoggerFactory.Create_Digester();
 
             string[] tmpAids = tmpTypes.Split((char)0x1d);
             int hexLength = 0;

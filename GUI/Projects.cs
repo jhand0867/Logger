@@ -34,7 +34,7 @@ namespace Logger
 
         }
 
-        private void loadInfo()
+        internal void loadInfo()
         {
             listView1.View = View.Details;
             listView1.Name = "ProjectsList";
@@ -42,7 +42,7 @@ namespace Logger
             listView1.Columns.Add("Project Description", 240, HorizontalAlignment.Center);
             listView1.Columns.Add("Logs", 40, HorizontalAlignment.Center);
             listView1.SmallImageList = imageList1;
-
+            
             listView1.LargeImageList = imageList1;
             hamburguerMenu.ForeColor = Color.White;
             hamburguerMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -64,7 +64,7 @@ namespace Logger
             {
                 var lvi = new ListViewItem(new string[] { p.Name, p.Brief, p.Logs.ToString().Trim() });
                 lvi.Tag = p;
-                lvi.ImageIndex = 1;
+                lvi.ImageIndex = 0;
                 listView1.Items.Add(lvi);
                 listView1.Items[0].Selected = true;
                 for (int i = 0; i < listView1.Columns.Count; i++)
@@ -196,11 +196,19 @@ namespace Logger
 
                 if (dicBits != null)
                 {
+                    tn.Tag = 0;
+                    tn.ImageIndex = 0;
                     for (int x = 4; x < dt.Columns.Count - 1; x++)
                     {
                         if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
+//JMH
                         {
                             tn.Nodes.Add(dt.Columns[x].ColumnName + "  [" + dicBits[dt.Columns[x].ColumnName] + "]");
+                            tn.LastNode.Tag = dicBits[dt.Columns[x].ColumnName];
+                            if (dicBits[dt.Columns[x].ColumnName].ToString() != "0")
+                                 tn.LastNode.ImageIndex = 1;
+                            else
+                                 tn.LastNode.ImageIndex = 0;
                         }
                     }
                 }
@@ -274,7 +282,7 @@ namespace Logger
             dicData = App.Prj.getProjectByName(prjName);
 
 
-            ProjectInfo prjInfo = MessageFactory.Create_ProjectInfo();
+            ProjectInfo prjInfo = LoggerFactory.Create_ProjectInfo();
             // prjInfo.Controls["btnUpdate"].Enabled = true
             Control[] formControls = prjInfo.Controls.Find("btnUpdate", false);
             Control[] formControls1 = prjInfo.Controls.Find("tbPName", false);
@@ -375,7 +383,27 @@ namespace Logger
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            TreeView tv = (TreeView)sender;
+            if (Convert.ToInt32(tv.SelectedNode.Tag) != 0)
+            {
+                tv.SelectedNode.ImageIndex = 1;
+                tv.SelectedNode.SelectedImageIndex = 1;
+            }
+        }
+
+        private void treeView1_Click(object sender, EventArgs e)
+        {
 
         }
+
+        //private void treeView1_Click(object sender, EventArgs e)
+        //{
+        //    TreeView tv = (TreeView)sender;
+        //    if (tv != null)
+        //    {
+        //        tv.SelectedNode.ImageIndex = 1;
+        //    }
+        //}
+
     }
 }

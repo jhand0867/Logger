@@ -118,7 +118,7 @@ namespace Logger
             {
                 foreach (DataRow row in dt.Rows)
                 {
-                    StateRec sr = MessageFactory.Create_StateRecord();
+                    StateRec sr = LoggerFactory.Create_StateRecord();
                     sr.StateNumber = row[3].ToString();
                     sr.StateType = row[4].ToString();
                     sr.Val1 = row[5].ToString();
@@ -204,7 +204,7 @@ namespace Logger
 
             log.Info("Generating state record for state " + stRec.StateType);
 
-            StateRec theRecord = MessageFactory.Create_StateRecord(stRec.StateType);
+            StateRec theRecord = LoggerFactory.Create_StateRecord(stRec.StateType);
 
             if (theRecord == null)
             {
@@ -257,7 +257,7 @@ namespace Logger
                 // is there extension information on the val
                 //
 
-                StateRec stRecTmp = MessageFactory.Create_StateRecord();
+                StateRec stRecTmp = LoggerFactory.Create_StateRecord();
                 stRecTmp = stRec;
                 stRecTmp.StateType = dt.Rows[0]["subRecType"].ToString().Trim();
                 theRecord.checkExtensions(stRecTmp);
@@ -340,7 +340,7 @@ namespace Logger
 
                         }
 
-                        StateRec stRec = MessageFactory.Create_StateRecord();
+                        StateRec stRec = LoggerFactory.Create_StateRecord();
                         stRec.StateNumber = dt.Rows[rowNum][3].ToString();
                         stRec.StateType = dt.Rows[rowNum][4].ToString();
                         stRec.Val1 = dt.Rows[rowNum][5].ToString();

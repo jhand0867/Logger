@@ -11,7 +11,7 @@ namespace Logger
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("App.cs");
 
-        public static Project Prj = MessageFactory.Create_Project();
+        public static Project Prj = LoggerFactory.Create_Project();
 
         public App()
         {
