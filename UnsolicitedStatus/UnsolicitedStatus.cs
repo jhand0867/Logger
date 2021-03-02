@@ -134,9 +134,9 @@ namespace Logger
         internal string getRecordType(string recValue)
         {
             string[] tmpTypes = recValue.Split((char)0x1c);
-            return tmpTypes[3].Substring(0, 1);
+            //return tmpTypes[3].Substring(0, 1);
             //return usTypes[tmpTypes[3].Substring(0, 1)];
-            //return "12B";
+            return "12B";
         }
 
         private string insertDescription(string fieldDescription)

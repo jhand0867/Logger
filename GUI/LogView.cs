@@ -638,6 +638,8 @@ namespace Logger
 
         }
 
+        // todo JMH Review tooltip functionality 
+
         private void cbQueryName_DrawItem(object sender, DrawItemEventArgs e)
         {
             System.Windows.Forms.ComboBox cb = (System.Windows.Forms.ComboBox)sender;
