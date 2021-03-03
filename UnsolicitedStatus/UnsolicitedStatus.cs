@@ -7,16 +7,32 @@ namespace Logger
     class UnsolicitedStatus : IMessage
     {
 
-        //public Dictionary<string, string> usTypes = new Dictionary<string, string>();
+        public Dictionary<string, string> usTypes = new Dictionary<string, string>();
 
         public UnsolicitedStatus()
         {
-            //usTypes.Add("A", "12B");
-            //usTypes.Add("B", "12B");
-            //usTypes.Add("E", "12B");
-            //usTypes.Add("F", "12B");
-            //usTypes.Add("P", "12B");
-            //usTypes.Add("R", "12B");
+            usTypes.Add("A", "12A");
+            usTypes.Add("B", "12B");
+            usTypes.Add("D", "12D");
+            usTypes.Add("E", "12E");
+            usTypes.Add("F", "12F");
+            usTypes.Add("G", "12G");
+            usTypes.Add("H", "12H");
+            usTypes.Add("K", "12K");
+            usTypes.Add("L", "12L");
+            usTypes.Add("M", "12M");
+            usTypes.Add("P", "12P");
+            usTypes.Add("Q", "12Q");
+            usTypes.Add("R", "12R");
+            usTypes.Add("S", "12S");
+            usTypes.Add("V", "12V");
+            usTypes.Add("a", "12a");
+            usTypes.Add("w", "12w");
+            usTypes.Add("q", "12q");
+            usTypes.Add("Y", "12Y");
+            usTypes.Add("f", "12f");
+            usTypes.Add("c", "12c");
+            usTypes.Add(@"\", "12b");
         }
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -46,8 +62,9 @@ namespace Logger
             List<DataTable> dts = new List<DataTable>();
             DbCrud db = new DbCrud();
 
-            string sql = @"SELECT TOP 1 * FROM unsolicitedStatus WHERE prjkey = '" + projectKey + "' AND logID = '" + logID +
-                                               "' AND dig = '" + recType + "' AND logkey LIKE '" + logKey + "%'";
+            string sql = @"SELECT TOP 1 * FROM unsolicitedStatus" + recType + "  WHERE prjkey = '" + projectKey + "' AND logID = '" + logID +
+                                               "' AND logkey LIKE '" + logKey + "%'";
+
             DataTable dt = db.GetTableFromDb(sql);
             dts.Add(dt);
 
@@ -56,32 +73,26 @@ namespace Logger
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            string recordType = getRecordType(recValue);
-            List<DataTable> dts = getRecord(logKey, logID, projectKey, recordType);
 
+            string recordType = getRecordType(recValue);
+            List<DataTable> dts = getRecord(logKey, logID, projectKey, recordType.Substring(2, recordType.Length - 2));
             string txtField = "";
 
             if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
 
-            // MLH Temporarly using same description (B) for all unsolicited status
-            // should replace later tmpType with the recordType field and eliminate tmpType
-
-            string tmpType = "B";
-
-            DataTable us = getDescription(tmpType);
+            DataTable us = getDescription(recordType.Substring(2, recordType.Length - 2));
 
             if (dts[0].Rows.Count > 0)
             {
                 for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
                 {
-                    txtField += getOptionDescription(us, tmpType + colNum.ToString("00"),
+                    txtField += getOptionDescription(us, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
                                      dts[0].Rows[0][colNum].ToString());
                     txtField += "\t" + System.Environment.NewLine;
 
                 }
             }
             return txtField;
-
         }
 
         public virtual bool writeData(List<typeRec> typeRecs, string key, string logID)
@@ -95,6 +106,10 @@ namespace Logger
 
                 IMessage theRecord = LoggerFactory.Create_Record(recordType);
 
+                // MLH Temporary check until all the unsolicited messages are created
+
+                if (theRecord == null) continue;
+
                 if (theRecord.writeData(OneTypeRec, key, logID) == false)
                     return false;
             }
@@ -103,10 +118,6 @@ namespace Logger
 
         internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)
         {
-
-            // todo: enter data descriptions for all records
-            // todo: put together the digesting routines for all record types
-
             string optionDesc = "";
             string fieldDesc = "";
 
@@ -134,9 +145,7 @@ namespace Logger
         internal string getRecordType(string recValue)
         {
             string[] tmpTypes = recValue.Split((char)0x1c);
-            //return tmpTypes[3].Substring(0, 1);
-            //return usTypes[tmpTypes[3].Substring(0, 1)];
-            return "12B";
+            return usTypes[tmpTypes[3].Substring(0, 1)];
         }
 
         private string insertDescription(string fieldDescription)

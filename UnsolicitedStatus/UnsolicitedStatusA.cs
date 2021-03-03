@@ -3,20 +3,22 @@
 namespace Logger
 {
 
-    struct unsolicitedStaB
+    struct unsolicitedStaA
     {
         private string rectype;
         private string luno;
         private string dig;
         private string deviceStatus;
+        private string errorSeverity;
 
         public string Rectype { get => rectype; set => rectype = value; }
         public string Luno { get => luno; set => luno = value; }
         public string Dig { get => dig; set => dig = value; }
         public string DeviceStatus { get => deviceStatus; set => deviceStatus = value; }
+        public string ErrorSeverity { get => errorSeverity; set => errorSeverity = value; }
     };
 
-    class UnsolicitedStatusB : UnsolicitedStatus
+    class UnsolicitedStatusA : UnsolicitedStatus
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -26,12 +28,13 @@ namespace Logger
         {
             foreach (typeRec r in typeRecs)
             {
-                unsolicitedStaB us = parseData(r.typeContent);
+                unsolicitedStaA us = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO unsolicitedStatusB([logkey],[rectype],[luno],
-	                        [dig],[deviceStatus],[prjkey],[logID]) " +
+                string sql = @"INSERT INTO unsolicitedStatusA([logkey],[rectype],[luno],
+	                        [dig],[deviceStatus],[errorSeverity],[prjkey],[logID]) " +
                             " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.Luno + "','" +
-                               us.Dig + "','" + us.DeviceStatus + "','" + Key + "'," + logID + ")";
+                               us.Dig + "','" + us.DeviceStatus + "','" + us.ErrorSeverity + "','" +
+                               Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)
@@ -40,9 +43,9 @@ namespace Logger
             return true;
         }
 
-        public unsolicitedStaB parseData(string r)
+        public unsolicitedStaA parseData(string r)
         {
-            unsolicitedStaB us = new unsolicitedStaB();
+            unsolicitedStaA us = new unsolicitedStaA();
 
             string[] tmpTypes = r.Split((char)0x1c);
 
@@ -53,6 +56,10 @@ namespace Logger
             us.Dig = tmpTypes[i].Substring(0, 1);
             us.DeviceStatus = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
 
+            if (tmpTypes.Length > i + 1)
+            {
+                us.ErrorSeverity = tmpTypes[i + 1];
+            }
             return us;
         }
     }

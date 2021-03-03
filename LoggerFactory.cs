@@ -142,7 +142,9 @@ namespace Logger
             recTypeDic.Add("22FM", () => new SolicitedStatusFM());
             recTypeDic.Add("22FN", () => new SolicitedStatusFN());
             recTypeDic.Add("12", () => new UnsolicitedStatus());
+            recTypeDic.Add("12A", () => new UnsolicitedStatusA());
             recTypeDic.Add("12B", () => new UnsolicitedStatusB());
+            recTypeDic.Add("12D", () => new UnsolicitedStatusD());
             recTypeDic.Add("23", () => new EncryptorInitData());
             recTypeDic.Add("231", () => new EncryptorInitData1());
             recTypeDic.Add("232", () => new EncryptorInitData2());
