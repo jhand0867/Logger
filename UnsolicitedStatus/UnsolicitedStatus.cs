@@ -26,13 +26,13 @@ namespace Logger
             usTypes.Add("R", "12R");
             usTypes.Add("S", "12S");
             usTypes.Add("V", "12V");
-            usTypes.Add("a", "12a");
+            usTypes.Add("a", "1261");
             usTypes.Add("w", "12w");
-            usTypes.Add("q", "12q");
+            usTypes.Add("q", "1271");
             usTypes.Add("Y", "12Y");
-            usTypes.Add("f", "12f");
+            usTypes.Add("f", "1266");
             usTypes.Add("c", "12c");
-            usTypes.Add(@"\", "12b");
+            usTypes.Add(@"\", "125c");
         }
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -78,7 +78,7 @@ namespace Logger
             List<DataTable> dts = getRecord(logKey, logID, projectKey, recordType.Substring(2, recordType.Length - 2));
             string txtField = "";
 
-            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
+            if (dts == null || dts[0] == null || dts[0].Rows.Count == 0) { return txtField; }
 
             DataTable us = getDescription(recordType.Substring(2, recordType.Length - 2));
 

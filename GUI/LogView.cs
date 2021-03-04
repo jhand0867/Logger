@@ -647,5 +647,24 @@ namespace Logger
             System.Windows.Controls.ComboBoxItem cbi = cb.Items[0] as System.Windows.Controls.ComboBoxItem;
             cbi.ToolTip = "jajajaja ";
         }
+
+        Bitmap bmp;
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // lets create an empty graphic space
+            Graphics g = this.CreateGraphics();
+            g.PageUnit = GraphicsUnit.Inch;
+            g.Clear(Color.White);
+            bmp = new Bitmap(2880, 1800, g);
+            Graphics mg = Graphics.FromImage(bmp);
+            mg.CopyFromScreen(0, 0, 0, 0, new Size(2880, 1800));
+            printPreviewDialog1.ShowDialog();
+        }
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            e.Graphics.DrawImage(bmp, 0, 0);
+        }
     }
 }
