@@ -78,6 +78,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -266,6 +267,9 @@
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusF.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusG.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusH.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusL.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusM.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusP.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusK.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusE.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusD.cs" />

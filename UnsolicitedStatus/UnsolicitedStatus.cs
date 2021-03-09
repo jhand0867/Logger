@@ -153,14 +153,15 @@ namespace Logger
             string description = "";
 
             if (fieldDescription != "")
-            {
+            {                
                 if (fieldDescription.Contains("\r\n"))
                 {
                     description += System.Environment.NewLine + fieldDescription.Trim() + System.Environment.NewLine;
                 }
                 else
                 {
-                    description += "\t" + fieldDescription.Trim() + System.Environment.NewLine;
+                    //description += "\t" + fieldDescription.Trim() + System.Environment.NewLine;
+                    description += "\t" + fieldDescription.Trim();
                 }
             }
             else

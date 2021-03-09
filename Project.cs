@@ -375,6 +375,7 @@ namespace Logger
                 if (strLine.Substring(0, 1) != "[")
                 {
                     recSkipped++;
+
                     continue;
                 }
                 // mlh

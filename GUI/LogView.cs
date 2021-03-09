@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
+using System.Management;
 using System.Runtime.InteropServices;
+//using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -14,6 +17,7 @@ namespace Logger
         {
             InitializeComponent();
             this.FormClosing += LogView_FormClosing;
+            dgvLog.DefaultCellStyle.Font = new Font(FontFamily.GenericSansSerif, 9);
         }
 
         private void LogView_FormClosing(object sender, FormClosingEventArgs e)
@@ -50,9 +54,10 @@ namespace Logger
             dgvLog.Columns["Log Data"].Width = 620;
             dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
+            dgvLog.AlternatingRowsDefaultCellStyle.Font = new Font(FontFamily.GenericSansSerif, 9);
 
             using (Font font = new Font(
-                dgvLog.DefaultCellStyle.Font.FontFamily, 8, FontStyle.Regular))
+                dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
             }
@@ -95,8 +100,9 @@ namespace Logger
             cmbColumHeader7.SelectedIndex = -1;
             cmbColumHeader7.SelectedItem = null;
 
+            dgvLog.AlternatingRowsDefaultCellStyle.Font = new Font(FontFamily.GenericSansSerif, 9);
             using (Font font = new Font(
-                dgvLog.DefaultCellStyle.Font.FontFamily, 8, FontStyle.Regular))
+                dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
                 dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.False;
@@ -648,23 +654,64 @@ namespace Logger
             cbi.ToolTip = "jajajaja ";
         }
 
+        [DllImport("User32.dll")]
+        static extern IntPtr GetDC(IntPtr hwnd);
+
+        [DllImport("User32.dll")]
+        static extern int ReleaseDC(IntPtr hwnd, IntPtr dc);
+
+        [DllImport("gdi32.dll")]
+        static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+
+        static IntPtr primary = GetDC(IntPtr.Zero);
+
+        static int DESKTOPVERTRES = 117;
+        static int DESKTOPHORZRES = 118;
+
+        static int actualPixelsX = GetDeviceCaps(primary, DESKTOPHORZRES);
+        static int actualPixelsY = GetDeviceCaps(primary, DESKTOPVERTRES);
+
+        static int rel = ReleaseDC(IntPtr.Zero, primary);
+
+
         Bitmap bmp;
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // lets create an empty graphic space
-            Graphics g = this.CreateGraphics();
-            g.PageUnit = GraphicsUnit.Inch;
+            Graphics g = CreateGraphics();
+
+            g.PageUnit = GraphicsUnit.Pixel;
             g.Clear(Color.White);
-            bmp = new Bitmap(2880, 1800, g);
+            
+            Screen screenFormIsOn = Screen.FromControl(this);
+
+            bmp = new Bitmap(actualPixelsX, actualPixelsY, g);          
+            bmp.SetResolution(300,300);
+                  
             Graphics mg = Graphics.FromImage(bmp);
-            mg.CopyFromScreen(0, 0, 0, 0, new Size(2880, 1800));
+            mg.CopyFromScreen(0, 0, 0, 0, bmp.Size);
+            printDocument1.DefaultPageSettings.Landscape = true;
             printPreviewDialog1.ShowDialog();
         }
+        PrinterResolution pkResolution;
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
+            pkResolution = printDocument1.PrinterSettings.PrinterResolutions[0];
+            e.PageSettings.PrinterResolution = pkResolution;
             e.Graphics.DrawImage(bmp, 0, 0);
+        }
+
+        private void tabDetail_Selected(object sender, TabControlEventArgs e)
+        {
+            
+            label2.ForeColor = Color.Brown;
+            label2.Text = "Machine Information";
+            richTextBox1.Font = new Font(FontFamily.GenericSansSerif, 10);
+            richTextBox1.Text = "Testing Testing Testing";
+
+
         }
     }
 }

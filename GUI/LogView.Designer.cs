@@ -55,17 +55,20 @@
             this.printToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.btExport = new System.Windows.Forms.Button();
             this.cbQueryName = new System.Windows.Forms.ComboBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabDetail = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLog)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.tabDetail.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvLog
@@ -121,7 +124,7 @@
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
             this.menuStrip1.ShowItemToolTips = true;
-            this.menuStrip1.Size = new System.Drawing.Size(2348, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(2348, 48);
             this.menuStrip1.TabIndex = 1;
             // 
             // toolStripMenuItem1
@@ -137,14 +140,14 @@
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(216, 44);
             this.exportToolStripMenuItem.Text = "Export";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(216, 44);
             this.printToolStripMenuItem.Text = "Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
@@ -285,16 +288,17 @@
             this.cbQueryName.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbQueryName_MouseClick);
             this.cbQueryName.MouseHover += new System.EventHandler(this.cbQueryName_MouseHover);
             // 
-            // tabControl1
+            // tabDetail
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 40);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2348, 826);
-            this.tabControl1.TabIndex = 4;
+            this.tabDetail.Controls.Add(this.tabPage1);
+            this.tabDetail.Controls.Add(this.tabPage2);
+            this.tabDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabDetail.Location = new System.Drawing.Point(0, 48);
+            this.tabDetail.Name = "tabDetail";
+            this.tabDetail.SelectedIndex = 0;
+            this.tabDetail.Size = new System.Drawing.Size(2348, 818);
+            this.tabDetail.TabIndex = 4;
+            this.tabDetail.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabDetail_Selected);
             // 
             // tabPage1
             // 
@@ -304,18 +308,37 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(2332, 779);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "LogData";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.richTextBox1);
+            this.tabPage2.Controls.Add(this.label2);
             this.tabPage2.Location = new System.Drawing.Point(8, 39);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(2332, 511);
+            this.tabPage2.Size = new System.Drawing.Size(2332, 771);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Additional Information";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(108, 117);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(1612, 408);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(103, 69);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(206, 25);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Machine Information";
             // 
             // label1
             // 
@@ -348,10 +371,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(2348, 866);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabDetail);
             this.Controls.Add(this.cbQueryName);
             this.Controls.Add(this.btExport);
             this.Controls.Add(this.menuStrip1);
@@ -367,8 +391,10 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
+            this.tabDetail.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -393,7 +419,7 @@
         private System.Windows.Forms.ToolStripMenuItem copyToClipboardToolStripMenuItem;
         private System.Windows.Forms.Button btExport;
         private System.Windows.Forms.ComboBox cbQueryName;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabDetail;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
@@ -404,5 +430,7 @@
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem1;
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Label label2;
     }
 }
