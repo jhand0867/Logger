@@ -86,9 +86,12 @@ namespace Logger
             {
                 for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
                 {
-                    txtField += getOptionDescription(us, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
-                                     dts[0].Rows[0][colNum].ToString());
-                    txtField += "\t" + System.Environment.NewLine;
+                    if (dts[0].Rows[0][colNum].ToString() != " ")
+                    {
+                        txtField += getOptionDescription(us, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
+                                         dts[0].Rows[0][colNum].ToString());
+                        txtField += "\t" + System.Environment.NewLine;
+                    }
 
                 }
             }

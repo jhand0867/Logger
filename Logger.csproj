@@ -267,6 +267,10 @@
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusF.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusG.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusH.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusV.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusS.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusR.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusQ.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusL.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusM.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusP.cs" />

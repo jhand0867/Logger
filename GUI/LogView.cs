@@ -707,7 +707,95 @@ namespace Logger
         {
             
             label2.ForeColor = Color.Brown;
-            label2.Text = "Machine Information";
+            label2.Text = @"==========================================================================================================
+ - Machine Number      = I57005
+ - Application Version = 02.03.40.00
+ - SDK Version         = 03.00.01.36
+ - Model               = 5700
+ - IP Address          = 15.180.1.5
+ - Port Number         = 9999
+ - Time Zone           = Central Standard Time (Mexico)
+ - Nextware Version    = 029-57
+ - EMV Kernel 6 Version  = 6.0.0.6 86016 bytes MWIOCX = 2, 1, 0, 0 
+ -         PIN Version = SP[  V 04.21.75], EP[V 10.00.07]
+ -         CDM Version = SP[  V 04.21.09], EP[V 10.00.25 ]
+ -         SIU Version = SP[  V 04.20.62], EP[   V020031]
+ -         IDC Version = SP[  V 04.30.35], EP[  4017-01J]
+ -         SPR Version = SP[  V 04.30.76], EP[V 30.00.25]
+ -         BCR Version = SP[  V 04.00.31], EP[V2.1.23H_Release/S2.0.8/A2.2.6]
+==========================================================================================================
+Installed Programs:
+ - A2iA CheckReader V4.4 R2, Installed: 07/18/2017, Version: 
+ - A2iA CheckReader V9.0, Installed: 09/14/2017, Version: 9.0
+ - Altiris Application Metering Agent, Installed: 07/25/2018, Version: 8.1.4515.0
+ - Altiris Inventory Agent, Installed: 07/25/2018, Version: 8.1.4515.0
+ - ATMOSPHERE, Installed: 07/17/2018, Version: 7.0.2
+ - BCR20_SP_V040031_R1, Installed: 05/16/2018, Version: 04.00.31
+ - BCR20_SP_V040031_US_REG_R1, Installed: 05/16/2018, Version: 04.00.31
+ - CDU10_EP_V010165, Installed: 05/16/2018, Version: 01.01.65
+ - CDU10_EP_V020005_R2, Installed: 05/16/2018, Version: 02.00.05
+ - CDU10_SP_V042109_R1, Installed: 05/16/2018, Version: 04.21.09
+ - CDU10_SP_V042109_US_REG_R1, Installed: 05/16/2018, Version: 04.21.09
+ - Common_SP_V043094_R1, Installed: 05/16/2018, Version: 04.30.94
+ - EMET 5.5, Installed: 09/24/2018, Version: 5.5
+ - EPP60(USB)_SP_V042173_R1, Installed: 05/16/2018, Version: 04.21.73
+ - EPP60(USB)_SP_V042173_US_REG_R1, Installed: 05/16/2018, Version: 04.21.73
+ - EPP60_EP_V072105_11_R3, Installed: 05/16/2018, Version: 07.21.05
+ - EPP80(USB)_EP_V10000500_R2, Installed: 05/16/2018, Version: 10.00.05.00
+ - FGRNG_SP_V042013_US_REG, Installed: 07/18/2017, Version: 04.20.13
+ - FGRNG_SP_V042016_R1, Installed: 05/16/2018, Version: 04.20.16
+ - Intel(R) Management Engine Components, Installed: , Version: 10.0.38.1036
+ - Intel(R) ME UninstallLegacy, Installed: 07/18/2017, Version: 1.0.1.0
+ - Intel(R) Network Connections 18.2.63.0, Installed: 07/18/2017, Version: 18.2.63.0
+ - Intel(R) Processor Graphics, Installed: , Version: 9.18.10.3204
+ - Intel(R) Rapid Storage Technology, Installed: , Version: 12.8.0.1016
+ - Intel(R) SDK for OpenCL - CPU Only Runtime Package, Installed: , Version: 3.0.0.66956
+ - Intel(R) USB 3.0 eXtensible Host Controller Driver, Installed: , Version: 4.0.4.51
+ - Intel® Trusted Connect Service Client, Installed: 07/18/2017, Version: 1.35.133.1
+ - Java Auto Updater, Installed: 07/17/2018, Version: 2.0.2.4
+ - Java Media Framework 2.1.1e, Installed: , Version: 
+ - Java(TM) 6 Update 21, Installed: 07/17/2018, Version: 6.0.210
+ - MCU12(USB)_EP_V401701I_R1, Installed: 05/16/2018, Version: 40.17.01
+ - MCU12_SP_V043035_R1, Installed: 05/16/2018, Version: 04.30.35
+ - MCU12_SP_V043035_US_REG_R1, Installed: 05/16/2018, Version: 04.30.35
+ - Microsoft .NET Framework 4.5.2, Installed: 08/06/2019, Version: 4.5.51209
+ - Microsoft Visual C++ 2010  x86 Redistributable - 10.0.30319, Installed: 01/23/2014, Version: 10.0.30319
+ - Microsoft Visual C++ 2013 Redistributable (x86) - 12.0.30501, Installed: , Version: 12.0.30501.0
+ - Microsoft Visual C++ 2013 x86 Additional Runtime - 12.0.21005, Installed: 07/18/2017, Version: 12.0.21005
+ - Microsoft Visual C++ 2013 x86 Minimum Runtime - 12.0.21005, Installed: 07/18/2017, Version: 12.0.21005
+ - MP2s Banorte Global, Installed: 08/06/2019, Version: 01.00.02.00
+ - MP2s Global, Installed: 08/06/2019, Version: 02.03.40.00
+ - Nextware_V032957, Installed: 08/06/2019, Version: 03.29.57
+ - Nuvoton Communcations Port 32-bits Driver, Installed: 07/18/2017, Version: 1.0.2011.1109
+ - Patch Management Agent, Installed: 07/25/2018, Version: 8.1.4538.0
+ - PNCU0_EP_V020031_R2, Installed: 05/16/2018, Version: 02.00.31
+ - PNCU0_SP_V042062_R1, Installed: 05/16/2018, Version: 04.20.62
+ - PNCU0_SP_V042062_US_REG_R1, Installed: 05/16/2018, Version: 04.20.62
+ - Power Scheme Plug-in Setup, Installed: 07/25/2018, Version: 8.1.4504.0
+ - PulseIR, Installed: , Version: 
+ - Realtek High Definition Audio Driver, Installed: 07/18/2017, Version: 6.0.1.6865
+ - Realtek PC Camera, Installed: 01/23/2014, Version: 6.2.9200.10233
+ - RFM00_SP_V042030_R1, Installed: 05/16/2018, Version: 04.20.30
+ - SCN20_SP_V041013_R2, Installed: 05/16/2018, Version: 04.10.13
+ - SNTouch Driver For USB & Serial 5.2A, Installed: 05/24/2016, Version: 5.1.0.0
+ - Software Management Solution Plugin, Installed: 07/25/2018, Version: 8.1.4504.0
+ - SPRK(USB)_SP_V043076_R1, Installed: 05/16/2018, Version: 04.30.76
+ - SPRK(USB)_SP_V043076_US_REG_R1, Installed: 05/16/2018, Version: 04.30.76
+ - SPRK5_EP_V020035_R2, Installed: 05/16/2018, Version: 02.00.35
+ - Touch Service Installation v1.48, Installed: 08/07/2016, Version: 1.48
+ - tpdrv, Installed: , Version: 
+ - Trend Micro Deep Security Agent, Installed: 07/29/2019, Version: 11.0.760
+ - TTU00_SP_V040333_R1, Installed: 05/16/2018, Version: 04.03.33
+ - TTU00_SP_V040333_US_REG_R1, Installed: 05/16/2018, Version: 04.03.33
+ - VC_CRT_x86, Installed: 07/18/2017, Version: 1.02.0000
+ - VDM_Core_V01.00.60, Installed: 07/18/2017, Version: 01.00.60
+ - VDM_Core_V010353_R1, Installed: 05/16/2018, Version: 01.03.53
+ - VDM_Data_V010353_R1, Installed: 05/16/2018, Version: 01.03.53
+ - Windows Driver Package - Nuvoton Technology Corporation (Serial) Ports  (11/09/2011 1.0.2011.1109), Installed: , Version: 11/09/2011 1.0.2011.1109
+==========================================================================================================
+Installed Packages:
+ - Basic Media-V01.03.03.00, Installed: Sat 04/12/2014
+==========================================================================================================";
             richTextBox1.Font = new Font(FontFamily.GenericSansSerif, 10);
             richTextBox1.Text = "Testing Testing Testing";
 

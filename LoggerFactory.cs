@@ -153,10 +153,10 @@ namespace Logger
             recTypeDic.Add("12L", () => new UnsolicitedStatusL());
             recTypeDic.Add("12M", () => new UnsolicitedStatusM());
             recTypeDic.Add("12P", () => new UnsolicitedStatusP());
-            //recTypeDic.Add("12Q", () => new UnsolicitedStatusQ());
-            //recTypeDic.Add("12R", () => new UnsolicitedStatusR());
-            //recTypeDic.Add("12S", () => new UnsolicitedStatusS());
-            //recTypeDic.Add("12V", () => new UnsolicitedStatusV());
+            recTypeDic.Add("12Q", () => new UnsolicitedStatusQ());
+            recTypeDic.Add("12R", () => new UnsolicitedStatusR());
+            recTypeDic.Add("12S", () => new UnsolicitedStatusS());
+            recTypeDic.Add("12V", () => new UnsolicitedStatusV());
             //recTypeDic.Add("12Y", () => new UnsolicitedStatusY());
             //recTypeDic.Add("1261", () => new UnsolicitedStatus61());
             //recTypeDic.Add("125C", () => new UnsolicitedStatus5C());
