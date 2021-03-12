@@ -707,7 +707,7 @@ namespace Logger
         {
             
             label2.ForeColor = Color.Brown;
-            label2.Text = @"==========================================================================================================
+            richTextBox1.Text = @"==========================================================================================================
  - Machine Number      = I57005
  - Application Version = 02.03.40.00
  - SDK Version         = 03.00.01.36
@@ -796,8 +796,10 @@ Installed Programs:
 Installed Packages:
  - Basic Media-V01.03.03.00, Installed: Sat 04/12/2014
 ==========================================================================================================";
-            richTextBox1.Font = new Font(FontFamily.GenericSansSerif, 10);
-            richTextBox1.Text = "Testing Testing Testing";
+            richTextBox1.Font = new Font(FontFamily.GenericMonospace, 9);
+            richTextBox1.SelectionFont = new Font(FontFamily.GenericSansSerif, 12);
+            richTextBox1.SelectionColor = Color.Red;
+            richTextBox1.AppendText(System.Environment.NewLine + "Testing Testing Testing");
 
 
         }

@@ -263,10 +263,16 @@
     <Compile Include="TReply.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData.cs" />
     <Compile Include="AckEjUploadBlock.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatus66.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusA.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusF.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusG.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusH.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatus61.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatus5C.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatus71.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusY.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusW.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusV.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusS.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusR.cs" />

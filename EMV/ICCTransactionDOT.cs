@@ -88,6 +88,17 @@ namespace Logger
                 iccTransaction.TransactionTypeValue = tmpTypes.Substring(offset,
                                      int.Parse(iccTransaction.TransactionTypeLgth) * 2);
                 offset += int.Parse(iccTransaction.TransactionTypeLgth) * 2;
+
+                // check if ResponseLength has been reached, 
+                // meaning that there is no Category Code TLVs to process
+
+                int currentOffset = 4 + (int.Parse(iccTransaction.TransactionTypeLgth) * 2);
+                if ((int.Parse(iccTransaction.ResponseLength) * 2) == currentOffset)
+                {
+                    iccTransactionDOTList.Add(iccTransaction);
+                    continue;
+                }
+
                 iccTransaction.TransactionCatCodeTag = tmpTypes.Substring(offset, 4);
                 offset += 4;
                 iccTransaction.TransactionCatCodeLgth = tmpTypes.Substring(offset, 2);
