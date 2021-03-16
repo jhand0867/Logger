@@ -109,7 +109,8 @@ namespace Logger
             us.ReturnCounts = tmpTypes[i].Substring(103, 50);
             us.NotesReturnedExitSlot = tmpTypes[i].Substring(153, 1);
             us.NotesInEscrow = tmpTypes[i].Substring(154, 1);
-            us.JustVaulted = tmpTypes[i].Substring(155, 1);
+            if (tmpTypes[i].Length > 155)
+                us.JustVaulted = tmpTypes[i].Substring(155, 1);
 
             // todo:  need parsing for rest of the fields starting at 
             // us.EscrowCountsNoteType..justVaultedExcessNinety

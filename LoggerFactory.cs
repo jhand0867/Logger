@@ -163,7 +163,7 @@ namespace Logger
             recTypeDic.Add("125C", () => new UnsolicitedStatus5C());
             recTypeDic.Add("1266", () => new UnsolicitedStatus66());
             recTypeDic.Add("1271", () => new UnsolicitedStatus71());
-            //recTypeDic.Add("12C", () => new UnsolicitedStatusC());
+            recTypeDic.Add("12C", () => new UnsolicitedStatusC());
             recTypeDic.Add("23", () => new EncryptorInitData());
             recTypeDic.Add("231", () => new EncryptorInitData1());
             recTypeDic.Add("232", () => new EncryptorInitData2());

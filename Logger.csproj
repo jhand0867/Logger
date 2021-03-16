@@ -271,6 +271,7 @@
     <Compile Include="UnsolicitedStatus\UnsolicitedStatus61.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatus5C.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatus71.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatusC.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusY.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusW.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusV.cs" />

@@ -27,12 +27,12 @@ namespace Logger
             usTypes.Add("S", "12S");
             usTypes.Add("V", "12V");
             usTypes.Add("a", "1261");
-            usTypes.Add("w", "12w");
+            usTypes.Add("w", "12W");
             usTypes.Add("q", "1271");
             usTypes.Add("Y", "12Y");
             usTypes.Add("f", "1266");
-            usTypes.Add("c", "12c");
-            usTypes.Add(@"\", "125c");
+            usTypes.Add("c", "12C");
+            usTypes.Add(@"\", "125C");
         }
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(

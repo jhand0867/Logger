@@ -63,6 +63,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.printToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLog)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -131,24 +132,25 @@
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportToolStripMenuItem,
-            this.printToolStripMenuItem});
+            this.printToolStripMenuItem,
+            this.printToolStripMenuItem2});
             this.toolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(72, 36);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(72, 38);
             this.toolStripMenuItem1.Text = "File";
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(216, 44);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.exportToolStripMenuItem.Text = "Export";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(216, 44);
-            this.printToolStripMenuItem.Text = "Print";
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.printToolStripMenuItem.Text = "Print Screen";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // searchToolStripMenuItem
@@ -158,7 +160,7 @@
             this.searchTwoToolStripMenuItem});
             this.searchToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(88, 36);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(88, 38);
             this.searchToolStripMenuItem.Text = "Filter";
             // 
             // serchOneToolStripMenuItem
@@ -184,7 +186,7 @@
             this.copyToClipboardToolStripMenuItem});
             this.option3ToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.option3ToolStripMenuItem.Name = "option3ToolStripMenuItem";
-            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(86, 36);
+            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(86, 38);
             this.option3ToolStripMenuItem.Text = "View";
             // 
             // logInContextToolStripMenuItem
@@ -306,7 +308,7 @@
             this.tabPage1.Location = new System.Drawing.Point(8, 39);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(2332, 779);
+            this.tabPage1.Size = new System.Drawing.Size(2332, 771);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "LogData";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -366,6 +368,13 @@
             this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
+            // 
+            // printToolStripMenuItem2
+            // 
+            this.printToolStripMenuItem2.Name = "printToolStripMenuItem2";
+            this.printToolStripMenuItem2.Size = new System.Drawing.Size(359, 44);
+            this.printToolStripMenuItem2.Text = "Print ";
+            this.printToolStripMenuItem2.Click += new System.EventHandler(this.printToolStripMenuItem2_Click);
             // 
             // LogView
             // 
@@ -432,5 +441,6 @@
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem2;
     }
 }
