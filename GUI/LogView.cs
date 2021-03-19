@@ -2,6 +2,7 @@
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.IO;
 using System.Management;
 using System.Runtime.InteropServices;
 //using System.Windows;
@@ -13,6 +14,9 @@ namespace Logger
 {
     public partial class LogView : Form
     {
+        private Font printFont;
+        private StreamReader streamToPrint;
+
         public LogView()
         {
             InitializeComponent();
@@ -806,7 +810,64 @@ Installed Packages:
 
         private void printToolStripMenuItem2_Click(object sender, EventArgs e)
         {
+            try
+            {   
+                streamToPrint = new StreamReader
+                   ("C:new 1.txt");
+                try
+                {
+                    printFont = new Font("Arial", 10);
+                    PrintDocument pd = new PrintDocument();
+                    pd.PrintPage += new PrintPageEventHandler(this.pd_PrintPage);
 
+                    printDialog1.Document = pd;
+                    printDialog1.AllowSelection = true;
+                    printDialog1.AllowSomePages = true;
+                    printDialog1.ShowDialog();
+                    // printPreviewDialog1.ShowDialog();
+                    // pd.Print();
+                    ;
+                }
+                finally
+                {
+                    streamToPrint.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        // The PrintPage event is raised for each page to be printed.
+        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+        {
+            float linesPerPage = 0;
+            float yPos = 0;
+            int count = 0;
+            float leftMargin = ev.MarginBounds.Left;
+            float topMargin = ev.MarginBounds.Top;
+            string line = null;
+
+            // Calculate the number of lines per page.
+            linesPerPage = ev.MarginBounds.Height /
+               printFont.GetHeight(ev.Graphics);
+
+            // Print each line of the file.
+            while (count < linesPerPage &&
+               ((line = streamToPrint.ReadLine()) != null))
+            {
+                yPos = topMargin + (count *
+                   printFont.GetHeight(ev.Graphics));
+                ev.Graphics.DrawString(line, printFont, Brushes.Black,
+                   leftMargin, yPos, new StringFormat());
+                count++;
+            }
+
+            // If more lines exist, print another page.
+            if (line != null)
+                ev.HasMorePages = true;
+            else
+                ev.HasMorePages = false;
         }
     }
 }

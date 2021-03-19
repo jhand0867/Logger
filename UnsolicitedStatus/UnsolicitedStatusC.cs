@@ -98,7 +98,7 @@ namespace Logger
             {
                 int aidOffset = 3;
                 us.ApplicationType = tmpTypes[i].Substring(0,3);
-                us.ApplicationId = "";
+
                 if (us.ApplicationType == "CAM")
                 {
                     // Tag 9F06 -> tmpTypes[i].Substring(3, 4);
