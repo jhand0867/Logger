@@ -10,12 +10,17 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
+
 namespace Logger
 {
     public partial class LogView : Form
     {
+        // needed for printing 
+
         private Font printFont;
-        private StreamReader streamToPrint;
+        private string streamToPrint;
+        int count = 0;
+        int pagesCount = 0;
 
         public LogView()
         {
@@ -682,6 +687,10 @@ namespace Logger
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+            LoggerPrint lp1 = LoggerPrint.GetInstance();
+
+            // housekeeping
             // lets create an empty graphic space
             Graphics g = CreateGraphics();
 
@@ -695,17 +704,18 @@ namespace Logger
                   
             Graphics mg = Graphics.FromImage(bmp);
             mg.CopyFromScreen(0, 0, 0, 0, bmp.Size);
-            printDocument1.DefaultPageSettings.Landscape = true;
+            
+            lp1.Bmp = bmp;
+            PrintDocument pdPreview = new PrintDocument();
+
+            pdPreview.DefaultPageSettings.Landscape = true;
+            pdPreview.PrintPage += new PrintPageEventHandler(lp1.pdPreview_PrintPage);
+            pdPreview.BeginPrint += new PrintEventHandler(lp1.pdPreview_BeginPrint);
+            //pd.BeginPrint -= new PrintEventHandler(this.pd_BeginPrint);
+            printPreviewDialog1.Document = pdPreview;
             printPreviewDialog1.ShowDialog();
         }
-        PrinterResolution pkResolution;
-
-        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-        {
-            pkResolution = printDocument1.PrinterSettings.PrinterResolutions[0];
-            e.PageSettings.PrinterResolution = pkResolution;
-            e.Graphics.DrawImage(bmp, 0, 0);
-        }
+        // PrinterResolution pkResolution;
 
         private void tabDetail_Selected(object sender, TabControlEventArgs e)
         {
@@ -810,27 +820,54 @@ Installed Packages:
 
         private void printToolStripMenuItem2_Click(object sender, EventArgs e)
         {
+            /**
+             * testing for singleton
+             * **/
+
+            LoggerPrint lp1 = LoggerPrint.GetInstance();
+            
             try
-            {   
-                streamToPrint = new StreamReader
-                   ("C:new 1.txt");
+            {
+                streamToPrint = docToPrint;
+                count = 0;
                 try
                 {
-                    printFont = new Font("Arial", 10);
+                    printFont = new Font("Arial", 8);
                     PrintDocument pd = new PrintDocument();
-                    pd.PrintPage += new PrintPageEventHandler(this.pd_PrintPage);
+                    PrintController pc;
+                    //pc.OnStartPrint += new PrintPageEventHandler(this.pc_OnStartPrint);
+                    pd.PrintPage += new PrintPageEventHandler(lp1.PrintDocPage);
+                    pd.BeginPrint += new PrintEventHandler(lp1.BeginDocPrint);
+                    pd.QueryPageSettings += new QueryPageSettingsEventHandler(lp1.QueryPageSettings);
+
+
+                    // pd.BeginPrint += new PrintPageEventHandler(this.pd_BeginPrint);
 
                     printDialog1.Document = pd;
-                    printDialog1.AllowSelection = true;
+                    // Create a new instance of Margins with 1-inch margins.
+                    Margins margins = new Margins(50,50,50,50);
+                    pd.DefaultPageSettings.Margins = margins;
+                    pd.DefaultPageSettings.Landscape = false;
+                    printPreviewDialog1.Document = pd;
+
+
                     printDialog1.AllowSomePages = true;
-                    printDialog1.ShowDialog();
-                    // printPreviewDialog1.ShowDialog();
-                    // pd.Print();
-                    ;
+                    printDialog1.AllowCurrentPage = false;
+                    printDialog1.AllowPrintToFile = false;
+                    printDialog1.AllowSelection = true;
+                    printDialog1.PrintToFile = false;
+                    pd_docToPrint();
+                    lp1.DocToPrint = docToPrint;
+                    //if (printDialog1.ShowDialog() != DialogResult.OK )
+                    //    return;
+                    //pd.Print();
+                    
+                    printPreviewDialog1.ShowDialog();
+
                 }
                 finally
                 {
-                    streamToPrint.Close();
+                    docToPrint = null;
                 }
             }
             catch (Exception ex)
@@ -838,36 +875,125 @@ Installed Packages:
                 MessageBox.Show(ex.Message);
             }
         }
-        // The PrintPage event is raised for each page to be printed.
-        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+
+        private string docToPrint;
+
+        private void pd_docToPrint()
         {
-            float linesPerPage = 0;
-            float yPos = 0;
-            int count = 0;
-            float leftMargin = ev.MarginBounds.Left;
-            float topMargin = ev.MarginBounds.Top;
-            string line = null;
-
-            // Calculate the number of lines per page.
-            linesPerPage = ev.MarginBounds.Height /
-               printFont.GetHeight(ev.Graphics);
-
-            // Print each line of the file.
-            while (count < linesPerPage &&
-               ((line = streamToPrint.ReadLine()) != null))
+            foreach (DataGridViewRow dgvr in dgvLog.Rows)
             {
-                yPos = topMargin + (count *
-                   printFont.GetHeight(ev.Graphics));
-                ev.Graphics.DrawString(line, printFont, Brushes.Black,
-                   leftMargin, yPos, new StringFormat());
-                count++;
-            }
+                string tempStr = "";
 
-            // If more lines exist, print another page.
-            if (line != null)
-                ev.HasMorePages = true;
-            else
-                ev.HasMorePages = false;
+                foreach (DataGridViewCell cell in dgvr.Cells)
+                {
+                    if (cell.ColumnIndex < 2 || cell.ColumnIndex > 9) continue;
+                    tempStr += cell.Value.ToString().Trim() + " ";
+                }
+                docToPrint += tempStr + "\n";
+            }
         }
+
+
+
+
+
+        //private void pd_QueryPageSettings(object sender, QueryPageSettingsEventArgs e)
+        //{
+
+        //}
+        // The PrintPage event is raised for each page to be printed.
+        // private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+        //{
+        //float linesPerPage = 0;
+        //int linesPrinted = 0;
+        //float yPos;
+        //float leftMargin = ev.MarginBounds.Left;
+        //float topMargin = ev.MarginBounds.Top;
+
+        //string logLocation = App.Prj.getLogName(App.Prj.Key, ProjectData.logID);
+        //int logIndex = logLocation.LastIndexOf(@"\") + 1;
+
+        //string header = " Log:  " + App.Prj.Name  + "/" + logLocation.Substring(logIndex, logLocation.Length - logIndex) + 
+        //                "     Printed on " + System.DateTime.Now;
+
+        //yPos = topMargin + (linesPrinted *
+        //   printFont.GetHeight(ev.Graphics));
+        //ev.Graphics.DrawString(header, printFont, Brushes.Black, leftMargin, yPos, new StringFormat());
+        //linesPrinted = 3;
+
+        //// Calculate the number of lines per page.
+        //linesPerPage = ev.MarginBounds.Height /
+        //   printFont.GetHeight(ev.Graphics);
+
+        //string[] lineToPrint = docToPrint.Split('\n');
+        //// Print each line of the file.
+        //while (linesPrinted < linesPerPage && lineToPrint.Length > count)
+        //{
+        //    //Graphics g = ev.Graphics;
+        //    //g.DrawRectangle(new Pen(Brushes.Black), new Rectangle(new Point(0, 0), new Size(900, 100)));
+
+        //    yPos = topMargin + (linesPrinted *
+        //       printFont.GetHeight(ev.Graphics));
+        //    ev.Graphics.DrawString(lineToPrint[count], printFont, Brushes.Black,
+        //       leftMargin, yPos, new StringFormat());
+        //    count++;
+        //    linesPrinted++;
+        //}
+
+        //// If more lines exist, print another page.
+        //if (lineToPrint.Length > count)
+        //    ev.HasMorePages = true;
+        //else
+        //    ev.HasMorePages = false;
+        //}
+
+
+        //private void pd_BeginPrint(object sender, PrintEventArgs e)
+        //{
+        //PrintDocument pd = (PrintDocument)sender;
+
+        //if (pd.PrinterSettings.PrintRange == PrintRange.SomePages)
+        //{
+        //    //pd.PrinterSettings.FromPage 
+        //    //pd.PrinterSettings.ToPage
+        //}
+
+        //int col = 120;
+        //if (pd.DefaultPageSettings.Landscape == true)
+        //    col = 180;
+
+        //if (pd.PrinterSettings.PrintRange == PrintRange.Selection)
+        //{
+
+        //}
+
+        //foreach (DataGridViewRow dgvr in dgvLog.Rows)
+        //{
+        //    string tempStr = "";
+
+        //    foreach (DataGridViewCell cell in dgvr.Cells)
+        //    {
+        //        if (cell.ColumnIndex < 2 || cell.ColumnIndex > 9) continue;
+        //        tempStr += cell.Value.ToString().Trim() + " ";
+        //    }
+        //    if (tempStr.Length > col)
+        //        tempStr = tempStr.Substring(0, col) + "\n" + tempStr.Substring(col, tempStr.Length - col);
+        //    docToPrint += tempStr + "\n";
+        //}
+        //}
+
+
+        //private void pdPreview_PrintPage(object sender, PrintPageEventArgs e)
+        //{
+        //    pkResolution = printDocument1.PrinterSettings.PrinterResolutions[0];
+        //    e.PageSettings.PrinterResolution = pkResolution;
+        //    e.Graphics.DrawImage(bmp, 0, 0);
+        //}
+
+        //private void pdPreview_BeginPrint(object sender, PrintEventArgs e)
+        //{
+
+        //}
+
     }
 }

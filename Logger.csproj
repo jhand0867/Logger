@@ -109,6 +109,7 @@
     <Compile Include="GUI\DeleteQuery.Designer.cs">
       <DependentUpon>DeleteQuery.cs</DependentUpon>
     </Compile>
+    <Compile Include="IMessage.cs" />
     <Compile Include="InteractiveTranResponse.cs" />
     <Compile Include="EjOptionsTimers.cs" />
     <Compile Include="AckStopEj.cs" />
@@ -143,9 +144,10 @@
     <Compile Include="GUI\SaveQuery.Designer.cs">
       <DependentUpon>SaveQuery.cs</DependentUpon>
     </Compile>
+    <Compile Include="IPrint.cs" />
+    <Compile Include="LoggerPrinter.cs" />
     <Compile Include="SQLSearchCondition.cs" />
     <Compile Include="TerminalCommands.cs" />
-    <Compile Include="IMessage.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData1.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatusF7.cs" />
     <Compile Include="SolicitedStatus\SolicitedStatus8.cs" />

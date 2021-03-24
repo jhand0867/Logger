@@ -751,6 +751,15 @@ namespace Logger
             return dt;
         }
 
+        public string getLogName(string prjID, string logID)
+        {
+            string result = "";
+            string sql = @"SELECT [logFile] FROM [dbo].[logs] WHERE prjKey = '" + prjID + "' AND id = '" + logID + "' AND uploaded = 1";
+            DbCrud db = new DbCrud();
+            result = db.GetScalarStrFromDb(sql);
+            return result;
+        }
+
         // mlh Add record 
 
         public Dictionary<string, int> showRecordBits(string logID)
