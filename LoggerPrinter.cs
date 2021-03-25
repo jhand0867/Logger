@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,8 +22,6 @@ namespace Logger
             return _instance;
         }
 
-
-
         public int PageNumber 
         { 
             get => PageNumber;
@@ -30,9 +29,6 @@ namespace Logger
         }
 
         private int count = 0;
-
-        
-
         private Font PrintFont
         {
             get => new Font("Arial", 8);
@@ -44,6 +40,9 @@ namespace Logger
             get => _DocToPrint; 
             set => _DocToPrint = value;
         }
+        
+        private PrintDocument _PrintDocument;
+
 
         private Bitmap _Bmp;
         public Bitmap Bmp
@@ -53,6 +52,8 @@ namespace Logger
         }
 
         Font IPrint.PrintFont { set => throw new NotImplementedException(); }
+
+        public PrintDocument DocumentToPrint { get => _PrintDocument; set => _PrintDocument = value; }
 
         public void BeginDocPrint(object sender, PrintEventArgs e)
         {
@@ -89,6 +90,8 @@ namespace Logger
 
         public void PrintDocPage(object sender, PrintPageEventArgs ev)
         {
+            DocumentToPrint = new PrintDocument();
+
             float linesPerPage = 0;
             int linesPrinted = 0;
             float yPos;
@@ -100,6 +103,8 @@ namespace Logger
 
             string header = " Log:  " + App.Prj.Name + "/" + logLocation.Substring(logIndex, logLocation.Length - logIndex) +
                             "     Printed on " + System.DateTime.Now;
+            
+            setPrintDefaultSettings();
 
             yPos = topMargin + (linesPrinted *
                PrintFont.GetHeight(ev.Graphics));
@@ -132,9 +137,15 @@ namespace Logger
                 ev.HasMorePages = false;
         }
 
+        private void setPrintDefaultSettings()
+        {
+            DocumentToPrint.DefaultPageSettings.Landscape = true;
+
+        }
+
         public void QueryPageSettings(object sender, QueryPageSettingsEventArgs e)
         {
-
+           
         }
 
         public void pdPreview_PrintPage(object sender, PrintPageEventArgs e)
