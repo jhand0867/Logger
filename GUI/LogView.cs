@@ -837,12 +837,12 @@ Installed Packages:
                
                 lp1.DocToPrint = pd_docToPrint();
 
-                //if (printDialog1.ShowDialog() != DialogResult.OK )
-                //    return;
-                //pd.Print();
+                if (printDialog1.ShowDialog() != DialogResult.OK )
+                   return;
+                pd.Print();
 
-                printPreviewDialog1.Document = pd;
-                printPreviewDialog1.ShowDialog();
+                //printPreviewDialog1.Document = pd;
+                //printPreviewDialog1.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -855,6 +855,12 @@ Installed Packages:
             string docToPrint = "";
             if (tabDetail.SelectedTab.Text == "LogData")
             {
+                if (dgvLog.SelectedCells != null) {
+                    foreach (DataGridViewCell cell in dgvLog.SelectedCells)
+                    {
+                        
+                    }
+                }
                 foreach (DataGridViewRow dgvr in dgvLog.Rows)
                 {
                     string tempStr = "";

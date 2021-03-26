@@ -29,6 +29,9 @@ namespace Logger
         }
 
         private int count = 0;
+        private string header;
+        private string[] lineToPrint;
+        private int currentPage = 0;
         private Font PrintFont
         {
             get => new Font("Arial", 8);
@@ -59,13 +62,7 @@ namespace Logger
         {
             PrintDocument pd = (PrintDocument)sender;
 
-            if (pd.PrinterSettings.PrintRange == PrintRange.SomePages)
-            {
-                //pd.PrinterSettings.FromPage 
-                //pd.PrinterSettings.ToPage
-            }
-
-            int col = 120;
+            int col = 130;
             if (pd.DefaultPageSettings.Landscape == true)
                 col = 180;
 
@@ -86,36 +83,52 @@ namespace Logger
                 DocToPrint += tempStr + "\n";
                 }
 
-            }
+            string logLocation = App.Prj.getLogName(App.Prj.Key, ProjectData.logID);
+            int logIndex = logLocation.LastIndexOf(@"\") + 1;
+
+            header = " Log:  " + App.Prj.Name + "/" + logLocation.Substring(logIndex, logLocation.Length - logIndex) +
+                            "     Printed on " + System.DateTime.Now;
+
+            lineToPrint = DocToPrint.Split('\n');
+
+        }
 
         public void PrintDocPage(object sender, PrintPageEventArgs ev)
         {
-            DocumentToPrint = new PrintDocument();
+            // DocumentToPrint = new PrintDocument();
 
             float linesPerPage = 0;
             int linesPrinted = 0;
             float yPos;
             float leftMargin = ev.MarginBounds.Left;
             float topMargin = ev.MarginBounds.Top;
+            bool printThisPage = true;
+            currentPage++;
 
-            string logLocation = App.Prj.getLogName(App.Prj.Key, ProjectData.logID);
-            int logIndex = logLocation.LastIndexOf(@"\") + 1;
+            PrintDocument pd = (PrintDocument)sender;
 
-            string header = " Log:  " + App.Prj.Name + "/" + logLocation.Substring(logIndex, logLocation.Length - logIndex) +
-                            "     Printed on " + System.DateTime.Now;
-            
-            setPrintDefaultSettings();
+            if (pd.PrinterSettings.PrintRange == PrintRange.SomePages)
+            {
+                if ((currentPage >= pd.PrinterSettings.FromPage &&
+                currentPage <= pd.PrinterSettings.ToPage) == false)
+                    printThisPage = false;
+            }
 
-            yPos = topMargin + (linesPrinted *
-               PrintFont.GetHeight(ev.Graphics));
-            ev.Graphics.DrawString(header, PrintFont, Brushes.Black, leftMargin, yPos, new StringFormat());
+                //setPrintDefaultSettings();
+
+                // Print header
+                yPos = topMargin + PrintFont.GetHeight(ev.Graphics);
             linesPrinted = 3;
 
-            // Calculate the number of lines per page.
-            linesPerPage = ev.MarginBounds.Height /
-               PrintFont.GetHeight(ev.Graphics);
+            if (printThisPage)
+                ev.Graphics.DrawString(header + "                   Page  " + currentPage.ToString(), 
+                                        PrintFont, Brushes.Black, leftMargin, yPos, new StringFormat());
 
-            string[] lineToPrint = DocToPrint.Split('\n');
+
+            // Calculate the number of lines per page.
+            linesPerPage = (ev.MarginBounds.Height /
+               PrintFont.GetHeight(ev.Graphics));
+
             // Print each line of the file.
             while (linesPrinted < linesPerPage && lineToPrint.Length > count)
             {
@@ -124,8 +137,9 @@ namespace Logger
 
                 yPos = topMargin + (linesPrinted *
                    PrintFont.GetHeight(ev.Graphics));
-                ev.Graphics.DrawString(lineToPrint[count], PrintFont, Brushes.Black,
-                   leftMargin, yPos, new StringFormat());
+                if (printThisPage)
+                     ev.Graphics.DrawString(lineToPrint[count], PrintFont, Brushes.Black,
+                           leftMargin, yPos, new StringFormat());
                 count++;
                 linesPrinted++;
             }
@@ -137,11 +151,11 @@ namespace Logger
                 ev.HasMorePages = false;
         }
 
-        private void setPrintDefaultSettings()
-        {
-            DocumentToPrint.DefaultPageSettings.Landscape = true;
+        //private void setPrintDefaultSettings()
+        //{
+        //    DocumentToPrint.DefaultPageSettings.Landscape = true;
 
-        }
+        //}
 
         public void QueryPageSettings(object sender, QueryPageSettingsEventArgs e)
         {
