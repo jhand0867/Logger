@@ -43,7 +43,13 @@ namespace Logger
             get => _DocToPrint; 
             set => _DocToPrint = value;
         }
-        
+        private string _SelToPrint;
+        public string SelToPrint
+        {
+            get => _SelToPrint;
+            set => _SelToPrint = value;
+        }
+
         private PrintDocument _PrintDocument;
 
 
@@ -61,17 +67,21 @@ namespace Logger
         public void BeginDocPrint(object sender, PrintEventArgs e)
         {
             PrintDocument pd = (PrintDocument)sender;
+            currentPage = 0;
 
             int col = 130;
             if (pd.DefaultPageSettings.Landscape == true)
                 col = 180;
 
+            string[] docToPrintStr;
             if (pd.PrinterSettings.PrintRange == PrintRange.Selection)
             {
-
+                SelToPrint = SelToPrint.Replace("\r\n", "\n");
+                docToPrintStr = SelToPrint.Split('\n');
             }
+            else
+                docToPrintStr = DocToPrint.Split('\n');
 
-            string[] docToPrintStr = DocToPrint.Split('\n');
             string tempStr = "";
             DocToPrint = "";
 
@@ -100,6 +110,7 @@ namespace Logger
             float linesPerPage = 0;
             int linesPrinted = 0;
             float yPos;
+            float xPos = 100;
             float leftMargin = ev.MarginBounds.Left;
             float topMargin = ev.MarginBounds.Top;
             bool printThisPage = true;
@@ -114,16 +125,23 @@ namespace Logger
                     printThisPage = false;
             }
 
-                //setPrintDefaultSettings();
-
                 // Print header
                 yPos = topMargin + PrintFont.GetHeight(ev.Graphics);
+
+            if (pd.DefaultPageSettings.Landscape == true)
+                xPos = 130;
+
+            string pageStr = "Page  " + currentPage.ToString();
+            xPos = (xPos - pageStr.Length) * PrintFont.Size;
+
+            //xPos = leftMargin + header.Length + PrintFont.Size;
             linesPrinted = 3;
 
             if (printThisPage)
-                ev.Graphics.DrawString(header + "                   Page  " + currentPage.ToString(), 
-                                        PrintFont, Brushes.Black, leftMargin, yPos, new StringFormat());
-
+            {
+                ev.Graphics.DrawString(header, PrintFont, Brushes.Black, leftMargin, yPos, new StringFormat());
+                ev.Graphics.DrawString(pageStr, PrintFont, Brushes.Black, xPos, yPos, new StringFormat());
+            }
 
             // Calculate the number of lines per page.
             linesPerPage = (ev.MarginBounds.Height /
@@ -177,5 +195,9 @@ namespace Logger
 
         }
 
+        internal void EnPrint(object sender, PrintEventArgs e)
+        {
+            _instance = null;          
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -70,6 +71,7 @@ namespace Logger
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
             }
+          //  dgvLog.ClearSelection();
         }
 
         private System.Windows.Forms.ComboBox cmbColumHeader2 = new System.Windows.Forms.ComboBox();
@@ -118,6 +120,7 @@ namespace Logger
             }
 
             dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+           // dgvLog.ClearSelection();
         }
 
         private void doDgvColumns()
@@ -270,7 +273,7 @@ namespace Logger
 
             string sqlLike = " LIKE '%[[]" + c.Text + "%'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group6", sqlLike);
-            
+
             //doDgvColumns();
 
             cmbColumHeader2.SelectedIndex = -1;
@@ -303,7 +306,7 @@ namespace Logger
         private void cmbColumHeader6_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
             //this.dgvLog.DataSource = null;
-            
+
             string sqlLike = " LIKE '%" + c.Text + "%'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", sqlLike);
 
@@ -334,7 +337,7 @@ namespace Logger
                 }
 
                 setData = new passLogData(frmLogData.setData);
-                
+
                 //mlh  -> e.RowIndex could be -1 and thrown an exception
 
                 setData(dgvLog.Rows[e.RowIndex]);
@@ -579,7 +582,7 @@ namespace Logger
         {
             DataTable dt = new DataTable();
             SQLSearchCondition ssc = new SQLSearchCondition();
-           
+
 
             dt = ssc.getSearchCondition(cbQueryName.Text);
 
@@ -635,7 +638,7 @@ namespace Logger
 
         private void cbQueryName_MouseHover(object sender, EventArgs e)
         {
-            
+
         }
 
         private void cbQueryName_MouseClick(object sender, MouseEventArgs e)
@@ -684,7 +687,6 @@ namespace Logger
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             LoggerPrint lp1 = LoggerPrint.GetInstance();
 
             // housekeeping
@@ -693,21 +695,22 @@ namespace Logger
 
             g.PageUnit = GraphicsUnit.Pixel;
             g.Clear(Color.White);
-            
+
             Screen screenFormIsOn = Screen.FromControl(this);
 
-            Bitmap bmp = new Bitmap(actualPixelsX, actualPixelsY, g);          
-            bmp.SetResolution(300,300);
-                  
+            Bitmap bmp = new Bitmap(actualPixelsX, actualPixelsY, g);
+            bmp.SetResolution(300, 300);
+
             Graphics mg = Graphics.FromImage(bmp);
             mg.CopyFromScreen(0, 0, 0, 0, bmp.Size);
-            
+
             lp1.Bmp = bmp;
             PrintDocument pdPreview = new PrintDocument();
 
             pdPreview.DefaultPageSettings.Landscape = true;
             pdPreview.PrintPage += new PrintPageEventHandler(lp1.pdPreview_PrintPage);
             pdPreview.BeginPrint += new PrintEventHandler(lp1.pdPreview_BeginPrint);
+            pdPreview.EndPrint += new PrintEventHandler(lp1.EnPrint);
 
             printPreviewDialog1.Document = pdPreview;
             printPreviewDialog1.ShowDialog();
@@ -815,6 +818,10 @@ Installed Packages:
 
         private void printToolStripMenuItem2_Click(object sender, EventArgs e)
         {
+            //bool OKToPrint = true;
+
+            //if (dgvLog.Rows.Count > 1500)
+            //    OKToPrint = false;
             /**
              * testing for singleton
              * **/
@@ -828,21 +835,31 @@ Installed Packages:
                 pd.PrintPage += new PrintPageEventHandler(lp1.PrintDocPage);
                 pd.BeginPrint += new PrintEventHandler(lp1.BeginDocPrint);
                 pd.QueryPageSettings += new QueryPageSettingsEventHandler(lp1.QueryPageSettings);
+                pd.EndPrint += new PrintEventHandler(lp1.EnPrint); 
 
                 printDialog1.Document = pd;
                 // Create a new instance of Margins with 1-inch margins.
                 Margins margins = new Margins(50, 50, 50, 50);
                 pd.DefaultPageSettings.Margins = margins;
-                pd.DefaultPageSettings.Landscape = false;
-               
+                pd.DefaultPageSettings.Landscape = true;
+
                 lp1.DocToPrint = pd_docToPrint();
+                lp1.SelToPrint = pd_selToPrint();
 
-                if (printDialog1.ShowDialog() != DialogResult.OK )
-                   return;
-                pd.Print();
+                if (lp1.SelToPrint == "" && lp1.DocToPrint == null)
+                {                
+                    MessageBox.Show("Selection will take a long time to process","Warning",MessageBoxButtons.OK);
+                    return;
+                }
+                if (lp1.SelToPrint != "")
+                    pd.PrinterSettings.PrintRange = PrintRange.Selection;
 
-                //printPreviewDialog1.Document = pd;
-                //printPreviewDialog1.ShowDialog();
+                //if (printDialog1.ShowDialog() != DialogResult.OK)
+                //    return;
+                //pd.Print();
+
+                printPreviewDialog1.Document = pd;
+                printPreviewDialog1.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -852,14 +869,13 @@ Installed Packages:
 
         private string pd_docToPrint()
         {
+            
             string docToPrint = "";
             if (tabDetail.SelectedTab.Text == "LogData")
             {
-                if (dgvLog.SelectedCells != null) {
-                    foreach (DataGridViewCell cell in dgvLog.SelectedCells)
-                    {
-                        
-                    }
+                if (dgvLog.Rows.Count > 1500)
+                {
+                    return null;
                 }
                 foreach (DataGridViewRow dgvr in dgvLog.Rows)
                 {
@@ -878,6 +894,29 @@ Installed Packages:
                 docToPrint = richTextBox1.Text;
             }
             return docToPrint;
+        }
+
+        private string pd_selToPrint()
+        {
+            string selToPrint = "";
+            if (tabDetail.SelectedTab.Text == "LogData")
+            {
+                if (dgvLog.SelectedCells[0].ColumnIndex > 1)               
+                {
+                    Clipboard.SetDataObject(dgvLog.GetClipboardContent());
+                    selToPrint = Clipboard.GetText();
+                }
+            }
+            else
+            {
+                if (richTextBox1.SelectedText != null)
+                {
+                    // Clipboard.SetDataObject(richTextBox1.Text);
+                    Clipboard.SetText(richTextBox1.Text);
+                    selToPrint = Clipboard.GetText();
+                }
+            }
+            return selToPrint;
         }
     }
 }
