@@ -120,7 +120,7 @@ namespace Logger
             }
 
             dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-           // dgvLog.ClearSelection();
+            dgvLog.ClearSelection();
         }
 
         private void doDgvColumns()
@@ -248,6 +248,7 @@ namespace Logger
             cmbColumHeader6.SelectedItem = null;
             cmbColumHeader7.SelectedIndex = -1;
             cmbColumHeader7.SelectedItem = null;
+            dgvLog.ClearSelection();
             this.dgvLog.Refresh();
         }
 
@@ -264,6 +265,7 @@ namespace Logger
             cmbColumHeader6.SelectedItem = null;
             cmbColumHeader7.SelectedIndex = -1;
             cmbColumHeader7.SelectedItem = null;
+            dgvLog.ClearSelection();
             this.dgvLog.Refresh();
         }
 
@@ -284,6 +286,7 @@ namespace Logger
             cmbColumHeader6.SelectedItem = null;
             cmbColumHeader7.SelectedIndex = -1;
             cmbColumHeader7.SelectedItem = null;
+            dgvLog.ClearSelection(); 
             this.dgvLog.Refresh();
         }
 
@@ -300,6 +303,7 @@ namespace Logger
             cmbColumHeader5.SelectedItem = null;
             cmbColumHeader6.SelectedIndex = -1;
             cmbColumHeader6.SelectedItem = null;
+            dgvLog.ClearSelection(); 
             this.dgvLog.Refresh();
         }
 
@@ -320,6 +324,7 @@ namespace Logger
             cmbColumHeader5.SelectedItem = null;
             cmbColumHeader7.SelectedIndex = -1;
             cmbColumHeader7.SelectedItem = null;
+            dgvLog.ClearSelection();
             this.dgvLog.Refresh();
         }
 
@@ -583,8 +588,8 @@ namespace Logger
             DataTable dt = new DataTable();
             SQLSearchCondition ssc = new SQLSearchCondition();
 
-
             dt = ssc.getSearchCondition(cbQueryName.Text);
+
 
             string sqlLike = "";
             string temp = "";
@@ -620,8 +625,10 @@ namespace Logger
             if (sqlLike != "")
             {
                 dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
+                dgvLog.ClearSelection();
                 dgvLog.Refresh();
             }
+            
 
             System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
             ToolTip1.SetToolTip(cbQueryName, cbQueryName.Items[cbQueryName.SelectedIndex].ToString());
@@ -846,7 +853,7 @@ Installed Packages:
                 lp1.DocToPrint = pd_docToPrint();
                 lp1.SelToPrint = pd_selToPrint();
 
-                if (lp1.SelToPrint == "" && lp1.DocToPrint == null)
+                if (lp1.SelToPrint == "" && lp1.DocToPrint == "")
                 {                
                     MessageBox.Show("Selection will take a long time to process","Warning",MessageBoxButtons.OK);
                     return;
@@ -854,12 +861,12 @@ Installed Packages:
                 if (lp1.SelToPrint != "")
                     pd.PrinterSettings.PrintRange = PrintRange.Selection;
 
-                //if (printDialog1.ShowDialog() != DialogResult.OK)
-                //    return;
-                //pd.Print();
+                if (printDialog1.ShowDialog() != DialogResult.OK)
+                    return;
+                pd.Print();
 
-                printPreviewDialog1.Document = pd;
-                printPreviewDialog1.ShowDialog();
+                //printPreviewDialog1.Document = pd;
+                //printPreviewDialog1.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -875,7 +882,8 @@ Installed Packages:
             {
                 if (dgvLog.Rows.Count > 1500)
                 {
-                    return null;
+                    // return null;
+                    return docToPrint;
                 }
                 foreach (DataGridViewRow dgvr in dgvLog.Rows)
                 {
@@ -901,7 +909,8 @@ Installed Packages:
             string selToPrint = "";
             if (tabDetail.SelectedTab.Text == "LogData")
             {
-                if (dgvLog.SelectedCells[0].ColumnIndex > 1)               
+                if (dgvLog.SelectedCells.Count > 0 &&
+                    dgvLog.SelectedCells[0].ColumnIndex > 1)               
                 {
                     Clipboard.SetDataObject(dgvLog.GetClipboardContent());
                     selToPrint = Clipboard.GetText();
