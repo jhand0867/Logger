@@ -861,12 +861,12 @@ Installed Packages:
                 if (lp1.SelToPrint != "")
                     pd.PrinterSettings.PrintRange = PrintRange.Selection;
 
-                if (printDialog1.ShowDialog() != DialogResult.OK)
-                    return;
-                pd.Print();
+                //if (printDialog1.ShowDialog() != DialogResult.OK)
+                //    return;
+                //pd.Print();
 
-                //printPreviewDialog1.Document = pd;
-                //printPreviewDialog1.ShowDialog();
+                printPreviewDialog1.Document = pd;
+                printPreviewDialog1.ShowDialog();
             }
             catch (Exception ex)
             {

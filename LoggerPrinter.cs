@@ -34,7 +34,7 @@ namespace Logger
         private int currentPage = 0;
         private Font PrintFont
         {
-            get => new Font("Arial", 8);
+            get => new Font("Courier New", 8);
             set { PrintFont = value; }
         }
         private string _DocToPrint;
@@ -51,6 +51,8 @@ namespace Logger
         }
 
         private PrintDocument _PrintDocument;
+
+        private int _CharactersPerLine; 
 
 
         private Bitmap _Bmp;
@@ -69,9 +71,9 @@ namespace Logger
             PrintDocument pd = (PrintDocument)sender;
             currentPage = 0;
 
-            int col = 130;
+            int col = 100;
             if (pd.DefaultPageSettings.Landscape == true)
-                col = 180;
+                col = 160;
 
             string[] docToPrintStr;
             if (pd.PrinterSettings.PrintRange == PrintRange.Selection)
@@ -86,13 +88,23 @@ namespace Logger
             DocToPrint = "";
 
             for (int i = 0; i < docToPrintStr.Length; i++)
-                {
-                tempStr = docToPrintStr[i];
-                if (docToPrintStr[i].Length > col)
-                    tempStr = docToPrintStr[i].Substring(0, col) + "\n" + docToPrintStr[i].Substring(col, docToPrintStr[i].Length - col);
-                DocToPrint += tempStr + "\n";
-                }
+            {
+                tempStr = "";
+                int docLen = docToPrintStr[i].Length;
+                int times = docLen / col;
+                int count = 0;
 
+                while (count < times)
+                {
+                    tempStr += docToPrintStr[i].Substring(count*col, col) + "\n";
+                    count++;
+                }
+                if (docLen != count*col)
+                    tempStr += docToPrintStr[i].Substring(count * col, docLen - (count *col)) + "\n";
+
+                DocToPrint += tempStr;
+                
+            }
             string logLocation = App.Prj.getLogName(App.Prj.Key, ProjectData.logID);
             int logIndex = logLocation.LastIndexOf(@"\") + 1;
 
@@ -113,9 +125,10 @@ namespace Logger
             float xPos = 100;
             float leftMargin = ev.MarginBounds.Left;
             float topMargin = ev.MarginBounds.Top;
+
             bool printThisPage = true;
             currentPage++;
-
+            int charPerLine = ev.MarginBounds.Width / (int)ev.Graphics.MeasureString("@", this.PrintFont).Width;
             PrintDocument pd = (PrintDocument)sender;
 
             if (pd.PrinterSettings.PrintRange == PrintRange.SomePages)
@@ -156,7 +169,7 @@ namespace Logger
                 yPos = topMargin + (linesPrinted *
                    PrintFont.GetHeight(ev.Graphics));
                 if (printThisPage)
-                     ev.Graphics.DrawString(lineToPrint[count], PrintFont, Brushes.Black,
+                ev.Graphics.DrawString(lineToPrint[count], PrintFont, Brushes.Black,
                            leftMargin, yPos, new StringFormat());
                 count++;
                 linesPrinted++;
