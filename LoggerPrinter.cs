@@ -6,10 +6,12 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
 
 namespace Logger
 {
-    class LoggerPrint : IPrint
+    class LoggerPrint : Form, IPrint
     {
         private LoggerPrint() { }
 
@@ -69,11 +71,23 @@ namespace Logger
         public void BeginDocPrint(object sender, PrintEventArgs e)
         {
             PrintDocument pd = (PrintDocument)sender;
+            
+            float docWidth = pd.DefaultPageSettings.Bounds.Width;
+
+            Graphics g = CreateGraphics();
+            g.PageUnit = GraphicsUnit.Point;
+            float docWidthChar = g.MeasureString("@", this.PrintFont).Width;
+
+            int col = (int)(docWidth / docWidthChar);
+
+            //int charPerLine = ev.MarginBounds.Width / (int)ev.Graphics.MeasureString("@", this.PrintFont).Width;
+
+
             currentPage = 0;
 
-            int col = 100;
-            if (pd.DefaultPageSettings.Landscape == true)
-                col = 160;
+            //int col = 75;
+            //if (pd.DefaultPageSettings.Landscape == true)
+            //    col = 100;
 
             string[] docToPrintStr;
             if (pd.PrinterSettings.PrintRange == PrintRange.Selection)
@@ -128,7 +142,8 @@ namespace Logger
 
             bool printThisPage = true;
             currentPage++;
-            int charPerLine = ev.MarginBounds.Width / (int)ev.Graphics.MeasureString("@", this.PrintFont).Width;
+            // calculate characters per line for a particular font
+            //int charPerLine = ev.MarginBounds.Width / (int)ev.Graphics.MeasureString("@", this.PrintFont).Width;
             PrintDocument pd = (PrintDocument)sender;
 
             if (pd.PrinterSettings.PrintRange == PrintRange.SomePages)

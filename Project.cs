@@ -343,6 +343,13 @@ namespace Logger
             db.crudToDb(sql);
         }
 
+        public DataTable getLogDetailByID(string logID)
+        {
+            string sql = $"SELECT * FROM logDetail WHERE logID = '{logID}'";
+            DbCrud db = new DbCrud();
+            return db.GetTableFromDb(sql);
+        }
+
         public void uploadLog(string filename)
         {
             int logID = attachLogToProject(this.pKey, filename);
@@ -374,22 +381,13 @@ namespace Logger
                 }
                 if (strLine.Substring(0, 1) != "[")
                 {
-                    recSkipped++;
-
+                    //recSkipped++;
+                    writeLogDetail("", strLine, logID);
                     continue;
                 }
-                // mlh
 
-                //if (strLine.Length > 3 && strLine.Substring(0,1) == "[" && strLine.Substring(2,1) == "]")
-                //{
-                //    recSkipped++;
-                //    continue;
-                //}
                 Regex dateGroup = new Regex(@"\d\d\d\d-\d\d-\d\d.\d\d:\d\d:\d\d-\d\d\d");
                 MatchCollection itsADate;
-
-                if (lineProcess == 14270)
-                { }
 
                 while ((lineProcess < lstLines.Length && lstLines[lineProcess].Length > 0
                     && lstLines[lineProcess].Substring(0, 1) != "["
@@ -487,10 +485,6 @@ namespace Logger
                                     //groupsData = groupsData + group.Value + strLineSub;
 
                                     string recKey = strDate + "-" + repLine.ToString();
-                                    if (recKey == "2020-11-11 03:04:10-029")
-                                    {
-
-                                    }
                                     dicData.Add(recKey, record);
 
 
@@ -568,6 +562,20 @@ namespace Logger
                                data.allGroups[6] + "','" +
                                data.allGroups[7] + "','" +
                                WebUtility.HtmlEncode(data.allGroups[8] + data.allGroups[9]) + "','" +
+                               Key + "','" + logID + "')";
+
+            DbCrud db = new DbCrud();
+            if (db.crudToDb(sql) == false) { return false; };
+            return true;
+        }
+
+        public bool writeLogDetail(string recKey, string data, int logID)
+        {
+            String sql = "";
+
+            sql = @"INSERT INTO logDetail(logkey,detailInfo,prjKey, logID) 
+                        VALUES('" + recKey + "','" +
+                               data + "','" +
                                Key + "','" + logID + "')";
 
             DbCrud db = new DbCrud();

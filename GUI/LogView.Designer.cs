@@ -137,27 +137,27 @@
             this.printToolStripMenuItem2});
             this.toolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(72, 38);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(72, 36);
             this.toolStripMenuItem1.Text = "File";
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(277, 44);
             this.exportToolStripMenuItem.Text = "Export";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(277, 44);
             this.printToolStripMenuItem.Text = "Print Screen";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem2
             // 
             this.printToolStripMenuItem2.Name = "printToolStripMenuItem2";
-            this.printToolStripMenuItem2.Size = new System.Drawing.Size(359, 44);
+            this.printToolStripMenuItem2.Size = new System.Drawing.Size(277, 44);
             this.printToolStripMenuItem2.Text = "Print ";
             this.printToolStripMenuItem2.Click += new System.EventHandler(this.printToolStripMenuItem2_Click);
             // 
@@ -168,7 +168,7 @@
             this.searchTwoToolStripMenuItem});
             this.searchToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(88, 38);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(88, 36);
             this.searchToolStripMenuItem.Text = "Filter";
             // 
             // serchOneToolStripMenuItem
@@ -194,7 +194,7 @@
             this.copyToClipboardToolStripMenuItem});
             this.option3ToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.option3ToolStripMenuItem.Name = "option3ToolStripMenuItem";
-            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(86, 38);
+            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(86, 36);
             this.option3ToolStripMenuItem.Text = "View";
             // 
             // logInContextToolStripMenuItem
@@ -335,9 +335,9 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(108, 117);
+            this.richTextBox1.Location = new System.Drawing.Point(36, 117);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(2092, 408);
+            this.richTextBox1.Size = new System.Drawing.Size(2248, 576);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
             // 
