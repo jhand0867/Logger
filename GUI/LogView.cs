@@ -731,14 +731,15 @@ namespace Logger
         private void tabDetail_Selected(object sender, TabControlEventArgs e)
         {
             label2.ForeColor = Color.Brown;
+            rtbMahineAndSoftwareInfo.Text = "";
             foreach(DataRow row in App.Prj.getLogDetailByID(ProjectData.logID).Rows)
             {
-                richTextBox1.Text += row["detailInfo"].ToString() + "\n";
+                rtbMahineAndSoftwareInfo.Text += row["detailInfo"].ToString() + "\n";
             }
             
-            richTextBox1.Font = new Font(FontFamily.GenericMonospace, 9);
-            richTextBox1.SelectionFont = new Font(FontFamily.GenericSansSerif, 12);
-            richTextBox1.SelectionColor = Color.Red;
+            rtbMahineAndSoftwareInfo.Font = new Font(FontFamily.GenericMonospace, 9);
+            rtbMahineAndSoftwareInfo.SelectionFont = new Font(FontFamily.GenericSansSerif, 12);
+            rtbMahineAndSoftwareInfo.SelectionColor = Color.Red;
             ///richTextBox1.AppendText(System.Environment.NewLine + "Testing Testing Testing");
 
 
@@ -821,7 +822,7 @@ namespace Logger
             }
             else
             {
-                docToPrint = richTextBox1.Text;
+                docToPrint = rtbMahineAndSoftwareInfo.Text;
             }
             return docToPrint;
         }
@@ -840,10 +841,10 @@ namespace Logger
             }
             else
             {
-                if (richTextBox1.SelectedText != null)
+                if (rtbMahineAndSoftwareInfo.SelectedText != null)
                 {
                     // Clipboard.SetDataObject(richTextBox1.Text);
-                    Clipboard.SetText(richTextBox1.Text);
+                    Clipboard.SetText(rtbMahineAndSoftwareInfo.SelectedText);
                     selToPrint = Clipboard.GetText();
                 }
             }
