@@ -6,8 +6,11 @@ using System.Windows.Forms;
 
 namespace Logger
 {
+    public delegate void RefreshData();
     public partial class Projects : Form
     {
+        //public RefreshData ReloadDataListView;
+
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -55,15 +58,18 @@ namespace Logger
 
             //Project pr = new Project();
             //Dictionary<string, Project> prjList = pr.getAllProjects();
-            Dictionary<string, Project> prjList = App.Prj.getAllProjects();
+            DataTable dt = App.Prj.getAllProjects();
 
             log.Debug("Retrieving projects info");
             listView1.Items.Clear();
 
-            foreach (Project p in prjList.Values)
+            foreach (DataRow projectData in dt.Rows)
             {
-                var lvi = new ListViewItem(new string[] { p.Name, p.Brief, p.Logs.ToString().Trim() });
-                lvi.Tag = p;
+
+                var lvi = new ListViewItem(new string[] { projectData["prjName"].ToString(), 
+                                                          projectData["prjBrief"].ToString(), 
+                                                          projectData["prjLogs"].ToString().Trim() });
+                lvi.Tag = projectData["prjKey"].ToString();
                 lvi.ImageIndex = 0;
                 listView1.Items.Add(lvi);
                 listView1.Items[0].Selected = true;
@@ -79,7 +85,7 @@ namespace Logger
 
             treeView1.Nodes.Clear();
 
-            if (prjList.Count > 0)
+            if (dt.Rows.Count > 0)
                 listView1_Load(listView1.Items[0]);
             else
             {
@@ -97,6 +103,7 @@ namespace Logger
         {
             log.Debug("Open ProjectInfo");
             ProjectInfo pi = new ProjectInfo();
+            pi.ReloadDataListView += new RefreshData(RefresDataListView);
             pi.ShowDialog();
         }
 
@@ -109,6 +116,7 @@ namespace Logger
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+
             log.Debug("Listing attched logs " + listView1.SelectedItems.Count.ToString());
             ListViewItem item = new ListViewItem();
             if (listView1.SelectedItems.Count == 1)
@@ -116,12 +124,20 @@ namespace Logger
                 this.TopMost = false;
 
                 ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
-                item = items[0];
-                Project prj = item.Tag as Project;
-                App.Prj = prj;
+                item = items[0];          
+                //Project prj = App.Prj.getProjectByID(item.Tag.ToString());
+                App.Prj = App.Prj.getProjectByID(item.Tag.ToString());
                 ProjectData prjData = new ProjectData();
+                prjData.ReloadDataView += new RefreshData(RefresDataListView);
+
                 prjData.ShowDialog();
             }
+            
+        }
+
+        internal void RefresDataListView()
+        {
+            loadInfo();
         }
 
         private void listView1_MouseDown(object sender, MouseEventArgs e)
@@ -173,8 +189,8 @@ namespace Logger
         /// <param name="item"></param>
         private void listView1_Load(ListViewItem item)
         {
-            Project pr = (Project)item.Tag;
-            DataTable dt = pr.getAllLogs(pr.Key);
+            Project pr = new Project() ;
+            DataTable dt = pr.getAllLogs(item.Tag.ToString());
 
             if (dt.Rows.Count == 0)
                 return;
@@ -277,12 +293,14 @@ namespace Logger
             }
             string prjName = listView1.SelectedItems[0].Text;
 
-            Dictionary<string, Project> dicData = new Dictionary<string, Project>();
+            DataTable projectData = new DataTable();
 
-            dicData = App.Prj.getProjectByName(prjName);
+            projectData = App.Prj.getProjectByName(prjName);
 
 
             ProjectInfo prjInfo = LoggerFactory.Create_ProjectInfo();
+            prjInfo.ReloadDataListView += new RefreshData(RefresDataListView);
+
             // prjInfo.Controls["btnUpdate"].Enabled = true
             Control[] formControls = prjInfo.Controls.Find("btnUpdate", false);
             Control[] formControls1 = prjInfo.Controls.Find("tbPName", false);
@@ -291,10 +309,10 @@ namespace Logger
                 Button btn = (Button)formControls[0];
                 btn.Enabled = true;
             }
-            foreach (Project pr in dicData.Values)
+            foreach (DataRow dr in projectData.Rows)
             {
-                App.Prj = pr;
-                prjInfo.displayProjectInfo(pr.Name.ToString(), pr.Brief.ToString());
+                //App.Prj = pr;
+                prjInfo.displayProjectInfo(dr["prjName"].ToString(), dr["prjBrief"].ToString());
             }
 
             prjInfo.TopMost = true;
@@ -392,6 +410,11 @@ namespace Logger
         }
 
         private void treeView1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

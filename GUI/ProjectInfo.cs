@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 
 namespace Logger
 {
+   
+
     public partial class ProjectInfo : Form
     {
+        public RefreshData ReloadDataListView;
+
         private string prevName = "";
 
         public ProjectInfo()
@@ -37,8 +42,8 @@ namespace Logger
                 Project pr = new Project();
 
                 // do we have this project already?
-                Dictionary<string, Project> pDict = pr.getProjectByName(tbPName.Text);
-                if (pDict.Count > 0)
+                DataTable  projectData = pr.getProjectByName(tbPName.Text);
+                if (projectData.Rows.Count > 0)
                 {
                     // Project already exists
                     validatePExist();
@@ -47,11 +52,9 @@ namespace Logger
                 else
                 {
                     pr.createProject(tbPName.Text, tbPBrief.Text);
-                    Projects prj = (Projects)Application.OpenForms["Projects"];
-                    // ListView lv = (ListView)prj.Controls["listView1"];
-                    prj.loadInfo();
+                    ReloadDataListView();
+                    
                     this.Close();
-                    prj.Show();
                     
 
                 }
@@ -89,9 +92,9 @@ namespace Logger
 
             // do we have this project name already?
 
-            Dictionary<string, Project> pDict = project.getProjectByName(tbPName.Text);
+            DataTable projectData = project.getProjectByName(tbPName.Text);
 
-            if (pDict.Count > 0 &&
+            if (projectData.Rows.Count > 0 &&
                 prevName != tbPName.Text)
             {
                 validatePExist();
@@ -101,9 +104,9 @@ namespace Logger
             {
                 project.updateProjectByName(App.Prj, tbPName.Text, tbPBrief.Text);
                 this.Close();
-
-                Projects obj = (Projects)Application.OpenForms["Projects"];
-                obj.Projects_Load(null, null);
+                ReloadDataListView();
+                //Projects obj = (Projects)Application.OpenForms["Projects"];
+                //obj.loadInfo();
             }
         }
 

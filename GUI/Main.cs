@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace Logger
 {
@@ -57,9 +58,12 @@ namespace Logger
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //System.Timers.Timer T = new System.Timers.Timer(100);
             AboutDialog about = new AboutDialog();
             //about.Controls["splashTimer"]
             about.ShowDialog();
+            //T.Start();
+            //about.Close();
         }
     }
 }

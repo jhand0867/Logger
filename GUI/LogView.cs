@@ -335,18 +335,18 @@ namespace Logger
         /// <param name="dgvr"></param>
         public delegate void passLogData(DataGridViewRow dgvr);
         public passLogData setData;
+        public LogData frmLogData;
 
         private void dgvLog_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Clicks == 2)
             {
-                LogData frmLogData = (LogData)Application.OpenForms["LogData"];
+               // LogData frmLogData = (LogData)Application.OpenForms["LogData"];
                 if (frmLogData == null)
                 {
                     frmLogData = new LogData();
+                    setData += new passLogData(frmLogData.setData);
                 }
-
-                setData = new passLogData(frmLogData.setData);
 
                 //mlh  -> e.RowIndex could be -1 and thrown an exception
 

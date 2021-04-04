@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows.Forms;
-
+using System.Timers;
 namespace Logger
 {
     partial class AboutDialog : Form
@@ -12,7 +12,7 @@ namespace Logger
         {
             InitializeComponent();
             this.Text = String.Format("About {0}", AssemblyTitle);
-            splashTimer.Start();
+            
         }
 
         #region Assembly Attribute Accessors
@@ -97,9 +97,10 @@ namespace Logger
 
         private void AboutDialog_Load(object sender, EventArgs e)
         {
-            // show splash window
+            System.Timers.Timer T = new System.Timers.Timer(1000);
+            T.Start();
+            this.Close();
 
-            splashTimer.Interval = 10000;
 
 
 

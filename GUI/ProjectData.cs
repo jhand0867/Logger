@@ -6,8 +6,11 @@ namespace Logger
 
 //todo: check the form refresh after log is attached for first time, not enabling scan option from menu.
 {
+    
+
     public partial class ProjectData : Form
     {
+        
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -20,14 +23,18 @@ namespace Logger
             this.FormClosing += ProjectData_FormClosing;
 
         }
+        public RefreshData ReloadDataView;
 
         private void ProjectData_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Projects obj = (Projects)Application.OpenForms["Projects"];
-            if (obj != null)
-                obj.Projects_Load(sender, e);
-            else
-                Application.Exit();
+            //Projects obj = (Projects)Application.OpenForms["Projects"];
+            ReloadDataView();
+
+            //if (obj != null)
+            //    obj.loadInfo(); 
+            //    //Projects_Load(sender, e);
+            //else
+            //    Application.Exit();
         }
 
         private void ProjectData_Load(object sender, EventArgs e)
@@ -126,9 +133,10 @@ namespace Logger
         private void projectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Projects obj = (Projects)Application.OpenForms["Projects"];
+            //ReloadProjects += new RefreshData(obj.RefresDataListView);
 
             this.Close();
-            obj.Projects_Load(null, null);
+
         }
 
         private void transactionRequestToolStripMenuItem_Click(object sender, EventArgs e)

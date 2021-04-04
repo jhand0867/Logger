@@ -176,7 +176,17 @@ namespace Logger
             return pr;
         }
 
-        public Dictionary<string, Project> getAllProjects()
+        public DataTable getAllProjects()
+        {
+            DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
+            string sql = @"SELECT * FROM project";
+            dt = db.GetTableFromDb(sql);
+
+            return dt;
+        }
+
+        public Dictionary<string, Project> getAllProjects1()
         {
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
@@ -206,28 +216,12 @@ namespace Logger
             return dicData;
         }
 
-        public Dictionary<string, Project> getProjectByName(string pName)
+        public DataTable getProjectByName(string pName)
         {
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
             string sql = @"SELECT * FROM project WHERE prjName ='" + pName + "'";
-            dt = db.GetTableFromDb(sql);
-
-            Dictionary<string, Project> dicData = new Dictionary<string, Project>();
-
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    Project pr = new Project();
-                    pr.pKey = row[1].ToString();
-                    pr.Name = row[2].ToString();
-                    pr.Brief = row[3].ToString();
-                    pr.pLogs = Convert.ToInt32(row[4]);
-                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), pr);
-                }
-            }
-            return dicData;
+            return db.GetTableFromDb(sql);
         }
 
 
