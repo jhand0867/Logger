@@ -27,14 +27,7 @@ namespace Logger
 
         private void ProjectData_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //Projects obj = (Projects)Application.OpenForms["Projects"];
             ReloadDataView();
-
-            //if (obj != null)
-            //    obj.loadInfo(); 
-            //    //Projects_Load(sender, e);
-            //else
-            //    Application.Exit();
         }
 
         private void ProjectData_Load(object sender, EventArgs e)

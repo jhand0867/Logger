@@ -14,6 +14,8 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Logger
 {
+    public delegate DataGridViewRow ReceiveLogData();
+
     public partial class LogView : Form
     {
         // needed for printing 
@@ -334,23 +336,31 @@ namespace Logger
         /// </summary>
         /// <param name="dgvr"></param>
         public delegate void passLogData(DataGridViewRow dgvr);
+        
+        
+
         public passLogData setData;
+
         public LogData frmLogData;
 
         private void dgvLog_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
+            
             if (e.Clicks == 2)
             {
-               // LogData frmLogData = (LogData)Application.OpenForms["LogData"];
-                if (frmLogData == null)
+                if (frmLogData == null ) // || frmLogData is LogData)
                 {
+                    
                     frmLogData = new LogData();
                     setData += new passLogData(frmLogData.setData);
+                    //frmLogData.getPrevRow += new ReceiveLogData(MovePrevRowOnDGV);
+                    //frmLogData.getNextRow += new ReceiveLogData(MoveNextRowOnDGV);
                 }
 
                 //mlh  -> e.RowIndex could be -1 and thrown an exception
 
                 setData(dgvLog.Rows[e.RowIndex]);
+
                 frmLogData.TopMost = true;
                 frmLogData.Show();
             }
@@ -361,7 +371,31 @@ namespace Logger
             }
         }
 
+        private DataGridViewRow MoveNextRowOnDGV()
+        {
+            DataGridViewRow dgvr = null;
+            int nrow = dgvLog.SelectedCells[0].RowIndex;
+            if (dgvLog.RowCount > nrow - 1)
+            {
+                int col = dgvLog.CurrentCell.ColumnIndex;
+                dgvLog.CurrentCell = dgvLog[col, nrow - 1];
+                dgvr = dgvLog.CurrentCell.OwningRow;
+            }
+            return dgvr;
+        }
 
+        private DataGridViewRow MovePrevRowOnDGV()
+        {
+            DataGridViewRow dgvr = null;
+            int nrow = dgvLog.SelectedCells[0].RowIndex;
+            if (dgvLog.RowCount > nrow + 1)
+            {
+                int col = dgvLog.CurrentCell.ColumnIndex;
+                dgvLog.CurrentCell = dgvLog[col, nrow + 1];
+                dgvr = dgvLog.CurrentCell.OwningRow;
+            }
+            return dgvr;
+        }
 
         private void searchTwoToolStripMenuItem_Click(object sender, EventArgs e)
         {

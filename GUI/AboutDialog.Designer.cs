@@ -28,11 +28,9 @@ namespace Logger
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.splashTimer = new System.Windows.Forms.Timer(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -67,10 +65,6 @@ namespace Logger
             this.label3.Size = new System.Drawing.Size(569, 55);
             this.label3.TabIndex = 2;
             this.label3.Text = "Belongs to My Wife and I.";
-            // 
-            // splashTimer
-            // 
-            this.splashTimer.Tick += new System.EventHandler(this.splashTimer_Tick);
             // 
             // label4
             // 
@@ -114,7 +108,6 @@ namespace Logger
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Timer splashTimer;
         private System.Windows.Forms.Label label4;
     }
 }

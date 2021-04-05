@@ -6,6 +6,8 @@ namespace Logger
 {
     public partial class SaveQuery : Form
     {
+        public ToPassData delegateQryName;
+
         private SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
 
         public SaveQuery(object sQLSearchCondition, string queryName)
@@ -78,7 +80,7 @@ namespace Logger
 
                 ssc.setSearchConditionDetail(ssc, sqlID);
             }
-            Application.OpenForms["AdvancedFilterw"].Text = "AdvancedFilter." + tbName.Text;
+            delegateQryName(tbName.Text);
             this.Close();
         }
     }

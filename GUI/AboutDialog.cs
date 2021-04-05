@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows.Forms;
-using System.Timers;
+// using System.Timers;
 namespace Logger
 {
     partial class AboutDialog : Form
     {
-        private int _ticks;
+        internal Timer T = new Timer();
 
         public AboutDialog()
         {
             InitializeComponent();
+            T.Interval = 8000;
             this.Text = String.Format("About {0}", AssemblyTitle);
-            
+            T.Tick += T_Tick;                   
         }
 
+        private void T_Tick(object sender, EventArgs e)
+        {
+            this.Close();
+        }
         #region Assembly Attribute Accessors
 
         public string AssemblyTitle
@@ -97,20 +102,7 @@ namespace Logger
 
         private void AboutDialog_Load(object sender, EventArgs e)
         {
-            System.Timers.Timer T = new System.Timers.Timer(1000);
-            T.Start();
-            this.Close();
-
-
-
-
-            //splashTimer.Stop();
-            //this.Close();
-        }
-
-        private void splashTimer_Tick(object sender, EventArgs e)
-        {
-            _ticks++;
+            T.Enabled = true;
         }
 
         private void AboutDialog_Click(object sender, EventArgs e)

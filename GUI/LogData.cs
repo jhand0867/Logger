@@ -7,6 +7,7 @@ namespace Logger
 {
     public partial class LogData : Form
     {
+        
         private int prevHeight;
 
         public int PrevHeight { get => prevHeight; set => prevHeight = value; }
@@ -15,6 +16,12 @@ namespace Logger
         {
             InitializeComponent();
             PrevHeight = this.Height;
+            //this.FormClosing += LogData_FormClosing;
+        }
+
+        private void LogData_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
         }
 
         private void LogData_Load(object sender, EventArgs e)
@@ -53,34 +60,21 @@ namespace Logger
             }
         }
 
+        public ReceiveLogData getPrevRow;
+        public ReceiveLogData getNextRow;
+
         private void btnNext_Click(object sender, EventArgs e)
         {
-            LogView frmLogView = (LogView)Application.OpenForms["LogView"];
-            DataGridView dgv = (DataGridView)frmLogView.ActiveControl;
-            int nrow = dgv.SelectedCells[0].RowIndex;
-
-            if (dgv.RowCount > nrow + 1)
-            {
-                int col = dgv.CurrentCell.ColumnIndex;
-                dgv.CurrentCell = dgv[col, nrow + 1];
-                DataGridViewRow dgvr = dgv.CurrentCell.OwningRow;
-                setData(dgvr);
-            }
+                DataGridViewRow dgvr = getNextRow();
+                if (dgvr != null)
+                    setData(dgvr);
         }
 
         private void btnPrev_Click(object sender, EventArgs e)
         {
-            LogView frmLogView = (LogView)Application.OpenForms["LogView"];
-            DataGridView dgv = (DataGridView)frmLogView.ActiveControl;
-            int nrow = dgv.SelectedCells[0].RowIndex;
-
-            if (nrow != 0)
-            {
-                int col = dgv.CurrentCell.ColumnIndex;
-                dgv.CurrentCell = dgv[col, nrow - 1];
-                DataGridViewRow dgvr = dgv.CurrentCell.OwningRow;
+            DataGridViewRow dgvr = getPrevRow();
+            if (dgvr != null)
                 setData(dgvr);
-            }
         }
 
         private void LogData_Resize(object sender, EventArgs e)
@@ -93,5 +87,6 @@ namespace Logger
             btnNext.Location = new Point(this.Width - 80, nextButtonLocation.Y);
             txtFieldData.Height = this.Height - 350;
         }
+
     }
 }

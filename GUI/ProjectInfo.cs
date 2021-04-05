@@ -105,8 +105,6 @@ namespace Logger
                 project.updateProjectByName(App.Prj, tbPName.Text, tbPBrief.Text);
                 this.Close();
                 ReloadDataListView();
-                //Projects obj = (Projects)Application.OpenForms["Projects"];
-                //obj.loadInfo();
             }
         }
 

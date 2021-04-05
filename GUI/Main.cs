@@ -51,19 +51,10 @@ namespace Logger
 
         }
 
-        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
-        }
-
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //System.Timers.Timer T = new System.Timers.Timer(100);
             AboutDialog about = new AboutDialog();
-            //about.Controls["splashTimer"]
             about.ShowDialog();
-            //T.Start();
-            //about.Close();
         }
     }
 }

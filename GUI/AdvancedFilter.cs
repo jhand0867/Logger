@@ -6,6 +6,8 @@ using Application = System.Windows.Forms.Application;
 
 namespace Logger
 {
+    public delegate void ToPassData(string QryNameText);
+
     public partial class AdvancedFilterw : Form
     {
         // options for SQLSearchCondition properties (fields, conditions, andOr)
@@ -13,12 +15,14 @@ namespace Logger
         private string[] conditions = { "", "Like", "=", "<>", ">", "<" };
         private string[] andOr = { "", "AND", "OR" };
 
+        private string uiName = "AdvancedFilter";
         internal SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
 
         public AdvancedFilterw()
         {
             InitializeComponent();
 
+            
             // intitialize sql fields
 
             SQLSearchCondition sc = LoggerFactory.Create_SQLSearchCondition();
@@ -306,15 +310,21 @@ namespace Logger
         {
             string queryName = "";
 
-            if (this.Text != "AdvancedFilter")
+            if (this.Text != uiName)
             {
                 int idx = this.Text.IndexOf(".") + 1;
                 queryName = this.Text.Substring(idx);
             }
             SaveQuery saveQuery = LoggerFactory.Create_SaveQuery(gridrows, queryName);
+            saveQuery.delegateQryName += new ToPassData(QueryNametoShow);
+
             saveQuery.ShowDialog();
         }
 
+        private void QueryNametoShow(string QryNameText)
+        {
+            this.Text = uiName + "." + QryNameText;
+        }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -347,8 +357,8 @@ namespace Logger
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.Text != "AdvancedFilter")
-                this.Text = "AdvancedFilter";
+            if (this.Text != uiName)
+                this.Text =  uiName;
 
             for (int x = 0; x < 6; x++)
                 gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "");

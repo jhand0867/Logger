@@ -301,6 +301,7 @@
             this.Name = "LogData";
             this.ShowInTaskbar = false;
             this.Text = "Log Data";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LogData_FormClosing);
             this.Load += new System.EventHandler(this.LogData_Load);
             this.Resize += new System.EventHandler(this.LogData_Resize);
             this.ResumeLayout(false);
