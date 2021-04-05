@@ -126,7 +126,7 @@
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
             this.menuStrip1.ShowItemToolTips = true;
-            this.menuStrip1.Size = new System.Drawing.Size(2348, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(2348, 42);
             this.menuStrip1.TabIndex = 1;
             // 
             // toolStripMenuItem1
@@ -137,7 +137,7 @@
             this.printToolStripMenuItem2});
             this.toolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(72, 36);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(72, 38);
             this.toolStripMenuItem1.Text = "File";
             // 
             // exportToolStripMenuItem
@@ -168,20 +168,20 @@
             this.searchTwoToolStripMenuItem});
             this.searchToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(88, 36);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(88, 38);
             this.searchToolStripMenuItem.Text = "Filter";
             // 
             // serchOneToolStripMenuItem
             // 
             this.serchOneToolStripMenuItem.Name = "serchOneToolStripMenuItem";
-            this.serchOneToolStripMenuItem.Size = new System.Drawing.Size(254, 44);
+            this.serchOneToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.serchOneToolStripMenuItem.Text = "Advanced";
             this.serchOneToolStripMenuItem.Click += new System.EventHandler(this.serchOneToolStripMenuItem_Click);
             // 
             // searchTwoToolStripMenuItem
             // 
             this.searchTwoToolStripMenuItem.Name = "searchTwoToolStripMenuItem";
-            this.searchTwoToolStripMenuItem.Size = new System.Drawing.Size(254, 44);
+            this.searchTwoToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
             this.searchTwoToolStripMenuItem.Text = "Clear";
             this.searchTwoToolStripMenuItem.Click += new System.EventHandler(this.searchTwoToolStripMenuItem_Click);
             // 
@@ -194,7 +194,7 @@
             this.copyToClipboardToolStripMenuItem});
             this.option3ToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.option3ToolStripMenuItem.Name = "option3ToolStripMenuItem";
-            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(86, 36);
+            this.option3ToolStripMenuItem.Size = new System.Drawing.Size(86, 38);
             this.option3ToolStripMenuItem.Text = "View";
             // 
             // logInContextToolStripMenuItem
@@ -303,10 +303,10 @@
             this.tabDetail.Controls.Add(this.tabPage1);
             this.tabDetail.Controls.Add(this.tabPage2);
             this.tabDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabDetail.Location = new System.Drawing.Point(0, 40);
+            this.tabDetail.Location = new System.Drawing.Point(0, 42);
             this.tabDetail.Name = "tabDetail";
             this.tabDetail.SelectedIndex = 0;
-            this.tabDetail.Size = new System.Drawing.Size(2348, 826);
+            this.tabDetail.Size = new System.Drawing.Size(2348, 824);
             this.tabDetail.TabIndex = 4;
             this.tabDetail.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabDetail_Selected);
             // 
@@ -316,7 +316,7 @@
             this.tabPage1.Location = new System.Drawing.Point(8, 39);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(2332, 779);
+            this.tabPage1.Size = new System.Drawing.Size(2332, 777);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "LogData";
             this.tabPage1.UseVisualStyleBackColor = true;

@@ -7,9 +7,13 @@ using Application = System.Windows.Forms.Application;
 namespace Logger
 {
     public delegate void ToPassData(string QryNameText);
+    public delegate DataGridView ToPassDataGridView();
+
 
     public partial class AdvancedFilterw : Form
     {
+        public ToPassDataGridView PassDataGridView;
+
         // options for SQLSearchCondition properties (fields, conditions, andOr)
         public string[] fields = { "", "[group1]", "[group4]", "[group5]", "[group6]", "[group7]", "[group8]" };
         private string[] conditions = { "", "Like", "=", "<>", ">", "<" };
@@ -252,7 +256,8 @@ namespace Logger
 
             if (sqlLike != "")
             {
-                object ob = Application.OpenForms["LogView"].Controls[1].Controls[0].Controls["dgvLog"];
+                //object ob = Application.OpenForms["LogView"].Controls[1].Controls[0].Controls["dgvLog"];
+                object ob = PassDataGridView();
                 if (ob != null)
                 {
                     DataGridView dg = (DataGridView)ob;

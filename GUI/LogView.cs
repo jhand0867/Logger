@@ -348,13 +348,13 @@ namespace Logger
             
             if (e.Clicks == 2)
             {
-                if (frmLogData == null ) // || frmLogData is LogData)
+                
+                if (frmLogData == null || frmLogData.IsDisposed)
                 {
-                    
                     frmLogData = new LogData();
                     setData += new passLogData(frmLogData.setData);
-                    //frmLogData.getPrevRow += new ReceiveLogData(MovePrevRowOnDGV);
-                    //frmLogData.getNextRow += new ReceiveLogData(MoveNextRowOnDGV);
+                    frmLogData.getPrevRow += new ReceiveLogData(MovePrevRowOnDGV);
+                    frmLogData.getNextRow += new ReceiveLogData(MoveNextRowOnDGV);
                 }
 
                 //mlh  -> e.RowIndex could be -1 and thrown an exception
@@ -489,7 +489,13 @@ namespace Logger
         private void advancedFilter()
         {
             AdvancedFilterw advancedFilter = new AdvancedFilterw();
+            advancedFilter.PassDataGridView += new ToPassDataGridView(SendDataGridView);
             advancedFilter.ShowDialog();
+        }
+
+        private DataGridView SendDataGridView()
+        {
+            return dgvLog;
         }
 
         private void btExport_MouseClick(object sender, MouseEventArgs e)

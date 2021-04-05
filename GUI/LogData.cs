@@ -16,11 +16,12 @@ namespace Logger
         {
             InitializeComponent();
             PrevHeight = this.Height;
-            //this.FormClosing += LogData_FormClosing;
         }
 
         private void LogData_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //this.Dispose();
+            //GC.Collect();
             
         }
 

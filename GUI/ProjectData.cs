@@ -125,11 +125,7 @@ namespace Logger
 
         private void projectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Projects obj = (Projects)Application.OpenForms["Projects"];
-            //ReloadProjects += new RefreshData(obj.RefresDataListView);
-
             this.Close();
-
         }
 
         private void transactionRequestToolStripMenuItem_Click(object sender, EventArgs e)
