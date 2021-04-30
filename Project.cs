@@ -404,14 +404,24 @@ namespace Logger
                     strLine = strLine.Substring(0, strLine.Length - 2);
                 }
 
+                if (lineProcess == 44527 ||
+                    lineProcess == 44528 || 
+                    lineProcess == 44529 )
+                {
+
+                }
                 // 
                 Regex openGroup9 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
                 Regex openGroup8 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
+
+                //Regex openGroup9 = new Regex(@"(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])?(.*)");
+                //Regex openGroup8 = new Regex(@"(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])?(.*)");
                 Regex closeGroup = new Regex("]");
 
 
                 MatchCollection openGroupContent = openGroup9.Matches(strLine);
-                if (openGroupContent.Count == 0)
+                if ( (openGroupContent.Count == 0) ||
+                   (dateGroup.Matches(openGroupContent[0].Groups[0].ToString()).Count == 0) )
                 {
                     openGroupContent = openGroup8.Matches(strLine);
                 }

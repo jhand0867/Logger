@@ -99,8 +99,6 @@ namespace Logger
 
         public virtual Dictionary<string, string> readData(string sql)
         {
-            // here mlh
-
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
@@ -118,7 +116,6 @@ namespace Logger
 
         public string showBytes(byte[] data)
         {
-            //string fileBytes = data;
             string stringData = Encoding.ASCII.GetString(data);
             StringBuilder sb = new StringBuilder();
 

@@ -89,5 +89,21 @@ namespace Logger
             txtFieldData.Height = this.Height - 350;
         }
 
+        private void txtFieldData_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtFieldData_MouseClick(object sender, MouseEventArgs e)
+        {
+            string linkContent = null;
+            RichTextBox contentFieldData = (RichTextBox)sender;
+            int indexOfLink = contentFieldData.Text.IndexOf(@"https://");
+            if (indexOfLink > -1)
+            linkContent = contentFieldData.Text.Substring(indexOfLink, contentFieldData.Text.IndexOf("\n\t\n",indexOfLink)-indexOfLink); 
+            //if(linkContent != null)
+            //    System.Diagnostics.Process.Start(linkContent);
+
+        }
     }
 }

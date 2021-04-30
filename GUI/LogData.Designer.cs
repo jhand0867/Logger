@@ -42,11 +42,12 @@
             this.txtType = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtFieldData = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.rtbRawData = new System.Windows.Forms.RichTextBox();
             this.btnPrev = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.txtFieldData = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -211,19 +212,6 @@
             this.label2.TabIndex = 13;
             this.label2.Text = "Raw Data:";
             // 
-            // txtFieldData
-            // 
-            this.txtFieldData.BackColor = System.Drawing.Color.White;
-            this.txtFieldData.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFieldData.Location = new System.Drawing.Point(21, 564);
-            this.txtFieldData.Margin = new System.Windows.Forms.Padding(4);
-            this.txtFieldData.Multiline = true;
-            this.txtFieldData.Name = "txtFieldData";
-            this.txtFieldData.ReadOnly = true;
-            this.txtFieldData.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtFieldData.Size = new System.Drawing.Size(1137, 290);
-            this.txtFieldData.TabIndex = 14;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -270,17 +258,38 @@
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(591, 193);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(110, 25);
+            this.linkLabel1.TabIndex = 19;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "linkLabel1";
+            // 
+            // txtFieldData
+            // 
+            this.txtFieldData.Location = new System.Drawing.Point(23, 568);
+            this.txtFieldData.Name = "txtFieldData";
+            this.txtFieldData.Size = new System.Drawing.Size(1135, 301);
+            this.txtFieldData.TabIndex = 20;
+            this.txtFieldData.Text = "";
+            this.txtFieldData.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtFieldData_MouseClick);
+            this.txtFieldData.TextChanged += new System.EventHandler(this.txtFieldData_TextChanged);
+            // 
             // LogData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.ClientSize = new System.Drawing.Size(1169, 881);
+            this.Controls.Add(this.txtFieldData);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnPrev);
             this.Controls.Add(this.rtbRawData);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtFieldData);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtType);
             this.Controls.Add(this.label11);
@@ -323,10 +332,11 @@
         private System.Windows.Forms.Label txtType;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtFieldData;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RichTextBox rtbRawData;
         private System.Windows.Forms.Button btnPrev;
         private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.RichTextBox txtFieldData;
     }
 }

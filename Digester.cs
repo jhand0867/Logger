@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace Logger
 {
@@ -25,9 +26,12 @@ namespace Logger
         {
             var recTypeDic = new Dictionary<string, Func<string>>();
             recTypeDic.Add("1", () => new Digester().filterTLV(fieldType, fieldValue));
-            recTypeDic.Add("2", () => new Digester().filterConfiguration(fieldType, fieldValue));
+            recTypeDic.Add("2", () => new Digester().filterHardwareConfiguration(fieldType, fieldValue));
+            //recTypeDic.Add("2", () => new Digester().filterConfiguration(fieldType, fieldValue));
             recTypeDic.Add("3", () => new Digester().filterSupplies(fieldType, fieldValue));
             recTypeDic.Add("4", () => new Digester().filterMappingTable(fieldType, fieldValue));
+            recTypeDic.Add("5", () => new Digester().filterFieldNoDescription(fieldType, fieldValue));
+            recTypeDic.Add("6", () => new Digester().filterHWConfigWithScript(fieldType, fieldValue));
 
             try
             {
@@ -70,6 +74,7 @@ namespace Logger
             DataTable dataTable = getDescriptionX(fieldType);
 
             // Use fieldType = 1 when fieldvalue from message is a "Tag Length Value (TLV)" format
+            //  is it really TLV or just EMV Tag?
 
             foreach (string field in tmpfieldValue)
             {
@@ -95,8 +100,8 @@ namespace Logger
         {
 
             string fieldDesc = System.Environment.NewLine;
-            //string[] tmpfieldValue = fieldValue.Split(';');
-            string[] tmpfieldValue = fieldValue.Split(',');
+            string[] tmpfieldValue = fieldValue.Split(';');
+            //string[] tmpfieldValue = fieldValue.Split(',');
             DataTable dataTable = getDescriptionX(fieldType);
 
             // Use fieldType = 2 when fieldvalue from message is equal to subRecType in the Data Description
@@ -154,7 +159,34 @@ namespace Logger
             }
             return fieldDesc;
         }
+        /// <summary>
+        /// Use fieldType = 5 when fieldvalue from message is equal to subRecType in the Data Description
+        /// the parse will use the fieldName(item[3]) from Data Description and ignore the fieldDescription((item[4])
+        /// </summary>
+        /// <param name="fieldType">Data Description table FieldType</param>
+        /// <param name="fieldValue">Data Description table subRecType</param>
+        /// <returns></returns>
+        private string filterFieldNoDescription(string fieldType, string fieldValue)
+        {
+            string fieldDesc = "";
+            string[] tmpfieldValue = fieldValue.Split(';');
+            DataTable dataTable = getDescriptionX(fieldType);
 
+            
+            foreach (string field in tmpfieldValue)
+            {
+                foreach (DataRow item in dataTable.Rows)
+                {
+                    if (item[2].ToString().Trim() == field)
+                    {
+                        fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + System.Environment.NewLine;
+                        break;
+                    }
+                }
+            }
+
+            return fieldDesc;
+        }
 
         public DataTable getDescriptionX(string fieldType)
         {
@@ -234,6 +266,125 @@ namespace Logger
                 offset += hexLength * 2;
             }
             return tags;
+        }
+        public string filterHardwareConfiguration(string fieldType, string fieldValue)
+        {
+
+            string fieldDesc = System.Environment.NewLine;
+            string[] tmpfieldValue = fieldValue.Split(';');
+            //string[] tmpfieldValue = fieldValue.Split(',');
+            DataTable dataTable = getDescriptionX(fieldType);
+
+            // Use fieldType = 2 when fieldvalue from message is equal to subRecType in the Data Description
+
+            foreach (string field in tmpfieldValue)
+            {
+                if (field.Substring(0, 1) == "Y")
+                { 
+                }
+                foreach (DataRow item in dataTable.Rows)
+                {
+                    if (item[2].ToString().Trim() == field) 
+                    {
+                        fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + System.Environment.NewLine;
+                        break;
+                    }
+                    else if ((item[2].ToString().Trim().Substring(0, 1) == field.Substring(0, 1)) &&
+                             (item[2].ToString().Trim() == field.Substring(0, item[2].ToString().Trim().Length)))
+                    {
+                        int offset = item[2].ToString().Trim().Length;
+                        int reminder = field.Length - offset;
+                        fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + "  " + item[4].ToString().Trim() + "  (" + field.Substring(offset, reminder) + ")" + System.Environment.NewLine;
+
+                    }
+                }
+            }
+
+            return fieldDesc;
+        }
+        public string filterHWConfigWithScript(string fieldType, string fieldValue)
+        {
+
+            string fieldDesc = System.Environment.NewLine;
+            string[] tmpfieldValue = fieldValue.Split(';');
+            //string[] tmpfieldValue = fieldValue.Split(',');
+            DataTable dataTable = getDescriptionX(fieldType);
+
+            // Use fieldType = 2 when fieldvalue from message is equal to subRecType in the Data Description
+
+            foreach (string field in tmpfieldValue)
+            {
+                if (field.Substring(0, 1) == "Y")
+                {
+                }
+                foreach (DataRow item in dataTable.Rows)
+                {
+                    if (item[2].ToString().Trim() == field)
+                    {
+                        fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + System.Environment.NewLine;
+                        break;
+                    }
+                    else if ((item[2].ToString().Trim().Substring(0, 1) == field.Substring(0, 1)) &&
+                             (item[2].ToString().Trim() == field.Substring(0, item[2].ToString().Trim().Length)))
+                    {
+                        int offset = item[2].ToString().Trim().Length;
+                        int reminder = field.Length - offset;
+                        string field4 = item[4].ToString().Trim();
+                        string fieldResult = "";
+                        string outputField = "";
+                        int lengthOfField4 = field4.Length;
+
+                        // /(\{.*\})/gUgs
+                        Regex handleBars = new Regex(@"(\{.*?\})",RegexOptions.Singleline);
+                        int field4Offset = 0;
+                        //Match hit = handleBars.Match(field4, field4Offset);
+
+                        while (field4Offset < lengthOfField4 )
+                        {
+                            
+                            MatchCollection scriptsToApply = handleBars.Matches(field4);
+
+                            foreach (Match hit in scriptsToApply)
+                            {
+                                field4Offset += hit.Length;
+                                int indexOfScriptStart = hit.Value.IndexOf("{", 0);
+                                int indexOfSctiptEnd = hit.Value.IndexOf("}", indexOfScriptStart);
+                                if (indexOfScriptStart != -1)
+                                {
+                                    // what scripts do I have
+
+                                    // {0,2,%Hopper Types}
+                                    // {3,3,%Total number of coins that can be dispensed per transaction.}
+                                    // workfield = 04070
+
+
+                                    fieldResult = hit.Value.Substring(indexOfScriptStart + 1, indexOfSctiptEnd - 1);
+                                    string[] scriptOptions = fieldResult.Split(',');
+
+                                    string workField = field.Substring(offset, reminder);
+
+                                    outputField += scriptOptions[2] + " =" + 
+                                        workField.Substring(Convert.ToInt32(scriptOptions[0]),Convert.ToInt32(scriptOptions[1])) + 
+                                        System.Environment.NewLine;
+                                   
+                                }
+                            }
+                                                    //outputField += workField.Substring();
+
+                            // add substring for description
+                            // deal with the total of the bytes 
+
+
+
+                            //fieldResult += field4.Substring();
+                        }
+                        fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + "  " + item[4].ToString().Trim() + "  (" + outputField + ")" + System.Environment.NewLine;
+
+                    }
+                }
+            }
+
+            return fieldDesc;
         }
     }
 }

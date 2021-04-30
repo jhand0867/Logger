@@ -18,10 +18,14 @@ namespace Logger
 
     public partial class LogView : Form
     {
+        // needed to set the column's width of the datagridview.
+        public const int TIMESTAMP_COLUMN_WIDTH = 165;
+
         // needed for printing 
 
         private Font printFont;
         private string streamToPrint;
+        
         int count = 0;
         int pagesCount = 0;
 
@@ -30,6 +34,7 @@ namespace Logger
             InitializeComponent();
             this.FormClosing += LogView_FormClosing;
             dgvLog.DefaultCellStyle.Font = new Font(FontFamily.GenericSansSerif, 9);
+            //dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
         }
 
         private void LogView_FormClosing(object sender, FormClosingEventArgs e)
@@ -42,17 +47,23 @@ namespace Logger
 
         private void LogView_Load(object sender, EventArgs e)
         {
-            dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
-
+            try
+            {
+                //dgvLog.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                //dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             if (dgvLog.DataSource == null)
             {
                 MessageBox.Show("unable to access database, please retry");
                 return;
             }
 
-
             //dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dgvLog.Columns["Timestamp"].Width = 134;
+            dgvLog.Columns["Timestamp"].Width = TIMESTAMP_COLUMN_WIDTH;
             AddHeaders(dgvLog);
 
             dgvLog.Dock = DockStyle.Fill;
@@ -89,7 +100,6 @@ namespace Logger
 
         private void reloadData()
         {
-
             dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
 
             if (dgvLog.DataSource == null)
@@ -112,16 +122,14 @@ namespace Logger
             cmbColumHeader6.SelectedItem = null;
             cmbColumHeader7.SelectedIndex = -1;
             cmbColumHeader7.SelectedItem = null;
-
-            dgvLog.AlternatingRowsDefaultCellStyle.Font = new Font(FontFamily.GenericSansSerif, 9);
+           
             using (Font font = new Font(
                 dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
-                dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+                dgvLog.AlternatingRowsDefaultCellStyle.Font = font;
             }
-
-            dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dgvLog.Columns["Timestamp"].Width = TIMESTAMP_COLUMN_WIDTH;
             dgvLog.ClearSelection();
         }
 
@@ -131,7 +139,6 @@ namespace Logger
             dgvLog.ColumnHeadersVisible = true;
             dgvLog.Columns["id"].Visible = false;
             dgvLog.Columns["logKey"].Visible = false;
-            //  dgvLog.Columns["Log"].Visible = false;
             dgvLog.Columns["group9"].Visible = false;
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
@@ -239,7 +246,6 @@ namespace Logger
 
         private void cmbColumHeader2_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
-            //this.dgvLog.DataSource = null;
             string sqlLike = "='" + c.Text + "'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group4", sqlLike);
             cmbColumHeader4.SelectedIndex = -1;
@@ -256,7 +262,6 @@ namespace Logger
 
         private void cmbColumHeader4_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
-            //this.dgvLog.DataSource = null;
             string sqlLike = "='" + c.Text + "'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group5", sqlLike);
             cmbColumHeader2.SelectedIndex = -1;
@@ -273,12 +278,8 @@ namespace Logger
 
         private void cmbColumHeader5_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
-            //this.dgvLog.DataSource = null;
-
             string sqlLike = " LIKE '%[[]" + c.Text + "%'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group6", sqlLike);
-
-            //doDgvColumns();
 
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.SelectedItem = null;
@@ -294,7 +295,6 @@ namespace Logger
 
         private void cmbColumHeader7_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
-            //this.dgvLog.DataSource = null;
             string sqlLike = "='" + c.Text + "'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group7", sqlLike);
             cmbColumHeader2.SelectedIndex = -1;
@@ -311,12 +311,8 @@ namespace Logger
 
         private void cmbColumHeader6_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
-            //this.dgvLog.DataSource = null;
-
             string sqlLike = " LIKE '%" + c.Text + "%'";
             this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", sqlLike);
-
-            //doDgvColumns();
 
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.SelectedItem = null;
@@ -336,8 +332,6 @@ namespace Logger
         /// </summary>
         /// <param name="dgvr"></param>
         public delegate void passLogData(DataGridViewRow dgvr);
-        
-        
 
         public passLogData setData;
 
@@ -357,8 +351,6 @@ namespace Logger
                     frmLogData.getNextRow += new ReceiveLogData(MoveNextRowOnDGV);
                 }
 
-                //mlh  -> e.RowIndex could be -1 and thrown an exception
-
                 setData(dgvLog.Rows[e.RowIndex]);
 
                 frmLogData.TopMost = true;
@@ -375,7 +367,7 @@ namespace Logger
         {
             DataGridViewRow dgvr = null;
             int nrow = dgvLog.SelectedCells[0].RowIndex;
-            if (dgvLog.RowCount > nrow - 1)
+            if (dgvLog.RowCount > nrow - 1 && nrow > 0)
             {
                 int col = dgvLog.CurrentCell.ColumnIndex;
                 dgvLog.CurrentCell = dgvLog[col, nrow - 1];
@@ -448,21 +440,22 @@ namespace Logger
 
         private void dataWrapping(EventArgs e)
         {
-            dgvLog.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
-            int rowIndex = dgvLog.SelectedCells[0].RowIndex;
-
             if (dataWrappingToolStripMenuItem1.Text == "Data Wrapping")
             {
+                dgvLog.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                //dgvLog.RowTemplate.Height = 28;
+                //dgvLog.RowTemplate.MinimumHeight = 3;
                 dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 dataWrappingToolStripMenuItem.Text = "Data Unwrapping";
-                dataWrappingToolStripMenuItem1.Text = "Data Unwrapping";
+                dataWrappingToolStripMenuItem1.Text = "Data Unwrapping";             
                 dgvLog.Refresh();
             }
             else
             {
-                dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.False;
                 dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.False;
                 dataWrappingToolStripMenuItem.Text = "Data Wrapping";
                 dataWrappingToolStripMenuItem1.Text = "Data Wrapping";
                 dgvLog.Refresh();

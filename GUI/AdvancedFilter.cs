@@ -257,10 +257,9 @@ namespace Logger
             if (sqlLike != "")
             {
                 //object ob = Application.OpenForms["LogView"].Controls[1].Controls[0].Controls["dgvLog"];
-                object ob = PassDataGridView();
-                if (ob != null)
+                DataGridView dg = PassDataGridView();
+                if (dg != null)
                 {
-                    DataGridView dg = (DataGridView)ob;
                     dg.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
                     dg.Refresh();
                 }
