@@ -132,9 +132,13 @@ namespace Logger
                         fieldDesc = myDigester.fieldDigester(item[5].ToString(), fieldValue);
                         fieldValue = fieldValue.Replace(";", " ");
                     }
-
-                    optionDesc += " = " + fieldValue + insertDescription(item[4].ToString()) + fieldDesc;
-
+                    if (item[4].ToString().Length > 0 && item[4].ToString().Substring(0, 1) == "{")
+                    {
+                        Digester myDigester = LoggerFactory.Create_Digester();
+                        optionDesc += " = " + myDigester.filterFieldDescriptionWithScript(fieldValue, item[4].ToString());
+                    }
+                    else
+                        optionDesc += " = " + fieldValue + insertDescription(item[4].ToString()) + fieldDesc;
                     break;
                 }
             }
