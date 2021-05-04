@@ -108,19 +108,19 @@ namespace Logger
             return ss;
         }
 
-        internal string getOptionDescription(DataTable dataTable, string field)
-        {
-            string optionDesc = "";
-            // what's the description of the field
-            foreach (DataRow item in dataTable.Rows)
-            {
-                if (item[2].ToString().Trim() == field)
-                {
-                    optionDesc = item[3].ToString().Trim();
-                    break;
-                }
-            }
-            return optionDesc;
-        }
+        //internal string getOptionDescription(DataTable dataTable, string field)
+        //{
+        //    string optionDesc = "";
+        //    // what's the description of the field
+        //    foreach (DataRow item in dataTable.Rows)
+        //    {
+        //        if (item[2].ToString().Trim() == field)
+        //        {
+        //            optionDesc = item[3].ToString().Trim();
+        //            break;
+        //        }
+        //    }
+        //    return optionDesc;
+        //}
     }
 }

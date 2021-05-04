@@ -283,20 +283,20 @@ namespace Logger
 
         }
 
-        private string insertDescription(string fieldDescription)
-        {
-            string description = "";
+        //private string insertDescription(string fieldDescription)
+        //{
+        //    string description = "";
 
-            if (fieldDescription != "")
-            {
-                description += System.Environment.NewLine + fieldDescription.Trim() + System.Environment.NewLine;
-            }
-            else
-            {
-                description += fieldDescription.Trim() + System.Environment.NewLine;
-            }
-            return description;
-        }
+        //    if (fieldDescription != "")
+        //    {
+        //        description += System.Environment.NewLine + fieldDescription.Trim() + System.Environment.NewLine;
+        //    }
+        //    else
+        //    {
+        //        description += fieldDescription.Trim() + System.Environment.NewLine;
+        //    }
+        //    return description;
+        //}
 
         public virtual void checkExtensions(StateRec st)
         {

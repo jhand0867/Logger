@@ -84,7 +84,7 @@ namespace Logger
             {
                 for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
                 {
-                    txtField += getOptionDescription(ss, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
+                    txtField += App.Prj.getOptionDescription(ss, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
                                                          dts[0].Rows[0][colNum].ToString());
                     txtField += "\t" + System.Environment.NewLine;
 
@@ -111,39 +111,39 @@ namespace Logger
             return true;
         }
 
-        internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)
-        {
+        //internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)
+        //{
 
-            // todo: enter data descriptions for all records
-            // todo: put together the digesting routines for all record types
+        //    // todo: enter data descriptions for all records
+        //    // todo: put together the digesting routines for all record types
 
-            string optionDesc = "";
-            string fieldDesc = "";
+        //    string optionDesc = "";
+        //    string fieldDesc = "";
 
-            // what's the description of the field
-            foreach (DataRow item in dataTable.Rows)
-            {
-                if (item[2].ToString().Trim() == field)
-                {
-                    optionDesc = item[3].ToString().Trim();
-                    if (item[5].ToString() != null && item[5].ToString() != "")
-                    {
-                        Digester myDigester = LoggerFactory.Create_Digester();
-                        fieldDesc = myDigester.fieldDigester(item[5].ToString(), fieldValue);
-                        fieldValue = fieldValue.Replace(";", " ");
-                    }
-                    if (item[4].ToString().Length > 0 && item[4].ToString().Substring(0, 1) == "{")
-                    {
-                        Digester myDigester = LoggerFactory.Create_Digester();
-                        optionDesc += " = " + myDigester.filterFieldDescriptionWithScript(fieldValue, item[4].ToString());
-                    }
-                    else
-                        optionDesc += " = " + fieldValue + insertDescription(item[4].ToString()) + fieldDesc;
-                    break;
-                }
-            }
-            return optionDesc;
-        }
+        //    // what's the description of the field
+        //    foreach (DataRow item in dataTable.Rows)
+        //    {
+        //        if (item[2].ToString().Trim() == field)
+        //        {
+        //            optionDesc = item[3].ToString().Trim();
+        //            if (item[5].ToString() != null && item[5].ToString() != "")
+        //            {
+        //                Digester myDigester = LoggerFactory.Create_Digester();
+        //                fieldDesc = myDigester.fieldDigester(item[5].ToString(), fieldValue);
+        //                fieldValue = fieldValue.Replace(";", " ");
+        //            }
+        //            if (item[4].ToString().Length > 0 && item[4].ToString().Substring(0, 1) == "{")
+        //            {
+        //                Digester myDigester = LoggerFactory.Create_Digester();
+        //                optionDesc += " = " + myDigester.filterFieldDescriptionWithScript(fieldValue, item[4].ToString());
+        //            }
+        //            else
+        //                optionDesc += " = " + fieldValue + insertDescription(item[4].ToString()) + fieldDesc;
+        //            break;
+        //        }
+        //    }
+        //    return optionDesc;
+        //}
 
         internal string getRecordType(string recValue)
         {
@@ -168,27 +168,27 @@ namespace Logger
             return recordType;
         }
 
-        private string insertDescription(string fieldDescription)
-        {
-            string description = "";
+        //private string insertDescription(string fieldDescription)
+        //{
+        //    string description = "";
 
-            if (fieldDescription != "")
-            {
-                if (fieldDescription.Contains("\r\n"))
-                {
-                    description += System.Environment.NewLine + fieldDescription.Trim() + System.Environment.NewLine;
-                }
-                else
-                {
-                    description += "\t" + fieldDescription.Trim() + System.Environment.NewLine;
-                }
-            }
-            else
-            {
-                description += fieldDescription.Trim();
-            }
-            return description;
-        }
+        //    if (fieldDescription != "")
+        //    {
+        //        if (fieldDescription.Contains("\r\n"))
+        //        {
+        //            description += System.Environment.NewLine + fieldDescription.Trim() + System.Environment.NewLine;
+        //        }
+        //        else
+        //        {
+        //            description += "\t" + fieldDescription.Trim() + System.Environment.NewLine;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        description += fieldDescription.Trim();
+        //    }
+        //    return description;
+        //}
 
     }
 }
