@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FilterFieldDescriptionWithScript.cs" />
     <Compile Include="GUI\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +110,7 @@
     <Compile Include="GUI\DeleteQuery.Designer.cs">
       <DependentUpon>DeleteQuery.cs</DependentUpon>
     </Compile>
+    <Compile Include="IFilter.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="InteractiveTranResponse.cs" />
     <Compile Include="EjOptionsTimers.cs" />

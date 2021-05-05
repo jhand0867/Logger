@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace Logger
 {
-    public class Digester
+    public class Digester:IFilter
     {
 
         // call this class to handle Data Descriptions with a value in fieldType  (field type not equal to Null)
@@ -25,7 +25,9 @@ namespace Logger
         public string fieldDigester(string fieldType, string fieldValue)
         {
             var recTypeDic = new Dictionary<string, Func<string>>();
+            //recTypeDic.Add("1", () => new FilterHWConfigWithScript().executeScript(fieldType, fieldValue));
             recTypeDic.Add("1", () => new Digester().filterTLV(fieldType, fieldValue));
+            //recTypeDic.Add("2", () => new filterSupplies().executeScript(fieldType, fieldValue));
             recTypeDic.Add("2", () => new Digester().filterHWConfigWithScript(fieldType, fieldValue));
             recTypeDic.Add("3", () => new Digester().filterSupplies(fieldType, fieldValue));
             recTypeDic.Add("4", () => new Digester().filterMappingTable(fieldType, fieldValue));
@@ -494,5 +496,9 @@ namespace Logger
             return fieldDesc;
         }
 
+        public string executeScript(string fieldType, string fieldValue)
+        {
+            return "";
+        }
     }
 }
