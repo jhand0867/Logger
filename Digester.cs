@@ -22,19 +22,21 @@ namespace Logger
                                 "9F4E,9F4F,A5,BF0C,";
 
 
-        public string fieldDigester(string fieldType, string fieldValue)
+        public string fieldDigester(string fieldType, string fieldValue, string scriptValue)
         {
             var recTypeDic = new Dictionary<string, Func<string>>();
+            recTypeDic.Add("0", () => new FilterFieldDescriptionWithScript().executeScript(fieldValue, scriptValue));
             //recTypeDic.Add("1", () => new FilterHWConfigWithScript().executeScript(fieldType, fieldValue));
             recTypeDic.Add("1", () => new Digester().filterTLV(fieldType, fieldValue));
             //recTypeDic.Add("2", () => new filterSupplies().executeScript(fieldType, fieldValue));
             recTypeDic.Add("2", () => new Digester().filterHWConfigWithScript(fieldType, fieldValue));
             recTypeDic.Add("3", () => new Digester().filterSupplies(fieldType, fieldValue));
-            recTypeDic.Add("4", () => new Digester().filterMappingTable(fieldType, fieldValue));
+            recTypeDic.Add("4", () => new filterMappingTable().executeScript(fieldType, fieldValue));
+            //recTypeDic.Add("4", () => new Digester().filterMappingTable(fieldType, fieldValue));
             recTypeDic.Add("5", () => new Digester().filterFieldNoDescription(fieldType, fieldValue));
             recTypeDic.Add("6", () => new Digester().filterConfiguration(fieldType, fieldValue));
             recTypeDic.Add("7", () => new Digester().filterHWConfigWithScript(fieldType, fieldValue));
-
+            
             try
             {
                 //todo: fix it gracefully

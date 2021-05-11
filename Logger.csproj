@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FilterFieldDescriptionWithScript.cs" />
+    <Compile Include="filterMappingTable.cs" />
     <Compile Include="GUI\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,7 +148,9 @@
       <DependentUpon>SaveQuery.cs</DependentUpon>
     </Compile>
     <Compile Include="IPrint.cs" />
-    <Compile Include="LoggerPrinter.cs" />
+    <Compile Include="LoggerPrinter.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SQLSearchCondition.cs" />
     <Compile Include="TerminalCommands.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData1.cs" />
@@ -429,6 +432,7 @@
   <ItemGroup>
     <Content Include="GUI\Icon1.ico" />
     <Content Include="Logger01.ico" />
+    <Content Include="Available Record Types.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

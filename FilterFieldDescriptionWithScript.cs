@@ -7,37 +7,30 @@ using System.Threading.Tasks;
 
 namespace Logger
 {
-    class FilterFieldDescriptionWithScript : IFilter
+    class FilterFieldDescriptionWithScript : Digester
     {
-        public string executeScript(string fieldType, string fieldValue)
+        public new string executeScript(string fieldValue, string scriptValue)
         {
             string fieldDesc = "";
 
-            // Use fieldType = 2 when fieldType from message is equal to subRecType in the Data Description
-
-            int offset = 0;
-            int reminder = fieldType.Length - offset;
-            string field4 = fieldValue.Trim();
-            string fieldResult = "";
+            string fieldResult;
             string outputField = "";
-            int lengthOfField4 = field4.Length;
+
 
             // /(\{.*\})/gUgs
             Regex handleBars = new Regex(@"(\{.*?\})", RegexOptions.Singleline);
             int field4Offset = 0;
 
-            while (field4Offset < lengthOfField4 - 1)
-            {
-                MatchCollection scriptsToApply = handleBars.Matches(field4);
+
+                MatchCollection scriptsToApply = handleBars.Matches(scriptValue.Trim());
 
                 if (scriptsToApply.Count == 0)
-                {
-                    outputField += " = " + field4;
-                    break;
-                }
+                    outputField += " = " + fieldValue;
 
                 foreach (Match hit in scriptsToApply)
                 {
+                    if (hit.Index == 0)
+                        continue;
                     field4Offset += hit.Length;
                     int indexOfScriptStart = hit.Value.IndexOf("{", 0);
                     int indexOfSctiptEnd = hit.Value.IndexOf("}", indexOfScriptStart);
@@ -48,20 +41,21 @@ namespace Logger
                         fieldResult = hit.Value.Substring(indexOfScriptStart + 1, indexOfSctiptEnd - 1);
                         string[] scriptOptions = fieldResult.Split(',');
 
-                        string workField = fieldType.Substring(offset, reminder);
-
                         if (scriptOptions[2].IndexOf('%') == 0)
                         {
                             outputField += System.Environment.NewLine + "\t";
                         }
-                        outputField += workField.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
+                        outputField += fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
                                        scriptOptions[2].Substring(0, scriptOptions[2].Length);
                     }
                 }
-            }
             fieldDesc = fieldDesc + "   " + "  " + outputField + " " + System.Environment.NewLine;
-
             return fieldDesc;
         }
+        public string formattedOutput(string value, string formatter)
+        {
+            return "";
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Logger
@@ -160,6 +161,7 @@ namespace Logger
 
             string optionDesc = "";
             string fieldDesc = "";
+            string scriptID = "";
 
             // what's the description of the field
             foreach (DataRow item in dataTable.Rows)
@@ -170,13 +172,18 @@ namespace Logger
                     if (item[5].ToString() != null && item[5].ToString() != "")
                     {
                         Digester myDigester = LoggerFactory.Create_Digester();
-                        fieldDesc = myDigester.fieldDigester(item[5].ToString(), fieldValue);
+                        fieldDesc = myDigester.fieldDigester(item[5].ToString(), fieldValue, null);
                         fieldValue = fieldValue.Replace(";", " ");
                     }
                     if (item[4].ToString().Length > 0 && item[4].ToString().Substring(0, 1) == "{")
                     {
-                        Digester myDigester = LoggerFactory.Create_Digester();
-                        optionDesc += " = " + myDigester.filterFieldDescriptionWithScript(fieldValue, item[4].ToString());
+                        Regex handleBars = new Regex(@"(\{.*?\})", RegexOptions.Singleline);
+                        MatchCollection scriptsToApply = handleBars.Matches(item[4].ToString());
+                        if (scriptsToApply.Count > 0)
+                            scriptID = scriptsToApply[0].ToString().Substring(1, 1); 
+
+                        Digester myDigester = LoggerFactory.Create_Digester();                    
+                        optionDesc += " = " + myDigester.fieldDigester(scriptID, fieldValue, item[4].ToString());
                     }
                     else
                         optionDesc += " = " + fieldValue + insertDescription(item[4].ToString()) + fieldDesc;
