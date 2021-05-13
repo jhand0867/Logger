@@ -3,6 +3,8 @@ using System.Data;
 
 namespace Logger
 {
+    // todo:  revise write and parse need to include response flag, Luno, message sequence
+
     class ConfigIdRec : App, IMessage
     {
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
@@ -64,7 +66,8 @@ namespace Logger
 
             DataTable configId = getDescription();
 
-            txtField = configId.Rows[0][3].ToString().Trim() + " = " + dts[0].Rows[0][3].ToString();
+            txtField = getOptionDescription(configId, "01", dts[0].Rows[0][3].ToString());
+
             return txtField;
         }
     }

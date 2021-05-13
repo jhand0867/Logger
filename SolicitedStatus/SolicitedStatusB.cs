@@ -103,7 +103,7 @@ namespace Logger
                 ss.StatusDescriptor = tmp[0];
                 ss.SmartCardDataID = tmp[1];
                 ss.CentralRequestedICCDO = digester.iccTLVTags(tmp[2]);
-                if (tmp.Length > 3)
+                if (tmp.Length > 3 && tmp[3].Length > 2)
                 {
                     ss.RsltOfIssuerScriptProcessing = tmp[3].Substring(0, 1);
                     ss.SeqnumOfScriptCommand = tmp[3].Substring(1, 1);

@@ -92,6 +92,14 @@ namespace Logger
 
             for (int x = 0; x < tmpAids.Length; x++)
             {
+                 
+                 //todo: Acceptable Application records show the collection of
+                 //tags separated with 0x1d character
+                 //we need to deal with it  
+                 // added the if to skip 0x1d records
+
+                if (tmpAids[x].Length == 2) continue;
+
                 iccApp.Rectype = "85";
                 int offset = 0;
                 iccApp.EntryNumber = tmpAids[x].Substring(offset, 2);

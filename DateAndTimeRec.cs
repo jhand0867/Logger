@@ -8,6 +8,8 @@ namespace Logger
     {
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
+            //todo: do ** THE WHOLE THING **
+
             return null;
         }
 

@@ -146,6 +146,8 @@ namespace Logger
 
         public DataTable getDescription()
         {
+            // todo: need to add remaining O and T in the dataDescription
+
             string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'C' ";
 
             DbCrud db = new DbCrud();
@@ -161,7 +163,6 @@ namespace Logger
             if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
 
             DataTable paramRecDt = getDescription();
-            string optionDesc;
 
             foreach (DataTable dt in dts)
             {
@@ -177,9 +178,7 @@ namespace Logger
                                 txtField += @"OPTIONS" + System.Environment.NewLine;
                                 txtField += @"==================================================" + System.Environment.NewLine;
                             }
-                            txtField += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-                            optionDesc = getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString());
-                            txtField += "\t" + optionDesc + System.Environment.NewLine;
+                            txtField += getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
                         }
                         if (dt.Rows[rowNum][5].ToString() == "2")
                         {
@@ -190,9 +189,7 @@ namespace Logger
                                 txtField += @"==================================================" + System.Environment.NewLine;
                                 TimerStartFlag = true;
                             }
-                            txtField += dt.Columns[3].ColumnName.ToUpper() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-                            optionDesc = getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString());
-                            txtField += "\t" + optionDesc + System.Environment.NewLine;
+                            txtField += getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
                         }
                     }
                 }
