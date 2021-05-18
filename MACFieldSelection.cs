@@ -70,7 +70,7 @@ namespace Logger
                 for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
                 {
                     txtField += App.Prj.getOptionDescription(ss, colNum.ToString("00"), dts[0].Rows[0][colNum].ToString());
-                    txtField += "\t" + System.Environment.NewLine;
+                    //txtField += "\t" + System.Environment.NewLine;
 
                 }
             }

@@ -22,8 +22,8 @@ MSG TYPE  MSG CLASS  MSG SUBCLASS  IDENTIFIER  COMMAND
    Q          3         2                       Interactive Transaction Response
    O          3         4                       Extended Encryption Key Change
    R          4                                 Transaction Reply
-   J          6         1                       Aknowledge EJ Upload block
-   L          6         2                       Aknowledge and Stop EJ
+   J          6         1                       Acknowledge EJ Upload block
+   L          6         2                       Acknowledge and Stop EJ
    M          6         3                       EJ options and timers
               7         1                       Host to Exit
    8          8         1                       ICC Currency DOT

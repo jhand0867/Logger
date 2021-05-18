@@ -45,14 +45,14 @@ namespace Logger
             }
             catch (Exception ex)
             {
-                return null;
+                return ex.StackTrace;
             }
 
         }
 
         private string filterMappingTable(string fieldType, string fieldValue)
         {
-            string fieldDesc = System.Environment.NewLine;
+            string fieldDesc = ""; // System.Environment.NewLine;
             DataTable dataTable = getDescriptionX(fieldType);
             int offset = 0;
 
@@ -75,7 +75,7 @@ namespace Logger
         public string filterTLV(string fieldType, string fieldValue)
         {
 
-            string fieldDesc = System.Environment.NewLine;
+            string fieldDesc = ""; // System.Environment.NewLine;
             string[] tmpfieldValue = fieldValue.Split(';');
             DataTable dataTable = getDescriptionX(fieldType);
 
@@ -105,7 +105,7 @@ namespace Logger
         public string filterConfiguration(string fieldType, string fieldValue)
         {
 
-            string fieldDesc = System.Environment.NewLine;
+            string fieldDesc = ""; // System.Environment.NewLine;
             string[] tmpfieldValue = fieldValue.Split(';');
             //string[] tmpfieldValue = fieldValue.Split(',');
             DataTable dataTable = getDescriptionX(fieldType);
@@ -130,7 +130,7 @@ namespace Logger
         public string filterSupplies(string fieldType, string fieldValue)
         {
 
-            string fieldDesc = System.Environment.NewLine;
+            string fieldDesc = ""; //System.Environment.NewLine;
             string[] tmpfieldValue = fieldValue.Split(';');
             DataTable dataTable = getDescriptionX(fieldType);
 
@@ -276,7 +276,7 @@ namespace Logger
         public string filterHardwareConfiguration(string fieldType, string fieldValue)
         {
 
-            string fieldDesc = System.Environment.NewLine;
+            string fieldDesc = ""; // System.Environment.NewLine;
             string[] tmpfieldValue = fieldValue.Split(';');
             //string[] tmpfieldValue = fieldValue.Split(',');
             DataTable dataTable = getDescriptionX(fieldType);
@@ -308,7 +308,7 @@ namespace Logger
         public string filterHWConfigWithScript(string fieldType, string fieldValue)
         {
 
-            string fieldDesc = System.Environment.NewLine;
+            string fieldDesc = ""; // System.Environment.NewLine;
             string[] tmpfieldValue = fieldValue.Split(';');
             //string[] tmpfieldValue = fieldValue.Split(',');
             DataTable dataTable = getDescriptionX(fieldType);
@@ -377,7 +377,7 @@ namespace Logger
         public string filterDeviceStatus(string fieldType, string fieldValue)
         {
 
-            string fieldDesc = System.Environment.NewLine;
+            string fieldDesc = ""; // System.Environment.NewLine;
             string[] tmpfieldValue = fieldValue.Split(';');
             //string[] tmpfieldValue = fieldValue.Split(',');
             DataTable dataTable = getDescriptionX(fieldType);

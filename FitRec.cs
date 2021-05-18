@@ -147,6 +147,8 @@ namespace Logger
 
             foreach (DataTable dt in dts)
             {
+                // todo:  MLH  WE ARE HERE 
+
                 if (dt.Rows.Count > 0)
                 {
                     for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)

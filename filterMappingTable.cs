@@ -12,7 +12,7 @@ namespace Logger
     {
         public new string executeScript(string fieldType, string fieldValue)
         {
-            string fieldDesc = System.Environment.NewLine;
+            string fieldDesc = ""; // System.Environment.NewLine;
             DataTable dataTable = getDescriptionX(fieldType);
             int offset = 0;
 

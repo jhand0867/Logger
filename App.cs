@@ -180,13 +180,22 @@ namespace Logger
                         Regex handleBars = new Regex(@"(\{.*?\})", RegexOptions.Singleline);
                         MatchCollection scriptsToApply = handleBars.Matches(item[4].ToString());
                         if (scriptsToApply.Count > 0)
-                            scriptID = scriptsToApply[0].ToString().Substring(1, 1); 
+                            scriptID = scriptsToApply[0].ToString().Substring(1, 1);
 
-                        Digester myDigester = LoggerFactory.Create_Digester();                    
+                        Digester myDigester = LoggerFactory.Create_Digester();
                         optionDesc += " = " + myDigester.fieldDigester(scriptID, fieldValue, item[4].ToString());
                     }
                     else
-                        optionDesc += " = " + fieldValue + insertDescription(item[4].ToString()) + fieldDesc;
+                    {
+                        optionDesc += " = " + fieldValue;
+
+                        if (fieldDesc == "")
+                            optionDesc += insertDescription(item[4].ToString());
+                        else if (item[4].ToString() == "")
+                            optionDesc += fieldDesc;
+                        else
+                            optionDesc += insertDescription(item[4].ToString()) + fieldDesc;
+                    }
                     break;
                 }
             }
@@ -210,7 +219,7 @@ namespace Logger
             }
             else
             {
-                description += fieldDescription.Trim();
+                description += fieldDescription.Trim() + "\t" + System.Environment.NewLine;
             }
             return description;
         }

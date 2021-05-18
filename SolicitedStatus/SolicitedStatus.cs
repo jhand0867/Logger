@@ -86,7 +86,7 @@ namespace Logger
                 {
                     txtField += App.Prj.getOptionDescription(ss, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
                                                          dts[0].Rows[0][colNum].ToString());
-                    txtField += "\t" + System.Environment.NewLine;
+                   // txtField += "\t" + System.Environment.NewLine;
 
                 }
             }

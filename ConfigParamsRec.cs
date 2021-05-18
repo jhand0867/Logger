@@ -196,13 +196,7 @@ namespace Logger
                             if (fieldContent == "")
                                 continue;
                             else
-                            {
-                                //string optionDesc = getOptionDescription(configDt, fieldNum.ToString("00"));
-                                // txtField += optionDesc + " = ";
-                                // txtField += fieldContent;
-                                // txtField += System.Environment.NewLine;
                                 txtField += getOptionDescription(configDt, fieldNum.ToString("00"), fieldContent);
-                            }
                         }
                     }
                 }
@@ -215,14 +209,9 @@ namespace Logger
         {
             string timers = "";
             if (dt.Rows.Count > 0)
-            {
                 for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
-                {
-                    //timers += dt.Columns[3].ColumnName.Trim() + " " + dt.Rows[rowNum][3].ToString() + " = " + dt.Rows[rowNum][4].ToString();
-                    // timers += "\t" + optionDesc + System.Environment.NewLine;
                     timers += getOptionDescription(configDt, "T" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
-                }
-            }
+
             return timers;
         }
     }
