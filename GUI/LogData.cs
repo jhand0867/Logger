@@ -7,7 +7,7 @@ namespace Logger
 {
     public partial class LogData : Form
     {
-        
+
         private int prevHeight;
 
         public int PrevHeight { get => prevHeight; set => prevHeight = value; }
@@ -22,7 +22,7 @@ namespace Logger
         {
             //this.Dispose();
             //GC.Collect();
-            
+
         }
 
         private void LogData_Load(object sender, EventArgs e)
@@ -66,9 +66,9 @@ namespace Logger
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-                DataGridViewRow dgvr = getNextRow();
-                if (dgvr != null)
-                    setData(dgvr);
+            DataGridViewRow dgvr = getNextRow();
+            if (dgvr != null)
+                setData(dgvr);
         }
 
         private void btnPrev_Click(object sender, EventArgs e)
@@ -100,7 +100,7 @@ namespace Logger
             RichTextBox contentFieldData = (RichTextBox)sender;
             int indexOfLink = contentFieldData.Text.IndexOf(@"https://");
             if (indexOfLink > -1)
-            linkContent = contentFieldData.Text.Substring(indexOfLink, contentFieldData.Text.IndexOf("\n\t\n",indexOfLink)-indexOfLink); 
+                linkContent = contentFieldData.Text.Substring(indexOfLink, contentFieldData.Text.IndexOf("\n\t\n", indexOfLink) - indexOfLink);
             //if(linkContent != null)
             //    System.Diagnostics.Process.Start(linkContent);
 

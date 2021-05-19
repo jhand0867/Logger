@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 
 namespace Logger
 {
-   
+
 
     public partial class ProjectInfo : Form
     {
@@ -42,7 +41,7 @@ namespace Logger
                 Project pr = new Project();
 
                 // do we have this project already?
-                DataTable  projectData = pr.getProjectByName(tbPName.Text);
+                DataTable projectData = pr.getProjectByName(tbPName.Text);
                 if (projectData.Rows.Count > 0)
                 {
                     // Project already exists
@@ -53,9 +52,9 @@ namespace Logger
                 {
                     pr.createProject(tbPName.Text, tbPBrief.Text);
                     ReloadDataListView();
-                    
+
                     this.Close();
-                    
+
 
                 }
             }

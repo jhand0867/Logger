@@ -6,11 +6,11 @@ namespace Logger
 
 //todo: check the form refresh after log is attached for first time, not enabling scan option from menu.
 {
-    
+
 
     public partial class ProjectData : Form
     {
-        
+
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

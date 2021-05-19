@@ -40,7 +40,7 @@ namespace Logger
 
                 string sql = @"INSERT INTO unsolicitedStatusE([logkey],[rectype],[luno],
 	                        [dig],[deviceStatus],[dispenseCount],[sprayCashDispenser],[errorSeverity],
-                            [diagnosticStatus], [suppliesStatus],[prjkey],[logID]) " +                           
+                            [diagnosticStatus], [suppliesStatus],[prjkey],[logID]) " +
                             " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.Luno + "','" +
                                us.Dig + "','" + us.DeviceStatus + "','" + us.DispenseCount + "','" +
                                us.SprayCashDispenser + "','" + us.ErrorSeverity + "','" +

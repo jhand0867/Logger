@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -24,8 +19,8 @@ namespace Logger
             return _instance;
         }
 
-        public int PageNumber 
-        { 
+        public int PageNumber
+        {
             get => PageNumber;
             set => PageNumber = value;
         }
@@ -41,8 +36,8 @@ namespace Logger
         }
         private string _DocToPrint;
         public string DocToPrint
-        { 
-            get => _DocToPrint; 
+        {
+            get => _DocToPrint;
             set => _DocToPrint = value;
         }
         private string _SelToPrint;
@@ -54,7 +49,7 @@ namespace Logger
 
         private PrintDocument _PrintDocument;
 
-        private int _CharactersPerLine; 
+        private int _CharactersPerLine;
 
 
         private Bitmap _Bmp;
@@ -71,7 +66,7 @@ namespace Logger
         public void BeginDocPrint(object sender, PrintEventArgs e)
         {
             PrintDocument pd = (PrintDocument)sender;
-            
+
             float docWidth = pd.DefaultPageSettings.Bounds.Width;
 
             Graphics g = CreateGraphics();
@@ -110,14 +105,14 @@ namespace Logger
 
                 while (count < times)
                 {
-                    tempStr += docToPrintStr[i].Substring(count*col, col) + "\n";
+                    tempStr += docToPrintStr[i].Substring(count * col, col) + "\n";
                     count++;
                 }
-                if (docLen != count*col)
-                    tempStr += docToPrintStr[i].Substring(count * col, docLen - (count *col)) + "\n";
+                if (docLen != count * col)
+                    tempStr += docToPrintStr[i].Substring(count * col, docLen - (count * col)) + "\n";
 
                 DocToPrint += tempStr;
-                
+
             }
             string logLocation = App.Prj.getLogName(App.Prj.Key, ProjectData.logID);
             int logIndex = logLocation.LastIndexOf(@"\") + 1;
@@ -153,8 +148,8 @@ namespace Logger
                     printThisPage = false;
             }
 
-                // Print header
-                yPos = topMargin + PrintFont.GetHeight(ev.Graphics);
+            // Print header
+            yPos = topMargin + PrintFont.GetHeight(ev.Graphics);
 
             if (pd.DefaultPageSettings.Landscape == true)
                 xPos = 130;
@@ -184,8 +179,8 @@ namespace Logger
                 yPos = topMargin + (linesPrinted *
                    PrintFont.GetHeight(ev.Graphics));
                 if (printThisPage)
-                ev.Graphics.DrawString(lineToPrint[count], PrintFont, Brushes.Black,
-                           leftMargin, yPos, new StringFormat());
+                    ev.Graphics.DrawString(lineToPrint[count], PrintFont, Brushes.Black,
+                               leftMargin, yPos, new StringFormat());
                 count++;
                 linesPrinted++;
             }
@@ -205,7 +200,7 @@ namespace Logger
 
         public void QueryPageSettings(object sender, QueryPageSettingsEventArgs e)
         {
-           
+
         }
 
         public void pdPreview_PrintPage(object sender, PrintPageEventArgs e)
@@ -225,7 +220,7 @@ namespace Logger
 
         internal void EnPrint(object sender, PrintEventArgs e)
         {
-            _instance = null;          
+            _instance = null;
         }
     }
 }

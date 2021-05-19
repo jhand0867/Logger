@@ -73,9 +73,9 @@ namespace Logger
                                us.Dsbyte4 + "','" + us.Dsbyte5 + "','" + us.Dsbyte6 + "','" + us.Dsbyte7 + "','" +
                                us.Dsbyte8 + "','" + us.Dsbyte9 + "','" + us.Dsbyte10 + "','" + us.Dsbyte11 + "','" +
                                us.Dsbyte12 + "','" + us.Dsbyte13 + "','" + us.Dsbyte14 + "','" + us.Dsbyte15 + "','" +
-                               us.Dsbyte16 + "','" + us.Dsbyte17 + "','" + us.Dsbyte18 + "','" + us.Dsbyte19 + "','" + 
+                               us.Dsbyte16 + "','" + us.Dsbyte17 + "','" + us.Dsbyte18 + "','" + us.Dsbyte19 + "','" +
                                Key + "'," + logID + ")";
-                
+
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)
                     return false;
@@ -96,7 +96,7 @@ namespace Logger
             us.Dig = tmpTypes[i].Substring(0, 1);
             us.Dsbyte1 = tmpTypes[i].Substring(1, 1);
             us.Dsbyte2 = tmpTypes[i].Substring(2, 1);
-            
+
             if (us.Dsbyte1 == "2") return us;
 
             us.Dsbyte3 = tmpTypes[i].Substring(3, 1);
@@ -110,7 +110,7 @@ namespace Logger
             us.Dsbyte11 = tmpTypes[i].Substring(11, 1);
             us.Dsbyte12 = tmpTypes[i].Substring(12, 1);
             us.Dsbyte13 = tmpTypes[i].Substring(13, 1);
- 
+
             if (us.Dsbyte1 != "5") return us;
 
             us.Dsbyte14 = tmpTypes[i].Substring(14, 1);

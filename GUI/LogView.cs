@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
-using System.IO;
-using System.Management;
 using System.Runtime.InteropServices;
 //using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -25,7 +21,7 @@ namespace Logger
 
         private Font printFont;
         private string streamToPrint;
-        
+
         int count = 0;
         int pagesCount = 0;
 
@@ -52,7 +48,8 @@ namespace Logger
                 //dgvLog.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
                 //dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
                 dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -84,7 +81,7 @@ namespace Logger
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
             }
-          //  dgvLog.ClearSelection();
+            //  dgvLog.ClearSelection();
         }
 
         private System.Windows.Forms.ComboBox cmbColumHeader2 = new System.Windows.Forms.ComboBox();
@@ -122,7 +119,7 @@ namespace Logger
             cmbColumHeader6.SelectedItem = null;
             cmbColumHeader7.SelectedIndex = -1;
             cmbColumHeader7.SelectedItem = null;
-           
+
             using (Font font = new Font(
                 dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
             {
@@ -289,7 +286,7 @@ namespace Logger
             cmbColumHeader6.SelectedItem = null;
             cmbColumHeader7.SelectedIndex = -1;
             cmbColumHeader7.SelectedItem = null;
-            dgvLog.ClearSelection(); 
+            dgvLog.ClearSelection();
             this.dgvLog.Refresh();
         }
 
@@ -305,7 +302,7 @@ namespace Logger
             cmbColumHeader5.SelectedItem = null;
             cmbColumHeader6.SelectedIndex = -1;
             cmbColumHeader6.SelectedItem = null;
-            dgvLog.ClearSelection(); 
+            dgvLog.ClearSelection();
             this.dgvLog.Refresh();
         }
 
@@ -326,7 +323,7 @@ namespace Logger
             this.dgvLog.Refresh();
         }
 
-        
+
         /// <summary>
         /// To pass data to the LogData we use a delegate
         /// </summary>
@@ -339,10 +336,10 @@ namespace Logger
 
         private void dgvLog_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            
+
             if (e.Clicks == 2)
             {
-                
+
                 if (frmLogData == null || frmLogData.IsDisposed)
                 {
                     frmLogData = new LogData();
@@ -449,7 +446,7 @@ namespace Logger
                 dgvLog.Columns["Log Data"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 dataWrappingToolStripMenuItem.Text = "Data Unwrapping";
-                dataWrappingToolStripMenuItem1.Text = "Data Unwrapping";             
+                dataWrappingToolStripMenuItem1.Text = "Data Unwrapping";
                 dgvLog.Refresh();
             }
             else
@@ -666,7 +663,7 @@ namespace Logger
                 dgvLog.ClearSelection();
                 dgvLog.Refresh();
             }
-            
+
 
             System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
             ToolTip1.SetToolTip(cbQueryName, cbQueryName.Items[cbQueryName.SelectedIndex].ToString());
@@ -737,7 +734,7 @@ namespace Logger
             // housekeeping
             // lets create an empty graphic space
             Graphics g = CreateGraphics();
-            
+
             g.PageUnit = GraphicsUnit.Pixel;
             g.Clear(Color.White);
 
@@ -765,11 +762,11 @@ namespace Logger
         {
             label2.ForeColor = Color.Brown;
             rtbMahineAndSoftwareInfo.Text = "";
-            foreach(DataRow row in App.Prj.getLogDetailByID(ProjectData.logID).Rows)
+            foreach (DataRow row in App.Prj.getLogDetailByID(ProjectData.logID).Rows)
             {
                 rtbMahineAndSoftwareInfo.Text += row["detailInfo"].ToString() + "\n";
             }
-            
+
             rtbMahineAndSoftwareInfo.Font = new Font(FontFamily.GenericMonospace, 9);
             rtbMahineAndSoftwareInfo.SelectionFont = new Font(FontFamily.GenericSansSerif, 12);
             rtbMahineAndSoftwareInfo.SelectionColor = Color.Red;
@@ -797,21 +794,21 @@ namespace Logger
                 pd.PrintPage += new PrintPageEventHandler(lp1.PrintDocPage);
                 pd.BeginPrint += new PrintEventHandler(lp1.BeginDocPrint);
                 pd.QueryPageSettings += new QueryPageSettingsEventHandler(lp1.QueryPageSettings);
-                pd.EndPrint += new PrintEventHandler(lp1.EnPrint); 
+                pd.EndPrint += new PrintEventHandler(lp1.EnPrint);
 
                 printDialog1.Document = pd;
                 // Create a new instance of Margins with 1-inch margins.
                 Margins margins = new Margins(50, 50, 50, 50);
                 pd.DefaultPageSettings.Margins = margins;
                 pd.DefaultPageSettings.Landscape = false;
-                
+
 
                 lp1.DocToPrint = pd_docToPrint();
                 lp1.SelToPrint = pd_selToPrint();
 
                 if (lp1.SelToPrint == "" && lp1.DocToPrint == "")
-                {                
-                    MessageBox.Show("Selection will take a long time to process","Warning",MessageBoxButtons.OK);
+                {
+                    MessageBox.Show("Selection will take a long time to process", "Warning", MessageBoxButtons.OK);
                     return;
                 }
                 if (lp1.SelToPrint != "")
@@ -832,7 +829,7 @@ namespace Logger
 
         private string pd_docToPrint()
         {
-            
+
             string docToPrint = "";
             if (tabDetail.SelectedTab.Text == "LogData")
             {
@@ -866,7 +863,7 @@ namespace Logger
             if (tabDetail.SelectedTab.Text == "LogData")
             {
                 if (dgvLog.SelectedCells.Count > 0 &&
-                    dgvLog.SelectedCells[0].ColumnIndex > 1)               
+                    dgvLog.SelectedCells[0].ColumnIndex > 1)
                 {
                     Clipboard.SetDataObject(dgvLog.GetClipboardContent());
                     selToPrint = Clipboard.GetText();

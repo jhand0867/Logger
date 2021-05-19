@@ -147,27 +147,18 @@ namespace Logger
 
             foreach (DataTable dt in dts)
             {
-                // todo:  MLH  WE ARE HERE 
-
                 if (dt.Rows.Count > 0)
-                {
                     for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
-                    {
                         for (int fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
-                        {
+
                             if (fieldNum == 3)
                             {
-                                txtField += @"==================================================" + System.Environment.NewLine;
-                                txtField += dt.Columns[fieldNum].ColumnName.ToUpper() + " = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
-                                txtField += @"==================================================" + System.Environment.NewLine;
+                                txtField += @"==================================================" + Environment.NewLine;
+                                txtField += getOptionDescription(fitdt, fieldNum.ToString("00"), dt.Rows[rowNum][fieldNum].ToString());
+                                txtField += @"==================================================" + Environment.NewLine;
                             }
                             else
-                            {
-                                txtField += dt.Columns[fieldNum].ColumnName.ToUpper() + " = " + dt.Rows[rowNum][fieldNum].ToString() + "\t\t" + fitdt.Rows[fieldNum - 3][3].ToString().Trim() + System.Environment.NewLine;
-                            }
-                        }
-                    }
-                }
+                                txtField += getOptionDescription(fitdt, fieldNum.ToString("00"), dt.Rows[rowNum][fieldNum].ToString());
             }
 
             return txtField;

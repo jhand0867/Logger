@@ -13,7 +13,7 @@ namespace Logger
             InitializeComponent();
             T.Interval = 8000;
             this.Text = String.Format("About {0}", AssemblyTitle);
-            T.Tick += T_Tick;                   
+            T.Tick += T_Tick;
         }
 
         private void T_Tick(object sender, EventArgs e)

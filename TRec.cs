@@ -673,50 +673,44 @@ namespace Logger
 
             DataTable tReqDt = getDescription();
 
-            foreach (DataTable dt in dts)
+            if (dts[0].Rows.Count > 0)
             {
-                if (dt.Rows.Count > 0)
+                for (int rowNum = 0; rowNum < dts[0].Rows.Count; rowNum++)
                 {
-                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
+                    for (int field = 3; field <= dts[0].Rows[rowNum].ItemArray.Length - 3; field++)
                     {
-                        for (int field = 3; field <= dt.Rows[rowNum].ItemArray.Length - 3; field++)
+                        if (field == 42)
                         {
-                            if (field == 42)
+                            if (dts[1].Rows.Count > 0)
                             {
-                                if (dts[1].Rows.Count > 0)
-                                {
-                                    txtField += getTreqOptions(dts[1]);
-                                }
-                                continue;
+                                txtField += getTreqOptions(dts[1]);
                             }
-                            if (field == 62)
+                            continue;
+                        }
+                        if (field == 62)
+                        {
+                            if (dts[2].Rows.Count > 0)
                             {
-                                if (dts[2].Rows.Count > 0)
-                                {
-                                    txtField += getTreqCurrencies(dts[2]);
-                                }
-                                if (dts[3].Rows.Count > 0)
-                                {
-                                    txtField += getTreqCheques(dts[3]);
-                                }
-
-                                continue;
+                                txtField += getTreqCurrencies(dts[2]);
+                            }
+                            if (dts[3].Rows.Count > 0)
+                            {
+                                txtField += getTreqCheques(dts[3]);
                             }
 
-                            string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
-                            if (fieldContent == "")
-                                continue;
-                            else
-                            {
-                                string optionDesc = getOptionDescription(tReqDt, field.ToString("00"));
-                                txtField += optionDesc + " = ";
-                                txtField += fieldContent;
-                                txtField += System.Environment.NewLine;
-                            }
+                            continue;
+                        }
+
+                        string fieldContent = dts[0].Rows[rowNum].ItemArray[field].ToString().Trim();
+                        if (fieldContent == "")
+                            continue;
+                        else
+                        {
+                            txtField += getOptionDescription(tReqDt, field.ToString("00"), fieldContent);
                         }
                     }
                 }
-                break;
+
 
             }
             return txtField;

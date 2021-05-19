@@ -58,7 +58,7 @@ namespace Logger
                 }
                 else if (stateData.Val7 == "128" || stateData.Val7 == "129")
                 {
-                    
+
                 }
 
                 // validate General Purpose Buffer B or Extension State Number

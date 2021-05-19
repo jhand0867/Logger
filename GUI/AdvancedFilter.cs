@@ -2,7 +2,6 @@
 using System;
 using System.Data;
 using System.Windows.Forms;
-using Application = System.Windows.Forms.Application;
 
 namespace Logger
 {
@@ -26,7 +25,7 @@ namespace Logger
         {
             InitializeComponent();
 
-            
+
             // intitialize sql fields
 
             SQLSearchCondition sc = LoggerFactory.Create_SQLSearchCondition();
@@ -362,7 +361,7 @@ namespace Logger
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this.Text != uiName)
-                this.Text =  uiName;
+                this.Text = uiName;
 
             for (int x = 0; x < 6; x++)
                 gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "");

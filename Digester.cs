@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace Logger
 {
-    public class Digester:IFilter
+    public class Digester : IFilter
     {
 
         // call this class to handle Data Descriptions with a value in fieldType  (field type not equal to Null)
@@ -36,7 +36,7 @@ namespace Logger
             recTypeDic.Add("5", () => new Digester().filterFieldNoDescription(fieldType, fieldValue));
             recTypeDic.Add("6", () => new Digester().filterConfiguration(fieldType, fieldValue));
             recTypeDic.Add("7", () => new Digester().filterHWConfigWithScript(fieldType, fieldValue));
-            
+
             try
             {
                 //todo: fix it gracefully
@@ -178,7 +178,7 @@ namespace Logger
             string[] tmpfieldValue = fieldValue.Split(';');
             DataTable dataTable = getDescriptionX(fieldType);
 
-            
+
             foreach (string field in tmpfieldValue)
             {
                 foreach (DataRow item in dataTable.Rows)
@@ -287,7 +287,7 @@ namespace Logger
             {
                 foreach (DataRow item in dataTable.Rows)
                 {
-                    if (item[2].ToString().Trim() == field) 
+                    if (item[2].ToString().Trim() == field)
                     {
                         fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + System.Environment.NewLine;
                         break;
@@ -449,51 +449,51 @@ namespace Logger
 
             // Use fieldType = 2 when fieldvalue from message is equal to subRecType in the Data Description
 
-                        int offset = 0;
-                        int reminder = fieldValue.Length - offset;
-                        string field4 = fieldDescription.Trim();
-                        string fieldResult = "";
-                        string outputField = "";
-                        int lengthOfField4 = field4.Length;
+            int offset = 0;
+            int reminder = fieldValue.Length - offset;
+            string field4 = fieldDescription.Trim();
+            string fieldResult = "";
+            string outputField = "";
+            int lengthOfField4 = field4.Length;
 
-                        // /(\{.*\})/gUgs
-                        Regex handleBars = new Regex(@"(\{.*?\})", RegexOptions.Singleline);
-                        int field4Offset = 0;
+            // /(\{.*\})/gUgs
+            Regex handleBars = new Regex(@"(\{.*?\})", RegexOptions.Singleline);
+            int field4Offset = 0;
 
-                        while (field4Offset < lengthOfField4 - 1)
+            while (field4Offset < lengthOfField4 - 1)
+            {
+                MatchCollection scriptsToApply = handleBars.Matches(field4);
+
+                if (scriptsToApply.Count == 0)
+                {
+                    outputField += " = " + field4;
+                    break;
+                }
+
+                foreach (Match hit in scriptsToApply)
+                {
+                    field4Offset += hit.Length;
+                    int indexOfScriptStart = hit.Value.IndexOf("{", 0);
+                    int indexOfSctiptEnd = hit.Value.IndexOf("}", indexOfScriptStart);
+                    if (indexOfScriptStart != -1)
+                    {
+                        // what scripts do I have
+
+                        fieldResult = hit.Value.Substring(indexOfScriptStart + 1, indexOfSctiptEnd - 1);
+                        string[] scriptOptions = fieldResult.Split(',');
+
+                        string workField = fieldValue.Substring(offset, reminder);
+
+                        if (scriptOptions[2].IndexOf('%') == 0)
                         {
-                            MatchCollection scriptsToApply = handleBars.Matches(field4);
-
-                            if (scriptsToApply.Count == 0)
-                            {
-                                outputField += " = " + field4;
-                                break;
-                            }
-
-                            foreach (Match hit in scriptsToApply)
-                            {
-                                field4Offset += hit.Length;
-                                int indexOfScriptStart = hit.Value.IndexOf("{", 0);
-                                int indexOfSctiptEnd = hit.Value.IndexOf("}", indexOfScriptStart);
-                                if (indexOfScriptStart != -1)
-                                {
-                                    // what scripts do I have
-
-                                    fieldResult = hit.Value.Substring(indexOfScriptStart + 1, indexOfSctiptEnd - 1);
-                                    string[] scriptOptions = fieldResult.Split(',');
-
-                                    string workField = fieldValue.Substring(offset, reminder);
-
-                                    if (scriptOptions[2].IndexOf('%') == 0)
-                                    {
-                                        outputField += System.Environment.NewLine + "\t";
-                                    }
-                                    outputField += workField.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
-                                                   scriptOptions[2].Substring(0, scriptOptions[2].Length);
-                                }
-                            }
+                            outputField += System.Environment.NewLine + "\t";
                         }
-                        fieldDesc = fieldDesc + "   " +  "  " + outputField + " " + System.Environment.NewLine;
+                        outputField += workField.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
+                                       scriptOptions[2].Substring(0, scriptOptions[2].Length);
+                    }
+                }
+            }
+            fieldDesc = fieldDesc + "   " + "  " + outputField + " " + System.Environment.NewLine;
 
             return fieldDesc;
         }

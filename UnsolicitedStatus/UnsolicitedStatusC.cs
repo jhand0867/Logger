@@ -61,8 +61,8 @@ namespace Logger
                             " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.Luno + "','" +
                                us.Dig + "','" + us.DeviceStatus + "','" + us.ErrorSeverity + "','" +
                                us.ApplicationType + "','" + us.ApplicationId + "','" + us.Cla + "','" + us.Ins + "','" +
-                               us.Parameter1 + "','" + us.Parameter2 + "','" + us.LengthCmd + "','" + 
-                               us.CmdData + "','" + us.LengthExpected + "','" + us.ResponseData + "','" + 
+                               us.Parameter1 + "','" + us.Parameter2 + "','" + us.LengthCmd + "','" +
+                               us.CmdData + "','" + us.LengthExpected + "','" + us.ResponseData + "','" +
                                us.Sw1 + "','" + us.Sw2 + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -97,7 +97,7 @@ namespace Logger
             if (tmpTypes.Length > i)
             {
                 int aidOffset = 3;
-                us.ApplicationType = tmpTypes[i].Substring(0,3);
+                us.ApplicationType = tmpTypes[i].Substring(0, 3);
 
                 if (us.ApplicationType == "CAM")
                 {

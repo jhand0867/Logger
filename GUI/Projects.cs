@@ -45,7 +45,7 @@ namespace Logger
             listView1.Columns.Add("Project Description", 240, HorizontalAlignment.Center);
             listView1.Columns.Add("Logs", 40, HorizontalAlignment.Center);
             listView1.SmallImageList = imageList1;
-            
+
             listView1.LargeImageList = imageList1;
             hamburguerMenu.ForeColor = Color.White;
             hamburguerMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -66,8 +66,8 @@ namespace Logger
             foreach (DataRow projectData in dt.Rows)
             {
 
-                var lvi = new ListViewItem(new string[] { projectData["prjName"].ToString(), 
-                                                          projectData["prjBrief"].ToString(), 
+                var lvi = new ListViewItem(new string[] { projectData["prjName"].ToString(),
+                                                          projectData["prjBrief"].ToString(),
                                                           projectData["prjLogs"].ToString().Trim() });
                 lvi.Tag = projectData["prjKey"].ToString();
                 lvi.ImageIndex = 0;
@@ -124,7 +124,7 @@ namespace Logger
                 this.TopMost = false;
 
                 ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
-                item = items[0];          
+                item = items[0];
                 //Project prj = App.Prj.getProjectByID(item.Tag.ToString());
                 App.Prj = App.Prj.getProjectByID(item.Tag.ToString());
                 ProjectData prjData = new ProjectData();
@@ -132,7 +132,7 @@ namespace Logger
 
                 prjData.ShowDialog();
             }
-            
+
         }
 
         internal void RefresDataListView()
@@ -189,7 +189,7 @@ namespace Logger
         /// <param name="item"></param>
         private void listView1_Load(ListViewItem item)
         {
-            Project pr = new Project() ;
+            Project pr = new Project();
             DataTable dt = pr.getAllLogs(item.Tag.ToString());
 
             if (dt.Rows.Count == 0)
@@ -217,14 +217,14 @@ namespace Logger
                     for (int x = 4; x < dt.Columns.Count - 1; x++)
                     {
                         if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
-//JMH
+                        //JMH
                         {
                             tn.Nodes.Add(dt.Columns[x].ColumnName + "  [" + dicBits[dt.Columns[x].ColumnName] + "]");
                             tn.LastNode.Tag = dicBits[dt.Columns[x].ColumnName];
                             if (dicBits[dt.Columns[x].ColumnName].ToString() != "0")
-                                 tn.LastNode.ImageIndex = 1;
+                                tn.LastNode.ImageIndex = 1;
                             else
-                                 tn.LastNode.ImageIndex = 0;
+                                tn.LastNode.ImageIndex = 0;
                         }
                     }
                 }

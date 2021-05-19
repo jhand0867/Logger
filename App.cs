@@ -188,10 +188,10 @@ namespace Logger
                     else
                     {
                         optionDesc += " = " + fieldValue;
+                        //if (fieldDesc == "")
+                        //    optionDesc += insertDescription(item[4].ToString());
 
-                        if (fieldDesc == "")
-                            optionDesc += insertDescription(item[4].ToString());
-                        else if (item[4].ToString() == "")
+                        if ((item[4].ToString() == "") && (fieldDesc != ""))
                             optionDesc += fieldDesc;
                         else
                             optionDesc += insertDescription(item[4].ToString()) + fieldDesc;
