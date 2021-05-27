@@ -97,38 +97,14 @@ namespace Logger
 
             DataTable iccRecDt = this.getDescription();
 
-            foreach (DataTable dt in dts)
-            {
-                if (dt.Rows.Count > 0)
+            if (dts[0].Rows.Count > 0)
+                for (int rowNum = 0; rowNum < dts[0].Rows.Count; rowNum++)
                 {
-                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
-                    {
-                        // Configuration Data
-                        txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
-
-                        // Language Code
-                        txtField += iccRecDt.Rows[1][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
-
-                        // Screen Base
-                        txtField += iccRecDt.Rows[2][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
-
-                        // Audio Base
-                        txtField += iccRecDt.Rows[3][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
-
-                        //  OpCode Buffer Positions
-                        txtField += iccRecDt.Rows[4][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][6].ToString().Trim() + System.Environment.NewLine;
-
-                        //  OpCode Buffer Values
-                        txtField += iccRecDt.Rows[5][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
-                    }
+                    // Configuration Data
+                    txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
+                    for (int colNum = 3; colNum < dts[0].Columns.Count - 1; colNum++)
+                        txtField += App.Prj.getOptionDescription(iccRecDt, "3" + colNum.ToString("00"), dts[0].Rows[rowNum][colNum].ToString());
                 }
-            }
-
             return txtField;
         }
     }

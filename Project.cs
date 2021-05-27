@@ -931,6 +931,7 @@ namespace Logger
                 foreach (DataRow row in dt.Rows)
                 {
                     dicData.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), WebUtility.HtmlDecode(row[2].ToString()));
+//                    dicData.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), row[2].ToString());
                 }
             }
             return dicData;

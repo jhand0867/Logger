@@ -239,34 +239,8 @@ namespace Logger
             DataTable emvRecDt = getDescription();
 
             if (dts[0].Rows.Count > 0)
-            {
-                for (int rowNum = 0; rowNum < dts[0].Rows.Count; rowNum++)
-                {
-                    // message class
-                    txtField += emvRecDt.Rows[0][3].ToString().Trim() + " = ";
-                    txtField += dts[0].Rows[rowNum][2].ToString().Trim() + System.Environment.NewLine;
-
-                    // response flag
-                    txtField += emvRecDt.Rows[1][3].ToString().Trim() + " = ";
-                    txtField += dts[0].Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
-
-                    // luno
-                    txtField += emvRecDt.Rows[2][3].ToString().Trim() + " = ";
-                    txtField += dts[0].Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
-
-                    // message subclass
-                    txtField += emvRecDt.Rows[3][3].ToString().Trim() + " = ";
-                    txtField += dts[0].Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
-
-                    // configuration data
-                    txtField += emvRecDt.Rows[4][3].ToString().Trim() + " = ";
-                    txtField += dts[0].Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
-
-                    // MAC
-                    txtField += emvRecDt.Rows[5][3].ToString().Trim() + " = ";
-                    txtField += dts[0].Rows[rowNum][8].ToString().Trim() + System.Environment.NewLine;
-                }
-            }
+                for (int colNum = 2; colNum < dts[0].Columns.Count - 3; colNum++)
+                    txtField += App.Prj.getOptionDescription(emvRecDt, colNum.ToString("00"), dts[0].Rows[0][colNum].ToString());
 
             return txtField;
         }

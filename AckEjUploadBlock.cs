@@ -52,6 +52,7 @@ namespace Logger
             if (dts[0].Rows.Count > 0)
                 for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
                     txtField += App.Prj.getOptionDescription(ss, colNum.ToString("00"), dts[0].Rows[0][colNum].ToString());
+
             return txtField;
         }
 

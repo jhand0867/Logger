@@ -124,53 +124,14 @@ namespace Logger
 
             DataTable iccRecDt = this.getDescription();
 
-            foreach (DataTable dt in dts)
-            {
-                if (dt.Rows.Count > 0)
+            if (dts[0].Rows.Count > 0)
+                for (int rowNum = 0; rowNum < dts[0].Rows.Count; rowNum++)
                 {
-                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
-                    {
-                        // Configuration Data
-                        txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
-
-                        // transaction type
-                        txtField += iccRecDt.Rows[1][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][3].ToString().Trim() + System.Environment.NewLine;
-
-                        // Response format tag
-                        txtField += iccRecDt.Rows[2][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][4].ToString().Trim() + System.Environment.NewLine;
-
-                        // Response format length
-                        txtField += iccRecDt.Rows[3][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][5].ToString().Trim() + System.Environment.NewLine;
-
-                        //  Tag
-                        txtField += iccRecDt.Rows[4][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][6].ToString().Trim() + System.Environment.NewLine;
-
-                        //  lgth
-                        txtField += iccRecDt.Rows[5][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][7].ToString().Trim() + System.Environment.NewLine;
-
-                        //  value
-                        txtField += iccRecDt.Rows[6][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][8].ToString().Trim() + System.Environment.NewLine;
-
-                        // Tag
-                        txtField += iccRecDt.Rows[7][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][9].ToString().Trim() + System.Environment.NewLine;
-
-                        // lgth
-                        txtField += iccRecDt.Rows[8][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][10].ToString().Trim() + System.Environment.NewLine;
-
-                        // value
-                        txtField += iccRecDt.Rows[9][3].ToString().Trim() + " = ";
-                        txtField += dt.Rows[rowNum][11].ToString().Trim() + System.Environment.NewLine;
-                    }
+                    // Configuration Data
+                    txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
+                    for (int colNum = 3; colNum < dts[0].Columns.Count - 1; colNum++)
+                        txtField += App.Prj.getOptionDescription(iccRecDt, "2" + colNum.ToString("00"), dts[0].Rows[rowNum][colNum].ToString());
                 }
-            }
 
             return txtField;
         }

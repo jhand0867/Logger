@@ -185,8 +185,7 @@ namespace Logger
             DbCrud db = new DbCrud();
 
             string sql = @"SELECT * FROM stateInfo WHERE prjkey = '" +
-                                                               projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
-                                                               logKey + "%'";
+                           projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
             dt = db.GetTableFromDb(sql);
             dts.Add(dt);
 
@@ -194,11 +193,11 @@ namespace Logger
 
         }
 
-        public virtual string getInfo(StateRec stRec)
+        public virtual string parseToView_getInfo(StateRec stRec, DataRow StRecDr)
         {
-            string stateType = stRec.StateType;
+            // base: parseToView(); 
 
-            string stateNum = stRec.StateNumber;
+            string extensionStateNum = "";
 
             DataTable dt = new DataTable();
 
@@ -211,55 +210,38 @@ namespace Logger
                 return null;
             }
 
+            string stateTypetmp = stRec.StateType;
+            string fieldData = "";
+
             if (stRec.StateType == "Z")
             {
                 string extensionFound = theRecord.checkZExtensions(stRec);
                 if (extensionFound.Length > 0)
                 {
-                    dt = theRecord.getStateDescription(extensionFound.Substring(3, extensionFound.Length - 3));
-                    stateNum = extensionFound.Substring(0, 3);
+                    stateTypetmp = extensionFound.Substring(3, extensionFound.Length - 3);
+                    dt = theRecord.getStateDescription(stateTypetmp);
+                    extensionStateNum = extensionFound.Substring(0, 3);
                     log.Info("DataTable records = " + dt.Rows.Count);
                 }
+                fieldData += "  extension of " + stateTypetmp.Substring(0, 1) + " " + extensionStateNum + System.Environment.NewLine;
+
             }
             else
             {
 
                 dt = theRecord.getStateDescription(stRec.StateType);
-
+                fieldData += Environment.NewLine;
                 log.Info("DataTable records = " + dt.Rows.Count);
             }
 
-            string stateTypetmp = "";
-
             if (dt.Rows.Count > 0)
             {
-                stateTypetmp = dt.Rows[0]["subRecType"].ToString().Trim();
-
-                string fieldData = dt.Rows[0][3].ToString().Trim() + ":\t" + stRec.StateNumber + System.Environment.NewLine;
-
-                if (stateTypetmp == stRec.StateType)
-                    fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType + System.Environment.NewLine;
-                else
-                {
-                    if (stateTypetmp.Length > 2) stateTypetmp = stRec.StateType;
-                    fieldData += dt.Rows[1][3].ToString().Trim() + ":\t" + stRec.StateType + " extension of " + stateTypetmp.Substring(0, 1) + " " + stateNum + System.Environment.NewLine;
-                }
-                fieldData += dt.Rows[2][3].ToString().Substring(0, 40) + " " + stRec.Val1 + insertDescription(dt.Rows[2][4].ToString());
-                fieldData += dt.Rows[3][3].ToString().Substring(0, 40) + " " + stRec.Val2 + insertDescription(dt.Rows[3][4].ToString());
-                fieldData += dt.Rows[4][3].ToString().Substring(0, 40) + " " + stRec.Val3 + insertDescription(dt.Rows[4][4].ToString());
-                fieldData += dt.Rows[5][3].ToString().Substring(0, 40) + " " + stRec.Val4 + insertDescription(dt.Rows[5][4].ToString());
-                fieldData += dt.Rows[6][3].ToString().Substring(0, 40) + " " + stRec.Val5 + insertDescription(dt.Rows[6][4].ToString());
-                fieldData += dt.Rows[7][3].ToString().Substring(0, 40) + " " + stRec.Val6 + insertDescription(dt.Rows[7][4].ToString());
-                fieldData += dt.Rows[8][3].ToString().Substring(0, 40) + " " + stRec.Val7 + insertDescription(dt.Rows[8][4].ToString());
-                fieldData += dt.Rows[9][3].ToString().Substring(0, 40) + " " + stRec.Val8 + insertDescription(dt.Rows[9][4].ToString());
-                fieldData += System.Environment.NewLine;
-
-                // is there extension information on the val
-                //
+                    for (int colNum = 3; colNum < StRecDr.Table.Columns.Count - 5; colNum++)
+                        fieldData += App.Prj.getOptionDescription(dt, colNum.ToString("00") + stateTypetmp, StRecDr[colNum].ToString());
 
                 StateRec stRecTmp = LoggerFactory.Create_StateRecord();
                 stRecTmp = stRec;
-                stRecTmp.StateType = dt.Rows[0]["subRecType"].ToString().Trim();
+                stRecTmp.StateType = dt.Rows[0]["subRecType"].ToString().Substring(2, dt.Rows[0]["subRecType"].ToString().Length-2).Trim();
                 theRecord.checkExtensions(stRecTmp);
 
                 return fieldData;
@@ -275,28 +257,13 @@ namespace Logger
         {
             DataTable dt = new DataTable();
             string sql = @"SELECT * FROM [dataDescription] WHERE recType = '" + "S"
-                    + "' AND subRecType = '" + stateType + "'";
+                    + "' AND SUBSTRING(subRecType, 3, " + stateType.Length + ") = '" + stateType + "'";
 
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
             return dt;
 
         }
-
-        //private string insertDescription(string fieldDescription)
-        //{
-        //    string description = "";
-
-        //    if (fieldDescription != "")
-        //    {
-        //        description += System.Environment.NewLine + fieldDescription.Trim() + System.Environment.NewLine;
-        //    }
-        //    else
-        //    {
-        //        description += fieldDescription.Trim() + System.Environment.NewLine;
-        //    }
-        //    return description;
-        //}
 
         public virtual void checkExtensions(StateRec st)
         {
@@ -315,6 +282,8 @@ namespace Logger
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
+            string newString = base.parseToView();
+
             List<DataTable> dts = new List<DataTable>();
             dts = getRecord(logKey, logID, projectKey);
             string txtField = "";
@@ -330,14 +299,9 @@ namespace Logger
                         for (int fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
                         {
                             if (fieldNum == 3)
-                            {
-                                txtField += dt.Columns[fieldNum].ColumnName + " = " + dt.Rows[rowNum][fieldNum].ToString() + " ";
-                            }
+                                txtField +=  Environment.NewLine + "State Data = " + dt.Rows[rowNum][fieldNum].ToString() + " ";
                             else
-                            {
                                 txtField += dt.Rows[rowNum][fieldNum].ToString() + " ";
-                            }
-
                         }
 
                         StateRec stRec = LoggerFactory.Create_StateRecord();
@@ -351,9 +315,8 @@ namespace Logger
                         stRec.Val6 = dt.Rows[rowNum][10].ToString();
                         stRec.Val7 = dt.Rows[rowNum][11].ToString();
                         stRec.Val8 = dt.Rows[rowNum][12].ToString();
-                        txtField += System.Environment.NewLine;
-                        txtField += System.Environment.NewLine;
-                        txtField += getInfo(stRec);
+
+                        txtField += parseToView_getInfo(stRec, dt.Rows[rowNum]);
 
                     }
                 }

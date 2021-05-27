@@ -224,6 +224,9 @@ namespace Logger
             return description;
         }
 
-
+        internal string parseToView()
+        {
+            return null;
+        }
     }
 }

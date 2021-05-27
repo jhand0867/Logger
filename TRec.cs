@@ -700,18 +700,13 @@ namespace Logger
 
                             continue;
                         }
-
                         string fieldContent = dts[0].Rows[rowNum].ItemArray[field].ToString().Trim();
-                        if (fieldContent == "")
-                            continue;
-                        else
+                        if (fieldContent != "")
                         {
                             txtField += getOptionDescription(tReqDt, field.ToString("00"), fieldContent);
                         }
                     }
                 }
-
-
             }
             return txtField;
         }

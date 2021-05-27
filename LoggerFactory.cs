@@ -65,6 +65,7 @@ namespace Logger
             var stateTypeDic = new Dictionary<string, Func<StateRec>>();
             stateTypeDic.Add("A", () => new StateA());
             stateTypeDic.Add("B", () => new StateB());
+            stateTypeDic.Add("C", () => new StateC());
             stateTypeDic.Add("D", () => new StateD());
             stateTypeDic.Add("E", () => new StateE());
             stateTypeDic.Add("F", () => new StateF());
@@ -73,6 +74,7 @@ namespace Logger
             stateTypeDic.Add("I", () => new StateI());
             stateTypeDic.Add("J", () => new StateJ());
             stateTypeDic.Add("K", () => new StateK());
+            stateTypeDic.Add("T", () => new StateT());
             stateTypeDic.Add("W", () => new StateW());
             stateTypeDic.Add("X", () => new StateX());
             stateTypeDic.Add("Y", () => new StateY());

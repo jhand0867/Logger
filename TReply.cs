@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Net;
 
 namespace Logger
 {
@@ -261,7 +262,7 @@ namespace Logger
                     sql = @"INSERT INTO treplyPrinterData([logkey],[printerFlag],[printerData],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" +
                                    c.printerFlag + "','" +
-                                   c.printerData + "'," +
+                                   WebUtility.HtmlEncode(c.printerData) + "'," +
                                    logID + ")";
                     if (db.crudToDb(sql) == false)
                         return false;
@@ -709,14 +710,9 @@ namespace Logger
                                 continue;
                             }
                             string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
-                            if (fieldContent == "")
-                                continue;
-                            else
-                            {
-                                string optionDesc = getOptionDescription(tReplyDt, field.ToString("00"));
-                                txtField += optionDesc + " = ";
-                                txtField += fieldContent;
-                                txtField += System.Environment.NewLine;
+                            if (fieldContent != "")
+                            { 
+                                txtField += getOptionDescription(tReplyDt, field.ToString("00"), fieldContent);
                             }
                         }
                     }
@@ -753,7 +749,7 @@ namespace Logger
                 foreach (DataRow row in dataTable.Rows)
                 {
                     printerData += "Printer Flag\t = " + row["printerFlag"].ToString() + System.Environment.NewLine;
-                    printerData += "Printer Data\t = " + row["printerData"].ToString() + System.Environment.NewLine;
+                    printerData += "Printer Data\t = " + WebUtility.HtmlDecode(row["printerData"].ToString()) + System.Environment.NewLine;
                 }
             }
             return printerData;

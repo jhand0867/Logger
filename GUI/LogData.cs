@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
@@ -57,6 +58,7 @@ namespace Logger
             {
                 IMessage theRecord = LoggerFactory.Create_Record(recType);
                 if (theRecord != null)
+                    //txtFieldData.Text = WebUtility.HtmlDecode(theRecord.parseToView(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString()));
                     txtFieldData.Text = theRecord.parseToView(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             }
         }

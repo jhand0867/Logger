@@ -4,6 +4,7 @@ using System.Data;
 
 namespace Logger
 {
+    // todo:  COMPLETE CLASS
     public class screenRec : App, IMessage
     {
         private string plogkey;
