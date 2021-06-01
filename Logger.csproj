@@ -91,8 +91,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FilterFieldDescriptionWithScript.cs" />
+    <Compile Include="FilterDescriptionWithScriptAndTable.cs" />
+    <Compile Include="FilterDescriptionWithScript.cs" />
+    <Compile Include="filterSupplyData.cs" />
+    <Compile Include="filterTLV.cs" />
     <Compile Include="filterMappingTable.cs" />
+    <Compile Include="FilterXWithScript.cs" />
     <Compile Include="GUI\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>

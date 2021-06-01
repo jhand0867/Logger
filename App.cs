@@ -139,20 +139,6 @@ namespace Logger
             return sb.ToString();
         }
 
-        internal string getOptionDescription(DataTable dataTable, string field)
-        {
-            string optionDesc = "";
-            // what's the description of the field
-            foreach (DataRow item in dataTable.Rows)
-            {
-                if (item[2].ToString().Trim() == field)
-                {
-                    optionDesc = item[3].ToString().Trim();
-                    break;
-                }
-            }
-            return optionDesc;
-        }
         internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)
         {
 
@@ -162,6 +148,10 @@ namespace Logger
             string optionDesc = "";
             string fieldDesc = "";
             string scriptID = "";
+
+            // MLH If field has no value then no need for obtain description
+
+            if (fieldValue.Trim() == "" || fieldValue == null) return optionDesc;
 
             // what's the description of the field
             foreach (DataRow item in dataTable.Rows)
@@ -183,7 +173,7 @@ namespace Logger
                             scriptID = scriptsToApply[0].ToString().Substring(1, 1);
 
                         Digester myDigester = LoggerFactory.Create_Digester();
-                        optionDesc += " = " + myDigester.fieldDigester(scriptID, fieldValue, item[4].ToString());
+                        optionDesc += myDigester.fieldDigester(scriptID, fieldValue, item[4].ToString());
                     }
                     else
                     {

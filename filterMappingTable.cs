@@ -4,9 +4,23 @@ namespace Logger
 {
     class filterMappingTable : Digester
     {
+        //todo: change to use FilterDescriptionWithScriptAndTable.
+
+        // .... 04 01 1 00010 01 2 00020 02 3 00100 02 4 00200 ....
+        /* 
+         cassette type 1 = 10 dollars
+●        cassette type 2 = 20 dollars
+●        cassette type 3 = 100 euros
+●        cassette type 4 = 200 euros
+         */
+        //{0,2,!4G}{4,2,!2C}{6,2,!2DD}
+
         public new string executeScript(string fieldType, string fieldValue)
         {
-            string fieldDesc = ""; // System.Environment.NewLine;
+            string fieldDesc = "";
+            if (fieldValue.Trim() != "")
+                fieldDesc = System.Environment.NewLine;
+
             DataTable dataTable = getDescriptionX(fieldType);
             int offset = 0;
 

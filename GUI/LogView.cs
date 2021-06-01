@@ -666,7 +666,7 @@ namespace Logger
 
 
             System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
-            ToolTip1.SetToolTip(cbQueryName, cbQueryName.Items[cbQueryName.SelectedIndex].ToString());
+            ToolTip1.SetToolTip(cbQueryName, cbQueryName.Text);
             ToolTip1.AutoPopDelay = 5000;
             ToolTip1.InitialDelay = 1000;
             ToolTip1.ReshowDelay = 500;

@@ -3,11 +3,13 @@ using System.Text.RegularExpressions;
 
 namespace Logger
 {
-    class FilterFieldDescriptionWithScript : Digester
+    class FilterDescriptionWithScript : Digester
     {
         public new string executeScript(string fieldValue, string scriptValue)
         {
             string fieldDesc = "";
+            //if (fieldValue.Trim() != "")
+            //    fieldDesc = System.Environment.NewLine;
 
             string fieldResult;
             string outputField = "";
@@ -41,6 +43,7 @@ namespace Logger
                     {
                         outputField += System.Environment.NewLine + "\t";
                     }
+
                     outputField += fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
                                    scriptOptions[2].Substring(0, scriptOptions[2].Length);
                 }
