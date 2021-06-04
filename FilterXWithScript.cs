@@ -67,19 +67,22 @@ namespace Logger
 
                                     string workField = field.Substring(offset, reminder);
 
-                                    if (scriptOptions[2].IndexOf('%') == 0)
-                                    {
-                                        outputField += System.Environment.NewLine + "\t";
-                                    }
-                                    outputField += scriptOptions[2].Substring(1, scriptOptions[2].Length - 1) + " =";
-
                                     if (workField.Length >= Convert.ToInt32(scriptOptions[1]))
-                                        outputField += workField.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
-
+                                    {
+                                        if (scriptOptions[2].IndexOf('%') == 0)
+                                        {
+                                            outputField += System.Environment.NewLine + "\t";
+                                        }
+                                        outputField += scriptOptions[2].Substring(1, scriptOptions[2].Length - 1) + " =" +
+                                                     workField.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
+                                    }
                                 }
                             }
                         }
-                        fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + "  " + outputField + " " + System.Environment.NewLine;
+                        if (tmpfieldValue.Length > 1)
+                            fieldDesc += "   " + item[2].ToString().Trim() + "   " + item[3].ToString().Trim() + "  " + outputField + " " + System.Environment.NewLine;
+                        else
+                            fieldDesc += "   " + item[3].ToString().Trim() + "  " + outputField + " " + System.Environment.NewLine;
 
                         break;
                     }

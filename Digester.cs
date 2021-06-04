@@ -29,9 +29,11 @@ namespace Logger
             recTypeDic.Add("1", () => new filterTLV().executeScript(fieldType, fieldValue));
             recTypeDic.Add("2", () => new FilterXWithScript().executeScript(fieldType, fieldValue));
             recTypeDic.Add("3", () => new filterSupplyData().executeScript(fieldType, fieldValue));
-            recTypeDic.Add("4", () => new filterMappingTable().executeScript(fieldType, fieldValue));
             recTypeDic.Add("7", () => new FilterXWithScript().executeScript(fieldType, fieldValue));
             recTypeDic.Add("9", () => new FilterDescriptionWithScriptAndTable().executeScript(fieldValue, scriptValue));
+
+            // class filterMappingTable not needed, replaced by 0 option
+            //recTypeDic.Add("4", () => new filterMappingTable().executeScript(fieldType, fieldValue));
 
             try
             {
@@ -55,6 +57,15 @@ namespace Logger
             return dt;
         }
 
+        public DataTable getDescriptionX(string fieldType, string subRecType)
+        {
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'X'  AND fieldType = '" + fieldType + 
+                            "' AND subRecType like '" + subRecType + "%' order by subRecType asc";
+
+            DbCrud db = new DbCrud();
+            DataTable dt = db.GetTableFromDb(sql);
+            return dt;
+        }
 
         /// <summary>
         ///  iccTLVTags method will split EMV tags from string received in strTag parameter

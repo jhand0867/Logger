@@ -21,9 +21,6 @@ namespace Logger
 
             MatchCollection scriptsToApply = handleBars.Matches(scriptValue.Trim());
 
-            //if (scriptsToApply.Count == 0)
-            //    outputField += c fieldValue;
-
             DataTable descriptionTable = null;
 
             foreach (Match hit in scriptsToApply)
@@ -41,6 +38,9 @@ namespace Logger
                     string[] scriptOptions = fieldResult.Split(',');
 
                     // {0,2,!2B}{4,2,!2C}{6,2,!2DD}
+                    // i.e. parsing of first script:
+                    // Take field value from position 0 two characters and use table 2 and search for value 'B' +
+                    // the two characters from the field value
 
                     if (descriptionTable == null)
                         descriptionTable = getDescriptionX(scriptOptions[2].Substring(1, 1));

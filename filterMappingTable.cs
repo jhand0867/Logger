@@ -4,7 +4,7 @@ namespace Logger
 {
     class filterMappingTable : Digester
     {
-        //todo: change to use FilterDescriptionWithScriptAndTable.
+        //todo: method obsolete
 
         // .... 04 01 1 00010 01 2 00020 02 3 00100 02 4 00200 ....
         /* 
@@ -13,7 +13,7 @@ namespace Logger
 ●        cassette type 3 = 100 euros
 ●        cassette type 4 = 200 euros
          */
-        //{0,2,!4G}{4,2,!2C}{6,2,!2DD}
+        //{0,2,%Currency Type}{2,1,%Currency Code}{3,5,%Denomination}
 
         public new string executeScript(string fieldType, string fieldValue)
         {
