@@ -69,12 +69,33 @@ namespace Logger
 
                                     if (workField.Length >= Convert.ToInt32(scriptOptions[1]))
                                     {
-                                        if (scriptOptions[2].IndexOf('%') == 0)
+                                        // % = new line
+                                        // ^ = at the start
+                                        // $ = at the end
+
+                                        if (scriptOptions[3].Contains("%"))
                                         {
                                             outputField += System.Environment.NewLine + "\t";
                                         }
-                                        outputField += scriptOptions[2].Substring(1, scriptOptions[2].Length - 1) + " =" +
-                                                     workField.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
+
+                                        if (scriptOptions[3].Contains("$"))
+                                        {
+                                            outputField += workField.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
+                                                           scriptOptions[2].Substring(0, scriptOptions[2].Length);
+                                        }
+                                        else if (scriptOptions[3].Contains("^"))
+                                        {
+                                            outputField += scriptOptions[2].Substring(0, scriptOptions[2].Length) + " =" +
+                                            workField.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
+                                        }
+                                        else
+                                        {
+                                            outputField += workField.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
+                                        }
+
+
+
+
                                     }
                                 }
                             }

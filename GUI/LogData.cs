@@ -8,6 +8,7 @@ namespace Logger
 {
     public partial class LogData : Form
     {
+        
 
         private int prevHeight;
 

@@ -41,7 +41,10 @@ namespace Logger
                 {
                     cnn.Close();
                 }
-                log.Error("Database Error: " + dbEx.Message);
+                string currentFile = new System.Diagnostics.StackTrace(true).GetFrame(0).GetFileName();
+                int currentLine = new System.Diagnostics.StackTrace(true).GetFrame(0).GetFileLineNumber();
+
+                log.Error("Database Error: " + dbEx.Message + " " + currentFile + "(" + currentLine.ToString() + ")");
                 return false;
             }
 

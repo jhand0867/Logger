@@ -8,8 +8,6 @@ namespace Logger
         public new string executeScript(string fieldValue, string scriptValue)
         {
             string fieldDesc = "";
-            //if (fieldValue.Trim() != "")
-            //    fieldDesc = System.Environment.NewLine;
 
             string fieldResult;
             string outputField = "";
@@ -42,8 +40,6 @@ namespace Logger
 
                         fieldResult = hit.Value.Substring(indexOfScriptStart + 1, indexOfSctiptEnd - 1);
                         string[] scriptOptions = fieldResult.Split(',');
-
-                        // todo:  MLH add this special char formatters to other filters
 
                         // % = new line
                         // ^ = at the start

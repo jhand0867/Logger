@@ -343,9 +343,9 @@ namespace Logger
                 if (frmLogData == null || frmLogData.IsDisposed)
                 {
                     frmLogData = new LogData();
-                    setData += new passLogData(frmLogData.setData);
-                    frmLogData.getPrevRow += new ReceiveLogData(MovePrevRowOnDGV);
-                    frmLogData.getNextRow += new ReceiveLogData(MoveNextRowOnDGV);
+                    setData = new passLogData(frmLogData.setData);
+                    frmLogData.getPrevRow = new ReceiveLogData(MovePrevRowOnDGV);
+                    frmLogData.getNextRow = new ReceiveLogData(MoveNextRowOnDGV);
                 }
 
                 setData(dgvLog.Rows[e.RowIndex]);

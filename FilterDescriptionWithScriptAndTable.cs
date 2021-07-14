@@ -59,7 +59,6 @@ namespace Logger
                     }
                 }
             }
-            //fieldDesc = fieldDesc + "   " + "  " + outputField + " " + System.Environment.NewLine;
             return fieldDesc;
         }
         public string formattedOutput(string value, string formatter)

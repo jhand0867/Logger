@@ -32,9 +32,6 @@ namespace Logger
             recTypeDic.Add("7", () => new FilterXWithScript().executeScript(fieldType, fieldValue));
             recTypeDic.Add("9", () => new FilterDescriptionWithScriptAndTable().executeScript(fieldValue, scriptValue));
 
-            // class filterMappingTable not needed, replaced by 0 option
-            //recTypeDic.Add("4", () => new filterMappingTable().executeScript(fieldType, fieldValue));
-
             try
             {
                 //todo: fix it gracefully

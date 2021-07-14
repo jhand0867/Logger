@@ -643,8 +643,10 @@ namespace Logger
                     recordType.Length > 2 &&
                     recordType.Substring(1, 2) == tmpTypes[3] &&
                     recordType.Substring(1, 2) != "1B" &&
-                    recordType.Substring(1, 2) != "1E")
-                {
+                    recordType.Substring(1, 2) != "1E" &&
+                    recordType.Substring(1, 2) != "16")
+                { 
+            
                     int myInd = tmpTypes[0].Length + tmpTypes[1].Length + tmpTypes[2].Length + tmpTypes[3].Length;
                     string typeData = rec.Value.Substring(myInd + 4, rec.Value.Length - (myInd + 4));
 
@@ -702,7 +704,7 @@ namespace Logger
         public DataTable getALogByIDWithCriteria(string logID, string columnName, string sqlLike)
         {
             DataTable dt = new DataTable();
-
+            
             string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
                             [group2] as 'Log Level',[group3] as 'File Name',
                             [group4] as 'Class',[group5] as 'Method',
@@ -710,7 +712,7 @@ namespace Logger
                             [group7] as 'Log',
                             [group8] as 'Log Data',[group9],
                             [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
-                      " AND " + columnName + sqlLike;
+                      " AND " + columnName + sqlLike + " order by id asc";
 
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
@@ -739,7 +741,7 @@ namespace Logger
                                                               [group7] as 'Log',
                                                               [group8] as 'Log Data',[group9],
                                                               [prjKey],[logID] FROM [loginfo] 
-                                                              WHERE logID =" + logID;
+                                                              WHERE logID =" + logID + " order by id asc";
 
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
@@ -859,7 +861,28 @@ namespace Logger
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("solicitedStatus", count);
 
-            sql = @"SELECT COUNT(*) FROM unsolicitedStatus WHERE logID =" + logID;
+            sql = @"SELECT (SELECT COUNT(*) FROM unsolicitedStatus5c WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatus61 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatus66 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatus71 WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusA WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusB WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusC WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusD WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusE WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusF WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusG WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusH WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusK WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusL WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusM WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusP WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusQ WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusR WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusS WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusV WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusw WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(*) FROM unsolicitedStatusy WHERE logID =" + logID + ") ";
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add("unsolicitedStatus", count);
 

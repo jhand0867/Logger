@@ -211,8 +211,12 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             emv.Rectype = "8";
-            emv.ResponseFlag = "";
+            if (tmpTypes[0].Length > 11)
+            {
+                emv.ResponseFlag = tmpTypes[0].Substring(tmpTypes[0].Length - 1, 1);
+            }
             emv.Luno = tmpTypes[1];
+
             emv.MsgSubclass = tmpTypes[2];
             emv.NumberOfEntries = "";
             if (emv.MsgSubclass != "4" && emv.MsgSubclass != "5")

@@ -143,13 +143,12 @@ namespace Logger
         {
 
             // todo: enter data descriptions for all records
-            // todo: put together the digesting routines for all record types
 
             string optionDesc = "";
             string fieldDesc = "";
             string scriptID = "";
 
-            // MLH If field has no value then no need for obtain description
+            // MLH If field has no value then no need to get description
 
             if (fieldValue.Trim() == "" || fieldValue == null) return optionDesc;
 
@@ -178,8 +177,6 @@ namespace Logger
                     else
                     {
                         optionDesc += " = " + fieldValue;
-                        //if (fieldDesc == "")
-                        //    optionDesc += insertDescription(item[4].ToString());
 
                         if ((item[4].ToString() == "") && (fieldDesc != ""))
                             optionDesc += fieldDesc;
