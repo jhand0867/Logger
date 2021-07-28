@@ -6,6 +6,8 @@ namespace Logger
     struct encryptorInit8
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubClass;
         private string luno;
         private string informationIdentifier;
         private string binaryDataLength;
@@ -16,6 +18,8 @@ namespace Logger
         public string InformationIdentifier { get => informationIdentifier; set => informationIdentifier = value; }
         public string BinaryDataLength { get => binaryDataLength; set => binaryDataLength = value; }
         public string SstCertificate { get => sstCertificate; set => sstCertificate = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
     };
 
     class EncryptorInitData8 : EncryptorInitData
@@ -30,9 +34,9 @@ namespace Logger
             {
                 encryptorInit8 k8 = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO encryptorInitData8([logkey],[rectype],[luno],
+                string sql = @"INSERT INTO encryptorInitData8([logkey],[rectype],[messageClass],[messageSubClass],[luno],
 	                        [informationIdentifier],[binaryDataLength],[sstCertificate],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + k8.Rectype + "','" +
+                            " VALUES('" + r.typeIndex + "','" + k8.Rectype + "','" + k8.MessageClass + "','" + k8.MessageSubClass + "','" +
                                k8.Luno + "','" + k8.InformationIdentifier + "','" + k8.BinaryDataLength + "','" +
                                k8.SstCertificate + "','" + Key + "'," + logID + ")";
 
@@ -53,6 +57,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             k8.Rectype = "K";
+            k8.MessageClass = tmpTypes[0].Substring(10, 1);
+            k8.MessageSubClass = tmpTypes[0].Substring(11, 1);
             k8.Luno = tmpTypes[1];
             k8.InformationIdentifier = tmpTypes[3];
 

@@ -6,6 +6,8 @@ namespace Logger
     struct encryptorInit4
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubClass;
         private string luno;
         private string informationIdentifier;
         private string masterKVV;
@@ -20,6 +22,8 @@ namespace Logger
         public string ComKVV { get => comKVV; set => comKVV = value; }
         public string MacKVV { get => macKVV; set => macKVV = value; }
         public string BkeyKVV { get => bkeyKVV; set => bkeyKVV = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
     };
 
     class EncryptorInitData4 : EncryptorInitData
@@ -34,9 +38,9 @@ namespace Logger
             {
                 encryptorInit4 k4 = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO encryptorInitData4([logkey],[rectype],[luno],
+                string sql = @"INSERT INTO encryptorInitData4([logkey],[rectype],[messageClass],[messageSubClass],[luno],
 	                        [informationIdentifier],[masterKVV],[comKVV],[macKVV],[bkeyKVV],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + k4.Rectype + "','" + k4.Luno + "','" +
+                            " VALUES('" + r.typeIndex + "','" + k4.Rectype + "','" + k4.MessageClass + "','" + k4.MessageSubClass + "','" + k4.Luno + "','" +
                                k4.InformationIdentifier + "','" + k4.MasterKVV + "','" + k4.ComKVV + "','" +
                                k4.MacKVV + "','" + k4.BkeyKVV + "','" + Key + "'," + logID + ")";
 
@@ -54,6 +58,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             k4.Rectype = "K";
+            k4.MessageClass = tmpTypes[0].Substring(10, 1);
+            k4.MessageSubClass = tmpTypes[0].Substring(11, 1);
             k4.Luno = tmpTypes[1];
             k4.InformationIdentifier = tmpTypes[3];
 

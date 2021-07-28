@@ -6,6 +6,8 @@ namespace Logger
     struct encryptorInit7
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubClass;
         private string luno;
         private string informationIdentifier;
         private string binaryDataLength;
@@ -16,6 +18,8 @@ namespace Logger
         public string InformationIdentifier { get => informationIdentifier; set => informationIdentifier = value; }
         public string BinaryDataLength { get => binaryDataLength; set => binaryDataLength = value; }
         public string RsaKVV { get => rsaKVV; set => rsaKVV = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
     };
 
     class EncryptorInitData7 : EncryptorInitData
@@ -30,9 +34,9 @@ namespace Logger
             {
                 encryptorInit7 k7 = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO encryptorInitData7([logkey],[rectype],[luno],
+                string sql = @"INSERT INTO encryptorInitData7([logkey],[rectype],[messageClass],[messageSubClass],[luno],
 	                        [informationIdentifier],[binaryDataLength],[rsaKVV],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + k7.Rectype + "','" +
+                            " VALUES('" + r.typeIndex + "','" + k7.Rectype + "','" + k7.MessageClass + "','" + k7.MessageSubClass + "','" +
                                k7.Luno + "','" + k7.InformationIdentifier + "','" + k7.BinaryDataLength + "','" +
                                k7.RsaKVV + "','" + Key + "'," + logID + ")";
 
@@ -53,6 +57,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             k7.Rectype = "K";
+            k7.MessageClass = tmpTypes[0].Substring(10, 1);
+            k7.MessageSubClass = tmpTypes[0].Substring(11, 1);
             k7.Luno = tmpTypes[1];
             k7.InformationIdentifier = tmpTypes[3];
 

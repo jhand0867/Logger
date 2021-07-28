@@ -5,6 +5,8 @@ namespace Logger
     struct solicitedStaF7
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubClass;
         private string luno;
         private string timeVariant;
         private string statusDescriptor;
@@ -93,6 +95,8 @@ namespace Logger
         public string Cat3NoteTypeIdentifier { get => cat3NoteTypeIdentifier; set => cat3NoteTypeIdentifier = value; }
         public string Cat3Notes { get => cat3Notes; set => cat3Notes = value; }
         public string Mac { get => mac; set => mac = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
     };
 
     class SolicitedStatusF7 : SolicitedStatus
@@ -107,7 +111,7 @@ namespace Logger
             {
                 solicitedStaF7 ss = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO solicitedStatusF7[logkey],[rectype],
+                string sql = @"INSERT INTO solicitedStatusF7[logkey],[rectype],[messageClass],[messageSubClass],
 	                        [luno],[timeVariant],[statusDescriptor],[messageIdentifier],[transactionGroupIdA],
                         	[transactionSerialNumber],[accumulatedTransactionCount],[cardReaderDGIdB],[cardsCaptured],
 	                        [cashHandler0DGIdC],[cashHandler0DGDataC],[cashHandler1DGIdD],[cashHandler1DGDataD],
@@ -118,7 +122,7 @@ namespace Logger
                         	[totalNotesEncashed],[totalNotesEscrowed],[dualDispenserCombinedDGIdL],[dualDispenserCombinedData],                        	
 	                        [ecb6Cat2NotesDGIdN],[ecb6Cat2NotesData],[cat2NoteTypeIdentifier],[cat2Notes],[ecb6Cat3NotesDGIdO],
                             [ecb6Cat3NotesData],[cat3NoteTypeIdentifier],[cat3Notes],[mac],[prjkey],[logID]) " +
-                    " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
+                    " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" + ss.MessageClass + "','" + ss.MessageSubClass + "','" +
                             ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
                             ss.MessageIdentifier + "','" + ss.TransactionGroupIdA + "','" + ss.TransactionSerialNumber + "','" +
                             ss.AccumulatedTransactionCount + "','" + ss.CardReaderDGIdB + "','" + ss.CardsCaptured + "','" +
@@ -148,6 +152,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             ss.Rectype = "N";
+            ss.MessageClass = tmpTypes[0].Substring(10, 1);
+            ss.MessageSubClass = tmpTypes[0].Substring(11, 1);
             ss.Luno = tmpTypes[1];
             int i = 3;
             if (tmpTypes[3].Length != 1)

@@ -6,6 +6,8 @@ namespace Logger
     struct unsolicitedStaP
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubclass;
         private string luno;
         private string dig;
         private string dsbyte1;
@@ -50,6 +52,8 @@ namespace Logger
         public string Dsbyte17 { get => dsbyte17; set => dsbyte17 = value; }
         public string Dsbyte18 { get => dsbyte18; set => dsbyte18 = value; }
         public string Dsbyte19 { get => dsbyte19; set => dsbyte19 = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
     };
 
     class UnsolicitedStatusP : UnsolicitedStatus
@@ -64,11 +68,12 @@ namespace Logger
             {
                 unsolicitedStaP us = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO unsolicitedStatusP([logkey],[rectype],[luno],
+                string sql = @"INSERT INTO unsolicitedStatusP([logkey],[rectype],[messageClass],[messageSubclass],[luno],
 	                        [dig],[dsbyte1],[dsbyte2],[dsbyte3],[dsbyte4],[dsbyte5],[dsbyte6],[dsbyte7],[dsbyte8],
                             [dsbyte9],[dsbyte10],[dsbyte11],[dsbyte12],[dsbyte13],[dsbyte14],[dsbyte15],[dsbyte16],
                             [dsbyte17],[dsbyte18],[dsbyte19],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.Luno + "','" +
+                            " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.MessageClass + "','" +
+                               us.MessageSubclass + "','" + us.Luno + "','" +
                                us.Dig + "','" + us.Dsbyte1 + "','" + us.Dsbyte2 + "','" + us.Dsbyte3 + "','" +
                                us.Dsbyte4 + "','" + us.Dsbyte5 + "','" + us.Dsbyte6 + "','" + us.Dsbyte7 + "','" +
                                us.Dsbyte8 + "','" + us.Dsbyte9 + "','" + us.Dsbyte10 + "','" + us.Dsbyte11 + "','" +
@@ -90,6 +95,9 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             us.Rectype = "U";
+            us.MessageClass = tmpTypes[0].Substring(10, 1);
+            us.MessageSubclass = tmpTypes[0].Substring(11, 1);
+
             us.Luno = tmpTypes[1];
             int i = 3;
 

@@ -6,6 +6,8 @@ namespace Logger
     struct encryptorInitA
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubClass;
         private string luno;
         private string informationIdentifier;
         private string kvvNewDesKey;
@@ -18,6 +20,8 @@ namespace Logger
         public string KvvNewDesKey { get => kvvNewDesKey; set => kvvNewDesKey = value; }
         public string BinaryDataLength { get => binaryDataLength; set => binaryDataLength = value; }
         public string KeyLoadAck { get => keyLoadAck; set => keyLoadAck = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
     };
 
     class EncryptorInitDataA : EncryptorInitData
@@ -32,9 +36,9 @@ namespace Logger
             {
                 encryptorInitA kA = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO encryptorInitDataA([logkey],[rectype],[luno],
+                string sql = @"INSERT INTO encryptorInitDataA([logkey],[rectype],[messageClass],[messageSubClass],[luno],
 	                        [informationIdentifier],[kvvNewDesKey],[binaryDataLength],[keyLoadAck],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + kA.Rectype + "','" +
+                            " VALUES('" + r.typeIndex + "','" + kA.Rectype + "','" + kA.MessageClass + "','" + kA.MessageSubClass + "','" +
                                kA.Luno + "','" + kA.InformationIdentifier + "','" + kA.KvvNewDesKey + "','" +
                                kA.BinaryDataLength + "','" + kA.KeyLoadAck + "','" + Key + "'," + logID + ")";
 
@@ -52,6 +56,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             kA.Rectype = "K";
+            kA.MessageClass = tmpTypes[0].Substring(10, 1);
+            kA.MessageSubClass = tmpTypes[0].Substring(11, 1);
             kA.Luno = tmpTypes[1];
             kA.InformationIdentifier = tmpTypes[3];
 

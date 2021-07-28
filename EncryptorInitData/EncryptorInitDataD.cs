@@ -6,6 +6,8 @@ namespace Logger
     struct encryptorInitD
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubClass;
         private string luno;
         private string informationIdentifier;
         private string eppVendorCo;
@@ -32,6 +34,8 @@ namespace Logger
         public string PciFirmwareName { get => pciFirmwareName; set => pciFirmwareName = value; }
         public string EppAppIds { get => eppAppIds; set => eppAppIds = value; }
         public string PciAppName { get => pciAppName; set => pciAppName = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
     };
 
     class EncryptorInitDataD : EncryptorInitData
@@ -46,11 +50,11 @@ namespace Logger
             {
                 encryptorInitD kD = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO encryptorInitDataD([logkey],[rectype],[luno],[informationIdentifier],
+                string sql = @"INSERT INTO encryptorInitDataD([logkey],[rectype],[messageClass],[messageSubClass],[luno],[informationIdentifier],
 	                        [eppVendorCo],[pciVendorName],[eppModelId],[pciModelName],[eppHardwareId],
 	                        [pciHardwareName],[eppFirmwareId],[pciFirmwareName],[eppAppIds],
 	                        [pciAppName],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + kD.Rectype + "','" + kD.Luno + "','" +
+                            " VALUES('" + r.typeIndex + "','" + kD.Rectype + "','" + kD.MessageClass + "','" + kD.MessageSubClass + "','" + kD.Luno + "','" +
                                kD.InformationIdentifier + "','" + kD.EppVendorCo + "','" + kD.PciVendorName + "','" +
                                kD.EppModelId + "','" + kD.PciModelName + "','" + kD.EppHardwareId + "','" +
                                kD.PciHardwareName + "','" + kD.EppFirmwareId + "','" + kD.PciFirmwareName + "','" +
@@ -70,6 +74,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             kD.Rectype = "K";
+            kD.MessageClass = tmpTypes[0].Substring(10, 1);
+            kD.MessageSubClass = tmpTypes[0].Substring(11, 1);
             kD.Luno = tmpTypes[1];
             kD.InformationIdentifier = tmpTypes[3];
 

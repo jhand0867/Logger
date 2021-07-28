@@ -6,6 +6,8 @@ namespace Logger
     struct solicitedStaB
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubClass;
         private string luno;
         private string timeVariant;
         private string statusDescriptor;
@@ -32,6 +34,8 @@ namespace Logger
         public string RsltOfIssuerScriptProcessing { get => rsltOfIssuerScriptProcessing; set => rsltOfIssuerScriptProcessing = value; }
         public string SeqnumOfScriptCommand { get => seqnumOfScriptCommand; set => seqnumOfScriptCommand = value; }
         public string ScriptID { get => scriptID; set => scriptID = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
     };
 
     struct CassettesData
@@ -57,12 +61,12 @@ namespace Logger
             {
                 solicitedStaB ss = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO solicitedStatusB([logkey],[rectype],
+                string sql = @"INSERT INTO solicitedStatusB([logkey],[rectype],[messageClass],[messageSubClass],
 	                        [luno],[timeVariant],[statusDescriptor],[lastTranTSN],
                             [dataId],[transactionData],[smartCardDataID],
 	                        [centralRequestedICCDO],[rsltOfIssuerScriptProcessing],
 	                        [seqnumOfScriptCommand],[scriptID],[mac],[prjkey],[logID]) " +
-                      " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
+                      " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" + ss.MessageClass + "','" + ss.MessageSubClass + "','" +
                                ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
                                ss.LastTranTSN + "','" + ss.DataId + "','" + ss.TransactionData + "','" +
                                ss.SmartCardDataID + "','" + ss.CentralRequestedICCDO + "','" + ss.RsltOfIssuerScriptProcessing + "','" +
@@ -84,6 +88,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             ss.Rectype = "N";
+            ss.MessageClass = tmpTypes[0].Substring(10, 1);
+            ss.MessageSubClass = tmpTypes[0].Substring(11, 1);
             ss.Luno = tmpTypes[1];
             int i = 3;
 

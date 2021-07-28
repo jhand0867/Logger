@@ -6,6 +6,8 @@ namespace Logger
     struct unsolicitedStaF
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubclass;
         private string luno;
         private string dig;
         private string deviceStatus;
@@ -20,6 +22,8 @@ namespace Logger
         public string ErrorSeverity { get => errorSeverity; set => errorSeverity = value; }
         public string DiagnosticStatus { get => diagnosticStatus; set => diagnosticStatus = value; }
         public string SuppliesStatus { get => suppliesStatus; set => suppliesStatus = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
     };
 
     class UnsolicitedStatusF : UnsolicitedStatus
@@ -34,9 +38,10 @@ namespace Logger
             {
                 unsolicitedStaF us = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO unsolicitedStatusF([logkey],[rectype],[luno],
+                string sql = @"INSERT INTO unsolicitedStatusF([logkey],[rectype],[messageClass],[messageSubclass],[luno],
 	                        [dig],[deviceStatus],[errorSeverity],[diagnosticStatus], [suppliesStatus],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.Luno + "','" +
+                            " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.MessageClass + "','" +
+                               us.MessageSubclass + "','" + us.Luno + "','" +
                                us.Dig + "','" + us.DeviceStatus + "','" + us.ErrorSeverity + "','" +
                                us.DiagnosticStatus + "','" + us.SuppliesStatus + "','" + Key + "'," + logID + ")";
 
@@ -54,6 +59,9 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             us.Rectype = "U";
+            us.MessageClass = tmpTypes[0].Substring(10, 1);
+            us.MessageSubclass = tmpTypes[0].Substring(11, 1);
+
             us.Luno = tmpTypes[1];
             int i = 3;
 

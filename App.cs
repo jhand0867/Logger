@@ -158,7 +158,7 @@ namespace Logger
                 if (item[2].ToString().Trim() == field)
                 {
                     optionDesc = item[3].ToString().Trim();
-                    if (item[5].ToString() != null && item[5].ToString() != "")
+                    if (item[5].ToString() != null && item[5].ToString().Trim() != "")
                     {
                         Digester myDigester = LoggerFactory.Create_Digester();
                         fieldDesc = myDigester.fieldDigester(item[5].ToString(), fieldValue, null);
@@ -201,7 +201,7 @@ namespace Logger
                 }
                 else
                 {
-                    description += "\t" + fieldDescription.Trim() + System.Environment.NewLine;
+                    description += " " + fieldDescription.Trim() + System.Environment.NewLine;
                 }
             }
             else

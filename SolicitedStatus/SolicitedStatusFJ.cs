@@ -6,6 +6,8 @@ namespace Logger
     struct solicitedStaFJ
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubClass;
         private string luno;
         private string timeVariant;
         private string statusDescriptor;
@@ -22,6 +24,8 @@ namespace Logger
         public string HardwareFitnessID { get => hardwareFitnessID; set => hardwareFitnessID = value; }
         public string HardwareFitnessData { get => hardwareFitnessData; set => hardwareFitnessData = value; }
         public string Mac { get => mac; set => mac = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
     };
 
     class SolicitedStatusFJ : SolicitedStatus
@@ -36,10 +40,10 @@ namespace Logger
             {
                 solicitedStaFJ ss = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO solicitedStatusFJ([logkey],[rectype],
+                string sql = @"INSERT INTO solicitedStatusFJ([logkey],[rectype],[messageClass],[messageSubClass],
 	                        [luno],[timeVariant],[statusDescriptor],[messageIdentifier],[hardwareFitnessID],
 	                        [hardwareFitnessData],[mac],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
+                            " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" + ss.MessageClass + "','" + ss.MessageSubClass + "','" +
                             ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
                             ss.MessageIdentifier + "','" + ss.HardwareFitnessID + "','" + ss.HardwareFitnessData + "','" +
                             ss.Mac + "','" + Key + "'," + logID + ")";
@@ -58,6 +62,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             ss.Rectype = "N";
+            ss.MessageClass = tmpTypes[0].Substring(10, 1);
+            ss.MessageSubClass = tmpTypes[0].Substring(11, 1);
             ss.Luno = tmpTypes[1];
 
             int i = 3;

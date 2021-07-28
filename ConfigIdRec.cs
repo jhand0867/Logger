@@ -8,6 +8,7 @@ namespace Logger
     struct configIdRec
     {
         private string rectype;
+        private string messageClass;
         private string responseFlag;
         private string luno;
         private string messageSeqNum;
@@ -22,6 +23,7 @@ namespace Logger
         public string ConfigId { get => configId; set => configId = value; }
         public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
         public string MessageIdentifier { get => messageIdentifier; set => messageIdentifier = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
     }
     class ConfigIdRec : App, IMessage
     {
@@ -57,10 +59,11 @@ namespace Logger
 
                 loadNum++;
 
-                string sql = @"INSERT INTO configId([logkey],[rectype],[responseFlag],
+                string sql = @"INSERT INTO configId([logkey],[rectype],[messageClass],[responseFlag],
 	                           [luno],[messageSeqNum],[messageSubClass],[messageIdentifier],[configID],[load],[prjkey],[logID])" +
                       " VALUES('" + r.typeIndex + "','" +
                                    cir.Rectype + "','" +
+                                   cir.MessageClass + "','" +
                                    cir.ResponseFlag + "','" +
                                    cir.Luno + "','" +
                                    cir.MessageSeqNum + "','" +
@@ -84,6 +87,7 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             cir.Rectype = "I";
+            cir.MessageClass = tmpTypes[0].Substring(10, 1);
             if (tmpTypes[0].Length > 11)
             {
                 cir.ResponseFlag = tmpTypes[0].Substring(tmpTypes[0].Length - 1, 1);
@@ -118,9 +122,13 @@ namespace Logger
 
             DataTable configId = getDescription();
 
+            
+
             if (dts[0].Rows.Count > 0)
-                for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
-                    txtField += App.Prj.getOptionDescription(configId, colNum.ToString("00"), dts[0].Rows[0][colNum].ToString());
+            
+            for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
+            
+                txtField += App.Prj.getOptionDescription(configId, colNum.ToString("00"), dts[0].Rows[0][colNum].ToString());
 
             return txtField;
         }

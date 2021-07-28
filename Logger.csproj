@@ -91,11 +91,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FilterDescriptionWithScriptAndTable.cs" />
-    <Compile Include="FilterDescriptionWithScript.cs" />
-    <Compile Include="filterSupplyData.cs" />
-    <Compile Include="filterTLV.cs" />
-    <Compile Include="FilterXWithScript.cs" />
+    <Compile Include="Filters\FilterDescriptionWithScriptAndTable.cs" />
+    <Compile Include="Filters\FilterDescriptionWithScript.cs" />
+    <Compile Include="Filters\filterSupplyData.cs" />
+    <Compile Include="Filters\filterTLV.cs" />
+    <Compile Include="Filters\FilterXWithScript.cs" />
     <Compile Include="GUI\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,11 +114,11 @@
     <Compile Include="GUI\DeleteQuery.Designer.cs">
       <DependentUpon>DeleteQuery.cs</DependentUpon>
     </Compile>
-    <Compile Include="IFilter.cs" />
+    <Compile Include="Filters\IFilter.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="InteractiveTranResponse.cs" />
-    <Compile Include="EjOptionsTimers.cs" />
-    <Compile Include="AckStopEj.cs" />
+    <Compile Include="Electronic Journal\EjOptionsTimers.cs" />
+    <Compile Include="Electronic Journal\AckStopEj.cs" />
     <Compile Include="App.cs" />
     <Compile Include="ConfigIdRec.cs" />
     <Compile Include="ConfigParamsRec.cs" />
@@ -274,7 +274,7 @@
     <Compile Include="TRec.cs" />
     <Compile Include="TReply.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData.cs" />
-    <Compile Include="AckEjUploadBlock.cs" />
+    <Compile Include="Electronic Journal\AckEjUploadBlock.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatus66.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusA.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusF.cs" />

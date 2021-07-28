@@ -6,6 +6,8 @@ namespace Logger
     struct solicitedStaF2
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubClass;
         private string luno;
         private string timeVariant;
         private string statusDescriptor;
@@ -86,6 +88,8 @@ namespace Logger
         public string Reserved12 { get => reserved12; set => reserved12 = value; }
         public string NumberOfPassBooksCaptured { get => numberOfPassBooksCaptured; set => numberOfPassBooksCaptured = value; }
         public string Mac { get => mac; set => mac = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
     };
 
     class SolicitedStatusF2 : SolicitedStatus
@@ -100,7 +104,7 @@ namespace Logger
             {
                 solicitedStaF2 ss = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO solicitedStatusF2([logkey],[rectype],
+                string sql = @"INSERT INTO solicitedStatusF2([logkey],[rectype],[messageClass],[messageSubClass],
 	                        [luno],[timeVariant],[statusDescriptor],[messageIdentifier],[transactionSerialNumber],
 	                        [accumulatedTranCount],[notesInCassette],[notesRejected],[notesDispensed],
 	                        [lastTranNotesDispensed],[cardsCaptured],[envelopesDeposited],[cameraFilmRemaining],
@@ -110,7 +114,7 @@ namespace Logger
 	                        [reserved8],[reserved9],[chequesDepositedBin1],[chequesDepositedBin2],[chequesDepositedBin3],
 	                        [chequesDepositedBin4],[reserved10],[reserved11],[reserved12],[numberOfPassBooksCaptured],
                             [mac],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" +
+                            " VALUES('" + r.typeIndex + "','" + ss.Rectype + "','" + ss.MessageClass + "','" + ss.MessageSubClass + "','" +
                             ss.Luno + "','" + ss.TimeVariant + "','" + ss.StatusDescriptor + "','" +
                             ss.MessageIdentifier + "','" + ss.TransactionSerialNumber + "','" + ss.AccumulatedTranCount + "','" +
                             ss.NotesInCassette + "','" + ss.NotesRejected + "','" + ss.NotesDispensed + "','" +
@@ -139,6 +143,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             ss.Rectype = "N";
+            ss.MessageClass = tmpTypes[0].Substring(10, 1);
+            ss.MessageSubClass = tmpTypes[0].Substring(11, 1);
             ss.Luno = tmpTypes[1];
 
             int i = 3;

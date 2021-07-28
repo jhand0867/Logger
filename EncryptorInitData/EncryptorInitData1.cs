@@ -6,6 +6,8 @@ namespace Logger
     struct encryptorInit1
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubClass;
         private string luno;
         private string informationIdentifier;
         private string eppSerialNumber;
@@ -16,8 +18,9 @@ namespace Logger
         public string InformationIdentifier { get => informationIdentifier; set => informationIdentifier = value; }
         public string EppSerialNumber { get => eppSerialNumber; set => eppSerialNumber = value; }
         public string EppSerialNumberSignature { get => eppSerialNumberSignature; set => eppSerialNumberSignature = value; }
-    };
-
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
+    }
     class EncryptorInitData1 : EncryptorInitData
     {
 
@@ -30,9 +33,9 @@ namespace Logger
             {
                 encryptorInit1 k1 = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO encryptorInitData1([logkey],[rectype],[luno],
+                string sql = @"INSERT INTO encryptorInitData1([logkey],[rectype],[messageClass],[messageSubClass],[luno],
 	                        [informationIdentifier],[eppSerialNumber],[eppSerialNumberSignature],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + k1.Rectype + "','" +
+                            " VALUES('" + r.typeIndex + "','" + k1.Rectype + "','" + k1.MessageClass + "','" + k1.MessageSubClass + "','" +
                                k1.Luno + "','" + k1.InformationIdentifier + "','" + k1.EppSerialNumber + "','" +
                                k1.EppSerialNumberSignature + "','" + Key + "'," + logID + ")";
 
@@ -50,6 +53,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             k1.Rectype = "K";
+            k1.MessageClass = tmpTypes[0].Substring(10, 1);
+            k1.MessageSubClass = tmpTypes[0].Substring(11, 1);
             k1.Luno = tmpTypes[1];
             k1.InformationIdentifier = tmpTypes[3];
 

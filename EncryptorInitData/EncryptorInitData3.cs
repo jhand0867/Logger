@@ -6,6 +6,8 @@ namespace Logger
     struct encryptorInit3
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubClass;
         private string luno;
         private string informationIdentifier;
         private string newKVV;
@@ -14,6 +16,8 @@ namespace Logger
         public string Luno { get => luno; set => luno = value; }
         public string InformationIdentifier { get => informationIdentifier; set => informationIdentifier = value; }
         public string NewKVV { get => newKVV; set => newKVV = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubClass { get => messageSubClass; set => messageSubClass = value; }
     };
 
     class EncryptorInitData3 : EncryptorInitData
@@ -28,9 +32,9 @@ namespace Logger
             {
                 encryptorInit3 k3 = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO encryptorInitData3([logkey],[rectype],[luno],
+                string sql = @"INSERT INTO encryptorInitData3([logkey],[rectype],[messageClass],[messageSubClass],[luno],
 	                        [informationIdentifier],[newKVV],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + k3.Rectype + "','" + k3.Luno + "','" +
+                            " VALUES('" + r.typeIndex + "','" + k3.Rectype + "','" + k3.MessageClass + "','" + k3.MessageSubClass + "','" + k3.Luno + "','" +
                               k3.InformationIdentifier + "','" + k3.NewKVV + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -47,6 +51,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             k3.Rectype = "K";
+            k3.MessageClass = tmpTypes[0].Substring(10, 1);
+            k3.MessageSubClass = tmpTypes[0].Substring(11, 1);
             k3.Luno = tmpTypes[1];
             k3.InformationIdentifier = tmpTypes[3];
             k3.NewKVV = tmpTypes[4];

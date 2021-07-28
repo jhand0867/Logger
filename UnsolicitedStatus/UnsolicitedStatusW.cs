@@ -6,6 +6,8 @@ namespace Logger
     struct unsolicitedStaW
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubclass;
         private string luno;
         private string dig;
         private string deviceStatus;
@@ -52,6 +54,8 @@ namespace Logger
         public string ErrorSeverity { get => errorSeverity; set => errorSeverity = value; }
         public string DiagnosticStatus { get => diagnosticStatus; set => diagnosticStatus = value; }
         public string SuppliesStatus { get => suppliesStatus; set => suppliesStatus = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
     };
 
     class UnsolicitedStatusW : UnsolicitedStatus
@@ -65,7 +69,7 @@ namespace Logger
             {
                 unsolicitedStaW us = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO unsolicitedStatusW([logkey],[rectype],[luno],
+                string sql = @"INSERT INTO unsolicitedStatusW([logkey],[rectype],[messageClass],[messageSubclass],[luno],
 	                        [dig],[deviceStatus],[errorCode],[escrowCounts],[vaultedCounts],[returnCounts],
 
 	                        [notesReturnedExitSlot],[notesInEscrow],[justVaulted],[escrowCountsNoteType],
@@ -73,7 +77,8 @@ namespace Logger
 	                        [returnCountsNoteType],[returnCountsDecValue],[notesReturnedExcessNinety],
 	                        [notesInEscrowExcessNinety],[justVaultedExcessNinety],
                             [errorSeverity],[diagnosticStatus], [suppliesStatus],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.Luno + "','" +
+                            " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.MessageClass + "','" +
+                               us.MessageSubclass + "','" + us.Luno + "','" +
                                us.Dig + "','" + us.DeviceStatus + "','" + us.ErrorCode + "','" + us.EscrowCounts + "','" +
                                us.VaultedCounts + "','" + us.ReturnCounts + "','" + us.NotesReturnedExitSlot + "','" +
                                us.NotesInEscrow + "','" + us.JustVaulted + "','" + us.EscrowCountsNoteType + "','" +
@@ -98,6 +103,9 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             us.Rectype = "U";
+            us.MessageClass = tmpTypes[0].Substring(10, 1);
+            us.MessageSubclass = tmpTypes[0].Substring(11, 1);
+
             us.Luno = tmpTypes[1];
             int i = 3;
 

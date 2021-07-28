@@ -6,6 +6,8 @@ namespace Logger
     struct unsolicitedStaC
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubclass;
         private string luno;
         private string dig;
         private string deviceStatus;
@@ -40,6 +42,8 @@ namespace Logger
         public string ResponseData { get => responseData; set => responseData = value; }
         public string Sw1 { get => sw1; set => sw1 = value; }
         public string Sw2 { get => sw2; set => sw2 = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
     }
 
     class UnsolicitedStatusC : UnsolicitedStatus
@@ -54,11 +58,12 @@ namespace Logger
             {
                 unsolicitedStaC us = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO unsolicitedStatusC([logkey],[rectype],[luno],
+                string sql = @"INSERT INTO unsolicitedStatusC([logkey],[rectype],[messageClass],[messageSubclass],[luno],
 	                        [dig],[deviceStatus],[errorSeverity],[applicationType],[applicationId],
 	                        [cla],[ins],[parameter1],[parameter2],[lengthCmd],[cmdData],
 	                        [lengthExpected],[responseData],[sw1],[sw2],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.Luno + "','" +
+                            " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.MessageClass + "','" +
+                               us.MessageSubclass + "','" + us.Luno + "','" +
                                us.Dig + "','" + us.DeviceStatus + "','" + us.ErrorSeverity + "','" +
                                us.ApplicationType + "','" + us.ApplicationId + "','" + us.Cla + "','" + us.Ins + "','" +
                                us.Parameter1 + "','" + us.Parameter2 + "','" + us.LengthCmd + "','" +
@@ -79,6 +84,9 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             us.Rectype = "U";
+            us.MessageClass = tmpTypes[0].Substring(10, 1);
+            us.MessageSubclass = tmpTypes[0].Substring(11, 1);
+
             us.Luno = tmpTypes[1];
             int i = 3;
 
