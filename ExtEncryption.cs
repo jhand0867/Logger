@@ -6,6 +6,11 @@ namespace Logger
     struct extEncryption
     {
         private string rectype;
+        private string messageClass;
+        private string responseFlag;
+        private string luno;
+        private string messageSeqNumber;
+        private string messageSubclass;
         private string modifier;
         private string keySize;
         private string keyData;
@@ -14,8 +19,12 @@ namespace Logger
         public string Modifier { get => modifier; set => modifier = value; }
         public string KeySize { get => keySize; set => keySize = value; }
         public string KeyData { get => keyData; set => keyData = value; }
-    };
-
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string ResponseFlag { get => responseFlag; set => responseFlag = value; }
+        public string Luno { get => luno; set => luno = value; }
+        public string MessageSeqNumber { get => messageSeqNumber; set => messageSeqNumber = value; }
+        public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
+    }
     class ExtEncryption : IMessage
     {
 
@@ -66,9 +75,13 @@ namespace Logger
             {
                 extEncryption eek = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO extEncryption([logkey],[rectype],[modifier],[keySize],[keyData],[prjkey],[logID])" +
-                            " VALUES('" + r.typeIndex + "','" + eek.Rectype + "','" + eek.Modifier + "','" +
-                              eek.KeySize + "','" + eek.KeyData + "','" + Key + "'," + logID + ")";
+                string sql = @"INSERT INTO extEncryption([logkey],[rectype],[messageClass],
+	                         [responseFlag],[luno],[messageSeqNumber],[messageSubclass],[modifier],
+                             [keySize],[keyData],[prjkey],[logID])" +
+                            " VALUES('" + r.typeIndex + "','" + eek.Rectype + "','" + eek.MessageClass + "','" +
+                            eek.ResponseFlag + "','" + eek.Luno + "','" + eek.MessageSeqNumber + "','" +
+                            eek.MessageSubclass + "','" + eek.Modifier + "','" +  eek.KeySize + "" +
+                            "','" + eek.KeyData + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)
@@ -84,11 +97,19 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             eek.Rectype = "O";
+            eek.MessageClass = tmpTypes[0].Substring(10, 1);
+            if (tmpTypes[0].Length > 11)
+            {
+                eek.ResponseFlag = tmpTypes[0].Substring(tmpTypes[0].Length - 1, 1);
+            }
+
+            eek.Luno = tmpTypes[1];
+            eek.MessageSeqNumber = tmpTypes[2];
+            eek.MessageSubclass = tmpTypes[3].Substring(0, 1);
             eek.Modifier = tmpTypes[3].Substring(1, 1);
 
-
             if (tmpTypes.Length > 4 && tmpTypes[4].Length > 0)
-            {
+            {         
                 eek.KeySize = tmpTypes[4].Substring(0, 3);
                 eek.KeyData = tmpTypes[4].Substring(3, tmpTypes[4].Length - 3);
             }

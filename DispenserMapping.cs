@@ -5,6 +5,9 @@ namespace Logger
 {
     struct dispenserMapping
     {
+        //todo add missing fields
+        //todo the whole process of adding fields
+
         private string rectype;
         private string numberMappingEntries;
         private string mappingTable;
