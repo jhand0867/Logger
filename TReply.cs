@@ -48,6 +48,8 @@ namespace Logger
     }
     struct transactionReply
     {
+        private string messageClass;
+        private string responseFlag;
         public string luno;
         public string timeVariant;
         public string nextState;

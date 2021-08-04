@@ -5,6 +5,8 @@ using System.Data;
 
 namespace Logger
 {
+    // todo: need to add skipped fields at the begining of message
+
     public class FitRec : App, IMessage
     {
         private string prectype;

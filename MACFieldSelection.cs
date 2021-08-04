@@ -6,6 +6,12 @@ namespace Logger
     struct macFieldSelection
     {
         private string rectype;
+        private string messageClass;
+        private string responseFlag;
+        private string luno;
+        private string messageSeqNumber;
+        private string messageSubclass;
+        private string messageIdentifier;
         private string treqField;
         private string treplyField;
         private string ssField;
@@ -26,8 +32,13 @@ namespace Logger
         public string Track3Field { get => track3Field; set => track3Field = value; }
         public string EmvConfig { get => emvConfig; set => emvConfig = value; }
         public string Mac { get => mac; set => mac = value; }
-    };
-
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string ResponseFlag { get => responseFlag; set => responseFlag = value; }
+        public string Luno { get => luno; set => luno = value; }
+        public string MessageSeqNumber { get => messageSeqNumber; set => messageSeqNumber = value; }
+        public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
+        public string MessageIdentifier { get => messageIdentifier; set => messageIdentifier = value; }
+    }
     class MACFieldSelection : IMessage
     {
 
@@ -78,10 +89,13 @@ namespace Logger
             {
                 macFieldSelection mfs = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO macFieldSelection([logkey],[rectype],[treqField],[treplyField],[ssField],
+                string sql = @"INSERT INTO macFieldSelection([logkey],[rectype],[messageClass],[responseFlag],[luno],
+	                                        [messageSeqNumber],[messageSubclass],[messageIdentifier],[treqField],[treplyField],[ssField],
                                             [otherMsgsField],[track1Field],[track2Field],[track3Field],[emvConfig],
                                             [mac],[prjkey],[logID])" +
-                            " VALUES('" + r.typeIndex + "','" + mfs.Rectype + "','" + mfs.TreqField + "','" + mfs.TreplyField + "','" +
+                            " VALUES('" + r.typeIndex + "','" + mfs.Rectype + "','" + mfs.MessageClass + "','" +
+                            mfs.ResponseFlag + "','" + mfs.Luno + "','" + mfs.MessageSeqNumber + "','" +
+                            mfs.MessageSubclass + "','" + mfs.MessageIdentifier + "','" + mfs.TreqField + "','" + mfs.TreplyField + "','" +
                              mfs.SsField + "','" + mfs.OtherMsgsField + "','" + mfs.Track1Field + "','" + mfs.Track2Field + "','" +
                              mfs.Track3Field + "','" + mfs.EmvConfig + "','" + mfs.Mac + "','" + Key + "'," + logID + ")";
 
@@ -99,6 +113,17 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             mfs.Rectype = "B";
+
+            mfs.MessageClass = tmpTypes[0].Substring(10, 1);
+            if (tmpTypes[0].Length > 11)
+            {
+                mfs.ResponseFlag = tmpTypes[0].Substring(tmpTypes[0].Length - 1, 1);
+            }
+
+            mfs.Luno = tmpTypes[1];
+            mfs.MessageSeqNumber = tmpTypes[2];
+            mfs.MessageSubclass = tmpTypes[3].Substring(0, 1);
+            mfs.MessageIdentifier = tmpTypes[3].Substring(1, 1);
 
             if (tmpTypes.Length > 4)
                 mfs.TreqField = tmpTypes[4];

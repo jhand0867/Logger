@@ -644,6 +644,9 @@ namespace Logger
                     recordType.Substring(1, 2) == tmpTypes[3] &&
                     recordType.Substring(1, 2) != "1B" &&
                     recordType.Substring(1, 2) != "1E" &&
+ // MLH uncomment line below to process message 31A with else condition
+ //     can also test state records to see that those are also processed in this If condition
+                    recordType.Substring(1, 2) != "1A" &&
                     recordType.Substring(1, 2) != "16")
                 { 
             

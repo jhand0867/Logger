@@ -20,110 +20,170 @@ namespace Logger
             public string timerTics;
         }
 
-        public struct enhancedParams
+        struct enhancedParams
         {
-            public string luno;
-            public parameterAndValue[] options;
-            public timerRec[] timers;
+            private string messageClass;
+            private string responseFlag;
+            private string messageLuno;
+            private string messageSeqNumber;
+            private string messageSubclass;
+            private string messageIdentifier;
+            private string luno;
+            private parameterAndValue[] options;
+            private timerRec[] timers;
 
-        };
+            public string MessageClass { get => messageClass; set => messageClass = value; }
+            public string ResponseFlag { get => responseFlag; set => responseFlag = value; }
+            public string MessageLuno { get => messageLuno; set => messageLuno = value; }
+            public string MessageSeqNumber { get => messageSeqNumber; set => messageSeqNumber = value; }
+            public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
+            public string MessageIdentifier { get => messageIdentifier; set => messageIdentifier = value; }
+            public string Luno { get => luno; set => luno = value; }
+            internal parameterAndValue[] Options { get => options; set => options = value; }
+            internal timerRec[] Timers { get => timers; set => timers = value; }
 
-        public bool writeData(List<typeRec> typeRecs, string key, string logID)
+        }
+        public bool writeData(List<typeRec> inTypeRecs, string key, string logID)
         {
             DbCrud db = new DbCrud();
             int loadNum = 0;
-            int count = 0;
 
-            while (count < typeRecs.Count)
+            foreach (typeRec rParent in inTypeRecs)
             {
-                typeRec r = typeRecs[count];
                 enhancedParams parms = new enhancedParams();
 
-                parms.luno = r.typeContent;
-                count++;
+                // MLH part added starts
+                string[] tmpTypes = rParent.typeContent.Split((char)0x1c);
+                List<typeRec> typeRecs = new List<typeRec>();
 
-                int optionsCount = 0;
+                int myInd = tmpTypes[0].Length + tmpTypes[1].Length + tmpTypes[2].Length + tmpTypes[3].Length;
+                string typeData = rParent.typeContent.Substring(myInd + 4, rParent.typeContent.Length - (myInd + 4));
 
-                if (typeRecs[count - 1].typeIndex == typeRecs[count].typeIndex)
+                string[] dataTypes = typeData.Split((char)0x1c);
+
+                parms.MessageClass = tmpTypes[0].Substring(10, 1);
+                if (tmpTypes[0].Length > 11)
                 {
-                    r = typeRecs[count];
-                    optionsCount = r.typeContent.Length / 5;
-
-                    parms.options = new parameterAndValue[optionsCount];
-
-                    for (int x = 0, y = 0; y < optionsCount; x = x + 5, y++)
-                    {
-                        parms.options[y].paramName = r.typeContent.Substring(x, 2);
-                        parms.options[y].paramValue = r.typeContent.Substring(x + 2, 3);
-                    }
-
-                    count++;
+                    parms.ResponseFlag = tmpTypes[0].Substring(tmpTypes[0].Length - 1, 1);
                 }
 
-                int timersNum = 0;
+                parms.MessageLuno = tmpTypes[1];
+                parms.MessageSeqNumber = tmpTypes[2];
+                parms.MessageSubclass = tmpTypes[3].Substring(0, 1);
+                parms.MessageIdentifier = tmpTypes[3].Substring(1, 1);
 
-                if ((count < typeRecs.Count) &&
-                   (typeRecs[count - 1].typeIndex == typeRecs[count].typeIndex))
+                foreach (string item in dataTypes)
                 {
-                    r = typeRecs[count];
-                    timersNum = r.typeContent.Length / 5;
+                    typeRec tr = new typeRec();
+                    tr.typeIndex = rParent.typeIndex;
+                    tr.typeContent = item;
+                    typeRecs.Add(tr);
+                }
 
-                    parms.timers = new timerRec[timersNum];
+                // MLH part added end
 
-                    for (int x = 0, y = 0; y < timersNum; x = x + 5, y++)
+
+                int count = 0;
+
+                while (count < typeRecs.Count)
+                {
+
+                    typeRec r = typeRecs[count];
+                  //  enhancedParams parms = new enhancedParams();
+
+                    parms.Luno = r.typeContent;
+                    count++;
+
+                    int optionsCount = 0;
+
+                    if (typeRecs[count - 1].typeIndex == typeRecs[count].typeIndex)
                     {
-                        parms.timers[y].timerNum = r.typeContent.Substring(x, 2);
-                        parms.timers[y].timerTics = r.typeContent.Substring(x + 2, 3);
+                        r = typeRecs[count];
+                        optionsCount = r.typeContent.Length / 5;
+
+                        parms.Options = new parameterAndValue[optionsCount];
+
+                        for (int x = 0, y = 0; y < optionsCount; x = x + 5, y++)
+                        {
+                            parms.Options[y].paramName = r.typeContent.Substring(x, 2);
+                            parms.Options[y].paramValue = r.typeContent.Substring(x + 2, 3);
+                        }
+
+                        count++;
                     }
 
-                    count++;
-                }
-                loadNum++;
+                    int timersNum = 0;
 
-                // childs of EnhanedParamsInfo
+                    if ((count < typeRecs.Count) &&
+                       (typeRecs[count - 1].typeIndex == typeRecs[count].typeIndex))
+                    {
+                        r = typeRecs[count];
+                        timersNum = r.typeContent.Length / 5;
 
-                string sql;
-                for (int y = 0; y < optionsCount; y++)
-                {
-                    sql = @"INSERT INTO enhancedParams([logkey],[rectype],[optionNum],[optionCode],[logID]) ";
-                    sql = sql + @" VALUES('" + r.typeIndex + "','C',";
-                    sql = sql + "'" + parms.options[y].paramName + "',";
-                    sql = sql + "'" + parms.options[y].paramValue + "'," + logID + ")";
+                        parms.Timers = new timerRec[timersNum];
 
+                        for (int x = 0, y = 0; y < timersNum; x = x + 5, y++)
+                        {
+                            parms.Timers[y].timerNum = r.typeContent.Substring(x, 2);
+                            parms.Timers[y].timerTics = r.typeContent.Substring(x + 2, 3);
+                        }
+
+                        count++;
+                    }
+                    loadNum++;
+
+                    // childs of EnhanedParamsInfo
+
+                    string sql;
+                    for (int y = 0; y < optionsCount; y++)
+                    {
+                        sql = @"INSERT INTO enhancedParams([logkey],[rectype],[optionNum],[optionCode],[logID]) ";
+                        sql = sql + @" VALUES('" + r.typeIndex + "','C',";
+                        sql = sql + "'" + parms.Options[y].paramName + "',";
+                        sql = sql + "'" + parms.Options[y].paramValue + "'," + logID + ")";
+
+
+                        if (db.crudToDb(sql) == false)
+                            return false;
+
+                    }
+
+                    for (int y = 0; y < timersNum; y++)
+                    {
+                        sql = @"INSERT INTO enhancedTimers([logkey],[rectype],[timerNum],[timerSeconds],[logID]) ";
+                        sql = sql + @" VALUES('" + r.typeIndex + "','C',";
+                        sql = sql + "'" + parms.Timers[y].timerNum + "',";
+                        sql = sql + "'" + parms.Timers[y].timerTics + "'," + logID + ")";
+
+                        if (db.crudToDb(sql) == false)
+                            return false;
+
+                    }
+
+                    // save the timers parent record
+
+                    sql = @"INSERT INTO enhancedParamsInfo([logkey],[rectype],[messageClass],
+	                         [responseFlag],[messageLuno],[messageSeqNumber],[messageSubclass],[messageIdentifier],
+                             [luno],[paramsCount],[timersCount],[load],[prjkey],[logID])" +
+                           " VALUES('" + r.typeIndex + "','" + // key
+                                        "C" + "','" + // record type
+                                        parms.MessageClass + "','" +
+                                        parms.ResponseFlag + "','" + 
+                                        parms.Luno + "','" + 
+                                        parms.MessageSeqNumber + "','" +
+                                        parms.MessageSubclass + "','" + 
+                                        parms.MessageIdentifier + "','" +
+                                        parms.Luno + "','" +
+                                        optionsCount.ToString() + "','" +
+                                        timersNum.ToString() + "','" +
+                                        loadNum.ToString() + "','" +
+                                        key + "'," + logID + ")";
 
                     if (db.crudToDb(sql) == false)
                         return false;
-
                 }
-
-                for (int y = 0; y < timersNum; y++)
-                {
-                    sql = @"INSERT INTO enhancedTimers([logkey],[rectype],[timerNum],[timerSeconds],[logID]) ";
-                    sql = sql + @" VALUES('" + r.typeIndex + "','C',";
-                    sql = sql + "'" + parms.timers[y].timerNum + "',";
-                    sql = sql + "'" + parms.timers[y].timerTics + "'," + logID + ")";
-
-                    if (db.crudToDb(sql) == false)
-                        return false;
-
-                }
-
-                // save the timers parent record
-
-                sql = @"INSERT INTO enhancedParamsInfo([logkey],[rectype],[luno],[paramsCount],[timersCount],[load],[prjkey],[logID])" +
-                       " VALUES('" + r.typeIndex + "','" + // key
-                                    "C" + "','" + // record type
-                                    parms.luno + "','" +
-                                    optionsCount.ToString() + "','" +
-                                    timersNum.ToString() + "','" +
-                                    loadNum.ToString() + "','" +
-                                    key + "'," + logID + ")";
-
-                if (db.crudToDb(sql) == false)
-                    return false;
             }
             return true;
-
         }
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
@@ -131,9 +191,14 @@ namespace Logger
             List<DataTable> dts = new List<DataTable>();
             DbCrud db = new DbCrud();
 
-            string sql = @"SELECT id, logkey, rectype, optionNum as Num, optionCode as Code, '1' as type from enhancedParams
-                                                        WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            string sql = @"SELECT TOP 1 * FROM enhancedParamsInfo WHERE prjkey = '" + projectKey + "' AND logID = '" + logID +
+                                   "' AND logkey LIKE '" + logKey + "%'";
             DataTable dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+
+            sql = @"SELECT id, logkey, rectype, optionNum as Num, optionCode as Code, '1' as type from enhancedParams
+                                                        WHERE logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
             dts.Add(dt);
 
             sql = @"SELECT id, logkey, rectype, timerNum as Num, timerSeconds as Code, '2' as type from enhancedTimers
@@ -164,35 +229,44 @@ namespace Logger
 
             DataTable paramRecDt = getDescription();
 
+            bool dtFirst = true;
+
             foreach (DataTable dt in dts)
             {
-                if (dt.Rows.Count > 0)
-                {
-                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
+                    if (dtFirst == true)
                     {
-                        if (dt.Rows[rowNum][5].ToString() == "1")
+                        for (int colNum = 3; colNum < dt.Columns.Count - 7; colNum++)
+                            txtField += App.Prj.getOptionDescription(paramRecDt, "H" + colNum.ToString("00"), dt.Rows[0][colNum].ToString());
+                        dtFirst = false;
+                    }
+                    else
+                    {
+                        for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                         {
-                            if (rowNum == 0)
+                            if (dt.Rows[rowNum][5].ToString() == "1")
                             {
-                                txtField += @"==================================================" + System.Environment.NewLine;
-                                txtField += @"OPTIONS" + System.Environment.NewLine;
-                                txtField += @"==================================================" + System.Environment.NewLine;
+                                if (rowNum == 0)
+                                {
+                                    txtField += @"==================================================" + System.Environment.NewLine;
+                                    txtField += @"OPTIONS" + System.Environment.NewLine;
+                                    txtField += @"==================================================" + System.Environment.NewLine;
+                                }
+                                txtField += getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
                             }
-                            txtField += getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
-                        }
-                        if (dt.Rows[rowNum][5].ToString() == "2")
-                        {
-                            if (TimerStartFlag != true)
+                            if (dt.Rows[rowNum][5].ToString() == "2")
                             {
-                                txtField += @"==================================================" + System.Environment.NewLine;
-                                txtField += @"TIMERS" + System.Environment.NewLine;
-                                txtField += @"==================================================" + System.Environment.NewLine;
-                                TimerStartFlag = true;
+                                if (TimerStartFlag != true)
+                                {
+                                    txtField += @"==================================================" + System.Environment.NewLine;
+                                    txtField += @"TIMERS" + System.Environment.NewLine;
+                                    txtField += @"==================================================" + System.Environment.NewLine;
+                                    TimerStartFlag = true;
+                                }
+                                txtField += getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
                             }
-                            txtField += getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
                         }
                     }
-                }
+
             }
             return txtField;
         }

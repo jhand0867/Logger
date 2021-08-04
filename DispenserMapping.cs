@@ -5,26 +5,28 @@ namespace Logger
 {
     struct dispenserMapping
     {
-        //todo add missing fields
-        //todo the whole process of adding fields
-
         private string rectype;
+        private string messageClass;
+        private string responseFlag;
+        private string luno;
+        private string messageSeqNumber;
+        private string messageSubclass;
+        private string messageIdentifier;
         private string numberMappingEntries;
         private string mappingTable;
-        //private string currencyType;
-        //private string cassetteType;
-        //private string denomination;
         private string mac;
 
         public string Rectype { get => rectype; set => rectype = value; }
         public string NumberMappingEntries { get => numberMappingEntries; set => numberMappingEntries = value; }
         public string MappingTable { get => mappingTable; set => mappingTable = value; }
-        //public string CurrencyType { get => currencyType; set => currencyType = value; }
-        //public string CassetteType { get => cassetteType; set => cassetteType = value; }
-        //public string Denomination { get => denomination; set => denomination = value; }
         public string Mac { get => mac; set => mac = value; }
-    };
-
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string ResponseFlag { get => responseFlag; set => responseFlag = value; }
+        public string Luno { get => luno; set => luno = value; }
+        public string MessageSeqNumber { get => messageSeqNumber; set => messageSeqNumber = value; }
+        public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
+        public string MessageIdentifier { get => messageIdentifier; set => messageIdentifier = value; }
+    }
     class DispenserMapping : IMessage
     {
 
@@ -75,10 +77,12 @@ namespace Logger
             {
                 dispenserMapping dm = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO dispenserMapping([logkey],[rectype],[numberMappingEntries],
+                string sql = @"INSERT INTO dispenserMapping([logkey],[rectype],[messageClass],
+	                         [responseFlag],[luno],[messageSeqNumber],[messageSubclass],[messageIdentifier],[numberMappingEntries],
                                         	[mappingTable],[mac],[prjkey],[logID])" +
-                            " VALUES('" + r.typeIndex + "','" + dm.Rectype + "','" + dm.NumberMappingEntries + "','" +
-                              //   dm.CurrencyType + "','" + dm.CassetteType + "','" + dm.Denomination + "','" +
+                            " VALUES('" + r.typeIndex + "','" + dm.Rectype + "','" + dm.MessageClass + "','" +
+                            dm.ResponseFlag + "','" + dm.Luno + "','" + dm.MessageSeqNumber + "','" +
+                            dm.MessageSubclass + "','" + dm.MessageIdentifier + "','" + dm.NumberMappingEntries + "','" +
                               dm.MappingTable + "','" + dm.Mac + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -95,6 +99,18 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             dm.Rectype = "G";
+
+            dm.MessageClass = tmpTypes[0].Substring(10, 1);
+            if (tmpTypes[0].Length > 11)
+            {
+                dm.ResponseFlag = tmpTypes[0].Substring(tmpTypes[0].Length - 1, 1);
+            }
+
+            dm.Luno = tmpTypes[1];
+            dm.MessageSeqNumber = tmpTypes[2];
+            dm.MessageSubclass = tmpTypes[3].Substring(0, 1);
+            dm.MessageIdentifier = tmpTypes[3].Substring(1, 1);
+
             dm.NumberMappingEntries = tmpTypes[4].Substring(0, 2);
             dm.MappingTable = tmpTypes[4].Substring(2, tmpTypes[4].Length - 2);
 

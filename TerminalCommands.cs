@@ -6,6 +6,7 @@ namespace Logger
     struct terminalCommands
     {
         private string rectype;
+        private string messageClass;
         private string responseFlag;
         private string luno;
         private string messageSeqNumber;
@@ -18,8 +19,8 @@ namespace Logger
         public string MessageSeqNumber { get => messageSeqNumber; set => messageSeqNumber = value; }
         public string CommandCode { get => commandCode; set => commandCode = value; }
         public string Modifier { get => modifier; set => modifier = value; }
-    };
-
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+    }
     class TerminalCommands : IMessage
     {
 
@@ -70,9 +71,9 @@ namespace Logger
             {
                 terminalCommands tc = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO terminalCommands([logkey],[rectype],[responseFlag],[luno],[messageSeqNumber],
+                string sql = @"INSERT INTO terminalCommands([logkey],[rectype],[messageClass],[responseFlag],[luno],[messageSeqNumber],
 	                                                     [commandCode],[modifier],[prjkey],[logID])" +
-                            " VALUES('" + r.typeIndex + "','" + tc.Rectype + "','" + tc.ResponseFlag + "','" + tc.Luno + "','" +
+                            " VALUES('" + r.typeIndex + "','" + tc.Rectype + "','" + tc.MessageClass + "','" + tc.ResponseFlag + "','" + tc.Luno + "','" +
                              tc.MessageSeqNumber + "','" + tc.CommandCode + "','" + tc.Modifier + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -89,8 +90,12 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             tc.Rectype = "A";
+
+            tc.MessageClass = tmpTypes[0].Substring(10, 1);
+
             if (tmpTypes[0].Length > 11)
-            { tc.ResponseFlag = tmpTypes[0].Substring(11, 1); }
+               tc.ResponseFlag = tmpTypes[0].Substring(11, 1); 
+
             tc.Luno = tmpTypes[1];
             tc.MessageSeqNumber = tmpTypes[2];
 

@@ -296,7 +296,7 @@
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusK.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusE.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusD.cs" />
-    <Compile Include="UploadEjData.cs" />
+    <Compile Include="Electronic Journal\UploadEjData.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatus.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusB.cs" />
     <EmbeddedResource Include="GUI\AboutDialog.resx">
