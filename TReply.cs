@@ -50,71 +50,136 @@ namespace Logger
     {
         private string messageClass;
         private string responseFlag;
-        public string luno;
-        public string timeVariant;
-        public string nextState;
-        public string numberOfType1Notes;
-        public string numberOfType2Notes;
-        public string numberOfType3Notes;
-        public string numberOfType4Notes;
-        public string numberOfType5Notes;
-        public string numberOfType6Notes;
-        public string numberOfType7Notes;
-        public string numberofHopperType1Coins;
-        public string numberofHopperType2Coins;
-        public string numberofHopperType3Coins;
-        public string numberofHopperType4Coins;
-        public string numberofHopperType5Coins;
-        public string serialNumber;
-        public string functionID;
-        public string screenNum;
-        public string scrDisplayUpdate;
-        public string messageCoordinatorNumber;
-        public string cardReturnRetainFlag;
-        public bool printerData;
-        public string bufferID4;
-        public string track3Data;
-        public string bufferIDK;
-        public string track1Data;
-        public string bufferIDL;
-        public string track2Data;
-        public string VCDataIDM;
-        public string VCDataM;
-        public string VCDataIDN;
-        public string VCDataN;
-        public string VCDataIDO;
-        public string VCDataO;
-        public string VCDataIDP;
-        public string VCDataP;
-        public string VCDataIDQ;
-        public string VCDataQ;
-        public string VCDataIDR;
-        public string VCDataR;
-        public string bufferIDS;
-        public string cashHandlerNumber;
-        public string CassetteType1;
-        public string numberOfBilsFromType1;
-        public string CassetteType2;
-        public string numberOfBilsFromType2;
-        public string CassetteType3;
-        public string numberOfBilsFromType3;
-        public string CassetteType4;
-        public string numberOfBilsFromType4;
-        public string CassetteType5;
-        public string numberOfBilsFromType5;
-        public string CassetteType6;
-        public string numberOfBilsFromType6;
-        public string smartcardDataID5;
-        public string smartcardData;
-        public string checkDestDataIDa;
-        public string checkDestData;
-        public string processMultipleChecksIDb;
-        public bool checksToProcess;
-        public string useForEMVDCCTransactions;
-        public string MACData;
-        public int checksToProcessOffset;
-    };
+        private string luno;
+        private string timeVariant;
+        private string nextState;
+        private string numberOfType1Notes;
+        private string numberOfType2Notes;
+        private string numberOfType3Notes;
+        private string numberOfType4Notes;
+        private string numberOfType5Notes;
+        private string numberOfType6Notes;
+        private string numberOfType7Notes;
+        private string numberofHopperType1Coins;
+        private string numberofHopperType2Coins;
+        private string numberofHopperType3Coins;
+        private string numberofHopperType4Coins;
+        private string numberofHopperType5Coins;
+        private string serialNumber;
+        private string functionID;
+        private string screenNum;
+        private string scrDisplayUpdate;
+        private string messageCoordinatorNumber;
+        private string cardReturnRetainFlag;
+        private bool printerData;
+        private string bufferID4;
+        private string track3Data;
+        private string bufferIDK;
+        private string track1Data;
+        private string bufferIDL;
+        private string track2Data;
+        private string VCDataIDM;
+        private string VCDataM;
+        private string VCDataIDN;
+        private string VCDataN;
+        private string VCDataIDO;
+        private string VCDataO;
+        private string VCDataIDP;
+        private string VCDataP;
+        private string VCDataIDQ;
+        private string VCDataQ;
+        private string VCDataIDR;
+        private string VCDataR;
+        private string bufferIDS;
+        private string cashHandlerNumber;
+        private string CassetteType1;
+        private string numberOfBilsFromType1;
+        private string CassetteType2;
+        private string numberOfBilsFromType2;
+        private string CassetteType3;
+        private string numberOfBilsFromType3;
+        private string CassetteType4;
+        private string numberOfBilsFromType4;
+        private string CassetteType5;
+        private string numberOfBilsFromType5;
+        private string CassetteType6;
+        private string numberOfBilsFromType6;
+        private string smartcardDataID5;
+        private string smartcardData;
+        private string checkDestDataIDa;
+        private string checkDestData;
+        private string processMultipleChecksIDb;
+        private bool checksToProcess;
+        private string useForEMVDCCTransactions;
+        private string MACData;
+        private int checksToProcessOffset;
 
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string ResponseFlag { get => responseFlag; set => responseFlag = value; }
+        public string Luno { get => luno; set => luno = value; }
+        public string TimeVariant { get => timeVariant; set => timeVariant = value; }
+        public string NextState { get => nextState; set => nextState = value; }
+        public string NumberOfType1Notes { get => numberOfType1Notes; set => numberOfType1Notes = value; }
+        public string NumberOfType2Notes { get => numberOfType2Notes; set => numberOfType2Notes = value; }
+        public string NumberOfType3Notes { get => numberOfType3Notes; set => numberOfType3Notes = value; }
+        public string NumberOfType4Notes { get => numberOfType4Notes; set => numberOfType4Notes = value; }
+        public string NumberOfType5Notes { get => numberOfType5Notes; set => numberOfType5Notes = value; }
+        public string NumberOfType6Notes { get => numberOfType6Notes; set => numberOfType6Notes = value; }
+        public string NumberOfType7Notes { get => numberOfType7Notes; set => numberOfType7Notes = value; }
+        public string NumberofHopperType1Coins { get => numberofHopperType1Coins; set => numberofHopperType1Coins = value; }
+        public string NumberofHopperType2Coins { get => numberofHopperType2Coins; set => numberofHopperType2Coins = value; }
+        public string NumberofHopperType3Coins { get => numberofHopperType3Coins; set => numberofHopperType3Coins = value; }
+        public string NumberofHopperType4Coins { get => numberofHopperType4Coins; set => numberofHopperType4Coins = value; }
+        public string NumberofHopperType5Coins { get => numberofHopperType5Coins; set => numberofHopperType5Coins = value; }
+        public string SerialNumber { get => serialNumber; set => serialNumber = value; }
+        public string FunctionID { get => functionID; set => functionID = value; }
+        public string ScreenNum { get => screenNum; set => screenNum = value; }
+        public string ScrDisplayUpdate { get => scrDisplayUpdate; set => scrDisplayUpdate = value; }
+        public string MessageCoordinatorNumber { get => messageCoordinatorNumber; set => messageCoordinatorNumber = value; }
+        public string CardReturnRetainFlag { get => cardReturnRetainFlag; set => cardReturnRetainFlag = value; }
+        public bool PrinterData { get => printerData; set => printerData = value; }
+        public string BufferID4 { get => bufferID4; set => bufferID4 = value; }
+        public string Track3Data { get => track3Data; set => track3Data = value; }
+        public string BufferIDK { get => bufferIDK; set => bufferIDK = value; }
+        public string Track1Data { get => track1Data; set => track1Data = value; }
+        public string BufferIDL { get => bufferIDL; set => bufferIDL = value; }
+        public string Track2Data { get => track2Data; set => track2Data = value; }
+        public string VCDataIDM1 { get => VCDataIDM; set => VCDataIDM = value; }
+        public string VCDataM1 { get => VCDataM; set => VCDataM = value; }
+        public string VCDataIDN1 { get => VCDataIDN; set => VCDataIDN = value; }
+        public string VCDataN1 { get => VCDataN; set => VCDataN = value; }
+        public string VCDataIDO1 { get => VCDataIDO; set => VCDataIDO = value; }
+        public string VCDataO1 { get => VCDataO; set => VCDataO = value; }
+        public string VCDataIDP1 { get => VCDataIDP; set => VCDataIDP = value; }
+        public string VCDataP1 { get => VCDataP; set => VCDataP = value; }
+        public string VCDataIDQ1 { get => VCDataIDQ; set => VCDataIDQ = value; }
+        public string VCDataQ1 { get => VCDataQ; set => VCDataQ = value; }
+        public string VCDataIDR1 { get => VCDataIDR; set => VCDataIDR = value; }
+        public string VCDataR1 { get => VCDataR; set => VCDataR = value; }
+        public string BufferIDS { get => bufferIDS; set => bufferIDS = value; }
+        public string CashHandlerNumber { get => cashHandlerNumber; set => cashHandlerNumber = value; }
+        public string CassetteType11 { get => CassetteType1; set => CassetteType1 = value; }
+        public string NumberOfBilsFromType1 { get => numberOfBilsFromType1; set => numberOfBilsFromType1 = value; }
+        public string CassetteType21 { get => CassetteType2; set => CassetteType2 = value; }
+        public string NumberOfBilsFromType2 { get => numberOfBilsFromType2; set => numberOfBilsFromType2 = value; }
+        public string CassetteType31 { get => CassetteType3; set => CassetteType3 = value; }
+        public string NumberOfBilsFromType3 { get => numberOfBilsFromType3; set => numberOfBilsFromType3 = value; }
+        public string CassetteType41 { get => CassetteType4; set => CassetteType4 = value; }
+        public string NumberOfBilsFromType4 { get => numberOfBilsFromType4; set => numberOfBilsFromType4 = value; }
+        public string CassetteType51 { get => CassetteType5; set => CassetteType5 = value; }
+        public string NumberOfBilsFromType5 { get => numberOfBilsFromType5; set => numberOfBilsFromType5 = value; }
+        public string CassetteType61 { get => CassetteType6; set => CassetteType6 = value; }
+        public string NumberOfBilsFromType6 { get => numberOfBilsFromType6; set => numberOfBilsFromType6 = value; }
+        public string SmartcardDataID5 { get => smartcardDataID5; set => smartcardDataID5 = value; }
+        public string SmartcardData { get => smartcardData; set => smartcardData = value; }
+        public string CheckDestDataIDa { get => checkDestDataIDa; set => checkDestDataIDa = value; }
+        public string CheckDestData { get => checkDestData; set => checkDestData = value; }
+        public string ProcessMultipleChecksIDb { get => processMultipleChecksIDb; set => processMultipleChecksIDb = value; }
+        public bool ChecksToProcess { get => checksToProcess; set => checksToProcess = value; }
+        public string UseForEMVDCCTransactions { get => useForEMVDCCTransactions; set => useForEMVDCCTransactions = value; }
+        public string MACData1 { get => MACData; set => MACData = value; }
+        public int ChecksToProcessOffset { get => checksToProcessOffset; set => checksToProcessOffset = value; }
+    }
     class TReply : App, IMessage
     {
         public DataTable getDescription()
@@ -163,19 +228,19 @@ namespace Logger
                 string printerData = tmpTypes[6].Substring(2, tmpTypes[6].Length - 2);
                 List<tReplyPrinterData> rpdlist = parsePrinterData(printerData);
                 if (rpdlist.Count > 0)
-                    treply.printerData = true;
+                    treply.PrinterData = true;
 
                 List<tReplyCheckProcessing> chplist = new List<tReplyCheckProcessing>();
-                if (treply.checksToProcessOffset > 0)
+                if (treply.ChecksToProcessOffset > 0)
                 {
-                    string checksToProcess = tmpTypes[treply.checksToProcessOffset]
-                            .Substring(1, tmpTypes[treply.checksToProcessOffset].Length - 1);
+                    string checksToProcess = tmpTypes[treply.ChecksToProcessOffset]
+                            .Substring(1, tmpTypes[treply.ChecksToProcessOffset].Length - 1);
                     chplist = parseCheckProcessing(checksToProcess);
                     if (chplist.Count > 0)
-                        treply.checksToProcess = true;
+                        treply.ChecksToProcess = true;
                 }
 
-                string sql = @"INSERT INTO treply([logkey],[rectype],[luno],[timeVariant],[nextState],[numberOfType1Notes]," +
+                string sql = @"INSERT INTO treply([logkey],[rectype],[messageClass],[responseFlag],[luno],[timeVariant],[nextState],[numberOfType1Notes]," +
                                 "[numberOfType2Notes],[numberOfType3Notes],[numberOfType4Notes],[numberOfType5Notes],[numberOfType6Notes],[numberOfType7Notes]," +
                                 "[numberofHopperType1Coins],[numberofHopperType2Coins],[numberofHopperType3Coins],[numberofHopperType4Coins],[numberofHopperType5Coins]," +
                                 "[serialNumber],[functionID],[screenNum],[scrDisplayUpdate],[messageCoordinatorNumber],[cardReturnRetainFlag],[printerData]," +
@@ -187,68 +252,70 @@ namespace Logger
                                 "[processMultipleChecksIDb],[checksToProcess],[useForEMVDCCTransactions],[MACData],[prjkey],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" +
                                    'R' + "','" +
-                                   treply.luno + "','" +
-                                   treply.timeVariant + "','" +
-                                   treply.nextState + "','" +
-                                   treply.numberOfType1Notes + "','" +
-                                   treply.numberOfType2Notes + "','" +
-                                   treply.numberOfType3Notes + "','" +
-                                   treply.numberOfType4Notes + "','" +
-                                   treply.numberOfType5Notes + "','" +
-                                   treply.numberOfType6Notes + "','" +
-                                   treply.numberOfType7Notes + "','" +
-                                   treply.numberofHopperType1Coins + "','" +
-                                   treply.numberofHopperType2Coins + "','" +
-                                   treply.numberofHopperType3Coins + "','" +
-                                   treply.numberofHopperType4Coins + "','" +
-                                   treply.numberofHopperType5Coins + "','" +
-                                   treply.serialNumber + "','" +
-                                   treply.functionID + "','" +
-                                   treply.screenNum + "','" +
-                                   treply.scrDisplayUpdate + "','" +
-                                   treply.messageCoordinatorNumber + "','" +
-                                   treply.cardReturnRetainFlag + "','" +
-                                   treply.printerData + "','" +
-                                   treply.bufferID4 + "','" +
-                                   treply.track3Data + "','" +
-                                   treply.bufferIDK + "','" +
-                                   treply.track1Data + "','" +
-                                   treply.bufferIDL + "','" +
-                                   treply.track2Data + "','" +
-                                   treply.VCDataIDM + "','" +
-                                   treply.VCDataM + "','" +
-                                   treply.VCDataIDN + "','" +
-                                   treply.VCDataN + "','" +
-                                   treply.VCDataIDO + "','" +
-                                   treply.VCDataO + "','" +
-                                   treply.VCDataIDP + "','" +
-                                   treply.VCDataP + "','" +
-                                   treply.VCDataIDQ + "','" +
-                                   treply.VCDataQ + "','" +
-                                   treply.VCDataIDR + "','" +
-                                   treply.VCDataR + "','" +
-                                   treply.bufferIDS + "','" +
-                                   treply.cashHandlerNumber + "','" +
-                                   treply.CassetteType1 + "','" +
-                                   treply.numberOfBilsFromType1 + "','" +
-                                   treply.CassetteType2 + "','" +
-                                   treply.numberOfBilsFromType2 + "','" +
-                                   treply.CassetteType3 + "','" +
-                                   treply.numberOfBilsFromType3 + "','" +
-                                   treply.CassetteType4 + "','" +
-                                   treply.numberOfBilsFromType4 + "','" +
-                                   treply.CassetteType5 + "','" +
-                                   treply.numberOfBilsFromType5 + "','" +
-                                   treply.CassetteType6 + "','" +
-                                   treply.numberOfBilsFromType6 + "','" +
-                                   treply.smartcardDataID5 + "','" +
-                                   treply.smartcardData + "','" +
-                                   treply.checkDestDataIDa + "','" +
-                                   treply.checkDestData + "','" +
-                                   treply.processMultipleChecksIDb + "','" +
-                                   treply.checksToProcess + "','" +
-                                   treply.useForEMVDCCTransactions + "','" +
-                                   treply.MACData + "','" +
+                                   treply.MessageClass + "','" +
+                                   treply.ResponseFlag + "','" +
+                                   treply.Luno + "','" +
+                                   treply.TimeVariant + "','" +
+                                   treply.NextState + "','" +
+                                   treply.NumberOfType1Notes + "','" +
+                                   treply.NumberOfType2Notes + "','" +
+                                   treply.NumberOfType3Notes + "','" +
+                                   treply.NumberOfType4Notes + "','" +
+                                   treply.NumberOfType5Notes + "','" +
+                                   treply.NumberOfType6Notes + "','" +
+                                   treply.NumberOfType7Notes + "','" +
+                                   treply.NumberofHopperType1Coins + "','" +
+                                   treply.NumberofHopperType2Coins + "','" +
+                                   treply.NumberofHopperType3Coins + "','" +
+                                   treply.NumberofHopperType4Coins + "','" +
+                                   treply.NumberofHopperType5Coins + "','" +
+                                   treply.SerialNumber + "','" +
+                                   treply.FunctionID + "','" +
+                                   treply.ScreenNum + "','" +
+                                   treply.ScrDisplayUpdate + "','" +
+                                   treply.MessageCoordinatorNumber + "','" +
+                                   treply.CardReturnRetainFlag + "','" +
+                                   treply.PrinterData + "','" +
+                                   treply.BufferID4 + "','" +
+                                   treply.Track3Data + "','" +
+                                   treply.BufferIDK + "','" +
+                                   treply.Track1Data + "','" +
+                                   treply.BufferIDL + "','" +
+                                   treply.Track2Data + "','" +
+                                   treply.VCDataIDM1 + "','" +
+                                   treply.VCDataM1 + "','" +
+                                   treply.VCDataIDN1 + "','" +
+                                   treply.VCDataN1 + "','" +
+                                   treply.VCDataIDO1 + "','" +
+                                   treply.VCDataO1 + "','" +
+                                   treply.VCDataIDP1 + "','" +
+                                   treply.VCDataP1 + "','" +
+                                   treply.VCDataIDQ1 + "','" +
+                                   treply.VCDataQ1 + "','" +
+                                   treply.VCDataIDR1 + "','" +
+                                   treply.VCDataR1 + "','" +
+                                   treply.BufferIDS + "','" +
+                                   treply.CashHandlerNumber + "','" +
+                                   treply.CassetteType11 + "','" +
+                                   treply.NumberOfBilsFromType1 + "','" +
+                                   treply.CassetteType21 + "','" +
+                                   treply.NumberOfBilsFromType2 + "','" +
+                                   treply.CassetteType31 + "','" +
+                                   treply.NumberOfBilsFromType3 + "','" +
+                                   treply.CassetteType41 + "','" +
+                                   treply.NumberOfBilsFromType4 + "','" +
+                                   treply.CassetteType51 + "','" +
+                                   treply.NumberOfBilsFromType5 + "','" +
+                                   treply.CassetteType61 + "','" +
+                                   treply.NumberOfBilsFromType6 + "','" +
+                                   treply.SmartcardDataID5 + "','" +
+                                   treply.SmartcardData + "','" +
+                                   treply.CheckDestDataIDa + "','" +
+                                   treply.CheckDestData + "','" +
+                                   treply.ProcessMultipleChecksIDb + "','" +
+                                   treply.ChecksToProcess + "','" +
+                                   treply.UseForEMVDCCTransactions + "','" +
+                                   treply.MACData1 + "','" +
                                    Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -295,9 +362,15 @@ namespace Logger
             string[] tmpTypes = typeContent.Split((char)0x1c);
 
             transactionReply treply = new transactionReply();
-            treply.luno = tmpTypes[1];
-            treply.timeVariant = tmpTypes[2];
-            treply.nextState = tmpTypes[3];
+
+            treply.MessageClass = tmpTypes[0].Substring(10, 1);
+
+            if (tmpTypes[0].Length > 11)
+                treply.ResponseFlag = tmpTypes[0].Substring(11, 1);
+
+            treply.Luno = tmpTypes[1];
+            treply.TimeVariant = tmpTypes[2];
+            treply.NextState = tmpTypes[3];
 
             if (tmpTypes[4].Length > 0)
             {
@@ -307,37 +380,37 @@ namespace Logger
                 int notes = notesAndCoin[0].Length;
                 int offset = 0;
 
-                treply.numberOfType1Notes = notesAndCoin[0].Substring(offset, 2);
+                treply.NumberOfType1Notes = notesAndCoin[0].Substring(offset, 2);
                 offset += 2;
 
                 if (notes != offset)
                 {
-                    treply.numberOfType2Notes = notesAndCoin[0].Substring(offset, 2);
+                    treply.NumberOfType2Notes = notesAndCoin[0].Substring(offset, 2);
                     offset += 2;
                 }
                 if (notes != offset)
                 {
-                    treply.numberOfType3Notes = notesAndCoin[0].Substring(offset, 2);
+                    treply.NumberOfType3Notes = notesAndCoin[0].Substring(offset, 2);
                     offset += 2;
                 }
                 if (notes != offset)
                 {
-                    treply.numberOfType4Notes = notesAndCoin[0].Substring(offset, 2);
+                    treply.NumberOfType4Notes = notesAndCoin[0].Substring(offset, 2);
                     offset += 2;
                 }
                 if (notes != offset)
                 {
-                    treply.numberOfType5Notes = notesAndCoin[0].Substring(offset, 2);
+                    treply.NumberOfType5Notes = notesAndCoin[0].Substring(offset, 2);
                     offset += 2;
                 }
                 if (notes != offset)
                 {
-                    treply.numberOfType6Notes = notesAndCoin[0].Substring(offset, 2);
+                    treply.NumberOfType6Notes = notesAndCoin[0].Substring(offset, 2);
                     offset += 2;
                 }
                 if (notes != offset)
                 {
-                    treply.numberOfType7Notes = notesAndCoin[0].Substring(offset, 2);
+                    treply.NumberOfType7Notes = notesAndCoin[0].Substring(offset, 2);
                     offset += 2;
                 }
 
@@ -351,37 +424,37 @@ namespace Logger
 
                 if (coins != offset)
                 {
-                    treply.numberofHopperType1Coins = notesAndCoin[1].Substring(offset, 2);
+                    treply.NumberofHopperType1Coins = notesAndCoin[1].Substring(offset, 2);
                     offset += 2;
                 }
 
                 if (coins != offset)
                 {
-                    treply.numberofHopperType2Coins = notesAndCoin[1].Substring(offset, 2);
+                    treply.NumberofHopperType2Coins = notesAndCoin[1].Substring(offset, 2);
                     offset += 2;
                 }
 
                 if (coins != offset)
                 {
-                    treply.numberofHopperType3Coins = notesAndCoin[1].Substring(offset, 2);
+                    treply.NumberofHopperType3Coins = notesAndCoin[1].Substring(offset, 2);
                     offset += 2;
                 }
 
                 if (coins != offset)
                 {
-                    treply.numberofHopperType4Coins = notesAndCoin[1].Substring(offset, 2);
+                    treply.NumberofHopperType4Coins = notesAndCoin[1].Substring(offset, 2);
                     offset += 2;
                 }
 
                 if (coins != offset)
                 {
-                    treply.numberofHopperType5Coins = notesAndCoin[1].Substring(offset, 2);
+                    treply.NumberofHopperType5Coins = notesAndCoin[1].Substring(offset, 2);
                     offset += 2;
                 }
             }
 
-            treply.serialNumber = tmpTypes[5].Substring(0, 4);
-            treply.functionID = tmpTypes[5].Substring(4, 1);
+            treply.SerialNumber = tmpTypes[5].Substring(0, 4);
+            treply.FunctionID = tmpTypes[5].Substring(4, 1);
 
             int i = 3;
 
@@ -391,18 +464,18 @@ namespace Logger
                 i = 5;
             }
 
-            treply.screenNum = tmpTypes[5].Substring(5, i);
+            treply.ScreenNum = tmpTypes[5].Substring(5, i);
             i = i + 5;
 
             if (tmpTypes[5].Length > i)
             {
-                treply.scrDisplayUpdate = tmpTypes[5].Substring(i, tmpTypes[5].Length - i);
+                treply.ScrDisplayUpdate = tmpTypes[5].Substring(i, tmpTypes[5].Length - i);
             }
 
-            treply.messageCoordinatorNumber = tmpTypes[6].Substring(0, 1);
-            treply.cardReturnRetainFlag = tmpTypes[6].Substring(1, 1);
+            treply.MessageCoordinatorNumber = tmpTypes[6].Substring(0, 1);
+            treply.CardReturnRetainFlag = tmpTypes[6].Substring(1, 1);
 
-            treply.printerData = false;
+            treply.PrinterData = false;
 
             i = 7;
 
@@ -411,8 +484,8 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "4")
             {
-                treply.bufferID4 = tmpTypes[i].Substring(0, 1);
-                treply.track3Data = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
+                treply.BufferID4 = tmpTypes[i].Substring(0, 1);
+                treply.Track3Data = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
                 i++;
             }
 
@@ -421,8 +494,8 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "K")
             {
-                treply.bufferIDK = tmpTypes[i].Substring(0, 1);
-                treply.track1Data = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
+                treply.BufferIDK = tmpTypes[i].Substring(0, 1);
+                treply.Track1Data = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
                 i++;
             }
 
@@ -431,8 +504,8 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "L")
             {
-                treply.bufferIDL = tmpTypes[i].Substring(0, 1);
-                treply.track2Data = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
+                treply.BufferIDL = tmpTypes[i].Substring(0, 1);
+                treply.Track2Data = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
                 i++;
             }
 
@@ -441,8 +514,8 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "M")
             {
-                treply.VCDataIDM = tmpTypes[i].Substring(0, 1);
-                treply.VCDataM = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
+                treply.VCDataIDM1 = tmpTypes[i].Substring(0, 1);
+                treply.VCDataM1 = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
                 i++;
             }
 
@@ -451,8 +524,8 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "N")
             {
-                treply.VCDataIDN = tmpTypes[i].Substring(0, 1);
-                treply.VCDataN = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
+                treply.VCDataIDN1 = tmpTypes[i].Substring(0, 1);
+                treply.VCDataN1 = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
                 i++;
             }
 
@@ -462,8 +535,8 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "O")
             {
-                treply.VCDataIDO = tmpTypes[i].Substring(0, 1);
-                treply.VCDataO = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
+                treply.VCDataIDO1 = tmpTypes[i].Substring(0, 1);
+                treply.VCDataO1 = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
                 i++;
             }
 
@@ -472,8 +545,8 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "P")
             {
-                treply.VCDataIDP = tmpTypes[i].Substring(0, 1);
-                treply.VCDataP = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
+                treply.VCDataIDP1 = tmpTypes[i].Substring(0, 1);
+                treply.VCDataP1 = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
                 i++;
             }
 
@@ -482,8 +555,8 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "Q")
             {
-                treply.VCDataIDQ = tmpTypes[i].Substring(0, 1);
-                treply.VCDataQ = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
+                treply.VCDataIDQ1 = tmpTypes[i].Substring(0, 1);
+                treply.VCDataQ1 = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
                 i++;
             }
 
@@ -492,8 +565,8 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "R")
             {
-                treply.VCDataIDR = tmpTypes[i].Substring(0, 1);
-                treply.VCDataR = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
+                treply.VCDataIDR1 = tmpTypes[i].Substring(0, 1);
+                treply.VCDataR1 = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
                 i++;
             }
 
@@ -502,73 +575,73 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "S")
             {
-                treply.bufferIDS = tmpTypes[i].Substring(0, 1);
+                treply.BufferIDS = tmpTypes[i].Substring(0, 1);
                 int offset = 1;
                 int bufferS = tmpTypes[i].Length;
 
                 if (bufferS != offset)
                 {
-                    treply.cashHandlerNumber = tmpTypes[i].Substring(offset, 1);
+                    treply.CashHandlerNumber = tmpTypes[i].Substring(offset, 1);
                     offset = offset + 1;
                 }
                 if (bufferS != offset)
                 {
-                    treply.CassetteType1 = tmpTypes[i].Substring(offset, 3);
+                    treply.CassetteType11 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 if (bufferS != offset)
                 {
-                    treply.numberOfBilsFromType1 = tmpTypes[i].Substring(offset, 3);
+                    treply.NumberOfBilsFromType1 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 if (bufferS != offset)
                 {
-                    treply.CassetteType2 = tmpTypes[i].Substring(offset, 3);
+                    treply.CassetteType21 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 if (bufferS != offset)
                 {
-                    treply.numberOfBilsFromType2 = tmpTypes[i].Substring(offset, 3);
+                    treply.NumberOfBilsFromType2 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 if (bufferS != offset)
                 {
-                    treply.CassetteType3 = tmpTypes[i].Substring(offset, 3);
+                    treply.CassetteType31 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 if (bufferS != offset)
                 {
-                    treply.numberOfBilsFromType3 = tmpTypes[i].Substring(offset, 3);
+                    treply.NumberOfBilsFromType3 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 if (bufferS != offset)
                 {
-                    treply.CassetteType4 = tmpTypes[i].Substring(offset, 3);
+                    treply.CassetteType41 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 if (bufferS != offset)
                 {
-                    treply.numberOfBilsFromType4 = tmpTypes[i].Substring(offset, 3);
+                    treply.NumberOfBilsFromType4 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 if (bufferS != offset)
                 {
-                    treply.CassetteType5 = tmpTypes[i].Substring(offset, 3);
+                    treply.CassetteType51 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 if (bufferS != offset)
                 {
-                    treply.numberOfBilsFromType5 = tmpTypes[i].Substring(offset, 3);
+                    treply.NumberOfBilsFromType5 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 if (bufferS != offset)
                 {
-                    treply.CassetteType6 = tmpTypes[i].Substring(offset, 3);
+                    treply.CassetteType61 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 if (bufferS != offset)
                 {
-                    treply.numberOfBilsFromType6 = tmpTypes[i].Substring(offset, 3);
+                    treply.NumberOfBilsFromType6 = tmpTypes[i].Substring(offset, 3);
                     offset = offset + 3;
                 }
                 i++;
@@ -582,8 +655,8 @@ namespace Logger
             {
                 if (tmpTypes[i].Substring(0, 4) == "5CAM")
                 {
-                    treply.smartcardDataID5 = tmpTypes[i].Substring(0, 1);
-                    treply.smartcardData = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
+                    treply.SmartcardDataID5 = tmpTypes[i].Substring(0, 1);
+                    treply.SmartcardData = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
                     i++;
                 }
             }
@@ -593,23 +666,23 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "a")
             {
-                treply.checkDestDataIDa = tmpTypes[i].Substring(0, 1);
-                treply.checkDestData = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
+                treply.CheckDestDataIDa = tmpTypes[i].Substring(0, 1);
+                treply.CheckDestData = tmpTypes[i].Substring(1, tmpTypes[i].Length - 1);
                 i++;
             }
             if (tmpTypes.Length > i && tmpTypes[i].Length == 0) { i++; }
 
 
-            treply.checksToProcess = false;
-            treply.checksToProcessOffset = 0;
+            treply.ChecksToProcess = false;
+            treply.ChecksToProcessOffset = 0;
 
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Substring(0, 1) == "b")
             {
-                treply.processMultipleChecksIDb = tmpTypes[i].Substring(0, 1);
+                treply.ProcessMultipleChecksIDb = tmpTypes[i].Substring(0, 1);
 
                 // what do I have in buffer?
-                treply.checksToProcessOffset = i;
+                treply.ChecksToProcessOffset = i;
                 i++;
             }
             if (tmpTypes.Length > i && tmpTypes[i].Length == 0) { i++; }
@@ -617,7 +690,7 @@ namespace Logger
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                 tmpTypes[i].Length == 1)
             {
-                treply.useForEMVDCCTransactions = tmpTypes[i].Substring(0, 1);
+                treply.UseForEMVDCCTransactions = tmpTypes[i].Substring(0, 1);
                 i++;
             }
 
@@ -625,7 +698,7 @@ namespace Logger
 
             if (tmpTypes.Length > i && tmpTypes[i].Length > 0)
             {
-                treply.MACData = tmpTypes[i];
+                treply.MACData1 = tmpTypes[i];
                 i++;
             }
             return treply;
@@ -661,6 +734,8 @@ namespace Logger
             string[] printerDataSplit = printerData.Split((char)0x1d);
             foreach (string item in printerDataSplit)
             {
+                if (item.Length == 0) continue;
+
                 tReplyPrinterData rpd = new tReplyPrinterData();
 
                 rpd.printerFlag = item.Substring(0, 1);
@@ -695,7 +770,7 @@ namespace Logger
                     {
                         for (int field = 3; field <= dt.Rows[rowNum].ItemArray.Length - 3; field++)
                         {
-                            if (field == 24)
+                            if (field == 26)
                             {
                                 if (dts[1].Rows.Count > 0)
                                 {
@@ -703,7 +778,7 @@ namespace Logger
                                 }
                                 continue;
                             }
-                            if (field == 62)
+                            if (field == 64)
                             {
                                 if (dts[2].Rows.Count > 0)
                                 {

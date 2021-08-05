@@ -6,6 +6,8 @@ namespace Logger
     struct uploadEjData
     {
         private string rectype;
+        private string messageClass;
+        private string messageSubclass;
         private string machineNumRange;
         private string dateRange;
         private string timeRange;
@@ -22,8 +24,9 @@ namespace Logger
         public string LastCharThisBlock { get => lastCharThisBlock; set => lastCharThisBlock = value; }
         public string BlockLength { get => blockLength; set => blockLength = value; }
         public string ResponseData { get => responseData; set => responseData = value; }
-    };
-
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
+    }
     class UploadEjData : IMessage
     {
 
@@ -74,11 +77,11 @@ namespace Logger
             {
                 uploadEjData ud = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO uploadEjData([logkey],[rectype],[machineNumRange],
+                string sql = @"INSERT INTO uploadEjData([logkey],[rectype],[messageClass],[messageSubclass],[machineNumRange],
 	                            [dateRange],[timeRange],[lastCharPrevBlock],[lastCharThisBlock],[blockLength],
 	                            [responseData],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + ud.Rectype + "','" + ud.MachineNumRange + "','" +
-                               ud.DateRange + "','" + ud.TimeRange + "','" + ud.LastCharPrevBlock + "','" +
+                            " VALUES('" + r.typeIndex + "','" + ud.Rectype + "','" + ud.MessageClass + "','" + ud.MessageSubclass + "','" +
+                               ud.MachineNumRange + "','" + ud.DateRange + "','" + ud.TimeRange + "','" + ud.LastCharPrevBlock + "','" +
                                ud.LastCharThisBlock + "','" + ud.BlockLength + "','" + ud.ResponseData + "','" +
                                Key + "'," + logID + ")";
 
@@ -96,6 +99,12 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             ud.Rectype = "H";
+
+            ud.MessageClass = tmpTypes[0].Substring(10, 1);
+
+            if (tmpTypes[0].Length > 11)
+                ud.MessageSubclass = tmpTypes[0].Substring(11, 1);
+
             ud.MachineNumRange = tmpTypes[4].Substring(0, 6);
             ud.DateRange = tmpTypes[4].Substring(6, 6);
             ud.TimeRange = tmpTypes[4].Substring(12, 6);

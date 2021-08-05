@@ -48,7 +48,7 @@ namespace Logger
         public string codelineLength;
         public string codelineData;
     };
-
+    //todo 3: Finish dataDescription !!! priority fire!!!
     public struct transactionRequest
     {
         private string messageClass;
@@ -206,6 +206,11 @@ namespace Logger
                 tmpTypes = r.typeContent.Split((char)0x1c);
 
                 transactionRequest treq = new transactionRequest();
+                treq.MessageClass = tmpTypes[0].Substring(10, 1);
+
+                if (tmpTypes[0].Length > 11)
+                    treq.MessageSubclass = tmpTypes[0].Substring(11, 1);
+
                 treq.Luno = tmpTypes[1];
 
                 treq.TimeVariantNumber = tmpTypes[3];
@@ -762,7 +767,7 @@ namespace Logger
                 {
                     for (int field = 3; field <= dts[0].Rows[rowNum].ItemArray.Length - 3; field++)
                     {
-                        if (field == 42)
+                        if (field == 44)
                         {
                             if (dts[1].Rows.Count > 0)
                             {
@@ -770,7 +775,7 @@ namespace Logger
                             }
                             continue;
                         }
-                        if (field == 62)
+                        if (field == 64)
                         {
                             if (dts[2].Rows.Count > 0)
                             {
