@@ -24,9 +24,9 @@ namespace Logger
             return new List<typeRec>();
         }
 
-        public static StateRec Create_StateRecord()
+        public static StateData Create_StateRecord()
         {
-            return new StateRec();
+            return new StateData();
         }
 
         public static Digester Create_Digester()
@@ -60,9 +60,9 @@ namespace Logger
         }
 
 
-        public static StateRec Create_StateRecord(string stateType)
+        public static StateData Create_StateRecord(string stateType)
         {
-            var stateTypeDic = new Dictionary<string, Func<StateRec>>();
+            var stateTypeDic = new Dictionary<string, Func<StateData>>();
             stateTypeDic.Add("A", () => new StateA());
             stateTypeDic.Add("B", () => new StateB());
             stateTypeDic.Add("C", () => new StateC());
@@ -108,9 +108,9 @@ namespace Logger
             recTypeDic.Add("11", () => new TRec());
             recTypeDic.Add("4", () => new TReply());
             recTypeDic.Add("311", () => new screenRec());
-            recTypeDic.Add("312", () => new StateRec());
+            recTypeDic.Add("312", () => new StateData());
             recTypeDic.Add("313", () => new configParamsRec());
-            recTypeDic.Add("315", () => new FitRec());
+            recTypeDic.Add("315", () => new FitData());
             recTypeDic.Add("316", () => new ConfigIdRec());
             recTypeDic.Add("31A", () => new EnhancedParamsRec());
             recTypeDic.Add("31B", () => new MACFieldSelection());

@@ -6,6 +6,8 @@ namespace Logger
     struct ejOptionsTimers
     {
         private string rectype;
+        private string messageClass;
+        private string commandType;
         private string optionNumber;
         private string optionValue;
         private string optionNumber2;
@@ -20,8 +22,9 @@ namespace Logger
         public string OptionValue2 { get => optionValue2; set => optionValue2 = value; }
         public string TimerNumber { get => timerNumber; set => timerNumber = value; }
         public string TimerValue { get => timerValue; set => timerValue = value; }
-    };
-
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string CommandType { get => commandType; set => commandType = value; }
+    }
     class EjOptionsTimers : IMessage
     {
 
@@ -72,10 +75,10 @@ namespace Logger
             {
                 ejOptionsTimers eot = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO ejOptionsTimers([logkey],[rectype],[optionNumber],[optionValue],
+                string sql = @"INSERT INTO ejOptionsTimers([logkey],[rectype],[messageClass],[commandType],[optionNumber],[optionValue],
                               [optionNumber2],[optionValue2],[timerNumber],[timerValue],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + eot.Rectype + "','" + eot.OptionNumber + "','" +
-                              eot.OptionValue + "','" + eot.OptionNumber2 + "','" + eot.OptionValue2 + "','" +
+                            " VALUES('" + r.typeIndex + "','" + eot.Rectype + "','" + eot.MessageClass + "','" + eot.CommandType + "','" +
+                              eot.OptionNumber + "','" + eot.OptionValue + "','" + eot.OptionNumber2 + "','" + eot.OptionValue2 + "','" +
                               eot.TimerNumber + "','" + eot.TimerValue + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -92,6 +95,9 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             eot.Rectype = "M";
+
+            eot.MessageClass = tmpTypes[0].Substring(10, 1);
+            eot.CommandType = tmpTypes[3].Substring(0, 1);
 
             if (tmpTypes[3].Length > 1)
             {

@@ -2,12 +2,12 @@
 
 namespace Logger
 {
-    class StateF : StateRec
+    class StateF : StateData
     {
-        public override void ValidateState(StateRec stateData)
+        public override void ValidateState(StateData stateData)
         {
 
-            Dictionary<string, StateRec> resultData = new Dictionary<string, StateRec>();
+            Dictionary<string, StateData> resultData = new Dictionary<string, StateData>();
 
             base.ValidateState(stateData);
 

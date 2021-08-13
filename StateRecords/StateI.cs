@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Logger
 {
-    class StateI : StateRec
+    class StateI : StateData
     {
-        public override void ValidateState(StateRec stateData)
+        public override void ValidateState(StateData stateData)
         {
-            Dictionary<string, StateRec> resultData = new Dictionary<string, StateRec>();
+            Dictionary<string, StateData> resultData = new Dictionary<string, StateData>();
 
             base.ValidateState(stateData);
 
@@ -81,7 +81,7 @@ namespace Logger
             }
         }
 
-        public override void checkExtensions(StateRec st)
+        public override void checkExtensions(StateData st)
         {
             bool stateExtension = false;
 
@@ -96,7 +96,7 @@ namespace Logger
             if (stateExtension)
                 App.Prj.ExtensionsLst.Add(st);
         }
-        public override string checkZExtensions(StateRec st)
+        public override string checkZExtensions(StateData st)
         {
             return null;
         }

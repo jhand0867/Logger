@@ -165,7 +165,7 @@
     <Compile Include="SolicitedStatus\SolicitedStatusF1.cs" />
     <Compile Include="EnhancedParamsRec.cs" />
     <Compile Include="ExtEncryption.cs" />
-    <Compile Include="FitRec.cs" />
+    <Compile Include="FitData.cs" />
     <Compile Include="EMV\ICCApplicationIDT.cs" />
     <Compile Include="EMV\ICCCurrencyDOT.cs" />
     <Compile Include="EMV\ICCLanguageSupportT.cs" />
@@ -266,7 +266,7 @@
     <Compile Include="StateRecords\StateK.cs" />
     <Compile Include="StateRecords\StateM.cs" />
     <Compile Include="StateRecords\StateN.cs" />
-    <Compile Include="StateRecords\StateRec.cs" />
+    <Compile Include="StateRecords\StateData.cs" />
     <Compile Include="StateRecords\StateW.cs" />
     <Compile Include="StateRecords\StateX.cs" />
     <Compile Include="StateRecords\StateY.cs" />

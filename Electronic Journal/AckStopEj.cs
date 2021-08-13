@@ -6,10 +6,14 @@ namespace Logger
     struct ackStopEj
     {
         private string rectype;
+        private string messageClass;
+        private string commandType;
         private string lastCharReceived;
 
         public string Rectype { get => rectype; set => rectype = value; }
         public string LastCharReceived { get => lastCharReceived; set => lastCharReceived = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string CommandType { get => commandType; set => commandType = value; }
     };
 
     class AckStopEj : IMessage
@@ -62,9 +66,9 @@ namespace Logger
             {
                 ackStopEj ase = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO ackStopEj([logkey],[rectype],[lastCharReceived],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + ase.Rectype + "','" + ase.LastCharReceived + "','" +
-                               Key + "'," + logID + ")";
+                string sql = @"INSERT INTO ackStopEj([logkey],[rectype],[messageClass],[commandType],[lastCharReceived],[prjkey],[logID]) " +
+                            " VALUES('" + r.typeIndex + "','" + ase.Rectype + "','" + ase.MessageClass + "','" + ase.CommandType + "','" + 
+                               ase.LastCharReceived + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)
@@ -80,6 +84,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             ase.Rectype = "L";
+            ase.MessageClass = tmpTypes[0].Substring(10, 1);
+            ase.CommandType = tmpTypes[3].Substring(0, 1);
             ase.LastCharReceived = tmpTypes[3].Substring(1, 1);
 
             return ase;

@@ -3,12 +3,12 @@ using System.Data;
 
 namespace Logger
 {
-    class StateY : StateRec
+    class StateY : StateData
     {
-        public override void ValidateState(StateRec stateData)
+        public override void ValidateState(StateData stateData)
         {
 
-            Dictionary<string, StateRec> resultData = new Dictionary<string, StateRec>();
+            Dictionary<string, StateData> resultData = new Dictionary<string, StateData>();
 
             base.ValidateState(stateData);
 
@@ -18,7 +18,7 @@ namespace Logger
             }
         }
 
-        public override void checkExtensions(StateRec st)
+        public override void checkExtensions(StateData st)
         {
             bool stateExtension = false;
 

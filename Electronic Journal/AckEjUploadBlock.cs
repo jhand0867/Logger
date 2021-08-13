@@ -6,10 +6,14 @@ namespace Logger
     struct ackEjUploadBlock
     {
         private string rectype;
+        private string messageClass;
+        private string commandType;
         private string lastCharReceived;
 
         public string Rectype { get => rectype; set => rectype = value; }
         public string LastCharReceived { get => lastCharReceived; set => lastCharReceived = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string CommandType { get => commandType; set => commandType = value; }
     };
 
     class AckEjUploadBlock : IMessage
@@ -62,9 +66,9 @@ namespace Logger
             {
                 ackEjUploadBlock kud = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO ackEjUploadBlock([logkey],[rectype],[lastCharReceived],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + kud.Rectype + "','" + kud.LastCharReceived + "','" +
-                               Key + "'," + logID + ")";
+                string sql = @"INSERT INTO ackEjUploadBlock([logkey],[rectype],[messageClass],[commandType],[lastCharReceived],[prjkey],[logID]) " +
+                            " VALUES('" + r.typeIndex + "','" + kud.Rectype + "','" + kud.MessageClass + "','" + kud.CommandType + "','" + 
+                            kud.LastCharReceived + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)
@@ -80,6 +84,8 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             kud.Rectype = "J";
+            kud.MessageClass = tmpTypes[0].Substring(10, 1);
+            kud.CommandType = tmpTypes[3].Substring(0, 1);
             kud.LastCharReceived = tmpTypes[3].Substring(1, 6);
 
             return kud;
