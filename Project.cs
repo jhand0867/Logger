@@ -87,7 +87,8 @@ namespace Logger
                                           { "HOST2ATM: 3", "3","4", "34" },
                                           { "HOST2ATM: 1", "0","", "1" },
                                           { "HOST2ATM: 3", "3","2", "32" },
-
+// this ones are added for LogView selection 
+                                          { "ATM2HOST: 22","3","F", "22" },
         };
 
 
@@ -594,6 +595,8 @@ namespace Logger
             return lines;
         }
 
+        // MLH To mimic or create function
+
         public void getData(string regExStr, string recordType, string logID, int option)
         {
             string sql = @"SELECT logkey,id,group8 from [logger].[dbo].[loginfo] " +
@@ -734,6 +737,123 @@ namespace Logger
 
 
 
+
+        public DataTable getALogByIDWithRegExp(string logID, string sqlLike, string regExpStr)
+        {
+            DataTable dt = new DataTable();
+            DataTable dtout = new DataTable();
+            DataRow dtrow;
+
+            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+                            [group2] as 'Log Level',[group3] as 'File Name',
+                            [group4] as 'Class',[group5] as 'Method',
+                            [group6] as 'Type',
+                            [group7] as 'Log',
+                            [group8] as 'Log Data',[group9],
+                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
+                      " AND " + sqlLike + " order by id asc";
+
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
+
+            //#########/ /########
+           
+            // create the regexp for the specific search
+            // - find the sqlbuilder - sqlDetail id
+            // - read the sqlDetail records
+
+            //Regex findReady9 = new Regex(@"ATM2HOST: 22\u001c.+\u001c\u001cF\u001c1");
+            Regex findReady9 = new Regex(regExpStr);
+
+            if (dt != null)
+            {
+                // here adding regexp
+                dtout = dt.Clone();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    row[9] = WebUtility.HtmlDecode(row[9].ToString());
+
+                    MatchCollection findReady9Matches = findReady9.Matches(row[9].ToString());
+                    if (findReady9Matches.Count != 0)       
+                    {
+                        dtrow = dtout.NewRow();
+                        dtrow.ItemArray = row.ItemArray;
+                        // dtout.Rows.Add(['1','2','3','4','5','6','7','8','9','0','1','2','3']);
+                        dtout.Rows.Add(dtrow);
+                    }
+                }
+            }
+            return dtout;
+        }
+
+        /// <summary>
+        /// Nedd to add a new db table with the base fields for shortcuts data
+        /// - title
+        /// - index
+        /// Build the dropdow menu using as input the records in the shortcuts table
+        /// Dropdown to have one option per message name entered
+        /// </summary>
+        /// <param name="logID"></param>
+        /// <param name="columnName"></param>
+        /// <param name="sqlLike"></param>
+        /// <returns></returns>
+
+        public DataTable getALogByIDWithCriteria2(string logID, string columnName, string sqlLike)
+        {
+            DataTable dt = new DataTable();
+            DataTable dtout = new DataTable();
+            DataRow dtrow;
+
+            string[] tmpTypes;
+            int option = 26;
+
+            string regExStr = App.Prj.RecordTypes[option, 0];
+            string recordType = App.Prj.RecordTypes[option, 3];
+
+            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+                            [group2] as 'Log Level',[group3] as 'File Name',
+                            [group4] as 'Class',[group5] as 'Method',
+                            [group6] as 'Type',
+                            [group7] as 'Log',
+                            [group8] as 'Log Data',[group9],
+                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
+                      " AND " + columnName + " like '" + regExStr + "%' order by id asc";
+
+            DbCrud db = new DbCrud();
+            dt = db.GetTableFromDb(sql);
+
+            if (dt == null)
+            {
+                return null;
+            }
+
+            dtout = dt.Clone();
+
+            foreach (DataRow row in dt.Rows)
+            { 
+                tmpTypes = WebUtility.HtmlDecode(row["Log Data"].ToString()).Split((char)0x1c);
+
+                string subRecType = App.Prj.RecordTypes[option, 2];
+
+                if (((recordType == "1") || (recordType.Substring(0, 1) == "3")) &&
+                    (tmpTypes.Length < 4))
+                {
+                    continue;
+                }
+
+                if ((subRecType != "") &&
+                     subRecType !=
+                     tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[option, 1])].Substring(0, App.Prj.RecordTypes[option, 2].Length))
+                {
+                    continue;
+                }
+                dtrow = dtout.NewRow();
+                dtrow.ItemArray = row.ItemArray;
+                dtout.Rows.Add(dtrow);
+            }
+            return dtout;
+        }
 
         public DataTable getALogByID(string logID)
         {

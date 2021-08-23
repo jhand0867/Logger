@@ -5,6 +5,25 @@ using System.Data;
 namespace Logger
 {
     // todo:  COMPLETE CLASS
+    public struct scrRec
+    {
+        private string rectype;
+        private string messageClass;
+        private string responseFlag;
+        private string luno;
+        private string messageSeqNumber;
+        private string messageSubclass;
+        private string messageIdentifier;
+
+        public string Rectype { get => rectype; set => rectype = value; }
+        public string MessageClass { get => messageClass; set => messageClass = value; }
+        public string ResponseFlag { get => responseFlag; set => responseFlag = value; }
+        public string Luno { get => luno; set => luno = value; }
+        public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
+        public string MessageIdentifier { get => messageIdentifier; set => messageIdentifier = value; }
+        public string MessageSeqNumber { get => messageSeqNumber; set => messageSeqNumber = value; }
+    }
+
     public class screenRec : App, IMessage
     {
         private string plogkey;
@@ -54,61 +73,163 @@ namespace Logger
             return dicData;
         }
 
-        public bool writeData(List<typeRec> typeRecs, string Key, string logID)
+        public bool writeData(List<typeRec> inTypeRecs, string Key, string logID)
         {
             String sql = "";
             int loadNum = 0;
-            foreach (typeRec r in typeRecs)
+
+            foreach (typeRec rParent in inTypeRecs)
             {
-                string scrdata = null;
-                string scrnum = null;
-                if (r.typeContent.Length < 3)
-                {
-                    continue;
-                }
-                scrnum = r.typeContent.Substring(0, 3);
+                string[] tmpTypes = rParent.typeContent.Split((char)0x1c);
+                List<typeRec> typeRecs = new List<typeRec>();
+                scrRec parms = new scrRec();
 
-                if (r.typeContent.Substring(0, 3) == "C00")
-                {
-                    loadNum++;
-                }
+                int myInd = tmpTypes[0].Length + tmpTypes[1].Length + tmpTypes[2].Length + tmpTypes[3].Length;
+                string typeData = rParent.typeContent.Substring(myInd + 4, rParent.typeContent.Length - (myInd + 4));
 
-                if (r.typeContent.Length > 3)
+                string[] dataTypes = typeData.Split((char)0x1c);
+
+                parms.MessageClass = tmpTypes[0].Substring(10, 1);
+                if (tmpTypes[0].Length > 11)
                 {
-                    scrdata = r.typeContent.Substring(3, r.typeContent.Length - 3);
-                    scrdata = scrdata.Replace(@"'", @"''");
+                    parms.ResponseFlag = tmpTypes[0].Substring(tmpTypes[0].Length - 1, 1);
                 }
 
-                sql = @"INSERT INTO screeninfo([logkey],[rectype],[scrnum],[scrdata],[load],[prjkey],[logID])" +
-                      " VALUES('" + r.typeIndex + "','" +
-                                   'E' + "','" +
-                      r.typeContent.Substring(0, 3) + "','" + // screenNum
-                                   scrdata + "','" + // screenData
-                                   loadNum.ToString() + "','" +
-                                   Key + "'," + logID + ")";
+                parms.Luno = tmpTypes[1];
+                parms.MessageSeqNumber = tmpTypes[2];
+                parms.MessageSubclass = tmpTypes[3].Substring(0, 1);
+                parms.MessageIdentifier = tmpTypes[3].Substring(1, 1);
+
+                foreach (string item in dataTypes)
+                {
+                    typeRec tr = new typeRec();
+                    tr.typeIndex = rParent.typeIndex;
+                    tr.typeContent = item;
+                    typeRecs.Add(tr);
+                }
+                int screens = 0;
+                foreach (typeRec r in typeRecs)
+                {
+                    string scrdata = null;
+                    string scrnum = null;
+                    if (r.typeContent.Length < 3)
+                    {
+                        continue;
+                    }
+                    scrnum = r.typeContent.Substring(0, 3);
+                    screens++;
+
+                    if (r.typeContent.Substring(0, 3) == "C00")
+                    {
+                        loadNum++;
+                    }
+
+                    if (r.typeContent.Length > 3)
+                    {
+                        scrdata = r.typeContent.Substring(3, r.typeContent.Length - 3);
+                        scrdata = scrdata.Replace(@"'", @"''");
+                    }
+
+                    sql = @"INSERT INTO screeninfo([logkey],[rectype],[scrnum],[scrdata],[load],[prjkey],[logID])" +
+                          " VALUES('" + r.typeIndex + "','" +
+                                       'E' + "','" +
+                          r.typeContent.Substring(0, 3) + "','" + // screenNum
+                                       scrdata + "','" + // screenData
+                                       loadNum.ToString() + "','" +
+                                       Key + "'," + logID + ")";
 
 
-                DbCrud db = new DbCrud();
-                if (db.crudToDb(sql) == false)
+                    DbCrud db = new DbCrud();
+                    if (db.crudToDb(sql) == false)
+                        return false;
+                }
+                sql = @"INSERT INTO screenRec([logkey],[rectype],[messageClass],[responseFlag],[luno],[messageSeqNumber],
+                        [messageSubclass],[messageIdentifier],[screens],[load],[prjkey],[logID]) " +
+                        " VALUES('" +
+                                rParent.typeIndex + "','" +
+                               'E' + "','" +
+                               parms.MessageClass + "','" +
+                               parms.ResponseFlag + "','" +
+                               parms.Luno + "','" +
+                               parms.MessageSeqNumber + "','" +
+                               parms.MessageSubclass + "','" +
+                               parms.MessageIdentifier + "'," +
+                               screens + ",'" +
+                               loadNum.ToString() + "','" +
+                               Key + "'," +
+                               logID + ")";
+
+                DbCrud db1 = new DbCrud();
+                if (db1.crudToDb(sql) == false)
                     return false;
+
             }
+
             return true;
 
         }
 
-        List<DataTable> IMessage.getRecord(string logKey, string logID, string projectKey)
+        public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {
-            return null;
+            List<DataTable> dts = new List<DataTable>();
+            DataTable dt = new DataTable();
+            DbCrud db = new DbCrud();
+
+            string sql = @"SELECT * FROM screenRec WHERE prjkey = '" +
+               projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+
+            sql = @"SELECT * FROM screeninfo WHERE prjkey = '" +
+                           projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
+            dt = db.GetTableFromDb(sql);
+            dts.Add(dt);
+
+            return dts;
+
         }
 
-        DataTable IMessage.getDescription()
+        public DataTable getDescription()
         {
-            return null;
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'E' ";
+
+            DbCrud db = new DbCrud();
+            DataTable dt = db.GetTableFromDb(sql);
+            return dt;
         }
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
-            return null;
+            List<DataTable> dts = getRecord(logKey, logID, projectKey);
+            string txtField = "";
+
+            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
+
+            DataTable scrdt = getDescription();
+            bool dtFirst = true;
+
+            foreach (DataTable dt in dts)
+            {
+                if (dt.Rows.Count > 0)
+                    if (dtFirst == true)
+                    {
+                        for (int colNum = 3; colNum < dt.Columns.Count - 3; colNum++)
+                            txtField += App.Prj.getOptionDescription(scrdt, "H" + colNum.ToString("00"), dt.Rows[0][colNum].ToString());
+                        dtFirst = false;
+                    }
+                    else
+                    {
+                        for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
+                        {
+                            for (int fieldNum = 3; fieldNum < dt.Columns.Count - 3; fieldNum++)
+                                txtField += getOptionDescription(scrdt, fieldNum.ToString("00"), dt.Rows[rowNum][fieldNum].ToString());
+                            txtField += Environment.NewLine;
+                        }
+                    }
+            }
+
+            return txtField;
         }
     }
+
 }

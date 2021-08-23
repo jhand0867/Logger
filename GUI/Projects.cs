@@ -419,14 +419,5 @@ namespace Logger
 
         }
 
-        //private void treeView1_Click(object sender, EventArgs e)
-        //{
-        //    TreeView tv = (TreeView)sender;
-        //    if (tv != null)
-        //    {
-        //        tv.SelectedNode.ImageIndex = 1;
-        //    }
-        //}
-
     }
 }

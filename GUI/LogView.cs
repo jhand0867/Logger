@@ -226,12 +226,15 @@ namespace Logger
             cmbColumHeader6.Items.Add("Host Disconnected");
             cmbColumHeader6.Items.Add("CashDispenser");
             cmbColumHeader6.Items.Add("State Created");
-
+            cmbColumHeader6.Items.Add("ATM2HOST Solicited Status Terminal State");
+            
             cmbColumHeader6.SelectionChangeCommitted += delegate (object sender, EventArgs e)
             {
                 cmbColumHeader6_SelectionChangeCommitted(sender, e, cmbColumHeader6, logID);
             };
 
+            // where to display the dropdown 
+            // Location, width, height
             loc = dgvLog.GetCellDisplayRectangle(6, -1, true).Location;
             cmbColumHeader6.Location = new Point(loc.X + dgvLog.Columns[6].Width, 1);
             cmbColumHeader6.Width = 620;
@@ -308,8 +311,23 @@ namespace Logger
 
         private void cmbColumHeader6_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
-            string sqlLike = " LIKE '%" + c.Text + "%'";
-            this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", sqlLike);
+
+            //string sqlLike = " LIKE '%" + c.Text + "%'";
+            //this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", sqlLike);
+
+            ComboBox cb = sender as ComboBox;
+            string sqlLike;
+
+            if (cb.SelectedIndex < 6)
+            {
+                sqlLike = " LIKE '%" + c.Text + "%'";
+                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", sqlLike);
+            }
+            else
+            {
+                sqlLike = " LIKE '%" + c.Text.Substring(0,8) + "%'";
+                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria2(logID, "group8", sqlLike);
+            }
 
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.SelectedItem = null;
@@ -628,6 +646,7 @@ namespace Logger
 
             string sqlLike = "";
             string temp = "";
+            string regExpStr = "";
 
             if (dt.Rows.Count != 0)
             {
@@ -655,11 +674,23 @@ namespace Logger
                         sqlLike += dt.Rows[i][5].ToString();
                     }
 
+                    if (dt.Rows[i][3].ToString() == "RegExp")
+                    {
+                        regExpStr = dt.Rows[i][4].ToString();
+                    }
                 }
+
             }
             if (sqlLike != "")
             {
-                dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
+                    if (regExpStr != "")
+                    {
+                        dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sqlLike, regExpStr);
+                    }
+                    else
+                    {
+                        dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
+                    }
                 dgvLog.ClearSelection();
                 dgvLog.Refresh();
             }
