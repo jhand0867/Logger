@@ -49,7 +49,7 @@ namespace Logger
         public DataTable getAllQueries()
         {
             // get the query info
-            string sql = @"SELECT * FROM [sqlBuilder]";
+            string sql = @"SELECT * FROM [sqlBuilder] WHERE [source] = 'U' ";
 
             DbCrud db = new DbCrud();
             DataTable dt = db.GetTableFromDb(sql);
@@ -172,8 +172,15 @@ namespace Logger
             DbCrud db = new DbCrud();
 
             // insert the Builder
-            string sql = @"INSERT INTO [sqlBuilder]([name],[description],[date]) " +
-                   " VALUES('" + _queryName + "','" + _queryDescription + "','" + DateTime.Now + "'); SELECT CAST(scope_identity() AS int); ";
+            
+            string sourceValue = "U";  // User defined
+            if (_queryDescription.Substring(0,2) == "I-")
+            {
+                sourceValue = "I";   // Internal 
+            }
+
+            string sql = @"INSERT INTO [sqlBuilder]([name],[description],[date],[source]) " +
+                   " VALUES('" + _queryName + "','" + _queryDescription + "','" + DateTime.Now + "','" + sourceValue + "'); SELECT CAST(scope_identity() AS int); ";
 
             return db.GetScalarIntFromDb(sql);
         }
@@ -187,6 +194,12 @@ namespace Logger
         public bool setSearchConditionDetail(SQLSearchCondition _searchCondition, int _sqlID)
         {
             // insert the Detail
+
+            if (_searchCondition.sqlCondition == "" && _searchCondition.SQLFieldName == "[group8]")
+                {
+                _searchCondition.sqlCondition = "RegExp";
+                }
+
             string sql = @"INSERT INTO [sqlDetail]([fieldName],[condition],[fieldValue],[andOr],[sqlID],[fieldOutput]) " +
                 "VALUES('" + _searchCondition.SQLFieldName + "', '" + _searchCondition.SQLCondition + "', '" +
                              _searchCondition.SQLFieldValue + "', '" + _searchCondition.SQLAndOr + "', '" +
