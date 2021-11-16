@@ -46,10 +46,17 @@ namespace Logger
         /// Get the header info of all queries
         /// </summary>
         /// <returns>dt</returns>
-        public DataTable getAllQueries()
+        public DataTable getAllQueries(string sourceValue)
         {
             // get the query info
-            string sql = @"SELECT * FROM [sqlBuilder] WHERE [source] = 'U' ";
+            string sql;
+
+            // MLH Temporary remove selection to allow us to set and get all search conditions
+
+            //if (sourceValue == "")
+                sql = @"SELECT * FROM [sqlBuilder]";
+            //else
+            //    sql = @"SELECT * FROM [sqlBuilder] WHERE [source] = '" + sourceValue + "'" ;
 
             DbCrud db = new DbCrud();
             DataTable dt = db.GetTableFromDb(sql);
@@ -150,10 +157,17 @@ namespace Logger
         {
             // jmh
             // update the Builder
+            string sourceValue = "U";  // User defined
+            if (_queryDescription.Substring(0, 2) == "I-")
+            {
+                sourceValue = "I";   // Internal 
+            }
+
             string sql = @"UPDATE [sqlBuilder] SET " +
                     " [name] = '" + _queryName + "'," +
                     " [description] = '" + _queryDescription + "'," +
-                    " [date] = '" + DateTime.Now + "' " +
+                    " [date] = '" + DateTime.Now + "'," + 
+                    " [source] = '" + sourceValue + "' " +
                     "WHERE [id] ='" + _sqlID + "'; DELETE FROM [sqlDetail] WHERE [sqlId] = '" + _sqlID + "'";
 
             DbCrud db = new DbCrud();

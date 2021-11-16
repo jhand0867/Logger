@@ -68,7 +68,9 @@ namespace Logger
             {
                 if (ofd.ShowDialog(this) == DialogResult.OK)
                 {
+                      
                     this.Cursor = Cursors.AppStarting;
+
                     App.Prj.uploadLog(ofd.FileName);
                     this.Cursor = Cursors.Default;
                     scanToolStripMenuItem.Enabled = true;
@@ -277,6 +279,7 @@ namespace Logger
             logID = dgvr.Cells["id"].Value.ToString();
 
             LogView logView = new LogView();
+             ;
             logView.Show();
 
         }
@@ -414,5 +417,6 @@ namespace Logger
             else
                 detachToolStripMenuItem.Enabled = true;
         }
+
     }
 }

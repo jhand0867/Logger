@@ -142,13 +142,22 @@ namespace Logger
                 if (hexLength > 0)
                 {
                     iccApp.DataObjectForCompletion = digester.iccTLVTags(tmpAids[x].Substring(offset, tmpAids[x].Length - offset), hexLength);
-                    offset += iccApp.DataObjectForCompletion.Length - hexLength;
+                    string [ ] spacesArray = iccApp.DataObjectForCompletion.Split(' ');
+                   // offset += iccApp.DataObjectForCompletion.Length - hexLength;
+                    offset += iccApp.DataObjectForCompletion.Length - (spacesArray.Length - 1);
                 }
 
-                iccApp.NumberOfSecondaryAID = tmpAids[x].Substring(offset, 2);
-                offset += 2;
-                hexLength = Convert.ToInt32(iccApp.NumberOfSecondaryAID, 16);
+                iccApp.NumberOfSecondaryAID = "";
                 iccApp.SecondaryAIDLgthValue = "";
+                hexLength = 0;
+
+                if (offset < tmpAids[x].Length)
+                {
+                    iccApp.NumberOfSecondaryAID = tmpAids[x].Substring(offset, 2);
+                    offset += 2;
+                    hexLength = Convert.ToInt32(iccApp.NumberOfSecondaryAID, 16);
+                }
+
                 for (int y = 0; y < hexLength; y++)
                 {
                     // todo: currently using space as a separator between length and value

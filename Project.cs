@@ -4,6 +4,8 @@ using System.Data;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using LoggerProgressBar1;
 
 namespace Logger
 {
@@ -19,6 +21,7 @@ namespace Logger
         public string typeContent;
         public string typeAddData;
     }
+
 
     public class Project : App
     {
@@ -121,6 +124,8 @@ namespace Logger
 
             // mlh: New scans needs to be added here!
             // This name must match the name in the logs table
+            // These names must match the value of the queryName
+            // in the sqlBuilder table.
 
             recTypesDic.Add("11", "treq");
             recTypesDic.Add("4", "treply");
@@ -347,12 +352,33 @@ namespace Logger
 
         public void uploadLog(string filename)
         {
+            
             int logID = attachLogToProject(this.pKey, filename);
 
             Dictionary<string, dataLine> dicData = new Dictionary<string, dataLine>();
-
+            
             WriteLog("c:", "test.txt", "Testing Testing");
             string[] lstLines = File.ReadAllLines(filename);
+
+            //ProgressBar pBar = new ProgressBar();
+            //pBar.Location = new System.Drawing.Point(20, 20);
+            //pBar.Name = "myProgressBar";
+            //pBar.Width = 200;
+            //pBar.Height = 15;
+            //Application.OpenForms["ProjectData"].Controls.Add(pBar);
+            //pBar.Dock = DockStyle.Bottom;
+            //pBar.Maximum = lstLines.Length+1;
+            //pBar.Minimum = 1;
+            //pBar.Value = 1;
+            //pBar.Step = 1;
+            //pBar.Visible = true;
+
+            LoggerProgressBar1.LoggerProgressBar1 lpb = new LoggerProgressBar1.LoggerProgressBar1();
+            lpb.Maximum = lstLines.Length;
+            Application.OpenForms["ProjectData"].Controls.Add(lpb);
+            lpb.Dock = DockStyle.Bottom;
+            //lpb.ProgressBar1.Dock = DockStyle.Bottom;
+            lpb.Visible = true;
 
             int repLine = 0;
             int recProcessed = 0;
@@ -362,12 +388,17 @@ namespace Logger
             long lineProcess = 0;
             string strLine = null;
             bool flagWriteData = false;
-
+            
             while (lineProcess < lstLines.Length)
-            {
+            {                
                 strLine = lstLines[lineProcess];
 
                 lineProcess++;
+                lpb.Value = Convert.ToInt32(lineProcess);
+
+                lpb.ProgressBar1.Value = Convert.ToInt32(lineProcess);
+                lpb.Percent1.Text = ((lpb.ProgressBar1.Value * 100) / lpb.Maximum).ToString() + "%";
+                lpb.Percent1.Refresh();
 
                 if (strLine == "")
                 {
@@ -398,6 +429,10 @@ namespace Logger
                     }
                     lineProcess++;
                     recExtent++;
+
+                    lpb.ProgressBar1.Value = Convert.ToInt32(lineProcess);
+                    lpb.Percent1.Text = ((lpb.ProgressBar1.Value * 100) / lpb.Maximum).ToString() + "%";
+                    lpb.Percent1.Refresh();
                 }
 
                 if (strLine.EndsWith(System.Environment.NewLine))
@@ -515,6 +550,8 @@ namespace Logger
             }
 
             addLogToProject(this.pKey);
+            lpb.Visible = false;
+
             if (flagWriteData == false)
                 detachLogByID(logID.ToString());
 
@@ -750,8 +787,8 @@ namespace Logger
                             [group6] as 'Type',
                             [group7] as 'Log',
                             [group8] as 'Log Data',[group9],
-                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
-                      " AND " + sqlLike + " order by id asc";
+                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +       
+                       " AND " + sqlLike + " order by id asc";
 
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
@@ -911,59 +948,59 @@ namespace Logger
 
             string sql = @"SELECT COUNT(*) FROM screeninfo WHERE logID =" + logID;
             int count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("screens", count);
+            dicBits.Add(recTypesDic["311"], count);
 
             sql = @"SELECT COUNT(*) FROM stateinfo WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("states", count);
+            dicBits.Add(recTypesDic["312"], count);
 
             sql = @"SELECT COUNT(*) FROM configParamsInfo WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("configParametersLoad", count);
+            dicBits.Add(recTypesDic["313"], count);
 
             sql = @"SELECT COUNT(*) FROM fitinfo WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("fit", count);
+            dicBits.Add(recTypesDic["315"], count);
 
             sql = @"SELECT COUNT(*) FROM configId WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("configID", count);
+            dicBits.Add(recTypesDic["316"], count);
 
             sql = @"SELECT COUNT(*) FROM enhancedParamsInfo WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("enhancedParametersLoad", count);
+            dicBits.Add(recTypesDic["31A"], count);
 
             sql = @"SELECT COUNT(*) FROM dateTime WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("dateandtime", count);
+            dicBits.Add(recTypesDic["31C"], count);
 
             sql = @"SELECT COUNT(*) FROM treq WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("treq", count);
+            dicBits.Add(recTypesDic["11"], count);
 
             sql = @"SELECT COUNT(*) FROM treply WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("treply", count);
+            dicBits.Add(recTypesDic["4"], count);
 
             sql = @"SELECT COUNT(*) FROM iccCurrencyDOT WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("iccCurrencyDOT", count);
+            dicBits.Add(recTypesDic["81"], count);
 
             sql = @"SELECT COUNT(*) FROM iccTransactionDOT WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("iccTransactionDOT", count);
+            dicBits.Add(recTypesDic["82"], count);
 
             sql = @"SELECT COUNT(*) FROM iccLanguageSupportT WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("iccLanguageSupportT", count);
+            dicBits.Add(recTypesDic["83"], count);
 
             sql = @"SELECT COUNT(*) FROM iccTerminalDOT WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("iccTerminalDOT", count);
+            dicBits.Add(recTypesDic["84"], count);
 
             sql = @"SELECT COUNT(*) FROM iccApplicationIDT WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("iccApplicationIDT", count);
+            dicBits.Add(recTypesDic["85"], count);
 
             sql = @"SELECT (SELECT COUNT(*) FROM solicitedStatus8 WHERE logID =" + logID + ") +" +
                 "          (SELECT COUNT(*) FROM solicitedStatus9 WHERE logID =" + logID + ") +" +
@@ -984,7 +1021,7 @@ namespace Logger
                 "          (SELECT COUNT(*) FROM solicitedStatusFM WHERE logID =" + logID + ") +" +
                 "          (SELECT COUNT(*) FROM solicitedStatusFN WHERE logID =" + logID + ") ";
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("solicitedStatus", count);
+            dicBits.Add(recTypesDic["22"], count);
 
             sql = @"SELECT (SELECT COUNT(*) FROM unsolicitedStatus5c WHERE logID =" + logID + ") +" +
                 "          (SELECT COUNT(*) FROM unsolicitedStatus61 WHERE logID =" + logID + ") +" +
@@ -1009,7 +1046,7 @@ namespace Logger
                 "          (SELECT COUNT(*) FROM unsolicitedStatusw WHERE logID =" + logID + ") +" +
                 "          (SELECT COUNT(*) FROM unsolicitedStatusy WHERE logID =" + logID + ") ";
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("unsolicitedStatus", count);
+            dicBits.Add(recTypesDic["12"], count);
 
             sql = @"SELECT (SELECT COUNT(*) FROM encryptorInitData1 WHERE logID =" + logID + ") +" +
                 "          (SELECT COUNT(*) FROM encryptorInitData2 WHERE logID =" + logID + ") +" +
@@ -1025,44 +1062,43 @@ namespace Logger
                 "          (SELECT COUNT(*) FROM encryptorInitDataE WHERE logID =" + logID + ") ";
 
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("encryptorInitData", count);
+            dicBits.Add(recTypesDic["23"], count);
 
             sql = @"SELECT COUNT(*) FROM uploadEjData WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("uploadEjData", count);
+            dicBits.Add(recTypesDic["61H"], count);
 
             sql = @"SELECT COUNT(*) FROM ackEjUploadBlock WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("ejAckBlock", count);
+            dicBits.Add(recTypesDic["61J"], count);
 
             sql = @"SELECT COUNT(*) FROM ackStopEj WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("ejAckStop", count);
+            dicBits.Add(recTypesDic["62"], count);
 
             sql = @"SELECT COUNT(*) FROM ejOptionsTimers WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("ejOptionsTimers", count);
+            dicBits.Add(recTypesDic["63"], count);
 
             sql = @"SELECT COUNT(*) FROM extEncryption WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("extendedEncrypKeyChange", count);
+            dicBits.Add(recTypesDic["34"], count);
 
             sql = @"SELECT COUNT(*) FROM terminalCommands WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("terminalCommands", count);
+            dicBits.Add(recTypesDic["1"], count);
 
             sql = @"SELECT COUNT(*) FROM macFieldSelection WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("mac", count);
+            dicBits.Add(recTypesDic["31B"], count);
 
             sql = @"SELECT COUNT(*) FROM dispenserMapping WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-            dicBits.Add("dispenserCurrency", count);
+            dicBits.Add(recTypesDic["31E"], count);
 
             sql = @"SELECT COUNT(*) FROM interactiveTranResponse WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
-
-            dicBits.Add("interactiveTranResponse", count);
+            dicBits.Add(recTypesDic["32"], count);
 
             return dicBits;
         }

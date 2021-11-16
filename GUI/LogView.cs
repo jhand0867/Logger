@@ -47,7 +47,31 @@ namespace Logger
             {
                 //dgvLog.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
                 //dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-                dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
+                
+                // Tag is populated with the logID;MessageClass
+                // MessageClass must match a SearchCondition table record.
+
+                if (Tag != null)
+                {
+                    string[] tagSplit = Tag.ToString().Split(';');
+                    ProjectData.logID = tagSplit[0];
+                    scSqlLikeAndRegExp sql = new scSqlLikeAndRegExp();
+
+                    if (Tag.ToString().IndexOf("log") != -1)
+                    {
+                        dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
+                    }
+                    else
+                    {
+                        sql = searchConditionBuilt(tagSplit[1]);
+                        dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sql.SqlLike, sql.RegExpStr);
+                    }
+                }
+                else
+                {
+                    dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
+                }
+
             }
             catch (Exception ex)
             {
@@ -60,7 +84,17 @@ namespace Logger
             }
 
             //dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dgvLog.Columns["Timestamp"].Width = TIMESTAMP_COLUMN_WIDTH;
+            if (dgvLog.ColumnCount > 0)
+            {
+                dgvLog.Columns["Timestamp"].Width = TIMESTAMP_COLUMN_WIDTH;
+            }
+            else
+            {
+                this.Hide();
+                this.Close();
+                return;
+            }
+
             AddHeaders(dgvLog);
 
             dgvLog.Dock = DockStyle.Fill;
@@ -227,7 +261,7 @@ namespace Logger
             cmbColumHeader6.Items.Add("CashDispenser");
             cmbColumHeader6.Items.Add("State Created");
             cmbColumHeader6.Items.Add("ATM2HOST Solicited Status Terminal State");
-            
+
             cmbColumHeader6.SelectionChangeCommitted += delegate (object sender, EventArgs e)
             {
                 cmbColumHeader6_SelectionChangeCommitted(sender, e, cmbColumHeader6, logID);
@@ -325,7 +359,7 @@ namespace Logger
             }
             else
             {
-                sqlLike = " LIKE '%" + c.Text.Substring(0,8) + "%'";
+                sqlLike = " LIKE '%" + c.Text.Substring(0, 8) + "%'";
                 this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria2(logID, "group8", sqlLike);
             }
 
@@ -621,7 +655,7 @@ namespace Logger
         private void cbQueryName_Click(object sender, EventArgs e)
         {
             SQLSearchCondition sQLSearchCondition = new SQLSearchCondition();
-            DataTable dt = sQLSearchCondition.getAllQueries();
+            DataTable dt = sQLSearchCondition.getAllQueries("");
 
             // is there any saved queries?
             if (dt.Rows.Count > -1)
@@ -635,62 +669,32 @@ namespace Logger
             }
 
         }
+        public struct scSqlLikeAndRegExp
+        {
+            private string sqlLike;
+            private string regExpStr;
+
+            public string SqlLike { get => sqlLike; set => sqlLike = value; }
+            public string RegExpStr { get => regExpStr; set => regExpStr = value; }
+        }
 
         private void cbQueryName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            SQLSearchCondition ssc = new SQLSearchCondition();
+            scSqlLikeAndRegExp sql = new scSqlLikeAndRegExp();
 
-            dt = ssc.getSearchCondition(cbQueryName.Text);
+            sql = searchConditionBuilt(cbQueryName.Text);
 
-
-            string sqlLike = "";
-            string temp = "";
-            string regExpStr = "";
-
-            if (dt.Rows.Count != 0)
+            if (sql.SqlLike != "")
             {
-                for (int i = 0; i < 6; i++)
+                if (sql.RegExpStr != "")
                 {
+                    dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sql.SqlLike, sql.RegExpStr);
 
-                    if (dt.Rows[i][2].ToString() != "" && dt.Rows[i][3].ToString() != "" && dt.Rows[i][4].ToString() != "")
-                    {
-                        temp = dt.Rows[i][4].ToString();
-
-                        if (dt.Rows[i][3].ToString() == "Like")
-                        {
-                            if (dt.Rows[i][4].ToString().StartsWith("["))
-                                temp = dt.Rows[i][4].ToString().Substring(1, dt.Rows[i][4].ToString().Length - 1);
-                            temp = "%" + temp + "%";
-                        }
-                        sqlLike += " " + dt.Rows[i][2].ToString() + dt.Rows[i][3].ToString() +
-                               " '" + temp + "' ";
-                    }
-
-                    if (i < 5 &&
-                        dt.Rows[i][5].ToString() != "" &&
-                        dt.Rows[i + 1][2].ToString() != "" && dt.Rows[i + 1][3].ToString() != "" && dt.Rows[i + 1][4].ToString() != "")
-                    {
-                        sqlLike += dt.Rows[i][5].ToString();
-                    }
-
-                    if (dt.Rows[i][3].ToString() == "RegExp")
-                    {
-                        regExpStr = dt.Rows[i][4].ToString();
-                    }
                 }
-
-            }
-            if (sqlLike != "")
-            {
-                    if (regExpStr != "")
-                    {
-                        dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sqlLike, regExpStr);
-                    }
-                    else
-                    {
-                        dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
-                    }
+                else
+                {
+                    dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sql.SqlLike);
+                }
                 dgvLog.ClearSelection();
                 dgvLog.Refresh();
             }
@@ -703,6 +707,57 @@ namespace Logger
             ToolTip1.ReshowDelay = 500;
             ToolTip1.ShowAlways = true;
         }
+
+        private scSqlLikeAndRegExp searchConditionBuilt(string queryName)
+            {
+            DataTable dt = new DataTable();
+            SQLSearchCondition ssc = new SQLSearchCondition();
+
+            dt = ssc.getSearchCondition(queryName);
+
+            scSqlLikeAndRegExp sql = new scSqlLikeAndRegExp();
+
+            string temp = "";
+            sql.RegExpStr = "";
+            sql.SqlLike = "";
+                 
+            if (dt.Rows.Count != 0)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+
+                    if (dt.Rows[i][2].ToString() != "" && dt.Rows[i][3].ToString() != "" &&
+                        dt.Rows[i][4].ToString() != "" && dt.Rows[i][3].ToString() != "RegExp")
+                    {
+                        temp = dt.Rows[i][4].ToString();
+
+                        if (dt.Rows[i][3].ToString() == "Like")
+                        {
+                            if (dt.Rows[i][4].ToString().StartsWith("["))
+                                temp = dt.Rows[i][4].ToString().Substring(1, dt.Rows[i][4].ToString().Length - 1);
+                            temp = "%" + temp + "%";
+                        }
+                        sql.SqlLike += " " + dt.Rows[i][2].ToString() + dt.Rows[i][3].ToString() +
+                               " '" + temp + "' ";
+                    }
+
+                    if (i < 5 &&
+                        dt.Rows[i][5].ToString() != "" &&
+                        dt.Rows[i + 1][2].ToString() != "" && dt.Rows[i + 1][3].ToString() != "" && dt.Rows[i + 1][4].ToString() != "")
+                    {
+                        sql.SqlLike += dt.Rows[i][5].ToString();
+                    }
+
+                    if (dt.Rows[i][3].ToString() == "RegExp")
+                    {
+                        sql.RegExpStr = dt.Rows[i][4].ToString();
+                    }
+                }
+
+            }
+
+            return sql ;
+            }
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -47,6 +47,10 @@ namespace Logger
         private void MainW_Load(object sender, EventArgs e)
         {
             this.BackColor = System.Drawing.Color.LightGray;
+            SplashWindow splasWindow = new SplashWindow();
+            splasWindow.TopMost = true;
+            Cursor.Hide();
+            splasWindow.Show(); 
 
         }
 

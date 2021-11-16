@@ -168,7 +168,7 @@
             // 
             this.allToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.allToolStripMenuItem.Name = "allToolStripMenuItem";
-            this.allToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.allToolStripMenuItem.Size = new System.Drawing.Size(285, 44);
             this.allToolStripMenuItem.Text = "All";
             this.allToolStripMenuItem.Click += new System.EventHandler(this.allToolStripMenuItem_Click);
             // 
@@ -183,7 +183,7 @@
             this.exitToHostToolStripMenuItem,
             this.uploadEJDataToolStripMenuItem});
             this.aTMToHostToolStripMenuItem.Name = "aTMToHostToolStripMenuItem";
-            this.aTMToHostToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.aTMToHostToolStripMenuItem.Size = new System.Drawing.Size(285, 44);
             this.aTMToHostToolStripMenuItem.Text = "ATM To Host";
             this.aTMToHostToolStripMenuItem.Click += new System.EventHandler(this.aTMToHostToolStripMenuItem_Click);
             this.aTMToHostToolStripMenuItem.MouseHover += new System.EventHandler(this.aTMToHostToolStripMenuItem_Click);
@@ -251,7 +251,7 @@
             this.terminalCommandsToolStripMenuItem,
             this.eMVConfigurationToolStripMenuItem});
             this.hostToATMToolStripMenuItem1.Name = "hostToATMToolStripMenuItem1";
-            this.hostToATMToolStripMenuItem1.Size = new System.Drawing.Size(359, 44);
+            this.hostToATMToolStripMenuItem1.Size = new System.Drawing.Size(285, 44);
             this.hostToATMToolStripMenuItem1.Text = "Host To ATM";
             this.hostToATMToolStripMenuItem1.Click += new System.EventHandler(this.hostToATMToolStripMenuItem1_Click);
             this.hostToATMToolStripMenuItem1.MouseHover += new System.EventHandler(this.hostToATMToolStripMenuItem1_Click);

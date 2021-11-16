@@ -4,6 +4,8 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
+
+
 namespace Logger
 {
     public delegate void RefreshData();
@@ -198,6 +200,8 @@ namespace Logger
             foreach (DataRow dr in dt.Rows)
             {
                 TreeNode tn = new TreeNode();
+                tn.Tag = tn.Text.ToString();
+
                 tn.Nodes.Clear();
 
                 string logLocation = dr["logFile"].ToString();
@@ -213,6 +217,8 @@ namespace Logger
                 if (dicBits != null)
                 {
                     tn.Tag = 0;
+                    // mlh adding log id as tag
+                    tn.Tag = dr["id"].ToString();
                     tn.ImageIndex = 0;
                     for (int x = 4; x < dt.Columns.Count - 1; x++)
                     {
@@ -419,5 +425,30 @@ namespace Logger
 
         }
 
+        private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            LogView logView = new LogView();
+            TreeView tn = sender as TreeView;
+            string nodeText = tn.SelectedNode.Text;
+            int indexStartOfNodeText = nodeText.IndexOf("[");
+            int indexEndOfNodeText = nodeText.IndexOf("]");
+            if ((indexStartOfNodeText > 0) && (indexEndOfNodeText > 0))
+            {
+                nodeText = tn.SelectedNode.Text.Substring((indexStartOfNodeText + 1), (indexEndOfNodeText - indexStartOfNodeText) - 1);
+            }
+
+            if (nodeText == "0"){
+                return;
+            }
+            
+            if (nodeText.IndexOf("log") > -1)
+                logView.Tag = tn.SelectedNode.Tag + ";" + tn.SelectedNode.Text;
+            else
+            logView.Tag = tn.Nodes[tn.SelectedNode.Parent.Index].Tag.ToString() + ';' +
+             tn.SelectedNode.Text.Substring(0, tn.SelectedNode.Text.IndexOf("[")-1).Trim();
+
+            logView.Show();
+
+        }
     }
 }

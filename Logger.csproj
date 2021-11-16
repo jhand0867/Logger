@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -69,6 +70,11 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Logger01.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -115,6 +121,12 @@
       <DependentUpon>DeleteQuery.cs</DependentUpon>
     </Compile>
     <Compile Include="Filters\IFilter.cs" />
+    <Compile Include="GUI\SplashWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\SplashWindow.Designer.cs">
+      <DependentUpon>SplashWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="IMessage.cs" />
     <Compile Include="InteractiveTranResponse.cs" />
     <Compile Include="Electronic Journal\EjOptionsTimers.cs" />
@@ -331,6 +343,9 @@
     <EmbeddedResource Include="GUI\LoadQuery.resx">
       <DependentUpon>LoadQuery.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\SplashWindow.resx">
+      <DependentUpon>SplashWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -381,6 +396,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LoggerProgressBar1\LoggerProgressBar1.csproj">
+      <Project>{9d99844a-f55a-460b-b505-b8fe803fadce}</Project>
+      <Name>LoggerProgressBar1</Name>
+    </ProjectReference>
     <ProjectReference Include="LoggerUtils\LoggerUtils.csproj">
       <Project>{8ddbc7e7-5299-4e79-8293-fab95a2f0ca3}</Project>
       <Name>LoggerUtils</Name>

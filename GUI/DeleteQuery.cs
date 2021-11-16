@@ -44,7 +44,7 @@ namespace Logger.GUI
             cb.Items.Clear();
 
             SQLSearchCondition ssc = new SQLSearchCondition();
-            DataTable dt = ssc.getAllQueries();
+            DataTable dt = ssc.getAllQueries("U");
 
             if (dt == null) return;
 
