@@ -19,7 +19,7 @@ namespace Logger
 
         private void SplashWindow_Shown(object sender, EventArgs e)
         {
-            timer1.Interval = 10000;
+            timer1.Interval = 1;
             timer1.Enabled = true;
             timer1.Tick += new System.EventHandler(OnTimerEvent);
             return;

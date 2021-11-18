@@ -394,8 +394,6 @@ namespace Logger
                 strLine = lstLines[lineProcess];
 
                 lineProcess++;
-                lpb.Value = Convert.ToInt32(lineProcess);
-
                 lpb.ProgressBar1.Value = Convert.ToInt32(lineProcess);
                 lpb.Percent1.Text = ((lpb.ProgressBar1.Value * 100) / lpb.Maximum).ToString() + "%";
                 lpb.Percent1.Refresh();
@@ -551,6 +549,7 @@ namespace Logger
 
             addLogToProject(this.pKey);
             lpb.Visible = false;
+            lpb = null;
 
             if (flagWriteData == false)
                 detachLogByID(logID.ToString());
@@ -674,45 +673,10 @@ namespace Logger
                 {
                     continue;
                 }
-
-                // do  not parse in this format (31..) if 
-                //              31B (MAC Field Selection Load) or
-                //              31E (Dispenser Mapping Table)
-
- //               if (recordType.Substring(0, 1) == "3" &&
- //                   recordType.Length > 2 &&
- //                   recordType.Substring(1, 2) == tmpTypes[3] &&
- //                   recordType.Substring(1, 2) != "1B" &&
- //                   recordType.Substring(1, 2) != "1E" &&
- //// MLH uncomment line below to process message 31A with else condition
- ////     can also test state records to see that those are also processed in this If condition
- //                   recordType.Substring(1, 2) != "1A" &&
- //                   recordType.Substring(1, 2) != "12" &&
- //                   recordType.Substring(1, 2) != "15" &&
- //                   recordType.Substring(1, 2) != "16")
- //               { 
-            
- //                   int myInd = tmpTypes[0].Length + tmpTypes[1].Length + tmpTypes[2].Length + tmpTypes[3].Length;
- //                   string typeData = rec.Value.Substring(myInd + 4, rec.Value.Length - (myInd + 4));
-
- //                   dataTypes = typeData.Split((char)0x1c);
-
- //                   foreach (string item in dataTypes)
- //                   {
- //                       typeRec r = new typeRec();
- //                       r.typeIndex = rec.Key;
- //                       r.typeContent = item;
- //                       typeList.Add(r);
-
- //                   }
- //               }
- //               else
- //               {
                     typeRec r = new typeRec();
                     r.typeIndex = rec.Key;
                     r.typeContent = rec.Value;
                     typeList.Add(r);
-                //}
             }
 
             IMessage theRecord = LoggerFactory.Create_Record(recordType);
