@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Windows.Forms;
+using LoggerProgressBar1;
 
 namespace Logger
 {
@@ -201,8 +203,16 @@ namespace Logger
             String sql = "";
             int loadNum = 0;
 
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+
+            lpb.Maximum = typeRecs.Count + 1;
+
             foreach (typeRec r in typeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 tmpTypes = r.typeContent.Split((char)0x1c);
 
                 transactionRequest treq = new transactionRequest();
@@ -722,9 +732,10 @@ namespace Logger
                         return false;
                 }
             }
+
+            lpb.Visible = false;
             return true;
         }
-
 
         public List<DataTable> getRecord(string logKey, string logID, string projectKey)
         {

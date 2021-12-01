@@ -139,7 +139,7 @@ namespace Logger
                 cnn.Open();
 
                 SqlCommand command;
-                int result;
+                int result = 0;
 
                 command = new SqlCommand(sql, cnn);
 
@@ -160,6 +160,56 @@ namespace Logger
             }
 
         }
+
+        //public SqlConnection GetScalarIntFromDbOpen()
+        //{
+        //    log.Info("Access Database and get scalar Open ");
+        //    string connectionString;
+        //    SqlConnection cnn;
+
+        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+        //    cnn = new SqlConnection(connectionString);
+        //    cnn.Open();
+        //    return cnn;
+        //}
+        //public void GetScalarIntFromDbClose(SqlConnection cnn)
+        //{
+        //    log.Info("Access Database and get scalar Close ");
+        //    string connectionString;
+
+        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+        //    cnn.Close();
+        //}
+
+        //public int GetScalarIntFromDbNext(string sql, SqlConnection cnn)
+        //{
+        //    log.Info("Access Database and get scalar Next ");
+        //    string connectionString;
+
+        //    connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
+        //    try
+        //    {
+        //        SqlCommand command;
+        //        int result = 0;
+
+        //        command = new SqlCommand(sql, cnn);
+
+        //        result = (Int32)command.ExecuteScalar();
+
+        //        command.Dispose();
+        //        return result;
+        //    }
+        //    catch (Exception dbEx)
+        //    {
+        //        if (cnn.State == ConnectionState.Open)
+        //        {
+        //            cnn.Close();
+        //        }
+        //        log.Error("Database Error: " + dbEx.Message);
+        //        return 0;
+        //    }
+
+        //}
 
         public string GetScalarStrFromDb(string sql)
         {

@@ -4,10 +4,12 @@ using System.Data;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace Logger
 {
+
     public class App
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("App.cs");
@@ -215,5 +217,29 @@ namespace Logger
         {
             return null;
         }
+
+        internal LoggerProgressBar1.LoggerProgressBar1 getLoggerProgressBar()
+        {
+            LoggerProgressBar1.LoggerProgressBar1 lpb = null;
+
+            if (Application.OpenForms["ProjectData"].Controls.Find("LoggerProgressBar1", true).Length == 0)
+            {
+                lpb = new LoggerProgressBar1.LoggerProgressBar1();
+                Application.OpenForms["ProjectData"].Controls.Add(lpb);
+            }
+            else
+            {
+                Control[] ca = Application.OpenForms["ProjectData"].Controls.Find("LoggerProgressBar1", true);
+                lpb = (LoggerProgressBar1.LoggerProgressBar1)ca[0];
+                lpb.Value = 0;
+            }
+
+            lpb.Dock = DockStyle.Bottom;
+            lpb.Visible = true;
+            lpb.LblTitle = this.ToString();
+
+            return lpb;
+        }
+
     }
 }

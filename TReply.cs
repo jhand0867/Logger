@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Net;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using LoggerProgressBar1;
 
 namespace Logger
@@ -220,18 +221,14 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
-            LoggerProgressBar1.LoggerProgressBar1 lpb = new LoggerProgressBar1.LoggerProgressBar1();
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
             lpb.Maximum = typeRecs.Count + 1;
-            Application.OpenForms["ProjectData"].Controls.Add(lpb);
-            lpb.Dock = DockStyle.Bottom;
-            //lpb.ProgressBar1.Dock = DockStyle.Bottom;
-            lpb.Visible = true;
+            lpb.LblTitle = this.ToString();
 
             foreach (typeRec r in typeRecs)
             {
-                lpb.ProgressBar1.Value += lpb.ProgressBar1.Step;
-                lpb.Percent1.Text = ((lpb.ProgressBar1.Value * 100) / lpb.Maximum).ToString() + "%";
-                lpb.Percent1.Refresh();
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
 
                 string[] tmpTypes = r.typeContent.Split((char)0x1c);
 
@@ -366,10 +363,8 @@ namespace Logger
                         return false;
                 }
             }
-            lpb.Visible = false;
-            lpb = null;
 
-            // Application.OpenForms["ProjectData"].Controls.Remove(lpb);
+            lpb.Visible = false;
             return true;
         }
 

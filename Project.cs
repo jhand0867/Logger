@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -211,12 +212,6 @@ namespace Logger
                     prj.Brief = row[3].ToString();
                     prj.pLogs = Convert.ToInt32(row[4]);
                     dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), prj);
-
-                    //this.pKey = row[1].ToString();
-                    //this.Name = row[2].ToString();
-                    //this.Brief = row[3].ToString();
-                    //this.pLogs = Convert.ToInt32(row[4]);
-                    //dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), this);
                 }
             }
             return dicData;
@@ -359,26 +354,10 @@ namespace Logger
             
             WriteLog("c:", "test.txt", "Testing Testing");
             string[] lstLines = File.ReadAllLines(filename);
-
-            //ProgressBar pBar = new ProgressBar();
-            //pBar.Location = new System.Drawing.Point(20, 20);
-            //pBar.Name = "myProgressBar";
-            //pBar.Width = 200;
-            //pBar.Height = 15;
-            //Application.OpenForms["ProjectData"].Controls.Add(pBar);
-            //pBar.Dock = DockStyle.Bottom;
-            //pBar.Maximum = lstLines.Length+1;
-            //pBar.Minimum = 1;
-            //pBar.Value = 1;
-            //pBar.Step = 1;
-            //pBar.Visible = true;
-
-            LoggerProgressBar1.LoggerProgressBar1 lpb = new LoggerProgressBar1.LoggerProgressBar1();
-            lpb.Maximum = lstLines.Length;
-            Application.OpenForms["ProjectData"].Controls.Add(lpb);
-            lpb.Dock = DockStyle.Bottom;
-            //lpb.ProgressBar1.Dock = DockStyle.Bottom;
-            lpb.Visible = true;
+            
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.Maximum = lstLines.Length + 1;
+            lpb.LblTitle = this.ToString();
 
             int repLine = 0;
             int recProcessed = 0;
@@ -394,9 +373,6 @@ namespace Logger
                 strLine = lstLines[lineProcess];
 
                 lineProcess++;
-                lpb.ProgressBar1.Value = Convert.ToInt32(lineProcess);
-                lpb.Percent1.Text = ((lpb.ProgressBar1.Value * 100) / lpb.Maximum).ToString() + "%";
-                lpb.Percent1.Refresh();
 
                 if (strLine == "")
                 {
@@ -405,8 +381,7 @@ namespace Logger
                 }
                 if (strLine.Substring(0, 1) != "[")
                 {
-                    //recSkipped++;
-                    writeLogDetail("", strLine, logID);
+                   // writeLogDetail("", strLine, logID);
                     continue;
                 }
 
@@ -427,11 +402,10 @@ namespace Logger
                     }
                     lineProcess++;
                     recExtent++;
-
-                    lpb.ProgressBar1.Value = Convert.ToInt32(lineProcess);
-                    lpb.Percent1.Text = ((lpb.ProgressBar1.Value * 100) / lpb.Maximum).ToString() + "%";
-                    lpb.Percent1.Refresh();
                 }
+
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
 
                 if (strLine.EndsWith(System.Environment.NewLine))
                 {
@@ -549,7 +523,8 @@ namespace Logger
 
             addLogToProject(this.pKey);
             lpb.Visible = false;
-            lpb = null;
+            //lpb.UpdateProgressBarEventHandler -= Lpb_UpdateProgressBarEventHandler;
+            // lpb = null;
 
             if (flagWriteData == false)
                 detachLogByID(logID.ToString());
@@ -559,6 +534,14 @@ namespace Logger
             log.Info($"Records read {lineProcess}");
             log.Info($"Records Extended {recExtent}");
         }
+
+        //private void Lpb_UpdateProgressBarEventHandler(object sender, EventArgs e)
+        //{          
+        //    //LoggerProgressBar1.LoggerProgressBar1 lpb = sender as LoggerProgressBar1.LoggerProgressBar1;
+        //    //lpb.ProgressBar1.Value = Convert.ToInt32(lpb.Value);
+        //    //lpb.Percent1.Text = ((lpb.ProgressBar1.Value * 100) / lpb.Maximum).ToString() + "%";
+        //    //lpb.Percent1.Refresh();   
+        //}
 
         public bool writeData(string recKey, dataLine data, int logID)
         {
@@ -689,6 +672,30 @@ namespace Logger
                 }
             }
         }
+
+        //private LoggerProgressBar1.LoggerProgressBar1  getProgressBar()
+        //{
+        //    LoggerProgressBar1.LoggerProgressBar1 lpb = null;
+
+        //    if (Application.OpenForms["ProjectData"].Controls.Find("LoggerProgressBar1", true).Length == 0)
+        //    {
+        //        lpb = new LoggerProgressBar1.LoggerProgressBar1();
+        //        Application.OpenForms["ProjectData"].Controls.Add(lpb);
+        //    }
+        //    else
+        //    {
+        //        Control[] ca = Application.OpenForms["ProjectData"].Controls.Find("LoggerProgressBar1", true);
+        //        lpb = (LoggerProgressBar1.LoggerProgressBar1)ca[0];
+        //        lpb.Value = 0;
+        //    }
+
+        //    lpb.Dock = DockStyle.Bottom;
+        //    lpb.Visible = true;
+        //    lpb.LblTitle = this.ToString();
+
+        //    return lpb;
+        //}
+
 
         private void setBitToTrue(string recordType, string logID)
         {
@@ -910,157 +917,158 @@ namespace Logger
 
             DbCrud db = new DbCrud();
 
-            string sql = @"SELECT COUNT(*) FROM screeninfo WHERE logID =" + logID;
+            string sql = @"SELECT COUNT(2) FROM screeninfo WITH (NOLOCK) WHERE logID =" + logID;
             int count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["311"], count);
 
-            sql = @"SELECT COUNT(*) FROM stateinfo WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM stateinfo WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
+
             dicBits.Add(recTypesDic["312"], count);
 
-            sql = @"SELECT COUNT(*) FROM configParamsInfo WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM configParamsInfo WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["313"], count);
 
-            sql = @"SELECT COUNT(*) FROM fitinfo WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM fitinfo WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["315"], count);
 
-            sql = @"SELECT COUNT(*) FROM configId WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM configId WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["316"], count);
 
-            sql = @"SELECT COUNT(*) FROM enhancedParamsInfo WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM enhancedParamsInfo WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["31A"], count);
 
-            sql = @"SELECT COUNT(*) FROM dateTime WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM dateTime WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["31C"], count);
 
-            sql = @"SELECT COUNT(*) FROM treq WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM treq WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["11"], count);
 
-            sql = @"SELECT COUNT(*) FROM treply WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM treply WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["4"], count);
 
-            sql = @"SELECT COUNT(*) FROM iccCurrencyDOT WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM iccCurrencyDOT WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["81"], count);
 
-            sql = @"SELECT COUNT(*) FROM iccTransactionDOT WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM iccTransactionDOT WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["82"], count);
 
-            sql = @"SELECT COUNT(*) FROM iccLanguageSupportT WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM iccLanguageSupportT WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["83"], count);
 
-            sql = @"SELECT COUNT(*) FROM iccTerminalDOT WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM iccTerminalDOT WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["84"], count);
 
-            sql = @"SELECT COUNT(*) FROM iccApplicationIDT WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM iccApplicationIDT WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["85"], count);
 
-            sql = @"SELECT (SELECT COUNT(*) FROM solicitedStatus8 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatus9 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusB WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusC WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusF1 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusF2 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusF3 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusF4 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusF5 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusF6 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusF7 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusFH WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusFI WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusFJ WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusFK WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusFL WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusFM WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM solicitedStatusFN WHERE logID =" + logID + ") ";
+            sql = @"SELECT (SELECT COUNT(2) FROM solicitedStatus8 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatus9 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusB WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusC WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusF1 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusF2 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusF3 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusF4 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusF5 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusF6 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusF7 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusFH WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusFI WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusFJ WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusFK WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusFL WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusFM WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM solicitedStatusFN WITH (NOLOCK) WHERE logID =" + logID + ") ";
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["22"], count);
 
-            sql = @"SELECT (SELECT COUNT(*) FROM unsolicitedStatus5c WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatus61 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatus66 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatus71 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusA WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusB WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusC WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusD WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusE WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusF WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusG WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusH WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusK WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusL WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusM WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusP WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusQ WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusR WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusS WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusV WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusw WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM unsolicitedStatusy WHERE logID =" + logID + ") ";
+            sql = @"SELECT (SELECT COUNT(2) FROM unsolicitedStatus5c WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatus61 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatus66 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatus71 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusA WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusB WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusC WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusD WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusE WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusF WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusG WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusH WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusK WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusL WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusM WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusP WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusQ WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusR WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusS WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusV WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusw WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM unsolicitedStatusy WITH (NOLOCK) WHERE logID =" + logID + ") ";
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["12"], count);
 
-            sql = @"SELECT (SELECT COUNT(*) FROM encryptorInitData1 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM encryptorInitData2 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM encryptorInitData3 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM encryptorInitData4 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM encryptorInitData6 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM encryptorInitData7 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM encryptorInitData8 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM encryptorInitData9 WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM encryptorInitDataA WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM encryptorInitDataB WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM encryptorInitDataD WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(*) FROM encryptorInitDataE WHERE logID =" + logID + ") ";
+            sql = @"SELECT (SELECT COUNT(2) FROM encryptorInitData1 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM encryptorInitData2 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM encryptorInitData3 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM encryptorInitData4 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM encryptorInitData6 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM encryptorInitData7 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM encryptorInitData8 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM encryptorInitData9 WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM encryptorInitDataA WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM encryptorInitDataB WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM encryptorInitDataD WITH (NOLOCK) WHERE logID =" + logID + ") +" +
+                "          (SELECT COUNT(2) FROM encryptorInitDataE WITH (NOLOCK) WHERE logID =" + logID + ") ";
 
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["23"], count);
 
-            sql = @"SELECT COUNT(*) FROM uploadEjData WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM uploadEjData WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["61H"], count);
 
-            sql = @"SELECT COUNT(*) FROM ackEjUploadBlock WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM ackEjUploadBlock WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["61J"], count);
 
-            sql = @"SELECT COUNT(*) FROM ackStopEj WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM ackStopEj WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["62"], count);
 
-            sql = @"SELECT COUNT(*) FROM ejOptionsTimers WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM ejOptionsTimers WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["63"], count);
 
-            sql = @"SELECT COUNT(*) FROM extEncryption WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM extEncryption WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["34"], count);
 
-            sql = @"SELECT COUNT(*) FROM terminalCommands WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM terminalCommands WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["1"], count);
 
-            sql = @"SELECT COUNT(*) FROM macFieldSelection WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM macFieldSelection WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["31B"], count);
 
-            sql = @"SELECT COUNT(*) FROM dispenserMapping WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM dispenserMapping WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["31E"], count);
 
-            sql = @"SELECT COUNT(*) FROM interactiveTranResponse WHERE logID =" + logID;
+            sql = @"SELECT COUNT(2) FROM interactiveTranResponse WITH (NOLOCK) WHERE logID =" + logID;
             count = db.GetScalarIntFromDb(sql);
             dicBits.Add(recTypesDic["32"], count);
 

@@ -329,7 +329,7 @@
             this.tabPage2.Location = new System.Drawing.Point(8, 39);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(2332, 777);
+            this.tabPage2.Size = new System.Drawing.Size(2332, 771);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Additional Information";
             // 
