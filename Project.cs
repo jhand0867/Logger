@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using LoggerProgressBar1;
 
 namespace Logger
 {
@@ -347,14 +344,14 @@ namespace Logger
 
         public void uploadLog(string filename)
         {
-            
+
             int logID = attachLogToProject(this.pKey, filename);
 
             Dictionary<string, dataLine> dicData = new Dictionary<string, dataLine>();
-            
+
             WriteLog("c:", "test.txt", "Testing Testing");
             string[] lstLines = File.ReadAllLines(filename);
-            
+
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
             lpb.Maximum = lstLines.Length + 1;
             lpb.LblTitle = this.ToString();
@@ -367,9 +364,9 @@ namespace Logger
             long lineProcess = 0;
             string strLine = null;
             bool flagWriteData = false;
-            
+
             while (lineProcess < lstLines.Length)
-            {                
+            {
                 strLine = lstLines[lineProcess];
 
                 lineProcess++;
@@ -381,7 +378,7 @@ namespace Logger
                 }
                 if (strLine.Substring(0, 1) != "[")
                 {
-                   // writeLogDetail("", strLine, logID);
+                    // writeLogDetail("", strLine, logID);
                     continue;
                 }
 
@@ -656,19 +653,25 @@ namespace Logger
                 {
                     continue;
                 }
-                    typeRec r = new typeRec();
-                    r.typeIndex = rec.Key;
-                    r.typeContent = rec.Value;
-                    typeList.Add(r);
+                typeRec r = new typeRec();
+                r.typeIndex = rec.Key;
+                r.typeContent = rec.Value;
+                typeList.Add(r);
             }
 
             IMessage theRecord = LoggerFactory.Create_Record(recordType);
 
             if (theRecord != null)
             {
+                // mlh 
                 if (theRecord.writeData(typeList, Key, logID))
                 {
                     setBitToTrue(recordType, logID);
+                }
+                else
+                {
+                    LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+                    lpb.Visible = false;
                 }
             }
         }
@@ -720,7 +723,7 @@ namespace Logger
         public DataTable getALogByIDWithCriteria(string logID, string columnName, string sqlLike)
         {
             DataTable dt = new DataTable();
-            
+
             string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
                             [group2] as 'Log Level',[group3] as 'File Name',
                             [group4] as 'Class',[group5] as 'Method',
@@ -758,14 +761,14 @@ namespace Logger
                             [group6] as 'Type',
                             [group7] as 'Log',
                             [group8] as 'Log Data',[group9],
-                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +       
+                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
                        " AND " + sqlLike + " order by id asc";
 
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
 
             //#########/ /########
-           
+
             // create the regexp for the specific search
             // - find the sqlbuilder - sqlDetail id
             // - read the sqlDetail records
@@ -783,7 +786,7 @@ namespace Logger
                     row[9] = WebUtility.HtmlDecode(row[9].ToString());
 
                     MatchCollection findReady9Matches = findReady9.Matches(row[9].ToString());
-                    if (findReady9Matches.Count != 0)       
+                    if (findReady9Matches.Count != 0)
                     {
                         dtrow = dtout.NewRow();
                         dtrow.ItemArray = row.ItemArray;
@@ -839,7 +842,7 @@ namespace Logger
             dtout = dt.Clone();
 
             foreach (DataRow row in dt.Rows)
-            { 
+            {
                 tmpTypes = WebUtility.HtmlDecode(row["Log Data"].ToString()).Split((char)0x1c);
 
                 string subRecType = App.Prj.RecordTypes[option, 2];
@@ -1087,7 +1090,7 @@ namespace Logger
                 foreach (DataRow row in dt.Rows)
                 {
                     dicData.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), WebUtility.HtmlDecode(row[2].ToString()));
-//                    dicData.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), row[2].ToString());
+                    //                    dicData.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), row[2].ToString());
                 }
             }
             return dicData;

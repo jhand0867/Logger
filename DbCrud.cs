@@ -31,7 +31,7 @@ namespace Logger
                 command.Dispose();
                 log.Debug("CRUD successful");
 
-                
+
 
                 cnn.Close();
                 return true;

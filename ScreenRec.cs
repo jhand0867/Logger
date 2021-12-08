@@ -75,11 +75,18 @@ namespace Logger
 
         public bool writeData(List<typeRec> inTypeRecs, string Key, string logID)
         {
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = inTypeRecs.Count + 1;
+
             String sql = "";
             int loadNum = 0;
 
             foreach (typeRec rParent in inTypeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 string[] tmpTypes = rParent.typeContent.Split((char)0x1c);
                 List<typeRec> typeRecs = new List<typeRec>();
                 scrRec parms = new scrRec();
@@ -165,6 +172,7 @@ namespace Logger
 
             }
 
+            lpb.Visible = false;
             return true;
 
         }

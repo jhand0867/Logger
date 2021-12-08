@@ -4,7 +4,7 @@ using System.Data;
 
 namespace Logger
 {
-    class UnsolicitedStatus : IMessage
+    class UnsolicitedStatus : App, IMessage
     {
 
         public Dictionary<string, string> usTypes = new Dictionary<string, string>();
@@ -93,8 +93,15 @@ namespace Logger
 
         public virtual bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = typeRecs.Count + 1;
+
             foreach (typeRec r in typeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 List<typeRec> OneTypeRec = new List<typeRec>();
                 OneTypeRec.Add(r);
 
@@ -109,6 +116,7 @@ namespace Logger
                 if (theRecord.writeData(OneTypeRec, key, logID) == false)
                     return false;
             }
+            lpb.Visible = false;
             return true;
         }
 

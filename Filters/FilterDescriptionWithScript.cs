@@ -45,7 +45,7 @@ namespace Logger
                         // ^ = at the start
                         // $ = at the end
 
-                        if (scriptOptions[3].Contains("%") )
+                        if (scriptOptions[3].Contains("%"))
                         {
                             outputField += System.Environment.NewLine + "\t";
                         }
@@ -63,7 +63,7 @@ namespace Logger
                         else
                         {
                             outputField += fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
-                        }                    
+                        }
 
                         offset += Convert.ToInt32(scriptOptions[1]);
                     }

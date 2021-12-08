@@ -14,41 +14,41 @@ namespace Logger
         public new string executeScript(string fieldType, string fieldValue)
         {
 
-                string fieldDesc = "";
-                if (fieldValue.Trim() != "")
-                    fieldDesc = System.Environment.NewLine;
+            string fieldDesc = "";
+            if (fieldValue.Trim() != "")
+                fieldDesc = System.Environment.NewLine;
 
-                string[] tmpfieldValue = fieldValue.Split(';');
-                DataTable deviceNames = getDescriptionX(fieldType);
-                DataTable supplyStatus = getDescriptionX("S", "SD");
+            string[] tmpfieldValue = fieldValue.Split(';');
+            DataTable deviceNames = getDescriptionX(fieldType);
+            DataTable supplyStatus = getDescriptionX("S", "SD");
 
-                foreach (string field in tmpfieldValue)
+            foreach (string field in tmpfieldValue)
+            {
+                int pos = 0;
+                foreach (DataRow item in deviceNames.Rows)
                 {
-                    int pos = 0;
-                    foreach (DataRow item in deviceNames.Rows)
+                    if (item[2].ToString().Trim().Length > 0 &&
+                        item[2].ToString().Trim().Substring(0, 1) == field.Substring(0, 1) &&
+                        field.Length > pos)
                     {
-                        if (item[2].ToString().Trim().Length > 0 &&
-                            item[2].ToString().Trim().Substring(0, 1) == field.Substring(0, 1) &&
-                            field.Length > pos)
-                        {
                         /*
                          *  Scan values matching on supplyStatus by record number 
                          *  if pos > 0 plug in the fieldName from the record with the field.Substring(pos, 1)
                          */
-                            string ssDescr = "";
-                            if (pos > 0)
-                                 foreach (DataRow ss in supplyStatus.Rows)
-                                 {
-                                    if (ss[2].ToString().Substring(2,1) == field.Substring(pos, 1))
-                                        ssDescr = ss[3].ToString().Trim();
-                                 }
-                            fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + " = " + field.Substring(pos, 1) + 
-                                        " " + ssDescr + System.Environment.NewLine;
-                            pos++;
-                        }
+                        string ssDescr = "";
+                        if (pos > 0)
+                            foreach (DataRow ss in supplyStatus.Rows)
+                            {
+                                if (ss[2].ToString().Substring(2, 1) == field.Substring(pos, 1))
+                                    ssDescr = ss[3].ToString().Trim();
+                            }
+                        fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + " = " + field.Substring(pos, 1) +
+                                    " " + ssDescr + System.Environment.NewLine;
+                        pos++;
                     }
                 }
-                return fieldDesc;
+            }
+            return fieldDesc;
         }
         public string formattedOutput(string value, string formatter)
         {

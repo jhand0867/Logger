@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Net;
-//using System.Windows.Forms;
-using LoggerProgressBar1;
 
 namespace Logger
 {
@@ -330,7 +327,9 @@ namespace Logger
                 DbCrud db = new DbCrud();
 
                 if (db.crudToDb(sql) == false)
+                {
                     return false;
+                }
 
                 // write Printer Data 
 
@@ -343,7 +342,9 @@ namespace Logger
                                    WebUtility.HtmlEncode(c.printerData) + "'," +
                                    logID + ")";
                     if (db.crudToDb(sql) == false)
+                    {
                         return false;
+                    }
                 }
 
                 // write Check Processing Data 
@@ -360,7 +361,9 @@ namespace Logger
                                    logID + ")";
 
                     if (db.crudToDb(sql) == false)
+                    {
                         return false;
+                    }
                 }
             }
 
@@ -799,7 +802,7 @@ namespace Logger
                             }
                             string fieldContent = dt.Rows[rowNum].ItemArray[field].ToString().Trim();
                             if (fieldContent != "")
-                            { 
+                            {
                                 txtField += getOptionDescription(tReplyDt, field.ToString("00"), fieldContent);
                             }
                         }

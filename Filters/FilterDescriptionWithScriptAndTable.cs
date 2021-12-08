@@ -45,7 +45,7 @@ namespace Logger
                     if (descriptionTable == null)
                         descriptionTable = getDescriptionX(scriptOptions[2].Substring(1, 1));
 
-                    string field = scriptOptions[2].Substring(2, scriptOptions[2].Length - 2 ) +
+                    string field = scriptOptions[2].Substring(2, scriptOptions[2].Length - 2) +
                                    fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
 
                     foreach (DataRow item in descriptionTable.Rows)

@@ -16,7 +16,7 @@ namespace Logger
         public string CommandType { get => commandType; set => commandType = value; }
     };
 
-    class AckStopEj : IMessage
+    class AckStopEj : App, IMessage
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -62,18 +62,26 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = typeRecs.Count + 1;
+
             foreach (typeRec r in typeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 ackStopEj ase = parseData(r.typeContent);
 
                 string sql = @"INSERT INTO ackStopEj([logkey],[rectype],[messageClass],[commandType],[lastCharReceived],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + ase.Rectype + "','" + ase.MessageClass + "','" + ase.CommandType + "','" + 
+                            " VALUES('" + r.typeIndex + "','" + ase.Rectype + "','" + ase.MessageClass + "','" + ase.CommandType + "','" +
                                ase.LastCharReceived + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)
                     return false;
             }
+            lpb.Visible = false;
             return true;
         }
 

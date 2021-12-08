@@ -54,7 +54,7 @@ namespace Logger
             // MLH Temporary remove selection to allow us to set and get all search conditions
 
             //if (sourceValue == "")
-                sql = @"SELECT * FROM [sqlBuilder]";
+            sql = @"SELECT * FROM [sqlBuilder]";
             //else
             //    sql = @"SELECT * FROM [sqlBuilder] WHERE [source] = '" + sourceValue + "'" ;
 
@@ -166,7 +166,7 @@ namespace Logger
             string sql = @"UPDATE [sqlBuilder] SET " +
                     " [name] = '" + _queryName + "'," +
                     " [description] = '" + _queryDescription + "'," +
-                    " [date] = '" + DateTime.Now + "'," + 
+                    " [date] = '" + DateTime.Now + "'," +
                     " [source] = '" + sourceValue + "' " +
                     "WHERE [id] ='" + _sqlID + "'; DELETE FROM [sqlDetail] WHERE [sqlId] = '" + _sqlID + "'";
 
@@ -186,9 +186,9 @@ namespace Logger
             DbCrud db = new DbCrud();
 
             // insert the Builder
-            
+
             string sourceValue = "U";  // User defined
-            if (_queryDescription.Substring(0,2) == "I-")
+            if (_queryDescription.Substring(0, 2) == "I-")
             {
                 sourceValue = "I";   // Internal 
             }
@@ -210,9 +210,9 @@ namespace Logger
             // insert the Detail
 
             if (_searchCondition.sqlCondition == "" && _searchCondition.SQLFieldName == "[group8]")
-                {
+            {
                 _searchCondition.sqlCondition = "RegExp";
-                }
+            }
 
             string sql = @"INSERT INTO [sqlDetail]([fieldName],[condition],[fieldValue],[andOr],[sqlID],[fieldOutput]) " +
                 "VALUES('" + _searchCondition.SQLFieldName + "', '" + _searchCondition.SQLCondition + "', '" +

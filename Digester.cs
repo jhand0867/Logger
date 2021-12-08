@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text.RegularExpressions;
 
 namespace Logger
 {
@@ -44,7 +43,7 @@ namespace Logger
                 return ex.StackTrace;
             }
         }
-        
+
 
         public DataTable getDescriptionX(string fieldType)
         {
@@ -57,7 +56,7 @@ namespace Logger
 
         public DataTable getDescriptionX(string fieldType, string subRecType)
         {
-            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'X'  AND fieldType = '" + fieldType + 
+            string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'X'  AND fieldType = '" + fieldType +
                             "' AND subRecType like '" + subRecType + "%' order by subRecType asc";
 
             DbCrud db = new DbCrud();
@@ -83,23 +82,39 @@ namespace Logger
             // what tags?
             string tags = "";
             int offset = 0;
-            for (int x = 0; x < tagsNumber; x++)
-            {
-                if (strTags.Length <= offset + 1)
+            //try
+            //{
+
+                for (int x = 0; x < tagsNumber; x++)
                 {
-                    continue;
+                    if (strTags.Length <= offset + 1)
+                    {
+                        continue;
+                    }
+                    if (emvTags.Contains("," + strTags.Substring(offset, 2) + ","))
+                    {
+                        tags += strTags.Substring(offset, 2) + " ";
+                        offset += 2;
+                    }
+                    else
+                    {
+                        if ((strTags.Length - offset) > 3)
+                        {
+                            tags += strTags.Substring(offset, 4) + " ";
+                            offset += 4;
+                        }
+                        else
+                        {
+                            tags += strTags.Substring(offset, (strTags.Length - offset)) + " ";
+                        }
+                    }
                 }
-                if (emvTags.Contains("," + strTags.Substring(offset, 2) + ","))
-                {
-                    tags += strTags.Substring(offset, 2) + " ";
-                    offset += 2;
-                }
-                else
-                {
-                    tags += strTags.Substring(offset, 4) + " ";
-                    offset += 4;
-                }
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("Test test....{0}", e.ToString());
+            //}
+
             return tags;
         }
 
@@ -134,7 +149,7 @@ namespace Logger
             }
             return tags;
         }
- 
+
         public string executeScript(string fieldType, string fieldValue)
         {
             return "";

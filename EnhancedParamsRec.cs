@@ -45,11 +45,18 @@ namespace Logger
         }
         public bool writeData(List<typeRec> inTypeRecs, string key, string logID)
         {
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = inTypeRecs.Count + 1;
+
             DbCrud db = new DbCrud();
             int loadNum = 0;
 
             foreach (typeRec rParent in inTypeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 enhancedParams parms = new enhancedParams();
 
                 // MLH part added starts
@@ -89,7 +96,7 @@ namespace Logger
                 {
 
                     typeRec r = typeRecs[count];
-                  //  enhancedParams parms = new enhancedParams();
+                    //  enhancedParams parms = new enhancedParams();
 
                     parms.Luno = r.typeContent;
                     count++;
@@ -168,10 +175,10 @@ namespace Logger
                            " VALUES('" + r.typeIndex + "','" + // key
                                         "C" + "','" + // record type
                                         parms.MessageClass + "','" +
-                                        parms.ResponseFlag + "','" + 
-                                        parms.Luno + "','" + 
+                                        parms.ResponseFlag + "','" +
+                                        parms.Luno + "','" +
                                         parms.MessageSeqNumber + "','" +
-                                        parms.MessageSubclass + "','" + 
+                                        parms.MessageSubclass + "','" +
                                         parms.MessageIdentifier + "','" +
                                         parms.Luno + "','" +
                                         optionsCount.ToString() + "','" +
@@ -183,6 +190,7 @@ namespace Logger
                         return false;
                 }
             }
+            lpb.Visible = false;
             return true;
         }
 
@@ -233,39 +241,39 @@ namespace Logger
 
             foreach (DataTable dt in dts)
             {
-                    if (dtFirst == true)
+                if (dtFirst == true)
+                {
+                    for (int colNum = 3; colNum < dt.Columns.Count - 7; colNum++)
+                        txtField += App.Prj.getOptionDescription(paramRecDt, "H" + colNum.ToString("00"), dt.Rows[0][colNum].ToString());
+                    dtFirst = false;
+                }
+                else
+                {
+                    for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                     {
-                        for (int colNum = 3; colNum < dt.Columns.Count - 7; colNum++)
-                            txtField += App.Prj.getOptionDescription(paramRecDt, "H" + colNum.ToString("00"), dt.Rows[0][colNum].ToString());
-                        dtFirst = false;
-                    }
-                    else
-                    {
-                        for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
+                        if (dt.Rows[rowNum][5].ToString() == "1")
                         {
-                            if (dt.Rows[rowNum][5].ToString() == "1")
+                            if (rowNum == 0)
                             {
-                                if (rowNum == 0)
-                                {
-                                    txtField += @"==================================================" + System.Environment.NewLine;
-                                    txtField += @"OPTIONS" + System.Environment.NewLine;
-                                    txtField += @"==================================================" + System.Environment.NewLine;
-                                }
-                                txtField += getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
+                                txtField += @"==================================================" + System.Environment.NewLine;
+                                txtField += @"OPTIONS" + System.Environment.NewLine;
+                                txtField += @"==================================================" + System.Environment.NewLine;
                             }
-                            if (dt.Rows[rowNum][5].ToString() == "2")
+                            txtField += getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
+                        }
+                        if (dt.Rows[rowNum][5].ToString() == "2")
+                        {
+                            if (TimerStartFlag != true)
                             {
-                                if (TimerStartFlag != true)
-                                {
-                                    txtField += @"==================================================" + System.Environment.NewLine;
-                                    txtField += @"TIMERS" + System.Environment.NewLine;
-                                    txtField += @"==================================================" + System.Environment.NewLine;
-                                    TimerStartFlag = true;
-                                }
-                                txtField += getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
+                                txtField += @"==================================================" + System.Environment.NewLine;
+                                txtField += @"TIMERS" + System.Environment.NewLine;
+                                txtField += @"==================================================" + System.Environment.NewLine;
+                                TimerStartFlag = true;
                             }
+                            txtField += getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
                         }
                     }
+                }
 
             }
             return txtField;

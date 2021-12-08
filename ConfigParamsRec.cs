@@ -62,12 +62,19 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = (typeRecs.Count / 3) + 1;
+
             DbCrud db = new DbCrud();
             int loadNum = 0;
             int configCount = typeRecs.Count / 3;
             int count = 0;
             while (loadNum < configCount)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 typeRec r = typeRecs[count];
                 configParams parms = new configParams();
 
@@ -134,6 +141,7 @@ namespace Logger
                 if (db.crudToDb(sql) == false)
                     return false;
             }
+            lpb.Visible = false;
             return true;
         }
 

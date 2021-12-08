@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms;
-using LoggerProgressBar1;
 
 namespace Logger
 {
@@ -205,7 +203,6 @@ namespace Logger
 
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
             lpb.LblTitle = this.ToString();
-
             lpb.Maximum = typeRecs.Count + 1;
 
             foreach (typeRec r in typeRecs)
@@ -258,7 +255,7 @@ namespace Logger
 
                     treq.TransactionStatusDataID = tmpTypes[i].Substring(0, 1);
                     lastTransactionStatus lst = new lastTransactionStatus();
-                    lst.SerialNumber  = tmpTypes[i].Substring(1, 4);
+                    lst.SerialNumber = tmpTypes[i].Substring(1, 4);
                     lst.LastStatusIssued = tmpTypes[i].Substring(5, 1);
 
                     if ((resultData.Count == 0) ||

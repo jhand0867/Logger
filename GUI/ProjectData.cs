@@ -68,7 +68,7 @@ namespace Logger
             {
                 if (ofd.ShowDialog(this) == DialogResult.OK)
                 {
-                      
+
                     this.Cursor = Cursors.AppStarting;
 
                     App.Prj.uploadLog(ofd.FileName);
@@ -279,7 +279,7 @@ namespace Logger
             logID = dgvr.Cells["id"].Value.ToString();
 
             LogView logView = new LogView();
-             ;
+            ;
             logView.Show();
 
         }

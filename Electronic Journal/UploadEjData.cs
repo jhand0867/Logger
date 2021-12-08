@@ -27,7 +27,7 @@ namespace Logger
         public string MessageClass { get => messageClass; set => messageClass = value; }
         public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
     }
-    class UploadEjData : IMessage
+    class UploadEjData : App, IMessage
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -73,8 +73,16 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
+
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = typeRecs.Count + 1;
+
             foreach (typeRec r in typeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 uploadEjData ud = parseData(r.typeContent);
 
                 string sql = @"INSERT INTO uploadEjData([logkey],[rectype],[messageClass],[messageSubclass],[machineNumRange],
@@ -89,6 +97,8 @@ namespace Logger
                 if (db.crudToDb(sql) == false)
                     return false;
             }
+
+            lpb.Visible = false;
             return true;
         }
 

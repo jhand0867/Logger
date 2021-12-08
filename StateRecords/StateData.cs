@@ -6,7 +6,7 @@ namespace Logger
 {
     public struct stateRec
     {
-	    private string rectype;
+        private string rectype;
         private string messageClass;
         private string responseFlag;
         private string luno;
@@ -159,8 +159,15 @@ namespace Logger
             // read MessageClass.....
             // DbCrud to save the staterec table
 
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = inTypeRecs.Count + 1;
+
             foreach (typeRec rParent in inTypeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 string[] tmpTypes = rParent.typeContent.Split((char)0x1c);
                 List<typeRec> typeRecs = new List<typeRec>();
                 stateRec parms = new stateRec();
@@ -232,7 +239,7 @@ namespace Logger
 
                 sql = @"INSERT INTO staterec([logkey],[rectype],[messageClass],[responseFlag],[luno],[messageSeqNumber],
                         [messageSubclass],[messageIdentifier],[load],[prjkey],[logID]) " +
-                      " VALUES('" + 
+                      " VALUES('" +
                                     rParent.typeIndex + "','" +
                                    'S' + "','" +
                                    parms.MessageClass + "','" +
@@ -249,6 +256,7 @@ namespace Logger
                 if (db1.crudToDb(sql) == false)
                     return false;
             }
+            lpb.Visible = false;
             return true;
         }
 
@@ -315,12 +323,12 @@ namespace Logger
 
             if (dt.Rows.Count > 0)
             {
-                    for (int colNum = 3; colNum < StRecDr.Table.Columns.Count - 5; colNum++)
-                        fieldData += App.Prj.getOptionDescription(dt, colNum.ToString("00") + stateTypetmp, StRecDr[colNum].ToString());
+                for (int colNum = 3; colNum < StRecDr.Table.Columns.Count - 5; colNum++)
+                    fieldData += App.Prj.getOptionDescription(dt, colNum.ToString("00") + stateTypetmp, StRecDr[colNum].ToString());
 
                 StateData stRecTmp = LoggerFactory.Create_StateRecord();
                 stRecTmp = stRec;
-                stRecTmp.StateType = dt.Rows[0]["subRecType"].ToString().Substring(2, dt.Rows[0]["subRecType"].ToString().Length-2).Trim();
+                stRecTmp.StateType = dt.Rows[0]["subRecType"].ToString().Substring(2, dt.Rows[0]["subRecType"].ToString().Length - 2).Trim();
                 theRecord.checkExtensions(stRecTmp);
 
                 return fieldData;

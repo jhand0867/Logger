@@ -50,7 +50,7 @@ namespace Logger
             SplashWindow splasWindow = new SplashWindow();
             splasWindow.TopMost = true;
             Cursor.Hide();
-            splasWindow.Show(); 
+            splasWindow.Show();
 
         }
 

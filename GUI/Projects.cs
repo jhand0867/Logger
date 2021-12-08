@@ -437,15 +437,16 @@ namespace Logger
                 nodeText = tn.SelectedNode.Text.Substring((indexStartOfNodeText + 1), (indexEndOfNodeText - indexStartOfNodeText) - 1);
             }
 
-            if (nodeText == "0"){
+            if (nodeText == "0")
+            {
                 return;
             }
-            
+
             if (nodeText.IndexOf("log") > -1)
                 logView.Tag = tn.SelectedNode.Tag + ";" + tn.SelectedNode.Text;
             else
-            logView.Tag = tn.Nodes[tn.SelectedNode.Parent.Index].Tag.ToString() + ';' +
-             tn.SelectedNode.Text.Substring(0, tn.SelectedNode.Text.IndexOf("[")-1).Trim();
+                logView.Tag = tn.Nodes[tn.SelectedNode.Parent.Index].Tag.ToString() + ';' +
+                 tn.SelectedNode.Text.Substring(0, tn.SelectedNode.Text.IndexOf("[") - 1).Trim();
 
             logView.Show();
 

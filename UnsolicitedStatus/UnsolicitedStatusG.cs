@@ -39,9 +39,9 @@ namespace Logger
 
                 string sql = @"INSERT INTO unsolicitedStatusG([logkey],[rectype],[messageClass],[messageSubclass],[luno],
 	                        [dig],[deviceStatus],[errorSeverity],[diagnosticStatus],[suppliesStatus],[prjkey],[logID]) " +
-                            " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.MessageClass + "','" + 
-                               us.MessageSubclass + "','" + us.Luno + "','" + us.Dig + "','" + us.DeviceStatus + "','" + 
-                               us.ErrorSeverity + "','" + us.DiagnosticStatus + "','" + us.SuppliesStatus + "','" + Key + "'," 
+                            " VALUES('" + r.typeIndex + "','" + us.Rectype + "','" + us.MessageClass + "','" +
+                               us.MessageSubclass + "','" + us.Luno + "','" + us.Dig + "','" + us.DeviceStatus + "','" +
+                               us.ErrorSeverity + "','" + us.DiagnosticStatus + "','" + us.SuppliesStatus + "','" + Key + "',"
                                + logID + ")";
 
                 DbCrud db = new DbCrud();
@@ -59,7 +59,7 @@ namespace Logger
             string[] tmpTypes = r.Split((char)0x1c);
 
             us.Rectype = "U";
-            
+
             us.MessageClass = tmpTypes[0].Substring(10, 1);
             us.MessageSubclass = tmpTypes[0].Substring(11, 1);
 

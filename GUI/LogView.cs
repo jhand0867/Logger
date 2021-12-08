@@ -47,7 +47,7 @@ namespace Logger
             {
                 //dgvLog.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
                 //dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-                
+
                 // Tag is populated with the logID;MessageClass
                 // MessageClass must match a SearchCondition table record.
 
@@ -709,7 +709,7 @@ namespace Logger
         }
 
         private scSqlLikeAndRegExp searchConditionBuilt(string queryName)
-            {
+        {
             DataTable dt = new DataTable();
             SQLSearchCondition ssc = new SQLSearchCondition();
 
@@ -720,7 +720,7 @@ namespace Logger
             string temp = "";
             sql.RegExpStr = "";
             sql.SqlLike = "";
-                 
+
             if (dt.Rows.Count != 0)
             {
                 for (int i = 0; i < 6; i++)
@@ -756,8 +756,8 @@ namespace Logger
 
             }
 
-            return sql ;
-            }
+            return sql;
+        }
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {

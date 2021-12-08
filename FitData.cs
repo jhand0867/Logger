@@ -52,7 +52,7 @@ namespace Logger
 
             string sql = @"SELECT * FROM fitrec WHERE prjkey = '" +
                projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" + logKey + "%'";
-            
+
             DataTable dt = db.GetTableFromDb(sql);
             dts.Add(dt);
 
@@ -85,11 +85,18 @@ namespace Logger
 
         public bool writeData(List<typeRec> inTypeRecs, string Key, string logID)
         {
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = inTypeRecs.Count + 1;
+
             int loadNum = 0;
             string sql;
 
             foreach (typeRec rParent in inTypeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 string[] tmpTypes = rParent.typeContent.Split((char)0x1c);
                 List<typeRec> typeRecs = new List<typeRec>();
                 fitRec parms = new fitRec();
@@ -202,6 +209,7 @@ namespace Logger
                     return false;
             }
 
+            lpb.Visible = false;
             return true;
 
         }

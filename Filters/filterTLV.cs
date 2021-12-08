@@ -23,7 +23,7 @@ namespace Logger
                 if ((tlv.Length > 1) && (fieldDesc == ""))
                     fieldDesc = System.Environment.NewLine;
 
-                    foreach (DataRow item in dataTable.Rows)
+                foreach (DataRow item in dataTable.Rows)
                 {
                     if (item[2].ToString().Trim() == tlv[0])
                     {

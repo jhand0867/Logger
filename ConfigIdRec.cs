@@ -47,9 +47,16 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = typeRecs.Count + 1;
+
             int loadNum = 0;
             foreach (typeRec r in typeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 if (r.typeContent.Length < 4)
                 {
                     continue;
@@ -76,6 +83,7 @@ namespace Logger
                 if (db.crudToDb(sql) == false)
                     return false;
             }
+            lpb.Visible = false;
             return true;
 
         }
@@ -122,13 +130,13 @@ namespace Logger
 
             DataTable configId = getDescription();
 
-            
+
 
             if (dts[0].Rows.Count > 0)
-            
-            for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
-            
-                txtField += App.Prj.getOptionDescription(configId, colNum.ToString("00"), dts[0].Rows[0][colNum].ToString());
+
+                for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
+
+                    txtField += App.Prj.getOptionDescription(configId, colNum.ToString("00"), dts[0].Rows[0][colNum].ToString());
 
             return txtField;
         }

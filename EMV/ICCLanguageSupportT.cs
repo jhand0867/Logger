@@ -34,8 +34,15 @@ namespace Logger
 
         public new bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = typeRecs.Count + 1;
+
             foreach (typeRec r in typeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 string[] tmpTypes = r.typeContent.Split((char)0x1c);
 
                 List<iccLanguage> iccLanguageList = parseData(tmpTypes[3]);
@@ -59,6 +66,7 @@ namespace Logger
                 if (base.writeData(emvList, Key, logID) == false)
                     return false;
             }
+            lpb.Visible = false;
             return true;
         }
         public new List<iccLanguage> parseData(string tmpTypes)

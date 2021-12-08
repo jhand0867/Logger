@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
@@ -8,7 +7,7 @@ namespace Logger
 {
     public partial class LogData : Form
     {
-        
+
 
         private int prevHeight;
 

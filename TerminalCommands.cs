@@ -21,7 +21,7 @@ namespace Logger
         public string Modifier { get => modifier; set => modifier = value; }
         public string MessageClass { get => messageClass; set => messageClass = value; }
     }
-    class TerminalCommands : IMessage
+    class TerminalCommands : App, IMessage
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -67,8 +67,15 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = typeRecs.Count + 1;
+
             foreach (typeRec r in typeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 terminalCommands tc = parseData(r.typeContent);
 
                 string sql = @"INSERT INTO terminalCommands([logkey],[rectype],[messageClass],[responseFlag],[luno],[messageSeqNumber],
@@ -80,6 +87,7 @@ namespace Logger
                 if (db.crudToDb(sql) == false)
                     return false;
             }
+            lpb.Visible = false;
             return true;
         }
 
@@ -94,7 +102,7 @@ namespace Logger
             tc.MessageClass = tmpTypes[0].Substring(10, 1);
 
             if (tmpTypes[0].Length > 11)
-               tc.ResponseFlag = tmpTypes[0].Substring(11, 1); 
+                tc.ResponseFlag = tmpTypes[0].Substring(11, 1);
 
             tc.Luno = tmpTypes[1];
             tc.MessageSeqNumber = tmpTypes[2];

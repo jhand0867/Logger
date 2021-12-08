@@ -194,7 +194,7 @@ namespace Logger
                 }
 
 
-                    continue;
+                continue;
 
             }
             return stateFound;

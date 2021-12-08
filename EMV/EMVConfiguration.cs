@@ -158,7 +158,7 @@ namespace Logger
         public string Mac { get => mac; set => mac = value; }
     };
 
-    class EMVConfiguration : IMessage
+    class EMVConfiguration : App, IMessage
     {
         public virtual DataTable getDescription()
         {

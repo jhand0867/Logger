@@ -25,7 +25,7 @@ namespace Logger
         public string MessageSeqNumber { get => messageSeqNumber; set => messageSeqNumber = value; }
         public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
     }
-    class ExtEncryption : IMessage
+    class ExtEncryption : App, IMessage
     {
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
@@ -71,8 +71,15 @@ namespace Logger
 
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
+            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+            lpb.LblTitle = this.ToString();
+            lpb.Maximum = typeRecs.Count + 1;
+
             foreach (typeRec r in typeRecs)
             {
+                lpb.Value += lpb.Step;
+                lpb.ValueUpdated(lpb.Value);
+
                 extEncryption eek = parseData(r.typeContent);
 
                 string sql = @"INSERT INTO extEncryption([logkey],[rectype],[messageClass],
@@ -80,13 +87,14 @@ namespace Logger
                              [keySize],[keyData],[prjkey],[logID])" +
                             " VALUES('" + r.typeIndex + "','" + eek.Rectype + "','" + eek.MessageClass + "','" +
                             eek.ResponseFlag + "','" + eek.Luno + "','" + eek.MessageSeqNumber + "','" +
-                            eek.MessageSubclass + "','" + eek.Modifier + "','" +  eek.KeySize + "" +
+                            eek.MessageSubclass + "','" + eek.Modifier + "','" + eek.KeySize + "" +
                             "','" + eek.KeyData + "','" + Key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();
                 if (db.crudToDb(sql) == false)
                     return false;
             }
+            lpb.Visible = false;
             return true;
         }
 
@@ -109,7 +117,7 @@ namespace Logger
             eek.Modifier = tmpTypes[3].Substring(1, 1);
 
             if (tmpTypes.Length > 4 && tmpTypes[4].Length > 0)
-            {         
+            {
                 eek.KeySize = tmpTypes[4].Substring(0, 3);
                 eek.KeyData = tmpTypes[4].Substring(3, tmpTypes[4].Length - 3);
             }
