@@ -106,6 +106,7 @@ namespace Logger
                         else
                         {
                             tags += strTags.Substring(offset, (strTags.Length - offset)) + " ";
+                            offset += strTags.Length - offset;
                         }
                     }
                 }

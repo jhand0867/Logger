@@ -378,7 +378,7 @@ namespace Logger
                 }
                 if (strLine.Substring(0, 1) != "[")
                 {
-                    // writeLogDetail("", strLine, logID);
+                    writeLogDetail("", strLine, logID);
                     continue;
                 }
 
