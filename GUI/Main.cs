@@ -20,6 +20,7 @@ namespace Logger
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Projects prForm = new Projects();
+            prForm.BringToFront();
             prForm.Show();
         }
 
@@ -48,9 +49,9 @@ namespace Logger
         {
             this.BackColor = System.Drawing.Color.LightGray;
             SplashWindow splasWindow = new SplashWindow();
-            splasWindow.TopMost = true;
+            splasWindow.BringToFront();
             Cursor.Hide();
-            splasWindow.Show();
+            splasWindow.ShowDialog();
 
         }
 

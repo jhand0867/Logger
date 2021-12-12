@@ -55,7 +55,7 @@ namespace Logger
             //hamburguerMenu.Text = char.ConvertFromUtf32('\u2630'); // "☰";
 
             Projects prForm = new Projects();
-            prForm.TopMost = true;
+            prForm.BringToFront();
             //prForm.MdiParent = MainW;
 
             //Project pr = new Project();
@@ -106,6 +106,8 @@ namespace Logger
             log.Debug("Open ProjectInfo");
             ProjectInfo pi = new ProjectInfo();
             pi.ReloadDataListView += new RefreshData(RefresDataListView);
+            pi.StartPosition = FormStartPosition.CenterParent;
+            pi.BringToFront();
             pi.ShowDialog();
         }
 
@@ -131,7 +133,7 @@ namespace Logger
                 App.Prj = App.Prj.getProjectByID(item.Tag.ToString());
                 ProjectData prjData = new ProjectData();
                 prjData.ReloadDataView += new RefreshData(RefresDataListView);
-
+                prjData.BringToFront();
                 prjData.ShowDialog();
             }
 
@@ -321,7 +323,7 @@ namespace Logger
                 prjInfo.displayProjectInfo(dr["prjName"].ToString(), dr["prjBrief"].ToString());
             }
 
-            prjInfo.TopMost = true;
+            prjInfo.BringToFront();
             prjInfo.ShowDialog();
         }
 
@@ -448,6 +450,7 @@ namespace Logger
                 logView.Tag = tn.Nodes[tn.SelectedNode.Parent.Index].Tag.ToString() + ';' +
                  tn.SelectedNode.Text.Substring(0, tn.SelectedNode.Text.IndexOf("[") - 1).Trim();
 
+            logView.BringToFront();
             logView.Show();
 
         }

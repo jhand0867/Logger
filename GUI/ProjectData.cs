@@ -279,7 +279,7 @@ namespace Logger
             logID = dgvr.Cells["id"].Value.ToString();
 
             LogView logView = new LogView();
-            ;
+            logView.BringToFront();
             logView.Show();
 
         }

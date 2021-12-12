@@ -402,7 +402,7 @@ namespace Logger
 
                 setData(dgvLog.Rows[e.RowIndex]);
 
-                frmLogData.TopMost = true;
+                frmLogData.BringToFront();
                 frmLogData.Show();
             }
 
@@ -532,6 +532,7 @@ namespace Logger
         {
             AdvancedFilterw advancedFilter = new AdvancedFilterw();
             advancedFilter.PassDataGridView += new ToPassDataGridView(SendDataGridView);
+            advancedFilter.BringToFront();
             advancedFilter.ShowDialog();
         }
 
@@ -841,6 +842,7 @@ namespace Logger
             pdPreview.EndPrint += new PrintEventHandler(lp1.EnPrint);
 
             printPreviewDialog1.Document = pdPreview;
+            printPreviewDialog1.BringToFront();
             printPreviewDialog1.ShowDialog();
         }
 
@@ -905,6 +907,7 @@ namespace Logger
                 //pd.Print();
 
                 printPreviewDialog1.Document = pd;
+                printPreviewDialog1.BringToFront();
                 printPreviewDialog1.ShowDialog();
             }
             catch (Exception ex)
