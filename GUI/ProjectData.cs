@@ -110,18 +110,25 @@ namespace Logger
 
         private void detachToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            
+            var result = MessageBox.Show($"This will remove the log\n Do you want to continue",
+                "Alert!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            string logID = dgvr.Cells[0].Value.ToString();
+            if (result == DialogResult.Yes)
+            {
+                DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            App.Prj.detachLogByID(logID);
+                string logID = dgvr.Cells[0].Value.ToString();
 
-            dataGridView1.DataSource = buildDataGridView1();
+                App.Prj.detachLogByID(logID);
 
-            if (dataGridView1.Rows.Count < 1)
-                scanToolStripMenuItem.Enabled = false;
+                dataGridView1.DataSource = buildDataGridView1();
 
-            fixLogNames(dataGridView1);
+                if (dataGridView1.Rows.Count < 1)
+                    scanToolStripMenuItem.Enabled = false;
+
+                fixLogNames(dataGridView1);
+            }
 
         }
 

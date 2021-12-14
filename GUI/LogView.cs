@@ -371,6 +371,7 @@ namespace Logger
             cmbColumHeader5.SelectedItem = null;
             cmbColumHeader7.SelectedIndex = -1;
             cmbColumHeader7.SelectedItem = null;
+            doDgvColumns();
             dgvLog.ClearSelection();
             this.dgvLog.Refresh();
         }

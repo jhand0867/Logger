@@ -261,6 +261,7 @@ namespace Logger
                 {
                     dg.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
                     dg.Refresh();
+                    
                 }
             }
         }
