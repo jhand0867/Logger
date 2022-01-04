@@ -19,8 +19,7 @@ namespace Logger
 
         public string hex2dec(string hexNumber, int digits)
         {
-            Convert.ToInt32(hexNumber, 16);
-            return "";
+            return Convert.ToInt32(hexNumber, 16).ToString();
         }
         public string dec2bin(string decNumber, int digits)
         {

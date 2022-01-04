@@ -97,6 +97,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbCrud.cs" />
     <Compile Include="Filters\FilterDescriptionWithScriptAndTable.cs" />
     <Compile Include="Filters\FilterDescriptionWithScript.cs" />
     <Compile Include="Filters\filterSupplyData.cs" />
@@ -135,7 +136,6 @@
     <Compile Include="ConfigIdRec.cs" />
     <Compile Include="ConfigParamsRec.cs" />
     <Compile Include="DateAndTimeRec.cs" />
-    <Compile Include="DbCrud.cs" />
     <Compile Include="EMV\EMVConfiguration.cs" />
     <Compile Include="Digester.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData8.cs" />
@@ -188,19 +188,6 @@
     </Compile>
     <Compile Include="GUI\LogData.Designer.cs">
       <DependentUpon>LogData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="loggerDataSet.cs">
-      <DependentUpon>loggerDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="loggerDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>loggerDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="loggerDataSet1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>loggerDataSet1.xsd</DependentUpon>
     </Compile>
     <Compile Include="GUI\LogView.cs">
       <SubType>Form</SubType>
@@ -359,28 +346,6 @@
     <EmbeddedResource Include="GUI\SaveQuery.resx">
       <DependentUpon>SaveQuery.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="loggerDataSet.xsc">
-      <DependentUpon>loggerDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="loggerDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>loggerDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="loggerDataSet.xss">
-      <DependentUpon>loggerDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="loggerDataSet1.xsc">
-      <DependentUpon>loggerDataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="loggerDataSet1.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>loggerDataSet1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="loggerDataSet1.xss">
-      <DependentUpon>loggerDataSet1.xsd</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -458,7 +423,8 @@
   <ItemGroup>
     <Content Include="GUI\Icon1.ico" />
     <Content Include="Logger01.ico" />
-    <Content Include="Available Record Types.txt" />
+    <Content Include="System Notes.txt" />
+    <Compile Include="\\Mac\Home\Downloads\DbCrud.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -740,7 +740,7 @@ namespace Logger
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
 
-            string sql = @"SELECT TOP 1 * from treq WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%'";
+            string sql = @"SELECT * from treq WHERE logID = '" + logID + "' AND prjkey = '" + projectKey + "' AND logkey LIKE '" + logKey + "%' LIMIT 1";
             dt = db.GetTableFromDb(sql);
             dts.Add(dt);
 

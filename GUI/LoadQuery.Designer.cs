@@ -73,6 +73,7 @@ namespace Logger
             this.cbQueryName.Name = "cbQueryName";
             this.cbQueryName.Size = new System.Drawing.Size(424, 33);
             this.cbQueryName.TabIndex = 12;
+            this.cbQueryName.SelectedIndexChanged += new System.EventHandler(this.cbQueryName_SelectedIndexChanged);
             this.cbQueryName.Click += new System.EventHandler(this.cbQueryName_Click);
             // 
             // LoadQuery

@@ -12,6 +12,14 @@ namespace Logger
 {
     public delegate DataGridViewRow ReceiveLogData();
 
+    public struct scSqlLikeAndRegExp
+    {
+        private string sqlLike;
+        private string regExpStr;
+
+        public string SqlLike { get => sqlLike; set => sqlLike = value; }
+        public string RegExpStr { get => regExpStr; set => regExpStr = value; }
+    }
     public partial class LogView : Form
     {
         // needed to set the column's width of the datagridview.
@@ -143,16 +151,16 @@ namespace Logger
 
             dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
-            cmbColumHeader2.SelectedIndex = -1;
-            cmbColumHeader2.SelectedItem = null;
-            cmbColumHeader4.SelectedIndex = -1;
-            cmbColumHeader4.SelectedItem = null;
-            cmbColumHeader5.SelectedIndex = -1;
-            cmbColumHeader5.SelectedItem = null;
-            cmbColumHeader6.SelectedIndex = -1;
-            cmbColumHeader6.SelectedItem = null;
-            cmbColumHeader7.SelectedIndex = -1;
-            cmbColumHeader7.SelectedItem = null;
+            //cmbColumHeader2.SelectedIndex = -1;
+            //cmbColumHeader2.SelectedItem = null;
+            //cmbColumHeader4.SelectedIndex = -1;
+            //cmbColumHeader4.SelectedItem = null;
+            //cmbColumHeader5.SelectedIndex = -1;
+            //cmbColumHeader5.SelectedItem = null;
+            //cmbColumHeader6.SelectedIndex = -1;
+            //cmbColumHeader6.SelectedItem = null;
+            //cmbColumHeader7.SelectedIndex = -1;
+            //cmbColumHeader7.SelectedItem = null;
 
             using (Font font = new Font(
                 dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
@@ -174,6 +182,19 @@ namespace Logger
             dgvLog.Columns["LogID"].Visible = false;
             dgvLog.Columns["prjKey"].Visible = false;
             dgvLog.Columns["Log Data"].Width = 620;
+            dgvLog.Columns["Timestamp"].Width = TIMESTAMP_COLUMN_WIDTH;
+
+            cmbColumHeader2.SelectedIndex = -1;
+            cmbColumHeader2.SelectedItem = null;
+            cmbColumHeader4.SelectedIndex = -1;
+            cmbColumHeader4.SelectedItem = null;
+            cmbColumHeader5.SelectedIndex = -1;
+            cmbColumHeader5.SelectedItem = null;
+            cmbColumHeader7.SelectedIndex = -1;
+            cmbColumHeader7.SelectedItem = null;
+            dgvLog.ClearSelection();
+            this.dgvLog.Refresh();
+
         }
 
         private void AddHeaders(DataGridView dataGridView)
@@ -363,17 +384,17 @@ namespace Logger
                 this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria2(logID, "group8", sqlLike);
             }
 
-            cmbColumHeader2.SelectedIndex = -1;
-            cmbColumHeader2.SelectedItem = null;
-            cmbColumHeader4.SelectedIndex = -1;
-            cmbColumHeader4.SelectedItem = null;
-            cmbColumHeader5.SelectedIndex = -1;
-            cmbColumHeader5.SelectedItem = null;
-            cmbColumHeader7.SelectedIndex = -1;
-            cmbColumHeader7.SelectedItem = null;
+            //cmbColumHeader2.SelectedIndex = -1;
+            //cmbColumHeader2.SelectedItem = null;
+            //cmbColumHeader4.SelectedIndex = -1;
+            //cmbColumHeader4.SelectedItem = null;
+            //cmbColumHeader5.SelectedIndex = -1;
+            //cmbColumHeader5.SelectedItem = null;
+            //cmbColumHeader7.SelectedIndex = -1;
+            //cmbColumHeader7.SelectedItem = null;
             doDgvColumns();
-            dgvLog.ClearSelection();
-            this.dgvLog.Refresh();
+            //dgvLog.ClearSelection();
+            //this.dgvLog.Refresh();
         }
 
 
@@ -670,14 +691,6 @@ namespace Logger
                 }
             }
 
-        }
-        public struct scSqlLikeAndRegExp
-        {
-            private string sqlLike;
-            private string regExpStr;
-
-            public string SqlLike { get => sqlLike; set => sqlLike = value; }
-            public string RegExpStr { get => regExpStr; set => regExpStr = value; }
         }
 
         private void cbQueryName_SelectedIndexChanged(object sender, EventArgs e)

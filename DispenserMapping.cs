@@ -47,7 +47,7 @@ namespace Logger
             List<DataTable> dts = new List<DataTable>();
             DbCrud db = new DbCrud();
 
-            string sql = @"SELECT TOP 1 * FROM dispenserMapping WHERE prjkey = '" + projectKey + "' AND logID = '" + logID +
+            string sql = @"SELECT * FROM dispenserMapping WHERE prjkey = '" + projectKey + "' AND logID = ' LIMIT 1" + logID +
                                                "' AND logkey LIKE '" + logKey + "%'";
             DataTable dt = db.GetTableFromDb(sql);
             dts.Add(dt);

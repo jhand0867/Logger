@@ -62,8 +62,8 @@ namespace Logger
             List<DataTable> dts = new List<DataTable>();
             DbCrud db = new DbCrud();
 
-            string sql = @"SELECT TOP 1 * FROM unsolicitedStatus" + recType + "  WHERE prjkey = '" + projectKey + "' AND logID = '" + logID +
-                                               "' AND logkey LIKE '" + logKey + "%'";
+            string sql = @"SELECT * FROM unsolicitedStatus" + recType + "  WHERE prjkey = '" + projectKey + "' AND logID = '" + logID +
+                                               "' AND logkey LIKE '" + logKey + "%' LIMIT 1";
 
             DataTable dt = db.GetTableFromDb(sql);
             dts.Add(dt);

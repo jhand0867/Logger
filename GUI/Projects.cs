@@ -196,7 +196,7 @@ namespace Logger
             Project pr = new Project();
             DataTable dt = pr.getAllLogs(item.Tag.ToString());
 
-            if (dt.Rows.Count == 0)
+            if ((dt == null) || (dt.Rows.Count == 0))
                 return;
 
             foreach (DataRow dr in dt.Rows)

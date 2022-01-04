@@ -34,8 +34,8 @@ namespace Logger
         {
             List<DataTable> dts = new List<DataTable>();
 
-            string sql = @"SELECT TOP 1 * FROM configId WHERE prjkey = '" +
-                           projectKey + "' AND logID = '" + logID + "' AND logkey LIKE '" +
+            string sql = @"SELECT * FROM configId WHERE prjkey = '" +
+                           projectKey + "' AND logID = '" + logID + "' AND logkey LIKE ' LIMIT 1" +
                                 logKey + "%'";
             log.Debug("Database query:" + sql);
 
