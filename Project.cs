@@ -1,9 +1,1123 @@
-﻿using System;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Data;
+//using System.IO;
+//using System.Net;
+//using System.Text.RegularExpressions;
+
+//namespace Logger
+//{
+//    public struct dataLine
+//    {
+//        public string[] allGroups;
+//    }
+
+
+//    public struct typeRec
+//    {
+//        public string typeIndex;
+//        public string typeContent;
+//        public string typeAddData;
+//    }
+
+
+//    public class Project : App
+//    {
+//        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+//                        System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+//        private string pKey;
+//        private string pName;
+//        private string pBrief;
+//        private int pLogs;
+
+//        public string Key   // property
+//        {
+//            get { return pKey; }   // get method
+//        }
+//        public string Name   // property
+//        {
+//            get { return pName; }   // get method
+//            set { pName = value; }  // set method
+//        }
+//        public string Brief   // property
+//        {
+//            get { return pBrief; }   // get method
+//            set { pBrief = value; }  // set method
+//        }
+//        public int Logs   // property
+//        {
+//            get { return pLogs; }   // get method
+//        }
+
+//        // mlh list type of messages
+
+//        /// <summary>
+//        /// Array of type of messages, the entry # is defined by optionselected for scanning
+//        /// column 1: Header of each message for regular expresion finding
+//        /// column 2: field index of Message subclass/Identifier
+//        /// column 3: value to compare
+//        /// column 4: recordtype 
+//        /// If message header match with the message, and the field index position in the message 
+//        /// matches the value to compare, return recordtype
+//        /// </summary>
+//        private readonly string[,] recordTypes = {
+//                                          { "ATM2HOST: 11", "0","", "11" },
+//                                          { "HOST2ATM: 4", "0","", "4" },
+//                                          { "HOST2ATM: 3", "3","11", "311" },
+//                                          { "HOST2ATM: 3", "3","12", "312" },
+//                                          { "HOST2ATM: 3", "3","13", "313" },
+//                                          { "HOST2ATM: 3", "3","15", "315" },
+//                                          { "HOST2ATM: 3", "3","16", "316" },
+//                                          { "HOST2ATM: 3", "3","1A", "31A" },
+//                                          { "HOST2ATM: 3", "3","1B", "31B" },
+//                                          { "HOST2ATM: 3", "3","1C", "31C" },
+//                                          { "HOST2ATM: 3", "3","1E", "31E" },
+//                                          { "HOST2ATM: 8", "2","1", "81" },
+//                                          { "HOST2ATM: 8", "2","2", "82" },
+//                                          { "HOST2ATM: 8", "2","3", "83" },
+//                                          { "HOST2ATM: 8", "2","4", "84" },
+//                                          { "HOST2ATM: 8", "2","5", "85" },
+//                                          { "ATM2HOST: 22", "0","", "22" },
+//                                          { "ATM2HOST: 12", "0","", "12" },
+//                                          { "ATM2HOST: 23", "0","", "23" },
+//                                          { "ATM2HOST: 61", "0","", "61H" },
+//                                          { "HOST2ATM: 6", "3","1", "61J" },
+//                                          { "HOST2ATM: 6", "3","2", "62" },
+//                                          { "HOST2ATM: 6", "3","3", "63" },
+//                                          { "HOST2ATM: 3", "3","4", "34" },
+//                                          { "HOST2ATM: 1", "0","", "1" },
+//                                          { "HOST2ATM: 3", "3","2", "32" },
+//// this ones are added for LogView selection 
+//                                          { "ATM2HOST: 22","3","F", "22" },
+//        };
+
+
+//        private List<StateData> extensionsLst = new List<StateData>();
+
+//        public List<StateData> ExtensionsLst
+//        {
+//            get { return extensionsLst; }
+//            set { extensionsLst = value; }
+//        }
+//        public string[,] RecordTypes
+//        {
+//            get { return recordTypes; }
+//        }
+
+//        public Dictionary<string, string> recTypesDic = new Dictionary<string, string>();
+
+
+//        /// <summary>
+//        /// Constructor setup Dictionary with recordtypes with its matching class name
+//        /// </summary>
+
+//        public Project()
+//        {
+//            log.Info($"Accessing Project Data");
+//            pKey = "";
+//            pName = "";
+//            pBrief = "";
+//            pLogs = 0;
+
+//            // mlh: New scans needs to be added here!
+//            // This name must match the name in the logs table
+//            // These names must match the value of the queryName
+//            // in the sqlBuilder table.
+
+//            recTypesDic.Add("11", "treq");
+//            recTypesDic.Add("4", "treply");
+//            recTypesDic.Add("311", "screens");
+//            recTypesDic.Add("312", "states");
+//            recTypesDic.Add("313", "configParametersLoad");
+//            recTypesDic.Add("315", "fit");
+//            recTypesDic.Add("316", "configID");
+//            recTypesDic.Add("31A", "enhancedParametersLoad");
+//            recTypesDic.Add("31B", "mac");
+//            recTypesDic.Add("31C", "dateandtime");
+//            recTypesDic.Add("31E", "dispenserCurrency");
+//            recTypesDic.Add("81", "iccCurrencyDOT");
+//            recTypesDic.Add("82", "iccTransactionDOT");
+//            recTypesDic.Add("83", "iccLanguageSupportT");
+//            recTypesDic.Add("84", "iccTerminalDOT");
+//            recTypesDic.Add("85", "iccApplicationIDT");
+//            recTypesDic.Add("22", "solicitedStatus");
+//            recTypesDic.Add("12", "unsolicitedStatus");
+//            recTypesDic.Add("23", "encryptorInitData");
+//            recTypesDic.Add("61H", "uploadEjData");
+//            recTypesDic.Add("61J", "ejAckBlock");
+//            recTypesDic.Add("62", "ejAckStop");
+//            recTypesDic.Add("63", "ejOptionsTimers");
+//            recTypesDic.Add("34", "extendedEncrypKeyChange");
+//            recTypesDic.Add("1", "terminalCommands");
+//            recTypesDic.Add("32", "interactiveTranResponse");
+//        }
+
+//        public Project(string pName, string pBrief)
+//        {
+//            createProject(pName, pBrief);
+//        }
+
+//        public Project getProjectByID(string prjID)
+//        {
+//            DataTable dt = new DataTable();
+//            DbCrud db = new DbCrud();
+//            string sql = @"SELECT * FROM project WHERE prjKey='" + prjID + "'";
+//            dt = db.GetTableFromDb(sql);
+
+//            Project pr = new Project();
+
+//            if (dt.Rows.Count > 0)
+//            {
+//                foreach (DataRow row in dt.Rows)
+//                {
+//                    pr.pKey = row[1].ToString();
+//                    pr.Name = row[2].ToString();
+//                    pr.Brief = row[3].ToString();
+//                    pr.pLogs = Convert.ToInt32(row[4].ToString());
+//                }
+//            }
+//            return pr;
+//        }
+
+//        public DataTable getAllProjects()
+//        {
+//            DataTable dt = new DataTable();
+//            DbCrud db = new DbCrud();
+//            string sql = @"SELECT * FROM project";
+//            dt = db.GetTableFromDb(sql);
+
+//            return dt;
+//        }
+
+//        public Dictionary<string, Project> getAllProjects1()
+//        {
+//            DataTable dt = new DataTable();
+//            DbCrud db = new DbCrud();
+//            string sql = @"SELECT * FROM project";
+//            dt = db.GetTableFromDb(sql);
+
+//            Dictionary<string, Project> dicData = new Dictionary<string, Project>();
+
+//            if (dt != null && dt.Rows.Count > 0)
+//            {
+//                foreach (DataRow row in dt.Rows)
+//                {
+//                    Project prj = new Project();
+//                    prj.pKey = row[1].ToString();
+//                    prj.Name = row[2].ToString();
+//                    prj.Brief = row[3].ToString();
+//                    prj.pLogs = Convert.ToInt32(row[4]);
+//                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), prj);
+//                }
+//            }
+//            return dicData;
+//        }
+
+//        public DataTable getProjectByName(string pName)
+//        {
+//            DataTable dt = new DataTable();
+//            DbCrud db = new DbCrud();
+//            string sql = @"SELECT * FROM project WHERE prjName ='" + pName + "'";
+//            return db.GetTableFromDb(sql);
+//        }
+
+
+//        public bool updateProjectByName(Project project, string pName, string pBrief)
+//        {
+//            string sql = @"UPDATE Project SET prjName ='" + pName + "', " +
+//                                             "prjBrief ='" + pBrief +
+//                   "' WHERE prjKey ='" + project.pKey + "'";
+
+//            DbCrud db = new DbCrud();
+//            if (db.crudToDb(sql) == false)
+//                return false;
+
+//            return true;
+//        }
+
+//        public bool addLogToProject(string pKey)
+//        {
+//            string sql = @"UPDATE Project SET prjLogs = prjLogs + 1 " +
+//                   "WHERE prjKey ='" + pKey + "'; UPDATE Logs SET uploaded = 1";
+
+//            DbCrud db = new DbCrud();
+//            if (db.crudToDb(sql) == false)
+//                return false;
+
+//            return true;
+//        }
+
+//        public int attachLogToProject(string pKey, string pFilename)
+//        {
+//            string sql = @"INSERT INTO logs(prjKey, logFile, uploadDate) 
+//                    VALUES('" + pKey + "','" + pFilename + "', STRFTIME('%Y-%m-%d %H:%M:%S-%f','Now','LocalTime')); SELECT LAST_INSERT_ROWID() AS int;";
+
+
+//            DbCrud db = new DbCrud();
+//            int newLogID = db.GetScalarIntFromDb(sql);
+//            return newLogID;
+//        }
+
+//        /// <summary>
+//        /// Add project to database 
+//        /// </summary>
+//        /// <param name="name">Name of project</param>
+//        /// <param name="brief">Shot Description</param>
+//        /// <returns>dicData 
+//        /// a dictionary with key project_id, 
+//        /// and value project object
+//        /// </returns>
+//        public Dictionary<string, Project> createProject(string name, string brief)
+//        {
+//            Name = name;
+//            Brief = brief;
+//            pLogs = 0;
+//            pKey = Guid.NewGuid().ToString();
+
+//            /**********/
+
+//            DataTable dt = new DataTable();
+//            DbCrud db = new DbCrud();
+
+//            string sql = @"INSERT INTO Project(prjKey,prjName,prjBrief,prjLogs,createDate)" +
+//                   "VALUES('" + Key + "','" + Name + "','" + Brief + "','" + 0 + "',STRFTIME('%Y-%m-%d %H:%M:%S-%f','Now','LocalTime')" + ")";
+
+//            dt = db.GetTableFromDb(sql);
+
+//            Dictionary<string, Project> dicData = new Dictionary<string, Project>();
+
+//            if (dt != null && dt.Rows.Count > 0)
+//            {
+//                foreach (DataRow row in dt.Rows)
+//                {
+//                    Project pr = new Project();
+//                    pr.pKey = row[1].ToString();
+//                    pr.Name = row[2].ToString();
+//                    pr.Brief = row[3].ToString();
+//                    pr.pLogs = Convert.ToInt32(row[4]);
+//                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), pr);
+//                }
+//            }
+//            return dicData;
+//        }
+
+//        /// <summary>
+//        /// delete project given the project name
+//        /// </summary>
+//        /// <param name="prjName"></param>
+//        /// <returns>bool</returns>
+//        public bool deleteProjectByName(string prjName)
+//        {
+//            DbCrud db = new DbCrud();
+//            string sql;
+//            // need to obtain project ID
+//            sql = $"SELECT prjKey FROM project where prjName = '{prjName}'";
+//            string result = db.GetScalarStrFromDb(sql);
+
+//            sql = $"DELETE FROM loginfo WHERE prjKey = '{result}'";
+//            bool deleteLogInfo = db.crudToDb(sql);
+
+//            sql = $"DELETE FROM project where prjName ='" + prjName + "'";
+//            bool deleteProjectInfo = db.crudToDb(sql);
+
+//            sql = $"DELETE FROM logs where prjKey = '{result}'";
+//            bool deleteProjectLogs = db.crudToDb(sql);
+
+
+//            return deleteLogInfo && deleteProjectInfo && deleteProjectLogs;
+
+//        }
+
+//        private void deleteProjectLogsByID(string prjID)
+//        {
+//            string sql = $"DELETE loginfo where prjID = '{prjID}'";
+//            DbCrud db = new DbCrud();
+//            db.crudToDb(sql);
+//        }
+
+//        public DataTable getLogDetailByID(string logID)
+//        {
+//            string sql = $"SELECT * FROM logDetail WHERE logID = '{logID}'";
+//            DbCrud db = new DbCrud();
+//            return db.GetTableFromDb(sql);
+//        }
+
+//        public void uploadLog(string filename)
+//        {
+
+//            int logID = attachLogToProject(this.pKey, filename);
+
+//            Dictionary<string, dataLine> dicData = new Dictionary<string, dataLine>();
+
+//            WriteLog("c:", "test.txt", "Testing Testing");
+//            string[] lstLines = File.ReadAllLines(filename);
+
+//            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+//            lpb.Maximum = lstLines.Length + 1;
+//            lpb.LblTitle = this.ToString();
+
+//            int repLine = 0;
+//            int recProcessed = 0;
+//            int recSkipped = 0;
+//            int recExtent = 0;
+//            string prevTimeStamp = "";
+//            long lineProcess = 0;
+//            string strLine = null;
+//            bool flagWriteData = false;
+
+//            while (lineProcess < lstLines.Length)
+//            {
+//                strLine = lstLines[lineProcess];
+
+//                lineProcess++;
+
+//                if (strLine == "")
+//                {
+//                    recSkipped++;
+//                    continue;
+//                }
+//                if (strLine.Substring(0, 1) != "[")
+//                {
+//                    writeLogDetail("", strLine, logID);
+//                    continue;
+//                }
+
+//                Regex dateGroup = new Regex(@"\d\d\d\d-\d\d-\d\d.\d\d:\d\d:\d\d-\d\d\d");
+//                MatchCollection itsADate;
+
+//                while ((lineProcess < lstLines.Length && lstLines[lineProcess].Length > 0
+//                    && lstLines[lineProcess].Substring(0, 1) != "["
+//                    && lstLines[lineProcess].Substring(0, 1) != "="
+//                    ) ||
+//                  (lineProcess < lstLines.Length && lstLines[lineProcess].Length == 0) ||
+//                  (lineProcess < lstLines.Length && (itsADate = dateGroup.Matches(lstLines[lineProcess])).Count == 0))
+//                {
+
+//                    if (lstLines[lineProcess] != "")
+//                    {
+//                        strLine += lstLines[lineProcess] + System.Environment.NewLine;
+//                    }
+//                    lineProcess++;
+//                    recExtent++;
+//                }
+
+//                lpb.Value += lpb.Step;
+//                lpb.ValueUpdated(lpb.Value);
+
+//                if (strLine.EndsWith(System.Environment.NewLine))
+//                {
+//                    strLine = strLine.Substring(0, strLine.Length - 2);
+//                }
+
+//                if (lineProcess == 44527 ||
+//                    lineProcess == 44528 ||
+//                    lineProcess == 44529)
+//                {
+
+//                }
+//                // 
+//                Regex openGroup9 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
+//                Regex openGroup8 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
+
+//                //Regex openGroup9 = new Regex(@"(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])?(.*)");
+//                //Regex openGroup8 = new Regex(@"(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])?(.*)");
+//                Regex closeGroup = new Regex("]");
+
+
+//                MatchCollection openGroupContent = openGroup9.Matches(strLine);
+//                if ((openGroupContent.Count == 0) ||
+//                   (dateGroup.Matches(openGroupContent[0].Groups[0].ToString()).Count == 0))
+//                {
+//                    openGroupContent = openGroup8.Matches(strLine);
+//                }
+
+//                string strDate = "";
+//                dataLine record = new dataLine();
+//                record.allGroups = new string[11];
+
+//                foreach (Match item in openGroupContent[0].Groups)
+//                {
+//                    string strLineSub = "";
+
+//                    if (strLine.Length != item.Value.Length)
+//                    {
+//                        strLineSub = strLine.Substring(item.Value.Length, strLine.Length - item.Value.Length);
+//                        // recExtent = recExtent + strLineSub.Split('\n').Length;
+//                    }
+//                    int groupNumber = 0;
+//                    foreach (Group group in item.Groups)
+//                    {
+//                        if (group.Value + strLineSub == strLine)
+//                        {
+//                            recProcessed++;
+//                            continue;
+//                        }
+//                        MatchCollection matches = dateGroup.Matches(group.Value);
+
+//                        groupNumber++;
+//                        group.Value.Replace(@"'", @"''");
+
+//                        if (groupNumber == 8)
+//                        {
+//                            record.allGroups[groupNumber] = group.Value.Replace(@"'", @"''") + strLineSub;
+//                        }
+//                        else
+//                        {
+//                            record.allGroups[groupNumber] = group.Value.Replace(@"'", @"''");
+//                        }
+
+//                        if (group.Name == "1")
+//                        {
+//                            strDate = matches[0].Value;
+
+//                            record.allGroups[0] = matches[0].Value;
+
+//                            if (strDate == prevTimeStamp)
+//                            {
+//                                repLine++;
+//                            }
+//                            else
+//                            {
+//                                repLine = 0;
+//                            }
+//                        }
+
+//                        if (group.Name == (item.Groups.Count - 1).ToString())
+//                        {
+//                            bool flagAdd = false;
+
+//                            while (!flagAdd)
+//                            {
+//                                try
+//                                {
+//                                    // add the data to the dictionary
+//                                    //groupsData = groupsData + group.Value + strLineSub;
+
+//                                    string recKey = strDate + "-" + repLine.ToString();
+//                                    dicData.Add(recKey, record);
+
+
+//                                    int recCount = dicData.Count;
+//                                    // insert data into db
+//                                    if (writeData(recKey, record, logID))
+//                                    {
+//                                        flagWriteData = true;
+//                                    }
+
+//                                    prevTimeStamp = strDate;
+//                                    flagAdd = true;
+//                                }
+//                                catch (System.ArgumentException e)
+//                                {
+//                                    repLine++;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    break;
+//                }
+//            }
+
+//            addLogToProject(this.pKey);
+//            lpb.Visible = false;
+//            //lpb.UpdateProgressBarEventHandler -= Lpb_UpdateProgressBarEventHandler;
+//            // lpb = null;
+
+//            if (flagWriteData == false)
+//                detachLogByID(logID.ToString());
+
+//            log.Info($"Records Processed {recProcessed}");
+//            log.Info($"Records Skipped {recSkipped}");
+//            log.Info($"Records read {lineProcess}");
+//            log.Info($"Records Extended {recExtent}");
+//        }
+
+//        //private void Lpb_UpdateProgressBarEventHandler(object sender, EventArgs e)
+//        //{          
+//        //    //LoggerProgressBar1.LoggerProgressBar1 lpb = sender as LoggerProgressBar1.LoggerProgressBar1;
+//        //    //lpb.ProgressBar1.Value = Convert.ToInt32(lpb.Value);
+//        //    //lpb.Percent1.Text = ((lpb.ProgressBar1.Value * 100) / lpb.Maximum).ToString() + "%";
+//        //    //lpb.Percent1.Refresh();   
+//        //}
+
+//        public bool writeData(string recKey, dataLine data, int logID)
+//        {
+//            String sql = "";
+
+//            // set groups straight
+
+//            if (data.allGroups[6].IndexOf("]") != data.allGroups[6].LastIndexOf("]"))
+//            {
+//                int indexGroup = data.allGroups[6].IndexOf("]") + 1;
+//                data.allGroups[8] = data.allGroups[6].Substring(indexGroup, data.allGroups[6].Length - indexGroup) +
+//                                     data.allGroups[7] + data.allGroups[8];
+//                data.allGroups[6] = data.allGroups[6].Substring(0, indexGroup);
+//                data.allGroups[7] = "";
+//            }
+
+//            if ((data.allGroups[7] != "") &&
+//                (data.allGroups[7].IndexOf("]") != data.allGroups[7].LastIndexOf("]")))
+//            {
+//                int indexGroup = data.allGroups[7].IndexOf("]") + 1;
+//                data.allGroups[8] = data.allGroups[7].Substring(indexGroup, data.allGroups[7].Length - indexGroup) +
+//                                    data.allGroups[8];
+//                data.allGroups[7] = data.allGroups[7].Substring(0, indexGroup);
+//            }
+
+//            if ((data.allGroups[1].Length > 100) ||
+//                (data.allGroups[2].Length > 100) ||
+//                (data.allGroups[3].Length > 100) ||
+//                (data.allGroups[4].Length > 100) ||
+//                (data.allGroups[5].Length > 100) ||
+//                (data.allGroups[7].Length > 100))
+//            {
+//                Console.WriteLine("error");
+//            }
+//            sql = @"INSERT INTO loginfo(logkey, group1, group2, group3, group4, group5, group6, group7, group8,prjKey, logID) 
+//                        VALUES('" + recKey + "','" +
+//                               data.allGroups[1] + "','" +
+//                               data.allGroups[2] + "','" +
+//                               data.allGroups[3] + "','" +
+//                               data.allGroups[4] + "','" +
+//                               data.allGroups[5] + "','" +
+//                               data.allGroups[6] + "','" +
+//                               data.allGroups[7] + "','" +
+//                               WebUtility.HtmlEncode(data.allGroups[8] + data.allGroups[9]) + "','" +
+//                               Key + "','" + logID + "')";
+
+//            DbCrud db = new DbCrud();
+//            if (db.crudToDb(sql) == false) { return false; };
+//            return true;
+//        }
+
+//        public bool writeLogDetail(string recKey, string data, int logID)
+//        {
+//            String sql = "";
+
+//            sql = @"INSERT INTO logDetail(logkey,detailInfo,prjKey, logID) 
+//                        VALUES('" + recKey + "','" +
+//                               data + "','" +
+//                               Key + "','" + logID + "')";
+
+//            DbCrud db = new DbCrud();
+//            if (db.crudToDb(sql) == false) { return false; };
+//            return true;
+//        }
+
+//        public string ReadFile(string fileName, string path)
+//        {
+//            string fileToOpen = path + fileName;
+//            string lines = System.IO.File.ReadAllText(fileToOpen);
+//            return lines;
+//        }
+
+//        // MLH To mimic or create function
+
+//        public void getData(string regExStr, string recordType, string logID, int option)
+//        {
+//            string sql = @"SELECT logkey,id,group8 from [loginfo] " +
+//                          "WHERE group8 like '" + regExStr + "' " +
+//                          "AND logID =" + logID;
+//            Dictionary<string, string> data = readData(sql);
+
+//            if (data == null)
+//            {
+//                return;
+//            }
+
+//            string[] dataTypes = null;
+//            List<typeRec> typeList = new List<typeRec>();
+//            string[] tmpTypes;
+
+//            foreach (KeyValuePair<string, string> rec in data)
+//            {
+//                //// Request or Reply
+
+//                tmpTypes = rec.Value.Split((char)0x1c);
+
+//                string subRecType = App.Prj.RecordTypes[option, 2];
+
+//                // bypass messages that starts with  "HOST2ATM: 1" or ""HOST2ATM: 3" but do not have value in 
+//                // subfield 3 ie. [RECV]HOST2ATM: 170172376255118255139        [RECV]HOST2ATM: 34
+
+//                if (((recordType == "1") || (recordType.Substring(0, 1) == "3")) &&
+//                    (tmpTypes.Length < 4))
+//                {
+//                    continue;
+//                }
+
+//                if ((subRecType != "") &&
+//                     subRecType !=
+//                     tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[option, 1])].Substring(0, App.Prj.RecordTypes[option, 2].Length))
+
+//                {
+//                    continue;
+//                }
+//                typeRec r = new typeRec();
+//                r.typeIndex = rec.Key;
+//                r.typeContent = rec.Value;
+//                typeList.Add(r);
+//            }
+
+//            IMessage theRecord = LoggerFactory.Create_Record(recordType);
+
+//            if (theRecord != null)
+//            {
+//                // mlh 
+//                if (theRecord.writeData(typeList, Key, logID))
+//                {
+//                    setBitToTrue(recordType, logID);
+//                }
+//                else
+//                {
+//                    LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
+//                    lpb.Visible = false;
+//                }
+//            }
+//        }
+
+//        //private LoggerProgressBar1.LoggerProgressBar1  getProgressBar()
+//        //{
+//        //    LoggerProgressBar1.LoggerProgressBar1 lpb = null;
+
+//        //    if (Application.OpenForms["ProjectData"].Controls.Find("LoggerProgressBar1", true).Length == 0)
+//        //    {
+//        //        lpb = new LoggerProgressBar1.LoggerProgressBar1();
+//        //        Application.OpenForms["ProjectData"].Controls.Add(lpb);
+//        //    }
+//        //    else
+//        //    {
+//        //        Control[] ca = Application.OpenForms["ProjectData"].Controls.Find("LoggerProgressBar1", true);
+//        //        lpb = (LoggerProgressBar1.LoggerProgressBar1)ca[0];
+//        //        lpb.Value = 0;
+//        //    }
+
+//        //    lpb.Dock = DockStyle.Bottom;
+//        //    lpb.Visible = true;
+//        //    lpb.LblTitle = this.ToString();
+
+//        //    return lpb;
+//        //}
+
+
+//        private void setBitToTrue(string recordType, string logID)
+//        {
+//            string recordTypeStr = recTypesDic[recordType];
+//            string sql = @"UPDATE logs SET " + recordTypeStr + " = 1 WHERE id = " + logID;
+
+//            DbCrud db = new DbCrud();
+//            if (db.crudToDb(sql) == false) { };
+//        }
+
+//        public DataTable getGroupOptions(string logID, string fieldName)
+//        {
+//            DataTable dt = new DataTable();
+//            string sql = @"SELECT DISTINCT " + fieldName + " FROM loginfo WHERE logID =" +
+//                                                                  logID + " ORDER BY " + fieldName + " ASC";
+
+//            DbCrud db = new DbCrud();
+//            dt = db.GetTableFromDb(sql);
+//            return dt;
+//        }
+
+//        public DataTable getALogByIDWithCriteria(string logID, string columnName, string sqlLike)
+//        {
+//            DataTable dt = new DataTable();
+
+//            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+//                            [group2] as 'Log Level',[group3] as 'File Name',
+//                            [group4] as 'Class',[group5] as 'Method',
+//                            [group6] as 'Type',
+//                            [group7] as 'Log',
+//                            [group8] as 'Log Data',[group9],
+//                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
+//                      " AND " + columnName + sqlLike + " order by id asc";
+
+//            DbCrud db = new DbCrud();
+//            dt = db.GetTableFromDb(sql);
+
+//            if (dt != null)
+//            {
+//                foreach (DataRow row in dt.Rows)
+//                {
+//                    row[9] = WebUtility.HtmlDecode(row[9].ToString());
+//                }
+//            }
+//            return dt;
+//        }
+
+
+
+
+//        public DataTable getALogByIDWithRegExp(string logID, string sqlLike, string regExpStr)
+//        {
+//            DataTable dt = new DataTable();
+//            DataTable dtout = new DataTable();
+//            DataRow dtrow;
+
+//            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+//                            [group2] as 'Log Level',[group3] as 'File Name',
+//                            [group4] as 'Class',[group5] as 'Method',
+//                            [group6] as 'Type',
+//                            [group7] as 'Log',
+//                            [group8] as 'Log Data',[group9],
+//                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
+//                       " AND " + sqlLike + " order by id asc";
+
+//            DbCrud db = new DbCrud();
+//            dt = db.GetTableFromDb(sql);
+
+//            //#########/ /########
+
+//            // create the regexp for the specific search
+//            // - find the sqlbuilder - sqlDetail id
+//            // - read the sqlDetail records
+
+//            //Regex findReady9 = new Regex(@"ATM2HOST: 22\u001c.+\u001c\u001cF\u001c1");
+//            Regex findReady9 = new Regex(regExpStr);
+
+//            if (dt != null)
+//            {
+//                // here adding regexp
+//                dtout = dt.Clone();
+
+//                foreach (DataRow row in dt.Rows)
+//                {
+//                    row[9] = WebUtility.HtmlDecode(row[9].ToString());
+
+//                    MatchCollection findReady9Matches = findReady9.Matches(row[9].ToString());
+//                    if (findReady9Matches.Count != 0)
+//                    {
+//                        dtrow = dtout.NewRow();
+//                        dtrow.ItemArray = row.ItemArray;
+//                        // dtout.Rows.Add(['1','2','3','4','5','6','7','8','9','0','1','2','3']);
+//                        dtout.Rows.Add(dtrow);
+//                    }
+//                }
+//            }
+//            return dtout;
+//        }
+
+//        /// <summary>
+//        /// Nedd to add a new db table with the base fields for shortcuts data
+//        /// - title
+//        /// - index
+//        /// Build the dropdow menu using as input the records in the shortcuts table
+//        /// Dropdown to have one option per message name entered
+//        /// </summary>
+//        /// <param name="logID"></param>
+//        /// <param name="columnName"></param>
+//        /// <param name="sqlLike"></param>
+//        /// <returns></returns>
+
+//        public DataTable getALogByIDWithCriteria2(string logID, string columnName, string sqlLike)
+//        {
+//            DataTable dt = new DataTable();
+//            DataTable dtout = new DataTable();
+//            DataRow dtrow;
+
+//            string[] tmpTypes;
+//            int option = 26;
+
+//            string regExStr = App.Prj.RecordTypes[option, 0];
+//            string recordType = App.Prj.RecordTypes[option, 3];
+
+//            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+//                            [group2] as 'Log Level',[group3] as 'File Name',
+//                            [group4] as 'Class',[group5] as 'Method',
+//                            [group6] as 'Type',
+//                            [group7] as 'Log',
+//                            [group8] as 'Log Data',[group9],
+//                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
+//                      " AND " + columnName + " like '" + regExStr + "%' order by id asc";
+
+//            DbCrud db = new DbCrud();
+//            dt = db.GetTableFromDb(sql);
+
+//            if (dt == null)
+//            {
+//                return null;
+//            }
+
+//            dtout = dt.Clone();
+
+//            foreach (DataRow row in dt.Rows)
+//            {
+//                tmpTypes = WebUtility.HtmlDecode(row["Log Data"].ToString()).Split((char)0x1c);
+
+//                string subRecType = App.Prj.RecordTypes[option, 2];
+
+//                if (((recordType == "1") || (recordType.Substring(0, 1) == "3")) &&
+//                    (tmpTypes.Length < 4))
+//                {
+//                    continue;
+//                }
+
+//                if ((subRecType != "") &&
+//                     subRecType !=
+//                     tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[option, 1])].Substring(0, App.Prj.RecordTypes[option, 2].Length))
+//                {
+//                    continue;
+//                }
+//                dtrow = dtout.NewRow();
+//                dtrow.ItemArray = row.ItemArray;
+//                dtout.Rows.Add(dtrow);
+//            }
+//            return dtout;
+//        }
+
+//        public DataTable getALogByID(string logID)
+//        {
+//            DataTable dt = new DataTable();
+
+//            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
+//                                                              [group2] as 'Log Level',[group3] as 'File Name',
+//                                                              [group4] as 'Class',[group5] as 'Method',
+//                                                              [group6] as 'Type',
+//                                                              [group7] as 'Log',
+//                                                              [group8] as 'Log Data',[group9],
+//                                                              [prjKey],[logID] FROM [loginfo] 
+//                                                              WHERE logID =" + logID + " order by id asc";
+
+//            DbCrud db = new DbCrud();
+//            dt = db.GetTableFromDb(sql);
+
+//            if (dt != null)
+//            {
+//                foreach (DataRow row in dt.Rows)
+//                {
+//                    row[9] = WebUtility.HtmlDecode(row[9].ToString());
+//                }
+//            }
+//            return dt;
+//        }
+
+//        public DataTable getAllLogs(string prjID)
+//        {
+//            DataTable dt = new DataTable();
+//            string sql = @"SELECT * FROM [logs] WHERE prjKey = '" + prjID + "' AND uploaded = 1";
+//            DbCrud db = new DbCrud();
+//            dt = db.GetTableFromDb(sql);
+//            return dt;
+//        }
+
+//        public string getLogName(string prjID, string logID)
+//        {
+//            string result = "";
+//            string sql = @"SELECT [logFile] FROM [dbo].[logs] WHERE prjKey = '" + prjID + "' AND id = '" + logID + "' AND uploaded = 1";
+//            DbCrud db = new DbCrud();
+//            result = db.GetScalarStrFromDb(sql);
+//            return result;
+//        }
+
+//        // mlh Add record 
+
+//        public Dictionary<string, int> showRecordBits(string logID)
+//        {
+//            ///Return a Dictionary with type of record and amount
+
+//            Dictionary<string, int> dicBits = new Dictionary<string, int>();
+
+//            DbCrud db = new DbCrud();
+
+//            string sql = @"SELECT COUNT(2) FROM screeninfo WHERE logID =" + logID;
+//            int count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["311"], count);
+
+//            sql = @"SELECT COUNT(2) FROM stateinfo  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+
+//            dicBits.Add(recTypesDic["312"], count);
+
+//            sql = @"SELECT COUNT(2) FROM configParamsInfo  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["313"], count);
+
+//            sql = @"SELECT COUNT(2) FROM fitinfo  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["315"], count);
+
+//            sql = @"SELECT COUNT(2) FROM configId  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["316"], count);
+
+//            sql = @"SELECT COUNT(2) FROM enhancedParamsInfo  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["31A"], count);
+
+//            sql = @"SELECT COUNT(2) FROM dateTime  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["31C"], count);
+
+//            sql = @"SELECT COUNT(2) FROM treq  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["11"], count);
+
+//            sql = @"SELECT COUNT(2) FROM treply  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["4"], count);
+
+//            sql = @"SELECT COUNT(2) FROM iccCurrencyDOT  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["81"], count);
+
+//            sql = @"SELECT COUNT(2) FROM iccTransactionDOT  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["82"], count);
+
+//            sql = @"SELECT COUNT(2) FROM iccLanguageSupportT  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["83"], count);
+
+//            sql = @"SELECT COUNT(2) FROM iccTerminalDOT  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["84"], count);
+
+//            sql = @"SELECT COUNT(2) FROM iccApplicationIDT  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["85"], count);
+
+//            sql = @"SELECT (SELECT COUNT(2) FROM solicitedStatus8  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatus9  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusB  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusC  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusF1  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusF2  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusF3  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusF4  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusF5  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusF6  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusF7  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusFH  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusFI  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusFJ  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusFK  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusFL  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusFM  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM solicitedStatusFN  WHERE logID =" + logID + ") ";
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["22"], count);
+
+//            sql = @"SELECT (SELECT COUNT(2) FROM unsolicitedStatus5c  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatus61  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatus66  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatus71  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusA  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusB  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusC  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusD  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusE  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusF  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusG  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusH  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusK  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusL  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusM  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusP  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusQ  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusR  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusS  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusV  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusw  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM unsolicitedStatusy  WHERE logID =" + logID + ") ";
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["12"], count);
+
+//            sql = @"SELECT (SELECT COUNT(2) FROM encryptorInitData1  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM encryptorInitData2  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM encryptorInitData3  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM encryptorInitData4  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM encryptorInitData6  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM encryptorInitData7  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM encryptorInitData8  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM encryptorInitData9  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM encryptorInitDataA  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM encryptorInitDataB  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM encryptorInitDataD  WHERE logID =" + logID + ") +" +
+//                "          (SELECT COUNT(2) FROM encryptorInitDataE  WHERE logID =" + logID + ") ";
+
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["23"], count);
+
+//            sql = @"SELECT COUNT(2) FROM uploadEjData  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["61H"], count);
+
+//            sql = @"SELECT COUNT(2) FROM ackEjUploadBlock  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["61J"], count);
+
+//            sql = @"SELECT COUNT(2) FROM ackStopEj  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["62"], count);
+
+//            sql = @"SELECT COUNT(2) FROM ejOptionsTimers  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["63"], count);
+
+//            sql = @"SELECT COUNT(2) FROM extEncryption  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["34"], count);
+
+//            sql = @"SELECT COUNT(2) FROM terminalCommands  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["1"], count);
+
+//            sql = @"SELECT COUNT(2) FROM macFieldSelection  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["31B"], count);
+
+//            sql = @"SELECT COUNT(2) FROM dispenserMapping  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["31E"], count);
+
+//            sql = @"SELECT COUNT(2) FROM interactiveTranResponse  WHERE logID =" + logID;
+//            count = db.GetScalarIntFromDb(sql);
+//            dicBits.Add(recTypesDic["32"], count);
+
+//            return dicBits;
+//        }
+
+//        public new Dictionary<string, string> readData(string sql)
+//        {
+//            DataTable dt = new DataTable();
+//            DbCrud db = new DbCrud();
+//            dt = db.GetTableFromDb(sql);
+//            Dictionary<string, string> dicData = new Dictionary<string, string>();
+
+//            if (dt != null)
+//            {
+//                foreach (DataRow row in dt.Rows)
+//                {
+//                    dicData.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), WebUtility.HtmlDecode(row[2].ToString()));
+//                    //                    dicData.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), row[2].ToString());
+//                }
+//            }
+//            return dicData;
+//        }
+
+//        public void detachLogByID(string logID)
+//        {
+//            string sql = @"DELETE from loginfo WHERE logID = " + logID +
+//                       " ;DELETE from logs WHERE ID = " + logID +
+//                       " ;UPDATE Project SET prjlogs = prjlogs - 1 " +
+//                       "WHERE prjlogs > 0 and prjKey ='" + App.Prj.Key + "'";
+//            DbCrud db = new DbCrud();
+//            if (db.crudToDb(sql) == false) { };
+//        }
+//    }
+//}
+
+using log4net;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Text.RegularExpressions;
+
 
 namespace Logger
 {
@@ -12,7 +1126,6 @@ namespace Logger
         public string[] allGroups;
     }
 
-
     public struct typeRec
     {
         public string typeIndex;
@@ -20,1091 +1133,729 @@ namespace Logger
         public string typeAddData;
     }
 
-
     public class Project : App
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-                        System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private string pKey;
         private string pName;
         private string pBrief;
         private int pLogs;
-
-        public string Key   // property
+        private License pLicense;
+        private string pPermissions;
+        private readonly string[,] recordTypes = new string[27, 4]
         {
-            get { return pKey; }   // get method
-        }
-        public string Name   // property
-        {
-            get { return pName; }   // get method
-            set { pName = value; }  // set method
-        }
-        public string Brief   // property
-        {
-            get { return pBrief; }   // get method
-            set { pBrief = value; }  // set method
-        }
-        public int Logs   // property
-        {
-            get { return pLogs; }   // get method
-        }
-
-        // mlh list type of messages
-
-        /// <summary>
-        /// Array of type of messages, the entry # is defined by optionselected for scanning
-        /// column 1: Header of each message for regular expresion finding
-        /// column 2: field index of Message subclass/Identifier
-        /// column 3: value to compare
-        /// column 4: recordtype 
-        /// If message header match with the message, and the field index position in the message 
-        /// matches the value to compare, return recordtype
-        /// </summary>
-        private readonly string[,] recordTypes = {
-                                          { "ATM2HOST: 11", "0","", "11" },
-                                          { "HOST2ATM: 4", "0","", "4" },
-                                          { "HOST2ATM: 3", "3","11", "311" },
-                                          { "HOST2ATM: 3", "3","12", "312" },
-                                          { "HOST2ATM: 3", "3","13", "313" },
-                                          { "HOST2ATM: 3", "3","15", "315" },
-                                          { "HOST2ATM: 3", "3","16", "316" },
-                                          { "HOST2ATM: 3", "3","1A", "31A" },
-                                          { "HOST2ATM: 3", "3","1B", "31B" },
-                                          { "HOST2ATM: 3", "3","1C", "31C" },
-                                          { "HOST2ATM: 3", "3","1E", "31E" },
-                                          { "HOST2ATM: 8", "2","1", "81" },
-                                          { "HOST2ATM: 8", "2","2", "82" },
-                                          { "HOST2ATM: 8", "2","3", "83" },
-                                          { "HOST2ATM: 8", "2","4", "84" },
-                                          { "HOST2ATM: 8", "2","5", "85" },
-                                          { "ATM2HOST: 22", "0","", "22" },
-                                          { "ATM2HOST: 12", "0","", "12" },
-                                          { "ATM2HOST: 23", "0","", "23" },
-                                          { "ATM2HOST: 61", "0","", "61H" },
-                                          { "HOST2ATM: 6", "3","1", "61J" },
-                                          { "HOST2ATM: 6", "3","2", "62" },
-                                          { "HOST2ATM: 6", "3","3", "63" },
-                                          { "HOST2ATM: 3", "3","4", "34" },
-                                          { "HOST2ATM: 1", "0","", "1" },
-                                          { "HOST2ATM: 3", "3","2", "32" },
-// this ones are added for LogView selection 
-                                          { "ATM2HOST: 22","3","F", "22" },
+      {
+        "ATM2HOST: 11",
+        "0",
+        "",
+        "11"
+      },
+      {
+        "HOST2ATM: 4",
+        "0",
+        "",
+        "4"
+      },
+      {
+        "HOST2ATM: 3",
+        "3",
+        "11",
+        "311"
+      },
+      {
+        "HOST2ATM: 3",
+        "3",
+        "12",
+        "312"
+      },
+      {
+        "HOST2ATM: 3",
+        "3",
+        "13",
+        "313"
+      },
+      {
+        "HOST2ATM: 3",
+        "3",
+        "15",
+        "315"
+      },
+      {
+        "HOST2ATM: 3",
+        "3",
+        "16",
+        "316"
+      },
+      {
+        "HOST2ATM: 3",
+        "3",
+        "1A",
+        "31A"
+      },
+      {
+        "HOST2ATM: 3",
+        "3",
+        "1B",
+        "31B"
+      },
+      {
+        "HOST2ATM: 3",
+        "3",
+        "1C",
+        "31C"
+      },
+      {
+        "HOST2ATM: 3",
+        "3",
+        "1E",
+        "31E"
+      },
+      {
+        "HOST2ATM: 8",
+        "2",
+        "1",
+        "81"
+      },
+      {
+        "HOST2ATM: 8",
+        "2",
+        "2",
+        "82"
+      },
+      {
+        "HOST2ATM: 8",
+        "2",
+        "3",
+        "83"
+      },
+      {
+        "HOST2ATM: 8",
+        "2",
+        "4",
+        "84"
+      },
+      {
+        "HOST2ATM: 8",
+        "2",
+        "5",
+        "85"
+      },
+      {
+        "ATM2HOST: 22",
+        "0",
+        "",
+        "22"
+      },
+      {
+        "ATM2HOST: 12",
+        "0",
+        "",
+        "12"
+      },
+      {
+        "ATM2HOST: 23",
+        "0",
+        "",
+        "23"
+      },
+      {
+        "ATM2HOST: 61",
+        "0",
+        "",
+        "61H"
+      },
+      {
+        "HOST2ATM: 6",
+        "3",
+        "1",
+        "61J"
+      },
+      {
+        "HOST2ATM: 6",
+        "3",
+        "2",
+        "62"
+      },
+      {
+        "HOST2ATM: 6",
+        "3",
+        "3",
+        "63"
+      },
+      {
+        "HOST2ATM: 3",
+        "3",
+        "4",
+        "34"
+      },
+      {
+        "HOST2ATM: 1",
+        "0",
+        "",
+        "1"
+      },
+      {
+        "HOST2ATM: 3",
+        "3",
+        "2",
+        "32"
+      },
+      {
+        "ATM2HOST: 22",
+        "3",
+        "F",
+        "22"
+      }
         };
-
-
         private List<StateData> extensionsLst = new List<StateData>();
+        public Dictionary<string, string> recTypesDic = new Dictionary<string, string>();
+
+        public string Key => this.pKey;
+
+        public string Name
+        {
+            get => this.pName;
+            set => this.pName = value;
+        }
+
+        public string Brief
+        {
+            get => this.pBrief;
+            set => this.pBrief = value;
+        }
+
+        public int Logs => this.pLogs;
 
         public List<StateData> ExtensionsLst
         {
-            get { return extensionsLst; }
-            set { extensionsLst = value; }
+            get => this.extensionsLst;
+            set => this.extensionsLst = value;
         }
-        public string[,] RecordTypes
+
+        public string[,] RecordTypes => this.recordTypes;
+
+        public License LicenseKey
         {
-            get { return recordTypes; }
+            get => this.pLicense;
+            set => this.pLicense = value;
         }
 
-        public Dictionary<string, string> recTypesDic = new Dictionary<string, string>();
+        public string Permissions
+        {
+            get => this.pPermissions;
+            set => this.pPermissions = value;
+        }
 
-
-        /// <summary>
-        /// Constructor setup Dictionary with recordtypes with its matching class name
-        /// </summary>
+        private License getLicense() => new License().VerifyLicenseRegistry();
 
         public Project()
         {
-            log.Info($"Accessing Project Data");
-            pKey = "";
-            pName = "";
-            pBrief = "";
-            pLogs = 0;
-
-            // mlh: New scans needs to be added here!
-            // This name must match the name in the logs table
-            // These names must match the value of the queryName
-            // in the sqlBuilder table.
-
-            recTypesDic.Add("11", "treq");
-            recTypesDic.Add("4", "treply");
-            recTypesDic.Add("311", "screens");
-            recTypesDic.Add("312", "states");
-            recTypesDic.Add("313", "configParametersLoad");
-            recTypesDic.Add("315", "fit");
-            recTypesDic.Add("316", "configID");
-            recTypesDic.Add("31A", "enhancedParametersLoad");
-            recTypesDic.Add("31B", "mac");
-            recTypesDic.Add("31C", "dateandtime");
-            recTypesDic.Add("31E", "dispenserCurrency");
-            recTypesDic.Add("81", "iccCurrencyDOT");
-            recTypesDic.Add("82", "iccTransactionDOT");
-            recTypesDic.Add("83", "iccLanguageSupportT");
-            recTypesDic.Add("84", "iccTerminalDOT");
-            recTypesDic.Add("85", "iccApplicationIDT");
-            recTypesDic.Add("22", "solicitedStatus");
-            recTypesDic.Add("12", "unsolicitedStatus");
-            recTypesDic.Add("23", "encryptorInitData");
-            recTypesDic.Add("61H", "uploadEjData");
-            recTypesDic.Add("61J", "ejAckBlock");
-            recTypesDic.Add("62", "ejAckStop");
-            recTypesDic.Add("63", "ejOptionsTimers");
-            recTypesDic.Add("34", "extendedEncrypKeyChange");
-            recTypesDic.Add("1", "terminalCommands");
-            recTypesDic.Add("32", "interactiveTranResponse");
+            Project.log.Info((object)"Accessing Project Data");
+            this.pKey = "";
+            this.pName = "";
+            this.pBrief = "";
+            this.pLogs = 0;
+            this.recTypesDic.Add("11", "treq");
+            this.recTypesDic.Add("4", "treply");
+            this.recTypesDic.Add("311", "screens");
+            this.recTypesDic.Add("312", "states");
+            this.recTypesDic.Add("313", "configParametersLoad");
+            this.recTypesDic.Add("315", "fit");
+            this.recTypesDic.Add("316", "configID");
+            this.recTypesDic.Add("31A", "enhancedParametersLoad");
+            this.recTypesDic.Add("31B", "mac");
+            this.recTypesDic.Add("31C", "dateandtime");
+            this.recTypesDic.Add("31E", "dispenserCurrency");
+            this.recTypesDic.Add("81", "iccCurrencyDOT");
+            this.recTypesDic.Add("82", "iccTransactionDOT");
+            this.recTypesDic.Add("83", "iccLanguageSupportT");
+            this.recTypesDic.Add("84", "iccTerminalDOT");
+            this.recTypesDic.Add("85", "iccApplicationIDT");
+            this.recTypesDic.Add("22", "solicitedStatus");
+            this.recTypesDic.Add("12", "unsolicitedStatus");
+            this.recTypesDic.Add("23", "encryptorInitData");
+            this.recTypesDic.Add("61H", "uploadEjData");
+            this.recTypesDic.Add("61J", "ejAckBlock");
+            this.recTypesDic.Add("62", "ejAckStop");
+            this.recTypesDic.Add("63", "ejOptionsTimers");
+            this.recTypesDic.Add("34", "extendedEncrypKeyChange");
+            this.recTypesDic.Add("1", "terminalCommands");
+            this.recTypesDic.Add("32", "interactiveTranResponse");
         }
 
-        public Project(string pName, string pBrief)
-        {
-            createProject(pName, pBrief);
-        }
+        public Project(string pName, string pBrief) => this.createProject(pName, pBrief);
 
         public Project getProjectByID(string prjID)
         {
-            DataTable dt = new DataTable();
-            DbCrud db = new DbCrud();
-            string sql = @"SELECT * FROM project WHERE prjKey='" + prjID + "'";
-            dt = db.GetTableFromDb(sql);
-
-            Project pr = new Project();
-
-            if (dt.Rows.Count > 0)
+            DataTable dataTable = new DataTable();
+            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT * FROM project WHERE prjKey='" + prjID + "'");
+            Project projectById = new Project();
+            projectById.Permissions = App.Prj.Permissions;
+            projectById.LicenseKey = App.Prj.LicenseKey;
+            if (tableFromDb.Rows.Count > 0)
             {
-                foreach (DataRow row in dt.Rows)
+                foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)
                 {
-                    pr.pKey = row[1].ToString();
-                    pr.Name = row[2].ToString();
-                    pr.Brief = row[3].ToString();
-                    pr.pLogs = Convert.ToInt32(row[4].ToString());
+                    projectById.pKey = row[1].ToString();
+                    projectById.Name = row[2].ToString();
+                    projectById.Brief = row[3].ToString();
+                    projectById.pLogs = Convert.ToInt32(row[4].ToString());
                 }
             }
-            return pr;
+            return projectById;
         }
 
         public DataTable getAllProjects()
         {
-            DataTable dt = new DataTable();
-            DbCrud db = new DbCrud();
-            string sql = @"SELECT * FROM project";
-            dt = db.GetTableFromDb(sql);
-
-            return dt;
+            DataTable dataTable = new DataTable();
+            return new DbCrud().GetTableFromDb("SELECT * FROM project");
         }
 
         public Dictionary<string, Project> getAllProjects1()
         {
-            DataTable dt = new DataTable();
-            DbCrud db = new DbCrud();
-            string sql = @"SELECT * FROM project";
-            dt = db.GetTableFromDb(sql);
-
-            Dictionary<string, Project> dicData = new Dictionary<string, Project>();
-
-            if (dt != null && dt.Rows.Count > 0)
+            DataTable dataTable = new DataTable();
+            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT * FROM project");
+            Dictionary<string, Project> allProjects1 = new Dictionary<string, Project>();
+            if (tableFromDb != null && tableFromDb.Rows.Count > 0)
             {
-                foreach (DataRow row in dt.Rows)
-                {
-                    Project prj = new Project();
-                    prj.pKey = row[1].ToString();
-                    prj.Name = row[2].ToString();
-                    prj.Brief = row[3].ToString();
-                    prj.pLogs = Convert.ToInt32(row[4]);
-                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), prj);
-                }
+                foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)
+                    allProjects1.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), new Project()
+                    {
+                        pKey = row[1].ToString(),
+                        Name = row[2].ToString(),
+                        Brief = row[3].ToString(),
+                        pLogs = Convert.ToInt32(row[4])
+                    });
             }
-            return dicData;
+            return allProjects1;
         }
 
         public DataTable getProjectByName(string pName)
         {
-            DataTable dt = new DataTable();
-            DbCrud db = new DbCrud();
-            string sql = @"SELECT * FROM project WHERE prjName ='" + pName + "'";
-            return db.GetTableFromDb(sql);
+            DataTable dataTable = new DataTable();
+            return new DbCrud().GetTableFromDb("SELECT * FROM project WHERE prjName ='" + pName + "'");
         }
 
+        public bool updateProjectByName(Project project, string pName, string pBrief) => new DbCrud().crudToDb("UPDATE Project SET prjName ='" + pName + "', prjBrief ='" + pBrief + "' WHERE prjKey ='" + project.pKey + "'");
 
-        public bool updateProjectByName(Project project, string pName, string pBrief)
-        {
-            string sql = @"UPDATE Project SET prjName ='" + pName + "', " +
-                                             "prjBrief ='" + pBrief +
-                   "' WHERE prjKey ='" + project.pKey + "'";
+        public bool addLogToProject(string pKey) => new DbCrud().crudToDb("UPDATE Project SET prjLogs = prjLogs + 1 WHERE prjKey ='" + pKey + "'; UPDATE Logs SET uploaded = 1");
 
-            DbCrud db = new DbCrud();
-            if (db.crudToDb(sql) == false)
-                return false;
+        public int attachLogToProject(string pKey, string pFilename) => new DbCrud().GetScalarIntFromDb("INSERT INTO logs(prjKey, logFile, uploadDate) \r\n                    VALUES('" + pKey + "','" + pFilename + "', STRFTIME('%Y-%m-%d %H:%M:%S-%f','Now','LocalTime')); SELECT LAST_INSERT_ROWID() AS int;");
 
-            return true;
-        }
-
-        public bool addLogToProject(string pKey)
-        {
-            string sql = @"UPDATE Project SET prjLogs = prjLogs + 1 " +
-                   "WHERE prjKey ='" + pKey + "'; UPDATE Logs SET uploaded = 1";
-
-            DbCrud db = new DbCrud();
-            if (db.crudToDb(sql) == false)
-                return false;
-
-            return true;
-        }
-
-        public int attachLogToProject(string pKey, string pFilename)
-        {
-            string sql = @"INSERT INTO logs(prjKey, logFile, uploadDate) 
-                    VALUES('" + pKey + "','" + pFilename + "', STRFTIME('%Y-%m-%d %H:%M:%S-%f','Now','LocalTime')); SELECT LAST_INSERT_ROWID() AS int;";
-
-
-            DbCrud db = new DbCrud();
-            int newLogID = db.GetScalarIntFromDb(sql);
-            return newLogID;
-        }
-
-        /// <summary>
-        /// Add project to database 
-        /// </summary>
-        /// <param name="name">Name of project</param>
-        /// <param name="brief">Shot Description</param>
-        /// <returns>dicData 
-        /// a dictionary with key project_id, 
-        /// and value project object
-        /// </returns>
         public Dictionary<string, Project> createProject(string name, string brief)
         {
-            Name = name;
-            Brief = brief;
-            pLogs = 0;
-            pKey = Guid.NewGuid().ToString();
-
-            /**********/
-
-            DataTable dt = new DataTable();
-            DbCrud db = new DbCrud();
-
-            string sql = @"INSERT INTO Project(prjKey,prjName,prjBrief,prjLogs,createDate)" +
-                   "VALUES('" + Key + "','" + Name + "','" + Brief + "','" + 0 + "',STRFTIME('%Y-%m-%d %H:%M:%S-%f','Now','LocalTime')" + ")";
-
-            dt = db.GetTableFromDb(sql);
-
-            Dictionary<string, Project> dicData = new Dictionary<string, Project>();
-
-            if (dt != null && dt.Rows.Count > 0)
+            this.Name = name;
+            this.Brief = brief;
+            this.pLogs = 0;
+            this.pKey = Guid.NewGuid().ToString();
+            DataTable dataTable = new DataTable();
+            DataTable tableFromDb = new DbCrud().GetTableFromDb("INSERT INTO Project(prjKey,prjName,prjBrief,prjLogs,createDate)VALUES('" + this.Key.Trim() + "','" + this.Name + "','" + this.Brief + "','" + 0.ToString() + "',STRFTIME('%Y-%m-%d %H:%M:%S-%f','Now','LocalTime'))");
+            Dictionary<string, Project> project = new Dictionary<string, Project>();
+            if (tableFromDb != null && tableFromDb.Rows.Count > 0)
             {
-                foreach (DataRow row in dt.Rows)
-                {
-                    Project pr = new Project();
-                    pr.pKey = row[1].ToString();
-                    pr.Name = row[2].ToString();
-                    pr.Brief = row[3].ToString();
-                    pr.pLogs = Convert.ToInt32(row[4]);
-                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), pr);
-                }
+                foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)
+                    project.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), new Project()
+                    {
+                        pKey = row[1].ToString(),
+                        Name = row[2].ToString(),
+                        Brief = row[3].ToString(),
+                        pLogs = Convert.ToInt32(row[4])
+                    });
             }
-            return dicData;
+            return project;
         }
 
-        /// <summary>
-        /// delete project given the project name
-        /// </summary>
-        /// <param name="prjName"></param>
-        /// <returns>bool</returns>
         public bool deleteProjectByName(string prjName)
         {
-            DbCrud db = new DbCrud();
-            string sql;
-            // need to obtain project ID
-            sql = $"SELECT prjKey FROM project where prjName = '{prjName}'";
-            string result = db.GetScalarStrFromDb(sql);
-
-            sql = $"DELETE FROM loginfo WHERE prjKey = '{result}'";
-            bool deleteLogInfo = db.crudToDb(sql);
-
-            sql = $"DELETE FROM project where prjName ='" + prjName + "'";
-            bool deleteProjectInfo = db.crudToDb(sql);
-
-            sql = $"DELETE FROM logs where prjKey = '{result}'";
-            bool deleteProjectLogs = db.crudToDb(sql);
-
-
-            return deleteLogInfo && deleteProjectInfo && deleteProjectLogs;
-
+            DbCrud dbCrud = new DbCrud();
+            string sql1 = "SELECT prjKey FROM project where prjName = '" + prjName + "'";
+            string scalarStrFromDb = dbCrud.GetScalarStrFromDb(sql1);
+            string sql2 = "DELETE FROM loginfo WHERE prjKey = '" + scalarStrFromDb + "'";
+            bool db1 = dbCrud.crudToDb(sql2);
+            string sql3 = "DELETE FROM project where prjName ='" + prjName + "'";
+            bool db2 = dbCrud.crudToDb(sql3);
+            string sql4 = "DELETE FROM logs where prjKey = '" + scalarStrFromDb + "'";
+            bool db3 = dbCrud.crudToDb(sql4);
+            return db1 & db2 & db3;
         }
 
-        private void deleteProjectLogsByID(string prjID)
-        {
-            string sql = $"DELETE loginfo where prjID = '{prjID}'";
-            DbCrud db = new DbCrud();
-            db.crudToDb(sql);
-        }
+        private void deleteProjectLogsByID(string prjID) => new DbCrud().crudToDb("DELETE loginfo where prjID = '" + prjID + "'");
 
-        public DataTable getLogDetailByID(string logID)
-        {
-            string sql = $"SELECT * FROM logDetail WHERE logID = '{logID}'";
-            DbCrud db = new DbCrud();
-            return db.GetTableFromDb(sql);
-        }
+        public DataTable getLogDetailByID(string logID) => new DbCrud().GetTableFromDb("SELECT * FROM logDetail WHERE logID = '" + logID + "'");
 
         public void uploadLog(string filename)
         {
-
-            int logID = attachLogToProject(this.pKey, filename);
-
-            Dictionary<string, dataLine> dicData = new Dictionary<string, dataLine>();
-
-            WriteLog("c:", "test.txt", "Testing Testing");
-            string[] lstLines = File.ReadAllLines(filename);
-
-            LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.Maximum = lstLines.Length + 1;
-            lpb.LblTitle = this.ToString();
-
-            int repLine = 0;
-            int recProcessed = 0;
-            int recSkipped = 0;
-            int recExtent = 0;
-            string prevTimeStamp = "";
-            long lineProcess = 0;
-            string strLine = null;
-            bool flagWriteData = false;
-
-            while (lineProcess < lstLines.Length)
+            int project = this.attachLogToProject(this.pKey, filename);
+            Dictionary<string, dataLine> dictionary = new Dictionary<string, dataLine>();
+            string[] strArray = System.IO.File.ReadAllLines(filename);
+            LoggerProgressBar1.LoggerProgressBar1 loggerProgressBar = this.getLoggerProgressBar();
+            loggerProgressBar.Maximum = strArray.Length + 1;
+            loggerProgressBar.LblTitle = this.ToString();
+            int num1 = 0;
+            int num2 = 0;
+            int num3 = 0;
+            int num4 = 0;
+            string str1 = "";
+            long index1 = 0;
+            bool flag1 = false;
+            while (index1 < (long)strArray.Length)
             {
-                strLine = lstLines[lineProcess];
-
-                lineProcess++;
-
-                if (strLine == "")
+                string str2 = strArray[index1];
+                ++index1;
+                if (str2 == "")
+                    ++num3;
+                else if (str2.Substring(0, 1) != "[")
                 {
-                    recSkipped++;
-                    continue;
-                }
-                if (strLine.Substring(0, 1) != "[")
-                {
-                    writeLogDetail("", strLine, logID);
-                    continue;
-                }
-
-                Regex dateGroup = new Regex(@"\d\d\d\d-\d\d-\d\d.\d\d:\d\d:\d\d-\d\d\d");
-                MatchCollection itsADate;
-
-                while ((lineProcess < lstLines.Length && lstLines[lineProcess].Length > 0
-                    && lstLines[lineProcess].Substring(0, 1) != "["
-                    && lstLines[lineProcess].Substring(0, 1) != "="
-                    ) ||
-                  (lineProcess < lstLines.Length && lstLines[lineProcess].Length == 0) ||
-                  (lineProcess < lstLines.Length && (itsADate = dateGroup.Matches(lstLines[lineProcess])).Count == 0))
-                {
-
-                    if (lstLines[lineProcess] != "")
-                    {
-                        strLine += lstLines[lineProcess] + System.Environment.NewLine;
-                    }
-                    lineProcess++;
-                    recExtent++;
-                }
-
-                lpb.Value += lpb.Step;
-                lpb.ValueUpdated(lpb.Value);
-
-                if (strLine.EndsWith(System.Environment.NewLine))
-                {
-                    strLine = strLine.Substring(0, strLine.Length - 2);
-                }
-
-                if (lineProcess == 44527 ||
-                    lineProcess == 44528 ||
-                    lineProcess == 44529)
-                {
-
-                }
-                // 
-                Regex openGroup9 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
-                Regex openGroup8 = new Regex(@"(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])(\[.*\])?(.*)");
-
-                //Regex openGroup9 = new Regex(@"(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])?(.*)");
-                //Regex openGroup8 = new Regex(@"(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])(\[.*?\])?(.*)");
-                Regex closeGroup = new Regex("]");
-
-
-                MatchCollection openGroupContent = openGroup9.Matches(strLine);
-                if ((openGroupContent.Count == 0) ||
-                   (dateGroup.Matches(openGroupContent[0].Groups[0].ToString()).Count == 0))
-                {
-                    openGroupContent = openGroup8.Matches(strLine);
-                }
-
-                string strDate = "";
-                dataLine record = new dataLine();
-                record.allGroups = new string[11];
-
-                foreach (Match item in openGroupContent[0].Groups)
-                {
-                    string strLineSub = "";
-
-                    if (strLine.Length != item.Value.Length)
-                    {
-                        strLineSub = strLine.Substring(item.Value.Length, strLine.Length - item.Value.Length);
-                        // recExtent = recExtent + strLineSub.Split('\n').Length;
-                    }
-                    int groupNumber = 0;
-                    foreach (Group group in item.Groups)
-                    {
-                        if (group.Value + strLineSub == strLine)
-                        {
-                            recProcessed++;
-                            continue;
-                        }
-                        MatchCollection matches = dateGroup.Matches(group.Value);
-
-                        groupNumber++;
-                        group.Value.Replace(@"'", @"''");
-
-                        if (groupNumber == 8)
-                        {
-                            record.allGroups[groupNumber] = group.Value.Replace(@"'", @"''") + strLineSub;
-                        }
-                        else
-                        {
-                            record.allGroups[groupNumber] = group.Value.Replace(@"'", @"''");
-                        }
-
-                        if (group.Name == "1")
-                        {
-                            strDate = matches[0].Value;
-
-                            record.allGroups[0] = matches[0].Value;
-
-                            if (strDate == prevTimeStamp)
-                            {
-                                repLine++;
-                            }
-                            else
-                            {
-                                repLine = 0;
-                            }
-                        }
-
-                        if (group.Name == (item.Groups.Count - 1).ToString())
-                        {
-                            bool flagAdd = false;
-
-                            while (!flagAdd)
-                            {
-                                try
-                                {
-                                    // add the data to the dictionary
-                                    //groupsData = groupsData + group.Value + strLineSub;
-
-                                    string recKey = strDate + "-" + repLine.ToString();
-                                    dicData.Add(recKey, record);
-
-
-                                    int recCount = dicData.Count;
-                                    // insert data into db
-                                    if (writeData(recKey, record, logID))
-                                    {
-                                        flagWriteData = true;
-                                    }
-
-                                    prevTimeStamp = strDate;
-                                    flagAdd = true;
-                                }
-                                catch (System.ArgumentException e)
-                                {
-                                    repLine++;
-                                }
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-
-            addLogToProject(this.pKey);
-            lpb.Visible = false;
-            //lpb.UpdateProgressBarEventHandler -= Lpb_UpdateProgressBarEventHandler;
-            // lpb = null;
-
-            if (flagWriteData == false)
-                detachLogByID(logID.ToString());
-
-            log.Info($"Records Processed {recProcessed}");
-            log.Info($"Records Skipped {recSkipped}");
-            log.Info($"Records read {lineProcess}");
-            log.Info($"Records Extended {recExtent}");
-        }
-
-        //private void Lpb_UpdateProgressBarEventHandler(object sender, EventArgs e)
-        //{          
-        //    //LoggerProgressBar1.LoggerProgressBar1 lpb = sender as LoggerProgressBar1.LoggerProgressBar1;
-        //    //lpb.ProgressBar1.Value = Convert.ToInt32(lpb.Value);
-        //    //lpb.Percent1.Text = ((lpb.ProgressBar1.Value * 100) / lpb.Maximum).ToString() + "%";
-        //    //lpb.Percent1.Refresh();   
-        //}
-
-        public bool writeData(string recKey, dataLine data, int logID)
-        {
-            String sql = "";
-
-            // set groups straight
-
-            if (data.allGroups[6].IndexOf("]") != data.allGroups[6].LastIndexOf("]"))
-            {
-                int indexGroup = data.allGroups[6].IndexOf("]") + 1;
-                data.allGroups[8] = data.allGroups[6].Substring(indexGroup, data.allGroups[6].Length - indexGroup) +
-                                     data.allGroups[7] + data.allGroups[8];
-                data.allGroups[6] = data.allGroups[6].Substring(0, indexGroup);
-                data.allGroups[7] = "";
-            }
-
-            if ((data.allGroups[7] != "") &&
-                (data.allGroups[7].IndexOf("]") != data.allGroups[7].LastIndexOf("]")))
-            {
-                int indexGroup = data.allGroups[7].IndexOf("]") + 1;
-                data.allGroups[8] = data.allGroups[7].Substring(indexGroup, data.allGroups[7].Length - indexGroup) +
-                                    data.allGroups[8];
-                data.allGroups[7] = data.allGroups[7].Substring(0, indexGroup);
-            }
-
-            if ((data.allGroups[1].Length > 100) ||
-                (data.allGroups[2].Length > 100) ||
-                (data.allGroups[3].Length > 100) ||
-                (data.allGroups[4].Length > 100) ||
-                (data.allGroups[5].Length > 100) ||
-                (data.allGroups[7].Length > 100))
-            {
-                Console.WriteLine("error");
-            }
-            sql = @"INSERT INTO loginfo(logkey, group1, group2, group3, group4, group5, group6, group7, group8,prjKey, logID) 
-                        VALUES('" + recKey + "','" +
-                               data.allGroups[1] + "','" +
-                               data.allGroups[2] + "','" +
-                               data.allGroups[3] + "','" +
-                               data.allGroups[4] + "','" +
-                               data.allGroups[5] + "','" +
-                               data.allGroups[6] + "','" +
-                               data.allGroups[7] + "','" +
-                               WebUtility.HtmlEncode(data.allGroups[8] + data.allGroups[9]) + "','" +
-                               Key + "','" + logID + "')";
-
-            DbCrud db = new DbCrud();
-            if (db.crudToDb(sql) == false) { return false; };
-            return true;
-        }
-
-        public bool writeLogDetail(string recKey, string data, int logID)
-        {
-            String sql = "";
-
-            sql = @"INSERT INTO logDetail(logkey,detailInfo,prjKey, logID) 
-                        VALUES('" + recKey + "','" +
-                               data + "','" +
-                               Key + "','" + logID + "')";
-
-            DbCrud db = new DbCrud();
-            if (db.crudToDb(sql) == false) { return false; };
-            return true;
-        }
-
-        public string ReadFile(string fileName, string path)
-        {
-            string fileToOpen = path + fileName;
-            string lines = System.IO.File.ReadAllText(fileToOpen);
-            return lines;
-        }
-
-        // MLH To mimic or create function
-
-        public void getData(string regExStr, string recordType, string logID, int option)
-        {
-            string sql = @"SELECT logkey,id,group8 from [loginfo] " +
-                          "WHERE group8 like '" + regExStr + "' " +
-                          "AND logID =" + logID;
-            Dictionary<string, string> data = readData(sql);
-
-            if (data == null)
-            {
-                return;
-            }
-
-            string[] dataTypes = null;
-            List<typeRec> typeList = new List<typeRec>();
-            string[] tmpTypes;
-
-            foreach (KeyValuePair<string, string> rec in data)
-            {
-                //// Request or Reply
-
-                tmpTypes = rec.Value.Split((char)0x1c);
-
-                string subRecType = App.Prj.RecordTypes[option, 2];
-
-                // bypass messages that starts with  "HOST2ATM: 1" or ""HOST2ATM: 3" but do not have value in 
-                // subfield 3 ie. [RECV]HOST2ATM: 170172376255118255139        [RECV]HOST2ATM: 34
-
-                if (((recordType == "1") || (recordType.Substring(0, 1) == "3")) &&
-                    (tmpTypes.Length < 4))
-                {
-                    continue;
-                }
-
-                if ((subRecType != "") &&
-                     subRecType !=
-                     tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[option, 1])].Substring(0, App.Prj.RecordTypes[option, 2].Length))
-
-                {
-                    continue;
-                }
-                typeRec r = new typeRec();
-                r.typeIndex = rec.Key;
-                r.typeContent = rec.Value;
-                typeList.Add(r);
-            }
-
-            IMessage theRecord = LoggerFactory.Create_Record(recordType);
-
-            if (theRecord != null)
-            {
-                // mlh 
-                if (theRecord.writeData(typeList, Key, logID))
-                {
-                    setBitToTrue(recordType, logID);
+                    this.writeLogDetail("", str2, project);
                 }
                 else
                 {
-                    LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-                    lpb.Visible = false;
+                    Regex regex1 = new Regex("\\d\\d\\d\\d-\\d\\d-\\d\\d.\\d\\d:\\d\\d:\\d\\d-\\d\\d\\d");
+                    while (index1 < (long)strArray.Length && strArray[index1].Length > 0 && strArray[index1].Substring(0, 1) != "[" && strArray[index1].Substring(0, 1) != "=" || index1 < (long)strArray.Length && strArray[index1].Length == 0 || index1 < (long)strArray.Length && regex1.Matches(strArray[index1]).Count == 0)
+                    {
+                        if (strArray[index1] != "")
+                            str2 = str2 + strArray[index1] + Environment.NewLine;
+                        ++index1;
+                        ++num4;
+                    }
+                    loggerProgressBar.Value += loggerProgressBar.Step;
+                    loggerProgressBar.ValueUpdated(loggerProgressBar.Value);
+                    if (str2.EndsWith(Environment.NewLine))
+                        str2 = str2.Substring(0, str2.Length - 2);
+                    if (index1 != 44527L && index1 != 44528L && index1 != 44529L)
+                        ;
+                    Regex regex2 = new Regex("(\\[.*\\])(\\[.*\\])(\\[.*\\])(\\[.*\\])(\\[.*\\])(\\[.*\\])(\\[.*\\])(\\[.*\\])?(.*)");
+                    Regex regex3 = new Regex("(\\[.*\\])(\\[.*\\])(\\[.*\\])(\\[.*\\])(\\[.*\\])(\\[.*\\])(\\[.*\\])?(.*)");
+                    Regex regex4 = new Regex("]");
+                    MatchCollection matchCollection1 = regex2.Matches(str2);
+                    if (matchCollection1.Count == 0 || regex1.Matches(matchCollection1[0].Groups[0].ToString()).Count == 0)
+                        matchCollection1 = regex3.Matches(str2);
+                    string str3 = "";
+                    dataLine data = new dataLine();
+                    data.allGroups = new string[11];
+                    IEnumerator enumerator = matchCollection1[0].Groups.GetEnumerator();
+                    try
+                    {
+                        if (enumerator.MoveNext())
+                        {
+                            Match current = (Match)enumerator.Current;
+                            string str4 = "";
+                            if (str2.Length != current.Value.Length)
+                                str4 = str2.Substring(current.Value.Length, str2.Length - current.Value.Length);
+                            int index2 = 0;
+                            foreach (Group group in current.Groups)
+                            {
+                                if (group.Value + str4 == str2)
+                                {
+                                    ++num2;
+                                }
+                                else
+                                {
+                                    MatchCollection matchCollection2 = regex1.Matches(group.Value);
+                                    ++index2;
+                                    group.Value.Replace("'", "''");
+                                    data.allGroups[index2] = index2 != 8 ? group.Value.Replace("'", "''") : group.Value.Replace("'", "''") + str4;
+                                    if (group.Name == "1")
+                                    {
+                                        str3 = matchCollection2[0].Value;
+                                        data.allGroups[0] = matchCollection2[0].Value;
+                                        if (str3 == str1)
+                                            ++num1;
+                                        else
+                                            num1 = 0;
+                                    }
+                                    if (group.Name == (current.Groups.Count - 1).ToString())
+                                    {
+                                        bool flag2 = false;
+                                        while (!flag2)
+                                        {
+                                            try
+                                            {
+                                                string str5 = str3 + "-" + num1.ToString();
+                                                dictionary.Add(str5, data);
+                                                int count = dictionary.Count;
+                                                if (this.writeData(str5, data, project))
+                                                    flag1 = true;
+                                                str1 = str3;
+                                                flag2 = true;
+                                            }
+                                            catch (ArgumentException ex)
+                                            {
+                                                ++num1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        if (enumerator is IDisposable disposable)
+                            disposable.Dispose();
+                    }
                 }
             }
+            this.addLogToProject(this.pKey);
+            loggerProgressBar.Visible = false;
+            if (!flag1)
+                this.detachLogByID(project.ToString());
+            Project.log.Info((object)string.Format("Records Processed {0}", (object)num2));
+            Project.log.Info((object)string.Format("Records Skipped {0}", (object)num3));
+            Project.log.Info((object)string.Format("Records read {0}", (object)index1));
+            Project.log.Info((object)string.Format("Records Extended {0}", (object)num4));
         }
 
-        //private LoggerProgressBar1.LoggerProgressBar1  getProgressBar()
-        //{
-        //    LoggerProgressBar1.LoggerProgressBar1 lpb = null;
+        public bool writeData(string recKey, dataLine data, int logID)
+        {
+            if (data.allGroups[6].IndexOf("]") != data.allGroups[6].LastIndexOf("]"))
+            {
+                int num = data.allGroups[6].IndexOf("]") + 1;
+                data.allGroups[8] = data.allGroups[6].Substring(num, data.allGroups[6].Length - num) + data.allGroups[7] + data.allGroups[8];
+                data.allGroups[6] = data.allGroups[6].Substring(0, num);
+                data.allGroups[7] = "";
+            }
+            if (data.allGroups[7] != "" && data.allGroups[7].IndexOf("]") != data.allGroups[7].LastIndexOf("]"))
+            {
+                int num = data.allGroups[7].IndexOf("]") + 1;
+                data.allGroups[8] = data.allGroups[7].Substring(num, data.allGroups[7].Length - num) + data.allGroups[8];
+                data.allGroups[7] = data.allGroups[7].Substring(0, num);
+            }
+            if (data.allGroups[1].Length > 100 || data.allGroups[2].Length > 100 || data.allGroups[3].Length > 100 || data.allGroups[4].Length > 100 || data.allGroups[5].Length > 100 || data.allGroups[7].Length > 100)
+                Console.WriteLine("error");
+            return new DbCrud().crudToDb("INSERT INTO loginfo(logkey, group1, group2, group3, group4, group5, group6, group7, group8,prjKey, logID) \r\n                        VALUES('" + recKey + "','" + data.allGroups[1] + "','" + data.allGroups[2] + "','" + data.allGroups[3] + "','" + data.allGroups[4] + "','" + data.allGroups[5] + "','" + data.allGroups[6] + "','" + data.allGroups[7] + "','" + WebUtility.HtmlEncode(data.allGroups[8] + data.allGroups[9]) + "','" + this.Key + "','" + logID.ToString() + "')");
+        }
 
-        //    if (Application.OpenForms["ProjectData"].Controls.Find("LoggerProgressBar1", true).Length == 0)
-        //    {
-        //        lpb = new LoggerProgressBar1.LoggerProgressBar1();
-        //        Application.OpenForms["ProjectData"].Controls.Add(lpb);
-        //    }
-        //    else
-        //    {
-        //        Control[] ca = Application.OpenForms["ProjectData"].Controls.Find("LoggerProgressBar1", true);
-        //        lpb = (LoggerProgressBar1.LoggerProgressBar1)ca[0];
-        //        lpb.Value = 0;
-        //    }
+        public bool writeLogDetail(string recKey, string data, int logID) => new DbCrud().crudToDb("INSERT INTO logDetail(logkey,detailInfo,prjKey, logID) \r\n                        VALUES('" + recKey + "','" + data + "','" + this.Key + "','" + logID.ToString() + "')");
 
-        //    lpb.Dock = DockStyle.Bottom;
-        //    lpb.Visible = true;
-        //    lpb.LblTitle = this.ToString();
+        public string ReadFile(string fileName, string path) => System.IO.File.ReadAllText(path + fileName);
 
-        //    return lpb;
-        //}
-
+        public void getData(string regExStr, string recordType, string logID, int option)
+        {
+            Dictionary<string, string> dictionary = this.readData("SELECT logkey,id,group8 from [loginfo] WHERE group8 like '" + regExStr + "' AND logID =" + logID);
+            if (dictionary == null)
+                return;
+            List<typeRec> typeRecs = new List<typeRec>();
+            foreach (KeyValuePair<string, string> keyValuePair in dictionary)
+            {
+                string[] strArray = keyValuePair.Value.Split('\u001C');
+                string recordType1 = App.Prj.RecordTypes[option, 2];
+                if ((!(recordType == "1") && !(recordType.Substring(0, 1) == "3") || strArray.Length >= 4) && (!(recordType1 != "") || !(recordType1 != strArray[Convert.ToInt32(App.Prj.RecordTypes[option, 1])].Substring(0, App.Prj.RecordTypes[option, 2].Length))))
+                    typeRecs.Add(new typeRec()
+                    {
+                        typeIndex = keyValuePair.Key,
+                        typeContent = keyValuePair.Value
+                    });
+            }
+            IMessage record = LoggerFactory.Create_Record(recordType);
+            if (record == null)
+                return;
+            if (record.writeData(typeRecs, this.Key, logID))
+                this.setBitToTrue(recordType, logID);
+            else
+                this.getLoggerProgressBar().Visible = false;
+        }
 
         private void setBitToTrue(string recordType, string logID)
         {
-            string recordTypeStr = recTypesDic[recordType];
-            string sql = @"UPDATE logs SET " + recordTypeStr + " = 1 WHERE id = " + logID;
-
-            DbCrud db = new DbCrud();
-            if (db.crudToDb(sql) == false) { };
+            if (new DbCrud().crudToDb("UPDATE logs SET " + this.recTypesDic[recordType] + " = 1 WHERE id = " + logID))
+                ;
         }
 
         public DataTable getGroupOptions(string logID, string fieldName)
         {
-            DataTable dt = new DataTable();
-            string sql = @"SELECT DISTINCT " + fieldName + " FROM loginfo WHERE logID =" +
-                                                                  logID + " ORDER BY " + fieldName + " ASC";
-
-            DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
-            return dt;
+            DataTable dataTable = new DataTable();
+            return new DbCrud().GetTableFromDb("SELECT DISTINCT " + fieldName + " FROM loginfo WHERE logID =" + logID + " ORDER BY " + fieldName + " ASC");
         }
 
-        public DataTable getALogByIDWithCriteria(string logID, string columnName, string sqlLike)
+        public DataTable getALogByIDWithCriteria(
+          string logID,
+          string columnName,
+          string sqlLike)
         {
-            DataTable dt = new DataTable();
-
-            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
-                            [group2] as 'Log Level',[group3] as 'File Name',
-                            [group4] as 'Class',[group5] as 'Method',
-                            [group6] as 'Type',
-                            [group7] as 'Log',
-                            [group8] as 'Log Data',[group9],
-                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
-                      " AND " + columnName + sqlLike + " order by id asc";
-
-            DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
-
-            if (dt != null)
+            DataTable dataTable = new DataTable();
+            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp',\r\n                            [group2] as 'Log Level',[group3] as 'File Name',\r\n                            [group4] as 'Class',[group5] as 'Method',\r\n                            [group6] as 'Type',\r\n                            [group7] as 'Log',\r\n                            [group8] as 'Log Data',[group9],\r\n                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID + " AND " + columnName + sqlLike + " order by id asc");
+            if (tableFromDb != null)
             {
-                foreach (DataRow row in dt.Rows)
-                {
-                    row[9] = WebUtility.HtmlDecode(row[9].ToString());
-                }
+                foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)
+                    row[9] = (object)WebUtility.HtmlDecode(row[9].ToString());
             }
-            return dt;
+            return tableFromDb;
         }
-
-
-
 
         public DataTable getALogByIDWithRegExp(string logID, string sqlLike, string regExpStr)
         {
-            DataTable dt = new DataTable();
-            DataTable dtout = new DataTable();
-            DataRow dtrow;
-
-            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
-                            [group2] as 'Log Level',[group3] as 'File Name',
-                            [group4] as 'Class',[group5] as 'Method',
-                            [group6] as 'Type',
-                            [group7] as 'Log',
-                            [group8] as 'Log Data',[group9],
-                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
-                       " AND " + sqlLike + " order by id asc";
-
-            DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
-
-            //#########/ /########
-
-            // create the regexp for the specific search
-            // - find the sqlbuilder - sqlDetail id
-            // - read the sqlDetail records
-
-            //Regex findReady9 = new Regex(@"ATM2HOST: 22\u001c.+\u001c\u001cF\u001c1");
-            Regex findReady9 = new Regex(regExpStr);
-
-            if (dt != null)
+            DataTable dataTable = new DataTable();
+            DataTable alogByIdWithRegExp = new DataTable();
+            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp',\r\n                            [group2] as 'Log Level',[group3] as 'File Name',\r\n                            [group4] as 'Class',[group5] as 'Method',\r\n                            [group6] as 'Type',\r\n                            [group7] as 'Log',\r\n                            [group8] as 'Log Data',[group9],\r\n                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID + " AND " + sqlLike + " order by id asc");
+            Regex regex = new Regex(regExpStr);
+            if (tableFromDb != null)
             {
-                // here adding regexp
-                dtout = dt.Clone();
-
-                foreach (DataRow row in dt.Rows)
+                alogByIdWithRegExp = tableFromDb.Clone();
+                foreach (DataRow row1 in (InternalDataCollectionBase)tableFromDb.Rows)
                 {
-                    row[9] = WebUtility.HtmlDecode(row[9].ToString());
-
-                    MatchCollection findReady9Matches = findReady9.Matches(row[9].ToString());
-                    if (findReady9Matches.Count != 0)
+                    row1[9] = (object)WebUtility.HtmlDecode(row1[9].ToString());
+                    if ((uint)regex.Matches(row1[9].ToString()).Count > 0U)
                     {
-                        dtrow = dtout.NewRow();
-                        dtrow.ItemArray = row.ItemArray;
-                        // dtout.Rows.Add(['1','2','3','4','5','6','7','8','9','0','1','2','3']);
-                        dtout.Rows.Add(dtrow);
+                        DataRow row2 = alogByIdWithRegExp.NewRow();
+                        row2.ItemArray = row1.ItemArray;
+                        alogByIdWithRegExp.Rows.Add(row2);
                     }
                 }
             }
-            return dtout;
+            return alogByIdWithRegExp;
         }
 
-        /// <summary>
-        /// Nedd to add a new db table with the base fields for shortcuts data
-        /// - title
-        /// - index
-        /// Build the dropdow menu using as input the records in the shortcuts table
-        /// Dropdown to have one option per message name entered
-        /// </summary>
-        /// <param name="logID"></param>
-        /// <param name="columnName"></param>
-        /// <param name="sqlLike"></param>
-        /// <returns></returns>
-
-        public DataTable getALogByIDWithCriteria2(string logID, string columnName, string sqlLike)
+        public DataTable getALogByIDWithCriteria2(
+          string logID,
+          string columnName,
+          string sqlLike)
         {
-            DataTable dt = new DataTable();
-            DataTable dtout = new DataTable();
-            DataRow dtrow;
-
-            string[] tmpTypes;
-            int option = 26;
-
-            string regExStr = App.Prj.RecordTypes[option, 0];
-            string recordType = App.Prj.RecordTypes[option, 3];
-
-            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
-                            [group2] as 'Log Level',[group3] as 'File Name',
-                            [group4] as 'Class',[group5] as 'Method',
-                            [group6] as 'Type',
-                            [group7] as 'Log',
-                            [group8] as 'Log Data',[group9],
-                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID +
-                      " AND " + columnName + " like '" + regExStr + "%' order by id asc";
-
-            DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
-
-            if (dt == null)
+            DataTable dataTable1 = new DataTable();
+            DataTable dataTable2 = new DataTable();
+            int index = 26;
+            string recordType1 = App.Prj.RecordTypes[index, 0];
+            string recordType2 = App.Prj.RecordTypes[index, 3];
+            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp',\r\n                            [group2] as 'Log Level',[group3] as 'File Name',\r\n                            [group4] as 'Class',[group5] as 'Method',\r\n                            [group6] as 'Type',\r\n                            [group7] as 'Log',\r\n                            [group8] as 'Log Data',[group9],\r\n                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID + " AND " + columnName + " like '" + recordType1 + "%' order by id asc");
+            if (tableFromDb == null)
+                return (DataTable)null;
+            DataTable byIdWithCriteria2 = tableFromDb.Clone();
+            foreach (DataRow row1 in (InternalDataCollectionBase)tableFromDb.Rows)
             {
-                return null;
-            }
-
-            dtout = dt.Clone();
-
-            foreach (DataRow row in dt.Rows)
-            {
-                tmpTypes = WebUtility.HtmlDecode(row["Log Data"].ToString()).Split((char)0x1c);
-
-                string subRecType = App.Prj.RecordTypes[option, 2];
-
-                if (((recordType == "1") || (recordType.Substring(0, 1) == "3")) &&
-                    (tmpTypes.Length < 4))
+                string[] strArray = WebUtility.HtmlDecode(row1["Log Data"].ToString()).Split('\u001C');
+                string recordType3 = App.Prj.RecordTypes[index, 2];
+                if ((!(recordType2 == "1") && !(recordType2.Substring(0, 1) == "3") || strArray.Length >= 4) && (!(recordType3 != "") || !(recordType3 != strArray[Convert.ToInt32(App.Prj.RecordTypes[index, 1])].Substring(0, App.Prj.RecordTypes[index, 2].Length))))
                 {
-                    continue;
+                    DataRow row2 = byIdWithCriteria2.NewRow();
+                    row2.ItemArray = row1.ItemArray;
+                    byIdWithCriteria2.Rows.Add(row2);
                 }
-
-                if ((subRecType != "") &&
-                     subRecType !=
-                     tmpTypes[Convert.ToInt32(App.Prj.RecordTypes[option, 1])].Substring(0, App.Prj.RecordTypes[option, 2].Length))
-                {
-                    continue;
-                }
-                dtrow = dtout.NewRow();
-                dtrow.ItemArray = row.ItemArray;
-                dtout.Rows.Add(dtrow);
             }
-            return dtout;
+            return byIdWithCriteria2;
         }
 
         public DataTable getALogByID(string logID)
         {
-            DataTable dt = new DataTable();
-
-            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp',
-                                                              [group2] as 'Log Level',[group3] as 'File Name',
-                                                              [group4] as 'Class',[group5] as 'Method',
-                                                              [group6] as 'Type',
-                                                              [group7] as 'Log',
-                                                              [group8] as 'Log Data',[group9],
-                                                              [prjKey],[logID] FROM [loginfo] 
-                                                              WHERE logID =" + logID + " order by id asc";
-
-            DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
-
-            if (dt != null)
+            DataTable dataTable = new DataTable();
+            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp',\r\n                                                              [group2] as 'Log Level',[group3] as 'File Name',\r\n                                                              [group4] as 'Class',[group5] as 'Method',\r\n                                                              [group6] as 'Type',\r\n                                                              [group7] as 'Log',\r\n                                                              [group8] as 'Log Data',[group9],\r\n                                                              [prjKey],[logID] FROM [loginfo] \r\n                                                              WHERE logID =" + logID + " order by id asc");
+            if (tableFromDb != null)
             {
-                foreach (DataRow row in dt.Rows)
-                {
-                    row[9] = WebUtility.HtmlDecode(row[9].ToString());
-                }
+                foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)
+                    row[9] = (object)WebUtility.HtmlDecode(row[9].ToString());
             }
-            return dt;
+            return tableFromDb;
         }
 
         public DataTable getAllLogs(string prjID)
         {
-            DataTable dt = new DataTable();
-            string sql = @"SELECT * FROM [logs] WHERE prjKey = '" + prjID + "' AND uploaded = 1";
-            DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
-            return dt;
+            DataTable dataTable = new DataTable();
+            return new DbCrud().GetTableFromDb("SELECT * FROM [logs] WHERE prjKey = '" + prjID + "' AND uploaded = 1");
         }
 
-        public string getLogName(string prjID, string logID)
-        {
-            string result = "";
-            string sql = @"SELECT [logFile] FROM [dbo].[logs] WHERE prjKey = '" + prjID + "' AND id = '" + logID + "' AND uploaded = 1";
-            DbCrud db = new DbCrud();
-            result = db.GetScalarStrFromDb(sql);
-            return result;
-        }
-
-        // mlh Add record 
+        public string getLogName(string prjID, string logID) => new DbCrud().GetScalarStrFromDb("SELECT [logFile] FROM [logs] WHERE prjKey = '" + prjID + "' AND id = '" + logID + "' AND uploaded = 1");
 
         public Dictionary<string, int> showRecordBits(string logID)
         {
-            ///Return a Dictionary with type of record and amount
-
-            Dictionary<string, int> dicBits = new Dictionary<string, int>();
-
-            DbCrud db = new DbCrud();
-
-            string sql = @"SELECT COUNT(2) FROM screeninfo WHERE logID =" + logID;
-            int count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["311"], count);
-
-            sql = @"SELECT COUNT(2) FROM stateinfo  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-
-            dicBits.Add(recTypesDic["312"], count);
-
-            sql = @"SELECT COUNT(2) FROM configParamsInfo  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["313"], count);
-
-            sql = @"SELECT COUNT(2) FROM fitinfo  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["315"], count);
-
-            sql = @"SELECT COUNT(2) FROM configId  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["316"], count);
-
-            sql = @"SELECT COUNT(2) FROM enhancedParamsInfo  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["31A"], count);
-
-            sql = @"SELECT COUNT(2) FROM dateTime  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["31C"], count);
-
-            sql = @"SELECT COUNT(2) FROM treq  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["11"], count);
-
-            sql = @"SELECT COUNT(2) FROM treply  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["4"], count);
-
-            sql = @"SELECT COUNT(2) FROM iccCurrencyDOT  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["81"], count);
-
-            sql = @"SELECT COUNT(2) FROM iccTransactionDOT  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["82"], count);
-
-            sql = @"SELECT COUNT(2) FROM iccLanguageSupportT  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["83"], count);
-
-            sql = @"SELECT COUNT(2) FROM iccTerminalDOT  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["84"], count);
-
-            sql = @"SELECT COUNT(2) FROM iccApplicationIDT  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["85"], count);
-
-            sql = @"SELECT (SELECT COUNT(2) FROM solicitedStatus8  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatus9  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusB  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusC  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusF1  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusF2  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusF3  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusF4  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusF5  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusF6  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusF7  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusFH  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusFI  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusFJ  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusFK  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusFL  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusFM  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM solicitedStatusFN  WHERE logID =" + logID + ") ";
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["22"], count);
-
-            sql = @"SELECT (SELECT COUNT(2) FROM unsolicitedStatus5c  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatus61  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatus66  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatus71  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusA  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusB  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusC  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusD  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusE  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusF  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusG  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusH  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusK  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusL  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusM  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusP  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusQ  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusR  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusS  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusV  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusw  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM unsolicitedStatusy  WHERE logID =" + logID + ") ";
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["12"], count);
-
-            sql = @"SELECT (SELECT COUNT(2) FROM encryptorInitData1  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM encryptorInitData2  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM encryptorInitData3  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM encryptorInitData4  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM encryptorInitData6  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM encryptorInitData7  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM encryptorInitData8  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM encryptorInitData9  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM encryptorInitDataA  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM encryptorInitDataB  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM encryptorInitDataD  WHERE logID =" + logID + ") +" +
-                "          (SELECT COUNT(2) FROM encryptorInitDataE  WHERE logID =" + logID + ") ";
-
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["23"], count);
-
-            sql = @"SELECT COUNT(2) FROM uploadEjData  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["61H"], count);
-
-            sql = @"SELECT COUNT(2) FROM ackEjUploadBlock  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["61J"], count);
-
-            sql = @"SELECT COUNT(2) FROM ackStopEj  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["62"], count);
-
-            sql = @"SELECT COUNT(2) FROM ejOptionsTimers  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["63"], count);
-
-            sql = @"SELECT COUNT(2) FROM extEncryption  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["34"], count);
-
-            sql = @"SELECT COUNT(2) FROM terminalCommands  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["1"], count);
-
-            sql = @"SELECT COUNT(2) FROM macFieldSelection  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["31B"], count);
-
-            sql = @"SELECT COUNT(2) FROM dispenserMapping  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["31E"], count);
-
-            sql = @"SELECT COUNT(2) FROM interactiveTranResponse  WHERE logID =" + logID;
-            count = db.GetScalarIntFromDb(sql);
-            dicBits.Add(recTypesDic["32"], count);
-
-            return dicBits;
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+            DbCrud dbCrud = new DbCrud();
+            string sql1 = "SELECT COUNT(2) FROM screeninfo WHERE logID =" + logID;
+            int scalarIntFromDb1 = dbCrud.GetScalarIntFromDb(sql1);
+            dictionary.Add(this.recTypesDic["311"], scalarIntFromDb1);
+            string sql2 = "SELECT COUNT(2) FROM stateinfo  WHERE logID =" + logID;
+            int scalarIntFromDb2 = dbCrud.GetScalarIntFromDb(sql2);
+            dictionary.Add(this.recTypesDic["312"], scalarIntFromDb2);
+            string sql3 = "SELECT COUNT(2) FROM configParamsInfo  WHERE logID =" + logID;
+            int scalarIntFromDb3 = dbCrud.GetScalarIntFromDb(sql3);
+            dictionary.Add(this.recTypesDic["313"], scalarIntFromDb3);
+            string sql4 = "SELECT COUNT(2) FROM fitinfo  WHERE logID =" + logID;
+            int scalarIntFromDb4 = dbCrud.GetScalarIntFromDb(sql4);
+            dictionary.Add(this.recTypesDic["315"], scalarIntFromDb4);
+            string sql5 = "SELECT COUNT(2) FROM configId  WHERE logID =" + logID;
+            int scalarIntFromDb5 = dbCrud.GetScalarIntFromDb(sql5);
+            dictionary.Add(this.recTypesDic["316"], scalarIntFromDb5);
+            string sql6 = "SELECT COUNT(2) FROM enhancedParamsInfo  WHERE logID =" + logID;
+            int scalarIntFromDb6 = dbCrud.GetScalarIntFromDb(sql6);
+            dictionary.Add(this.recTypesDic["31A"], scalarIntFromDb6);
+            string sql7 = "SELECT COUNT(2) FROM dateTime  WHERE logID =" + logID;
+            int scalarIntFromDb7 = dbCrud.GetScalarIntFromDb(sql7);
+            dictionary.Add(this.recTypesDic["31C"], scalarIntFromDb7);
+            string sql8 = "SELECT COUNT(2) FROM treq  WHERE logID =" + logID;
+            int scalarIntFromDb8 = dbCrud.GetScalarIntFromDb(sql8);
+            dictionary.Add(this.recTypesDic["11"], scalarIntFromDb8);
+            string sql9 = "SELECT COUNT(2) FROM treply  WHERE logID =" + logID;
+            int scalarIntFromDb9 = dbCrud.GetScalarIntFromDb(sql9);
+            dictionary.Add(this.recTypesDic["4"], scalarIntFromDb9);
+            string sql10 = "SELECT COUNT(2) FROM iccCurrencyDOT  WHERE logID =" + logID;
+            int scalarIntFromDb10 = dbCrud.GetScalarIntFromDb(sql10);
+            dictionary.Add(this.recTypesDic["81"], scalarIntFromDb10);
+            string sql11 = "SELECT COUNT(2) FROM iccTransactionDOT  WHERE logID =" + logID;
+            int scalarIntFromDb11 = dbCrud.GetScalarIntFromDb(sql11);
+            dictionary.Add(this.recTypesDic["82"], scalarIntFromDb11);
+            string sql12 = "SELECT COUNT(2) FROM iccLanguageSupportT  WHERE logID =" + logID;
+            int scalarIntFromDb12 = dbCrud.GetScalarIntFromDb(sql12);
+            dictionary.Add(this.recTypesDic["83"], scalarIntFromDb12);
+            string sql13 = "SELECT COUNT(2) FROM iccTerminalDOT  WHERE logID =" + logID;
+            int scalarIntFromDb13 = dbCrud.GetScalarIntFromDb(sql13);
+            dictionary.Add(this.recTypesDic["84"], scalarIntFromDb13);
+            string sql14 = "SELECT COUNT(2) FROM iccApplicationIDT  WHERE logID =" + logID;
+            int scalarIntFromDb14 = dbCrud.GetScalarIntFromDb(sql14);
+            dictionary.Add(this.recTypesDic["85"], scalarIntFromDb14);
+            string sql15 = "SELECT (SELECT COUNT(2) FROM solicitedStatus8  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatus9  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusB  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusC  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF1  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF2  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF3  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF4  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF5  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF6  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF7  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFH  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFI  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFJ  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFK  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFL  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFM  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFN  WHERE logID =" + logID + ") ";
+            int scalarIntFromDb15 = dbCrud.GetScalarIntFromDb(sql15);
+            dictionary.Add(this.recTypesDic["22"], scalarIntFromDb15);
+            string sql16 = "SELECT (SELECT COUNT(2) FROM unsolicitedStatus5c  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatus61  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatus66  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatus71  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusA  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusB  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusC  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusD  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusE  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusF  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusG  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusH  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusK  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusL  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusM  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusP  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusQ  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusR  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusS  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusV  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusw  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusy  WHERE logID =" + logID + ") ";
+            int scalarIntFromDb16 = dbCrud.GetScalarIntFromDb(sql16);
+            dictionary.Add(this.recTypesDic["12"], scalarIntFromDb16);
+            string sql17 = "SELECT (SELECT COUNT(2) FROM encryptorInitData1  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData2  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData3  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData4  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData6  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData7  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData8  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData9  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitDataA  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitDataB  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitDataD  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitDataE  WHERE logID =" + logID + ") ";
+            int scalarIntFromDb17 = dbCrud.GetScalarIntFromDb(sql17);
+            dictionary.Add(this.recTypesDic["23"], scalarIntFromDb17);
+            string sql18 = "SELECT COUNT(2) FROM uploadEjData  WHERE logID =" + logID;
+            int scalarIntFromDb18 = dbCrud.GetScalarIntFromDb(sql18);
+            dictionary.Add(this.recTypesDic["61H"], scalarIntFromDb18);
+            string sql19 = "SELECT COUNT(2) FROM ackEjUploadBlock  WHERE logID =" + logID;
+            int scalarIntFromDb19 = dbCrud.GetScalarIntFromDb(sql19);
+            dictionary.Add(this.recTypesDic["61J"], scalarIntFromDb19);
+            string sql20 = "SELECT COUNT(2) FROM ackStopEj  WHERE logID =" + logID;
+            int scalarIntFromDb20 = dbCrud.GetScalarIntFromDb(sql20);
+            dictionary.Add(this.recTypesDic["62"], scalarIntFromDb20);
+            string sql21 = "SELECT COUNT(2) FROM ejOptionsTimers  WHERE logID =" + logID;
+            int scalarIntFromDb21 = dbCrud.GetScalarIntFromDb(sql21);
+            dictionary.Add(this.recTypesDic["63"], scalarIntFromDb21);
+            string sql22 = "SELECT COUNT(2) FROM extEncryption  WHERE logID =" + logID;
+            int scalarIntFromDb22 = dbCrud.GetScalarIntFromDb(sql22);
+            dictionary.Add(this.recTypesDic["34"], scalarIntFromDb22);
+            string sql23 = "SELECT COUNT(2) FROM terminalCommands  WHERE logID =" + logID;
+            int scalarIntFromDb23 = dbCrud.GetScalarIntFromDb(sql23);
+            dictionary.Add(this.recTypesDic["1"], scalarIntFromDb23);
+            string sql24 = "SELECT COUNT(2) FROM macFieldSelection  WHERE logID =" + logID;
+            int scalarIntFromDb24 = dbCrud.GetScalarIntFromDb(sql24);
+            dictionary.Add(this.recTypesDic["31B"], scalarIntFromDb24);
+            string sql25 = "SELECT COUNT(2) FROM dispenserMapping  WHERE logID =" + logID;
+            int scalarIntFromDb25 = dbCrud.GetScalarIntFromDb(sql25);
+            dictionary.Add(this.recTypesDic["31E"], scalarIntFromDb25);
+            string sql26 = "SELECT COUNT(2) FROM interactiveTranResponse  WHERE logID =" + logID;
+            int scalarIntFromDb26 = dbCrud.GetScalarIntFromDb(sql26);
+            dictionary.Add(this.recTypesDic["32"], scalarIntFromDb26);
+            return dictionary;
         }
 
         public new Dictionary<string, string> readData(string sql)
         {
-            DataTable dt = new DataTable();
-            DbCrud db = new DbCrud();
-            dt = db.GetTableFromDb(sql);
-            Dictionary<string, string> dicData = new Dictionary<string, string>();
-
-            if (dt != null)
+            DataTable dataTable = new DataTable();
+            DataTable tableFromDb = new DbCrud().GetTableFromDb(sql);
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            if (tableFromDb != null)
             {
-                foreach (DataRow row in dt.Rows)
-                {
-                    dicData.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), WebUtility.HtmlDecode(row[2].ToString()));
-                    //                    dicData.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), row[2].ToString());
-                }
+                foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)
+                    dictionary.Add(row[0].ToString() + Convert.ToInt32(row[1]).ToString(), WebUtility.HtmlDecode(row[2].ToString()));
             }
-            return dicData;
+            return dictionary;
         }
 
         public void detachLogByID(string logID)
         {
-            string sql = @"DELETE from loginfo WHERE logID = " + logID +
-                       " ;DELETE from logs WHERE ID = " + logID +
-                       " ;UPDATE Project SET prjlogs = prjlogs - 1 " +
-                       "WHERE prjlogs > 0 and prjKey ='" + App.Prj.Key + "'";
-            DbCrud db = new DbCrud();
-            if (db.crudToDb(sql) == false) { };
+            if (new DbCrud().crudToDb("DELETE from loginfo WHERE logID = " + logID + " ;DELETE from logs WHERE ID = " + logID + " ;UPDATE Project SET prjlogs = prjlogs - 1 WHERE prjlogs > 0 and prjKey ='" + App.Prj.Key + "'"))
+                ;
         }
     }
 }

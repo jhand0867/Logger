@@ -80,6 +80,9 @@
     <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="LoggerRegistry">
+      <HintPath>LoggerRegistry\bin\Debug\net5.0-windows\LoggerRegistry.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -361,6 +364,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LoggerLicense\LoggerLicense.csproj">
+      <Project>{8dd5dcea-4725-4bea-a36d-fc16dd8c344e}</Project>
+      <Name>LoggerLicense</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoggerProgressBar1\LoggerProgressBar1.csproj">
       <Project>{9d99844a-f55a-460b-b505-b8fe803fadce}</Project>
       <Name>LoggerProgressBar1</Name>
