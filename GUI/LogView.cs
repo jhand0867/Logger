@@ -51,6 +51,10 @@ namespace Logger
 
         private void LogView_Load(object sender, EventArgs e)
         {
+            App app = new App();
+            app.MenuPermissions(App.Prj.Permissions, this.option3ToolStripMenuItem.DropDownItems, menusTypes.LogViewLogs);
+            app.MenuPermissions(App.Prj.Permissions, this.toolStripMenuItem1.DropDownItems, menusTypes.LogViewFiles);
+            app.MenuPermissions(App.Prj.Permissions, this.searchToolStripMenuItem.DropDownItems, menusTypes.LogViewFilter);
             try
             {
                 //dgvLog.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;

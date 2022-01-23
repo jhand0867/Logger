@@ -32,6 +32,10 @@ namespace Logger
 
         private void ProjectData_Load(object sender, EventArgs e)
         {
+            App app = new App();
+            app.MenuPermissions(App.Prj.Permissions, this.logsToolStripMenuItem.DropDownItems, menusTypes.ProjectData);
+            app.MenuPermissions(App.Prj.Permissions, this.scanToolStripMenuItem.DropDownItems, menusTypes.ScanOptions);
+
             scanToolStripMenuItem.Enabled = false;
             dataGridView1.DataSource = buildDataGridView1();
 
@@ -46,15 +50,9 @@ namespace Logger
             dataGridView1.Columns[3].HeaderText = "Uploaded on";
             dataGridView1.Columns[3].Width = 250;
 
-            if (dataGridView1.DataSource != null &&
-                dataGridView1.Rows.Count > 0)
-            {
-                scanToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
+            if (this.dataGridView1.DataSource == null || this.dataGridView1.Rows.Count <= 0)
                 return;
-            }
+            this.scanToolStripMenuItem.Enabled = true;
 
             fixLogNames(dataGridView1);
             dataGridView1.Refresh();

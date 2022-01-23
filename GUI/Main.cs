@@ -9,6 +9,22 @@ namespace Logger
         {
             InitializeComponent();
             this.BackColor = System.Drawing.Color.LightGray;
+            License license = new License();
+            App.Prj.Permissions = license.GetPermissions();
+            App.Prj.LicenseKey = license.VerifyLicenseRegistry();
+            double num = new JulianDate().JD(DateTime.Now);
+            if (App.Prj.LicenseKey != null && Convert.ToDouble(App.Prj.LicenseKey.EndDate) >= num)
+                return;
+            App.Prj.Permissions = "Customer: 0001\n" +
+                "LicenseType: \n" +
+                "Starts on: \n" +
+                "Ends on: \n" +
+                "Project Options: 01100000\n" +
+                "Data Options: 01100000\n" +
+                "Scan Options: 00000000\n" +
+                "LogView Logs Options: 11100000\n" +
+                "LogView Files Options: 11100000\n" +
+                "LogView Filter Options: 11000000\n";
 
         }
 
@@ -56,6 +72,17 @@ namespace Logger
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void licenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LicenseUpload lu = new LicenseUpload();
+            lu.ShowDialog();
+        }
+
+        private void aboutLoggerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutDialog about = new AboutDialog();
             about.ShowDialog();

@@ -33,10 +33,9 @@ namespace Logger
 
         internal void Projects_Load(object sender, EventArgs e)
         {
-            log.Debug("Loading projects info");
-
-            loadInfo();
-
+            new App().MenuPermissions(App.Prj.Permissions, this.menuStrip1.Items, menusTypes.ProjectOptions);
+            Projects.log.Debug((object)"Loading projects info");
+            this.loadInfo();
         }
 
         internal void loadInfo()

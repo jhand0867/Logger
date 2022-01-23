@@ -80,9 +80,6 @@
     <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="LoggerRegistry">
-      <HintPath>LoggerRegistry\bin\Debug\net5.0-windows\LoggerRegistry.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -125,11 +122,23 @@
       <DependentUpon>DeleteQuery.cs</DependentUpon>
     </Compile>
     <Compile Include="Filters\IFilter.cs" />
+    <Compile Include="GUI\LicenseUpload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\LicenseUpload.Designer.cs">
+      <DependentUpon>LicenseUpload.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\SplashWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\SplashWindow.Designer.cs">
       <DependentUpon>SplashWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UpdatesUpoad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\UpdatesUpoad.Designer.cs">
+      <DependentUpon>UpdatesUpoad.cs</DependentUpon>
     </Compile>
     <Compile Include="IMessage.cs" />
     <Compile Include="InteractiveTranResponse.cs" />
@@ -312,6 +321,9 @@
     <EmbeddedResource Include="GUI\DeleteQuery.resx">
       <DependentUpon>DeleteQuery.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\LicenseUpload.resx">
+      <DependentUpon>LicenseUpload.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\LogData.resx">
       <DependentUpon>LogData.cs</DependentUpon>
     </EmbeddedResource>
@@ -335,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\SplashWindow.resx">
       <DependentUpon>SplashWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UpdatesUpoad.resx">
+      <DependentUpon>UpdatesUpoad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -362,20 +377,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LoggerLicense\LoggerLicense.csproj">
-      <Project>{8dd5dcea-4725-4bea-a36d-fc16dd8c344e}</Project>
-      <Name>LoggerLicense</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LoggerProgressBar1\LoggerProgressBar1.csproj">
-      <Project>{9d99844a-f55a-460b-b505-b8fe803fadce}</Project>
-      <Name>LoggerProgressBar1</Name>
-    </ProjectReference>
-    <ProjectReference Include="LoggerUtils\LoggerUtils.csproj">
-      <Project>{8ddbc7e7-5299-4e79-8293-fab95a2f0ca3}</Project>
-      <Name>LoggerUtils</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -432,6 +433,24 @@
     <Content Include="Logger01.ico" />
     <Content Include="System Notes.txt" />
     <Compile Include="\\Mac\Home\Downloads\DbCrud.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Logger472\LoggerRegistry\LoggerRegistry\LoggerRegistry.csproj">
+      <Project>{90f8fbaa-3e21-4441-863e-b2b392c0d052}</Project>
+      <Name>LoggerRegistry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoggerLicense\LoggerLicense.csproj">
+      <Project>{8dd5dcea-4725-4bea-a36d-fc16dd8c344e}</Project>
+      <Name>LoggerLicense</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoggerProgressBar1\LoggerProgressBar1.csproj">
+      <Project>{9d99844a-f55a-460b-b505-b8fe803fadce}</Project>
+      <Name>LoggerProgressBar1</Name>
+    </ProjectReference>
+    <ProjectReference Include="LoggerUtils\LoggerUtils.csproj">
+      <Project>{8ddbc7e7-5299-4e79-8293-fab95a2f0ca3}</Project>
+      <Name>LoggerUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
