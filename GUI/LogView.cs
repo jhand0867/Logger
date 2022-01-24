@@ -11,6 +11,9 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace Logger
 {
     public delegate DataGridViewRow ReceiveLogData();
+    //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+    //System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 
     public struct scSqlLikeAndRegExp
     {
