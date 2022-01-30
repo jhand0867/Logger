@@ -453,5 +453,10 @@ namespace Logger
             logView.Show();
 
         }
+
+        private void listView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            App.Prj.Key = App.Prj.getProjectIDByName(e.Item.Text);
+        }
     }
 }

@@ -199,7 +199,11 @@ namespace Logger
         private List<StateData> extensionsLst = new List<StateData>();
         public Dictionary<string, string> recTypesDic = new Dictionary<string, string>();
 
-        public string Key => this.pKey;
+        public string Key 
+        {
+            get => this.pKey;
+            set => this.pKey = value;
+        }
 
         public string Name
         {
@@ -321,11 +325,16 @@ namespace Logger
 
         public DataTable getProjectByName(string pName)
         {
-            DataTable dataTable = new DataTable();
             return new DbCrud().GetTableFromDb("SELECT * FROM project WHERE prjName ='" + pName + "'");
         }
 
-        public bool updateProjectByName(Project project, string pName, string pBrief) => new DbCrud().crudToDb("UPDATE Project SET prjName ='" + pName + "', prjBrief ='" + pBrief + "' WHERE prjKey ='" + project.pKey + "'");
+        public string getProjectIDByName(string pName)
+        {
+            return new DbCrud().GetScalarStrFromDb("SELECT prjKey FROM project WHERE prjName ='" + pName + "'");
+        }
+
+        public bool updateProjectByName(Project project, string pName, string pBrief) => 
+            new DbCrud().crudToDb("UPDATE Project SET prjName ='" + pName + "', prjBrief ='" + pBrief + "' WHERE prjKey ='" + project.pKey + "'");
 
         public bool addLogToProject(string pKey) => new DbCrud().crudToDb("UPDATE Project SET prjLogs = prjLogs + 1 WHERE prjKey ='" + pKey + "'; UPDATE Logs SET uploaded = 1");
 

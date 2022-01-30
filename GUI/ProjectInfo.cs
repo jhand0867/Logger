@@ -87,11 +87,9 @@ namespace Logger
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            Project project = new Project();
-
             // do we have this project name already?
 
-            DataTable projectData = project.getProjectByName(tbPName.Text);
+            DataTable projectData = App.Prj.getProjectByName(tbPName.Text);
 
             if (projectData.Rows.Count > 0 &&
                 prevName != tbPName.Text)
@@ -101,7 +99,7 @@ namespace Logger
             }
             else
             {
-                project.updateProjectByName(App.Prj, tbPName.Text, tbPBrief.Text);
+                App.Prj.updateProjectByName(App.Prj, tbPName.Text, tbPBrief.Text);
                 this.Close();
                 ReloadDataListView();
             }
