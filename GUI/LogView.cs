@@ -293,7 +293,6 @@ namespace Logger
             cmbColumHeader6.Items.Add("Host Disconnected");
             cmbColumHeader6.Items.Add("CashDispenser");
             cmbColumHeader6.Items.Add("State Created");
-            cmbColumHeader6.Items.Add("ATM2HOST Solicited Status Terminal State");
 
             cmbColumHeader6.SelectionChangeCommitted += delegate (object sender, EventArgs e)
             {
@@ -392,21 +391,13 @@ namespace Logger
             }
             else
             {
+                // work in rogress - future feature
+                // doesn't work.
                 sqlLike = " LIKE '%" + c.Text.Substring(0, 8) + "%'";
                 this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria2(logID, "group8", sqlLike);
             }
 
-            //cmbColumHeader2.SelectedIndex = -1;
-            //cmbColumHeader2.SelectedItem = null;
-            //cmbColumHeader4.SelectedIndex = -1;
-            //cmbColumHeader4.SelectedItem = null;
-            //cmbColumHeader5.SelectedIndex = -1;
-            //cmbColumHeader5.SelectedItem = null;
-            //cmbColumHeader7.SelectedIndex = -1;
-            //cmbColumHeader7.SelectedItem = null;
             doDgvColumns();
-            //dgvLog.ClearSelection();
-            //this.dgvLog.Refresh();
         }
 
 
