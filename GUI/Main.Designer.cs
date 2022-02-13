@@ -48,8 +48,7 @@
             // mainMenu
             // 
             this.mainMenu.BackColor = System.Drawing.Color.SteelBlue;
-            this.mainMenu.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mainMenu.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+            this.mainMenu.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mainMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
@@ -57,8 +56,8 @@
             this.aboutToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
-            this.mainMenu.Padding = new System.Windows.Forms.Padding(8, 1, 0, 1);
-            this.mainMenu.Size = new System.Drawing.Size(2006, 40);
+            this.mainMenu.Padding = new System.Windows.Forms.Padding(10, 1, 0, 1);
+            this.mainMenu.Size = new System.Drawing.Size(955, 24);
             this.mainMenu.TabIndex = 0;
             this.mainMenu.Text = "mainmenu";
             // 
@@ -66,25 +65,25 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fileToolStripMenuItem.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(72, 38);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(41, 22);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(186, 44);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // projectsToolStripMenuItem
             // 
-            this.projectsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.projectsToolStripMenuItem.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.projectsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.projectsToolStripMenuItem.Name = "projectsToolStripMenuItem";
-            this.projectsToolStripMenuItem.Size = new System.Drawing.Size(118, 38);
+            this.projectsToolStripMenuItem.Size = new System.Drawing.Size(68, 22);
             this.projectsToolStripMenuItem.Text = "Projects";
             this.projectsToolStripMenuItem.Click += new System.EventHandler(this.projectsToolStripMenuItem_Click);
             // 
@@ -94,45 +93,45 @@
             this.aboutLoggerToolStripMenuItem,
             this.licenseToolStripMenuItem,
             this.updatesToolStripMenuItem});
-            this.aboutToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aboutToolStripMenuItem.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(100, 38);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(54, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // aboutLoggerToolStripMenuItem
             // 
             this.aboutLoggerToolStripMenuItem.Name = "aboutLoggerToolStripMenuItem";
-            this.aboutLoggerToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.aboutLoggerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutLoggerToolStripMenuItem.Text = "About Logger";
             this.aboutLoggerToolStripMenuItem.Click += new System.EventHandler(this.aboutLoggerToolStripMenuItem_Click);
             // 
             // licenseToolStripMenuItem
             // 
             this.licenseToolStripMenuItem.Name = "licenseToolStripMenuItem";
-            this.licenseToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.licenseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.licenseToolStripMenuItem.Text = "License";
             this.licenseToolStripMenuItem.Click += new System.EventHandler(this.licenseToolStripMenuItem_Click);
             // 
             // updatesToolStripMenuItem
             // 
             this.updatesToolStripMenuItem.Name = "updatesToolStripMenuItem";
-            this.updatesToolStripMenuItem.Size = new System.Drawing.Size(359, 44);
+            this.updatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.updatesToolStripMenuItem.Text = "Updates";
             // 
             // MainW
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(2006, 1272);
+            this.ClientSize = new System.Drawing.Size(955, 583);
             this.Controls.Add(this.mainMenu);
-            this.Font = new System.Drawing.Font("Arial", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainW";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Logger";

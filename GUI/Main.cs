@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Logger
@@ -9,6 +10,14 @@ namespace Logger
         {
             InitializeComponent();
             this.BackColor = System.Drawing.Color.LightGray;
+            //this.mainMenu.Font = new Font("Helvetica", 18);
+            this.projectsToolStripMenuItem.Font = new Font("Arial", 10);
+            this.aboutToolStripMenuItem.Font = new Font("Arial", 10);
+            this.fileToolStripMenuItem.Font = new Font("Arial", 10);
+
+            ToolStripManager.Renderer = new CustomProfessionalRenderer();
+            //mainMenu.Renderer = new RedTextRenderer();
+
             License license = new License();
             App.Prj.Permissions = license.GetPermissions();
             App.Prj.LicenseKey = license.VerifyLicenseRegistry();
@@ -73,7 +82,7 @@ namespace Logger
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void licenseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -87,5 +96,7 @@ namespace Logger
             AboutDialog about = new AboutDialog();
             about.ShowDialog();
         }
+
+
     }
 }

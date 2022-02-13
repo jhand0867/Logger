@@ -85,31 +85,31 @@ namespace Logger
             //try
             //{
 
-                for (int x = 0; x < tagsNumber; x++)
+            for (int x = 0; x < tagsNumber; x++)
+            {
+                if (strTags.Length <= offset + 1)
                 {
-                    if (strTags.Length <= offset + 1)
+                    continue;
+                }
+                if (emvTags.Contains("," + strTags.Substring(offset, 2) + ","))
+                {
+                    tags += strTags.Substring(offset, 2) + " ";
+                    offset += 2;
+                }
+                else
+                {
+                    if ((strTags.Length - offset) > 3)
                     {
-                        continue;
-                    }
-                    if (emvTags.Contains("," + strTags.Substring(offset, 2) + ","))
-                    {
-                        tags += strTags.Substring(offset, 2) + " ";
-                        offset += 2;
+                        tags += strTags.Substring(offset, 4) + " ";
+                        offset += 4;
                     }
                     else
                     {
-                        if ((strTags.Length - offset) > 3)
-                        {
-                            tags += strTags.Substring(offset, 4) + " ";
-                            offset += 4;
-                        }
-                        else
-                        {
-                            tags += strTags.Substring(offset, (strTags.Length - offset)) + " ";
-                            offset += strTags.Length - offset;
-                        }
+                        tags += strTags.Substring(offset, (strTags.Length - offset)) + " ";
+                        offset += strTags.Length - offset;
                     }
                 }
+            }
             //}
             //catch (Exception e)
             //{

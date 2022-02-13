@@ -23,6 +23,7 @@ namespace Logger
         public Projects()
         {
             InitializeComponent();
+            this.menuStrip1.Font = new Font("Helvetica", 10);
         }
 
 
@@ -55,10 +56,7 @@ namespace Logger
 
             Projects prForm = new Projects();
             prForm.BringToFront();
-            //prForm.MdiParent = MainW;
 
-            //Project pr = new Project();
-            //Dictionary<string, Project> prjList = pr.getAllProjects();
             DataTable dt = App.Prj.getAllProjects();
 
             log.Debug("Retrieving projects info");

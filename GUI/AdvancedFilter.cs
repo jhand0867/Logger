@@ -1,6 +1,7 @@
 ﻿using Logger.GUI;
 using System;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Logger
@@ -24,7 +25,7 @@ namespace Logger
         public AdvancedFilterw()
         {
             InitializeComponent();
-
+            menuStrip1.Font = new Font("Arial", 10);
 
             // intitialize sql fields
 
@@ -261,7 +262,7 @@ namespace Logger
                 {
                     dg.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
                     dg.Refresh();
-                    
+
                 }
             }
         }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.Data;
-using System.Linq;
 using System.Data.Odbc;
 //using System.Data.SqlClient;
 //using Devart.Data.SQLite;

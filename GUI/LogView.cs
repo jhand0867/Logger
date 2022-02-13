@@ -42,6 +42,11 @@ namespace Logger
             this.FormClosing += LogView_FormClosing;
             dgvLog.DefaultCellStyle.Font = new Font(FontFamily.GenericSansSerif, 9);
             //dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            mainMenu.Font = new Font("Arial", 10);
+            fileToolStripMenuItem.Font = new Font("Arial", 10);
+            viewToolStripMenuItem.Font = new Font("Arial", 10);
+            searchToolStripMenuItem.Font = new Font("Arial", 10);
+            //cbQueryName.Font = new Font("Arial", 10);
         }
 
         private void LogView_FormClosing(object sender, FormClosingEventArgs e)
@@ -55,8 +60,8 @@ namespace Logger
         private void LogView_Load(object sender, EventArgs e)
         {
             App app = new App();
-            app.MenuPermissions(App.Prj.Permissions, this.option3ToolStripMenuItem.DropDownItems, menusTypes.LogViewLogs);
-            app.MenuPermissions(App.Prj.Permissions, this.toolStripMenuItem1.DropDownItems, menusTypes.LogViewFiles);
+            app.MenuPermissions(App.Prj.Permissions, this.viewToolStripMenuItem.DropDownItems, menusTypes.LogViewLogs);
+            app.MenuPermissions(App.Prj.Permissions, this.fileToolStripMenuItem.DropDownItems, menusTypes.LogViewFiles);
             app.MenuPermissions(App.Prj.Permissions, this.searchToolStripMenuItem.DropDownItems, menusTypes.LogViewFilter);
             try
             {
@@ -123,7 +128,7 @@ namespace Logger
             dgvLog.Columns["Log Data"].Width = 620;
             dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
             dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
-            dgvLog.AlternatingRowsDefaultCellStyle.Font = new Font(FontFamily.GenericSansSerif, 9);
+            dgvLog.AlternatingRowsDefaultCellStyle.Font = new Font(Font.FontFamily, 9);
 
             using (Font font = new Font(
                 dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))

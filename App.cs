@@ -24,7 +24,7 @@ namespace Logger
         //private static readonly ILog log = LogManager.GetLogger("App.cs");
         private static readonly ILog log = LogManager.GetLogger(
                                            System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-       
+
 
         public static Project Prj = LoggerFactory.Create_Project();
 

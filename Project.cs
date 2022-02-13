@@ -199,7 +199,7 @@ namespace Logger
         private List<StateData> extensionsLst = new List<StateData>();
         public Dictionary<string, string> recTypesDic = new Dictionary<string, string>();
 
-        public string Key 
+        public string Key
         {
             get => this.pKey;
             set => this.pKey = value;
@@ -333,7 +333,7 @@ namespace Logger
             return new DbCrud().GetScalarStrFromDb("SELECT prjKey FROM project WHERE prjName ='" + pName + "'");
         }
 
-        public bool updateProjectByName(Project project, string pName, string pBrief) => 
+        public bool updateProjectByName(Project project, string pName, string pBrief) =>
             new DbCrud().crudToDb("UPDATE Project SET prjName ='" + pName + "', prjBrief ='" + pBrief + "' WHERE prjKey ='" + project.pKey + "'");
 
         public bool addLogToProject(string pKey) => new DbCrud().crudToDb("UPDATE Project SET prjLogs = prjLogs + 1 WHERE prjKey ='" + pKey + "'; UPDATE Logs SET uploaded = 1");
@@ -572,7 +572,14 @@ namespace Logger
           string sqlLike)
         {
             DataTable dataTable = new DataTable();
-            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp',\r\n                            [group2] as 'Log Level',[group3] as 'File Name',\r\n                            [group4] as 'Class',[group5] as 'Method',\r\n                            [group6] as 'Type',\r\n                            [group7] as 'Log',\r\n                            [group8] as 'Log Data',[group9],\r\n                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID + " AND " + columnName + sqlLike + " order by id asc");
+            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp'," +
+                "                            [group2] as 'Log Level',[group3] as 'File Name'," +
+                "                            [group4] as 'Class',[group5] as 'Method'," +
+                "                            [group6] as 'Type'," +
+                "                            [group7] as 'Log'," +
+                "                            [group8] as 'Log Data',[group9]," +
+                "                            [prjKey],[logID] FROM [loginfo] " +
+                "                            WHERE logID =" + logID + " AND " + columnName + sqlLike + " order by id asc");
             if (tableFromDb != null)
             {
                 foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)
@@ -585,7 +592,14 @@ namespace Logger
         {
             DataTable dataTable = new DataTable();
             DataTable alogByIdWithRegExp = new DataTable();
-            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp',\r\n                            [group2] as 'Log Level',[group3] as 'File Name',\r\n                            [group4] as 'Class',[group5] as 'Method',\r\n                            [group6] as 'Type',\r\n                            [group7] as 'Log',\r\n                            [group8] as 'Log Data',[group9],\r\n                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID + " AND " + sqlLike + " order by id asc");
+            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp'," +
+                "                            [group2] as 'Log Level',[group3] as 'File Name'," +
+                "                            [group4] as 'Class',[group5] as 'Method'," +
+                "                            [group6] as 'Type'," +
+                "                            [group7] as 'Log'," +
+                "                            [group8] as 'Log Data',[group9]," +
+                "                            [prjKey],[logID] FROM [loginfo] " +
+                "                            WHERE logID =" + logID + " AND " + sqlLike + " order by id asc");
             Regex regex = new Regex(regExpStr);
             if (tableFromDb != null)
             {
@@ -614,7 +628,15 @@ namespace Logger
             int index = 26;
             string recordType1 = App.Prj.RecordTypes[index, 0];
             string recordType2 = App.Prj.RecordTypes[index, 3];
-            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp',\r\n                            [group2] as 'Log Level',[group3] as 'File Name',\r\n                            [group4] as 'Class',[group5] as 'Method',\r\n                            [group6] as 'Type',\r\n                            [group7] as 'Log',\r\n                            [group8] as 'Log Data',[group9],\r\n                            [prjKey],[logID] FROM [loginfo] WHERE logID =" + logID + " AND " + columnName + " like '" + recordType1 + "%' order by id asc");
+            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp', " +
+                "[group2] as 'Log Level',[group3] as 'File Name'," +
+                "[group4] as 'Class',[group5] as 'Method'," +
+                "[group6] as 'Type'," +
+                "[group7] as 'Log'," +
+                "[group8] as 'Log Data',[group9]," +
+                "[prjKey],[logID] FROM [loginfo] " +
+                "WHERE logID =" + logID + " AND " + columnName + " like '" + recordType1 + "%' order by id asc");
+
             if (tableFromDb == null)
                 return (DataTable)null;
             DataTable byIdWithCriteria2 = tableFromDb.Clone();

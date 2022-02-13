@@ -63,9 +63,10 @@
             this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
             this.listView1.LargeImageList = this.imageList1;
-            this.listView1.Location = new System.Drawing.Point(4, 45);
+            this.listView1.Location = new System.Drawing.Point(3, 29);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(800, 407);
+            this.listView1.Size = new System.Drawing.Size(535, 266);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView1_ItemSelectionChanged);
@@ -148,7 +149,7 @@
             // 
             this.newToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(45, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -156,7 +157,7 @@
             // 
             this.editToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(43, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
@@ -165,13 +166,14 @@
             this.deleteToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Padding = new System.Windows.Forms.Padding(0);
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(49, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.SteelBlue;
+            this.menuStrip1.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
@@ -179,8 +181,8 @@
             this.deleteToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(22, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1288, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(15, 1, 0, 1);
+            this.menuStrip1.Size = new System.Drawing.Size(859, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -188,7 +190,8 @@
             // 
             this.treeView1.ImageIndex = 0;
             this.treeView1.ImageList = this.imageList1;
-            this.treeView1.Location = new System.Drawing.Point(814, 46);
+            this.treeView1.Location = new System.Drawing.Point(543, 30);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(2);
             this.treeView1.Name = "treeView1";
             treeNode1.ImageIndex = 0;
             treeNode1.Name = "Node0";
@@ -198,7 +201,7 @@
             treeNode1});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowNodeToolTips = true;
-            this.treeView1.Size = new System.Drawing.Size(465, 405);
+            this.treeView1.Size = new System.Drawing.Size(311, 265);
             this.treeView1.TabIndex = 2;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
@@ -210,10 +213,10 @@
             this.hamburguerMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("hamburguerMenu.BackgroundImage")));
             this.hamburguerMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.hamburguerMenu.ContextMenuStrip = this.contextMenuStrip2;
-            this.hamburguerMenu.Location = new System.Drawing.Point(757, 3);
-            this.hamburguerMenu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.hamburguerMenu.Location = new System.Drawing.Point(505, 2);
+            this.hamburguerMenu.Margin = new System.Windows.Forms.Padding(1);
             this.hamburguerMenu.Name = "hamburguerMenu";
-            this.hamburguerMenu.Size = new System.Drawing.Size(45, 28);
+            this.hamburguerMenu.Size = new System.Drawing.Size(30, 18);
             this.hamburguerMenu.TabIndex = 3;
             this.hamburguerMenu.TabStop = false;
             this.hamburguerMenu.Visible = false;
@@ -249,12 +252,12 @@
             // 
             // Projects
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(1288, 583);
+            this.ClientSize = new System.Drawing.Size(859, 379);
             this.Controls.Add(this.hamburguerMenu);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.listView1);
@@ -262,6 +265,7 @@
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Projects";

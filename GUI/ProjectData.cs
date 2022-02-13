@@ -21,7 +21,9 @@ namespace Logger
             InitializeComponent();
 
             this.FormClosing += ProjectData_FormClosing;
-
+            this.menuStrip1.Font = new System.Drawing.Font("Arial", 10);
+            this.logsToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10);
+            this.scanToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10);
         }
         public RefreshData ReloadDataView;
 
@@ -108,7 +110,7 @@ namespace Logger
 
         private void detachToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             var result = MessageBox.Show($"This will remove the log\n Do you want to continue",
                 "Alert!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
