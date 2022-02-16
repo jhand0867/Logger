@@ -27,6 +27,7 @@ namespace Logger
             InitializeComponent();
             menuStrip1.Font = new Font("Arial", 10);
 
+
             // intitialize sql fields
 
             SQLSearchCondition sc = LoggerFactory.Create_SQLSearchCondition();
@@ -35,9 +36,9 @@ namespace Logger
                 gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "");
         }
 
-        internal void AdvancedFilterLoad(object sQLSearchConditions)
+        internal void AdvancedFilterLoad(object SQLSearchConditions)
         {
-            gridrows = (SQLSearchCondition[])sQLSearchConditions;
+            gridrows = (SQLSearchCondition[])SQLSearchConditions;
 
             // for each line in the AdvancedFilter (condition)
             // - build the name of the condition's field (Field, Operator, Value, AndOr)
@@ -232,7 +233,9 @@ namespace Logger
 
             for (int i = 0; i < 6; i++)
             {
-                if (gridrows[i].SQLFieldName != "" && gridrows[i].SQLCondition != "" && gridrows[i].SQLFieldValue != "")
+                if (gridrows[i].SQLFieldName != "" && 
+                    gridrows[i].SQLCondition != "" && 
+                    gridrows[i].SQLFieldValue != "")
                 {
                     temp = gridrows[i].SQLFieldValue;
 
@@ -279,8 +282,10 @@ namespace Logger
                     gridrows[i].SQLCondition + " " + gridrows[i].SQLFieldValue + " ";
 
                 if (i < 5 &&
-                    gridrows[i].SQLAndOr != "" &&
-                    gridrows[i + 1].SQLFieldName != "" && gridrows[i + 1].SQLCondition != "" && gridrows[i + 1].SQLFieldValue != "")
+                             gridrows[i].SQLAndOr != "" &&
+                             gridrows[i + 1].SQLFieldName != "" && 
+                             gridrows[i + 1].SQLCondition != "" && 
+                             gridrows[i + 1].SQLFieldValue != "")
 
                     rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].SQLAndOr + " ";
             }
@@ -288,25 +293,29 @@ namespace Logger
 
         private void cbLineValue_MouseClick(object sender, MouseEventArgs e)
         {
-            ComboBox cb = (sender as ComboBox);
-            string iStr = cb.Name.Substring(6, 1);
+            Control tb = (sender as Control);
+            string iStr = tb.Name.Substring(6, 1);
             int i = Convert.ToInt32(iStr) - 1;
-
-            cb.Items.Clear();
-            cb.Items.Add(string.Empty);
 
             if (gridrows[i].SQLFieldName == "") return;
 
-            System.Data.DataTable dt = new System.Data.DataTable();
-
-            dt = App.Prj.getGroupOptions(ProjectData.logID, gridrows[i].SQLFieldName);
-
-            if (dt == null) return;
-
-            foreach (DataRow theRow in dt.Rows)
+            if (gridrows[i].SQLFieldName != "[group8]")
             {
-                string str = (theRow[0].ToString());
-                cb.Items.Add(str);
+                ComboBox cb = (sender as ComboBox);
+                cb.Items.Clear();
+                cb.Items.Add(string.Empty);
+
+                System.Data.DataTable dt = new System.Data.DataTable();
+
+                dt = App.Prj.getGroupOptions(ProjectData.logID, gridrows[i].SQLFieldName);
+
+                if (dt == null) return;
+
+                foreach (DataRow theRow in dt.Rows)
+                {
+                    string str = (theRow[0].ToString());
+                    cb.Items.Add(str);
+                }
             }
         }
 
@@ -369,6 +378,11 @@ namespace Logger
                 gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "");
 
             AdvancedFilterLoad(gridrows);
+        }
+
+        private void clearToolStripMenuItem_MouseLeave(object sender, EventArgs e)
+        {
+
         }
     }
 }

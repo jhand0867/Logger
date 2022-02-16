@@ -555,10 +555,23 @@ namespace Logger
 
         private void advancedFilter()
         {
-            AdvancedFilterw advancedFilter = new AdvancedFilterw();
-            advancedFilter.PassDataGridView += new ToPassDataGridView(SendDataGridView);
-            advancedFilter.BringToFront();
-            advancedFilter.ShowDialog();
+
+            if (Application.OpenForms["AdvancedFilterw"] != null &&
+                Application.OpenForms["AdvancedFilterw"].Owner == this)
+            {
+                Form advancedFilter = Application.OpenForms["AdvancedFilterw"];
+                advancedFilter.BringToFront();
+                advancedFilter.Show(); 
+            }
+            else
+            {
+                AdvancedFilterw advancedFilter = new AdvancedFilterw();
+                advancedFilter.PassDataGridView += new ToPassDataGridView(SendDataGridView);
+                advancedFilter.Owner = this;
+                advancedFilter.BringToFront();
+                advancedFilter.Show(); // Dialog();
+            }
+
         }
 
         private DataGridView SendDataGridView()
@@ -985,6 +998,21 @@ namespace Logger
                 }
             }
             return selToPrint;
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void exitApplicationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void searchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
