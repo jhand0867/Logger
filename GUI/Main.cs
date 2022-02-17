@@ -14,6 +14,15 @@ namespace Logger
             this.projectsToolStripMenuItem.Font = new Font("Arial", 10);
             this.aboutToolStripMenuItem.Font = new Font("Arial", 10);
             this.fileToolStripMenuItem.Font = new Font("Arial", 10);
+            ToolStripMenuItem MI = new ToolStripMenuItem();
+            MI.Name = "Option1";
+//            MI.Text = "12; APLog20200206.log";
+            MI.Text = "190; filefortest.log";
+
+            this.fileToolStripMenuItem.DropDownItems.Add("One Log");
+            this.fileToolStripMenuItem.DropDownItems.Add(MI);
+
+            //12; APLog20200206.log
 
             ToolStripManager.Renderer = new CustomProfessionalRenderer();
             //mainMenu.Renderer = new RedTextRenderer();
@@ -97,6 +106,21 @@ namespace Logger
             about.ShowDialog();
         }
 
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //fileToolStripMenuItem.ite
+        }
 
+        private void fileToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            ToolStripMenuItem O = (ToolStripMenuItem)e.ClickedItem;
+            string objectName = O.Text;
+
+            LogView LV = new LogView();
+            LV.Tag = O.Text;
+            LV.BringToFront();
+            LV.Show();
+            
+        }
     }
 }

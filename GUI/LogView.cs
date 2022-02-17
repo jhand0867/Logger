@@ -103,6 +103,9 @@ namespace Logger
                 return;
             }
 
+            if (dgvLog.Rows.Count == 0)
+                this.Close();
+
             //dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             if (dgvLog.ColumnCount > 0)
             {
