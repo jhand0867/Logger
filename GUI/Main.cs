@@ -14,12 +14,11 @@ namespace Logger
             this.projectsToolStripMenuItem.Font = new Font("Arial", 10);
             this.aboutToolStripMenuItem.Font = new Font("Arial", 10);
             this.fileToolStripMenuItem.Font = new Font("Arial", 10);
+
             ToolStripMenuItem MI = new ToolStripMenuItem();
             MI.Name = "Option1";
-//            MI.Text = "12; APLog20200206.log";
+//          MI.Text = "12; APLog20200206.log";
             MI.Text = "190; filefortest.log";
-
-            this.fileToolStripMenuItem.DropDownItems.Add("One Log");
             this.fileToolStripMenuItem.DropDownItems.Add(MI);
 
             //12; APLog20200206.log

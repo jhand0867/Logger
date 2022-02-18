@@ -91,6 +91,8 @@ namespace Logger
                 {
                     dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
                 }
+                
+                writeGeneralInfo(ProjectData.logID);
 
             }
             catch (Exception ex)
@@ -139,6 +141,15 @@ namespace Logger
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
             }
             //  dgvLog.ClearSelection();
+        }
+
+        private void writeGeneralInfo(string logID)
+        {
+            Project pr = new Project();
+            string prName = pr.getLogName(App.Prj.Key, logID);
+            // write generalInfo record with prname and logid
+            // MLH here
+
         }
 
         private System.Windows.Forms.ComboBox cmbColumHeader2 = new System.Windows.Forms.ComboBox();
