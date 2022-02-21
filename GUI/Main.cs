@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,13 +16,19 @@ namespace Logger
             this.aboutToolStripMenuItem.Font = new Font("Arial", 10);
             this.fileToolStripMenuItem.Font = new Font("Arial", 10);
 
-            ToolStripMenuItem MI = new ToolStripMenuItem();
-            MI.Name = "Option1";
-//          MI.Text = "12; APLog20200206.log";
-            MI.Text = "190; filefortest.log";
-            this.fileToolStripMenuItem.DropDownItems.Add(MI);
+            //DbCrud DB = new DbCrud();
+            
+            //DataTable dt = DB.GetTableFromDb("SELECT * FROM generalInfo");
+            //foreach (DataRow row in dt.Rows)
+            //{
+            //    ToolStripMenuItem MI = new ToolStripMenuItem();
+            //    MI.Name = row["logID"].ToString();
+            //    MI.Text = row["logName"].ToString();
 
-            //12; APLog20200206.log
+            //    this.fileToolStripMenuItem.DropDownItems.Add(MI);
+            //}
+
+            //int i = fileToolStripMenuItem.DropDownItems.Count;
 
             ToolStripManager.Renderer = new CustomProfessionalRenderer();
             //mainMenu.Renderer = new RedTextRenderer();
@@ -107,18 +114,37 @@ namespace Logger
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //fileToolStripMenuItem.ite
+            ToolStripMenuItem O = (ToolStripMenuItem)sender;
+
+            for (int i = O.DropDownItems.Count; i > 2; i--)
+            {
+                O.DropDownItems.RemoveAt(i-1);
+            }
+
+            DbCrud DB = new DbCrud();
+
+            DataTable dt = DB.GetTableFromDb("SELECT * FROM generalInfo order by id desc");
+            foreach (DataRow row in dt.Rows)
+            {
+                ToolStripMenuItem MI = new ToolStripMenuItem();
+                MI.Name = row["logID"].ToString();
+                MI.Text = row["logName"].ToString();
+
+                O.DropDownItems.Add(MI);
+            }
         }
 
         private void fileToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             ToolStripMenuItem O = (ToolStripMenuItem)e.ClickedItem;
-            string objectName = O.Text;
 
-            LogView LV = new LogView();
-            LV.Tag = O.Text;
-            LV.BringToFront();
-            LV.Show();
+            if (O.Name != "exitToolStripMenuItem")
+            {
+                LogView LV = new LogView();
+                LV.Tag = O.Name + ";" + O.Text;
+                LV.BringToFront();
+                LV.Show();
+            }
             
         }
     }

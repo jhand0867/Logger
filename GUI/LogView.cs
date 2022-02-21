@@ -146,9 +146,40 @@ namespace Logger
         private void writeGeneralInfo(string logID)
         {
             Project pr = new Project();
-            string prName = pr.getLogName(App.Prj.Key, logID);
+            
+            string logName = pr.getLogName(logID);
             // write generalInfo record with prname and logid
             // MLH here
+
+            DbCrud db = new DbCrud();
+
+            // Remove oldest record if number of logs browsed >= 10
+
+            string sql = "SELECT COUNT(1) FROM generalInfo";
+            if (db.GetScalarIntFromDb(sql) >= 3)
+            {
+                DataTable dt = new DataTable();
+                sql = "SELECT * FROM generalInfo limit 1";
+                dt = db.GetTableFromDb(sql);
+              
+                sql = "DELETE FROM generalInfo where logID ='" + dt.Rows[0]["logID"].ToString() + "'";
+                db.crudToDb(sql);
+            }
+
+            // Remove record if exists
+            sql = "SELECT COUNT(1) FROM generalInfo WHERE logID =" + logID;
+            if (db.GetScalarIntFromDb(sql) > 0)
+            {
+                sql = "DELETE FROM generalInfo where logID ='" + logID + "'";
+                db.crudToDb(sql);
+            }
+
+            // Insert record with new id
+
+            sql = $@"INSERT INTO generalInfo (logID, logName)
+                        VALUES ( '{logID}','{logName}' ) ";
+
+            db.crudToDb(sql);
 
         }
 

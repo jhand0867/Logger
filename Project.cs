@@ -674,6 +674,9 @@ namespace Logger
 
         public string getLogName(string prjID, string logID) => new DbCrud().GetScalarStrFromDb("SELECT [logFile] FROM [logs] WHERE prjKey = '" + prjID + "' AND id = '" + logID + "' AND uploaded = 1");
 
+        public string getLogName(string logID) => new DbCrud().GetScalarStrFromDb("SELECT [logFile] FROM [logs] WHERE id = '" + logID + "' AND uploaded = 1");
+
+
         public Dictionary<string, int> showRecordBits(string logID)
         {
             Dictionary<string, int> dictionary = new Dictionary<string, int>();
