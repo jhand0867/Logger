@@ -328,6 +328,11 @@ namespace Logger
             return new DbCrud().GetTableFromDb("SELECT * FROM project WHERE prjName ='" + pName + "'");
         }
 
+        public string getProjectNameByProjectKey(string pKey)
+        {
+            return new DbCrud().GetScalarStrFromDb("SELECT prjName FROM project WHERE prjKey ='" + pKey + "'");
+        }
+
         public string getProjectIDByName(string pName)
         {
             return new DbCrud().GetScalarStrFromDb("SELECT prjKey FROM project WHERE prjName ='" + pName + "'");

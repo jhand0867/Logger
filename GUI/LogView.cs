@@ -152,13 +152,21 @@ namespace Logger
             // MLH here
 
             DbCrud db = new DbCrud();
+            DataTable dt = new DataTable();
+
+            // Remove record if exists
+            string sql = "SELECT COUNT(1) FROM generalInfo WHERE logID =" + logID;
+            if (db.GetScalarIntFromDb(sql) > 0)
+            {
+                sql = "DELETE FROM generalInfo where logID ='" + logID + "'";
+                db.crudToDb(sql);
+            }
 
             // Remove oldest record if number of logs browsed >= 10
 
-            string sql = "SELECT COUNT(1) FROM generalInfo";
+            sql = "SELECT COUNT(1) FROM generalInfo";
             if (db.GetScalarIntFromDb(sql) >= 3)
             {
-                DataTable dt = new DataTable();
                 sql = "SELECT * FROM generalInfo limit 1";
                 dt = db.GetTableFromDb(sql);
               
@@ -166,18 +174,12 @@ namespace Logger
                 db.crudToDb(sql);
             }
 
-            // Remove record if exists
-            sql = "SELECT COUNT(1) FROM generalInfo WHERE logID =" + logID;
-            if (db.GetScalarIntFromDb(sql) > 0)
-            {
-                sql = "DELETE FROM generalInfo where logID ='" + logID + "'";
-                db.crudToDb(sql);
-            }
-
             // Insert record with new id
 
+            dt = pr.getALogByID(logID);
+            string prjKey = dt.Rows[0]["prjKey"].ToString();
             sql = $@"INSERT INTO generalInfo (logID, logName)
-                        VALUES ( '{logID}','{logName}' ) ";
+                        VALUES ( '{logID}','Project: {pr.getProjectNameByProjectKey(prjKey)} File: {logName.Substring(logName.LastIndexOf("\\"),logName.Length - logName.LastIndexOf("\\"))}')";
 
             db.crudToDb(sql);
 
