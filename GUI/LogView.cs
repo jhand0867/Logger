@@ -640,7 +640,7 @@ namespace Logger
 
             DataTable dt2 = dt1 as DataTable;
 
-            var excelApplication = new Microsoft.Office.Interop.Excel.Application();
+            var excelApplication = new Excel.Application();
 
             var excelWorkBook = excelApplication.Application.Workbooks.Add(Type.Missing);
 

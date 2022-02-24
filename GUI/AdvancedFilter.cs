@@ -384,5 +384,16 @@ namespace Logger
         {
 
         }
+
+        private void refreshDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridView dg = PassDataGridView();
+            if (dg != null)
+            {
+                dg.DataSource = App.Prj.getALogByID(ProjectData.logID);
+                dg.Refresh();
+
+            }
+        }
     }
 }

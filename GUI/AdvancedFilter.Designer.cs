@@ -73,6 +73,7 @@ namespace Logger
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.refreshDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,7 +83,7 @@ namespace Logger
             this.cbLine1AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine1AndOr.FormattingEnabled = true;
             this.cbLine1AndOr.Location = new System.Drawing.Point(403, 45);
-            this.cbLine1AndOr.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine1AndOr.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine1AndOr.Name = "cbLine1AndOr";
             this.cbLine1AndOr.Size = new System.Drawing.Size(82, 21);
             this.cbLine1AndOr.TabIndex = 0;
@@ -95,7 +96,7 @@ namespace Logger
             this.cbLine1Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine1Field.FormattingEnabled = true;
             this.cbLine1Field.Location = new System.Drawing.Point(31, 44);
-            this.cbLine1Field.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine1Field.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine1Field.Name = "cbLine1Field";
             this.cbLine1Field.Size = new System.Drawing.Size(112, 21);
             this.cbLine1Field.TabIndex = 1;
@@ -108,7 +109,7 @@ namespace Logger
             this.cbLine1Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine1Operator.FormattingEnabled = true;
             this.cbLine1Operator.Location = new System.Drawing.Point(148, 44);
-            this.cbLine1Operator.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine1Operator.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine1Operator.Name = "cbLine1Operator";
             this.cbLine1Operator.Size = new System.Drawing.Size(86, 21);
             this.cbLine1Operator.TabIndex = 2;
@@ -119,7 +120,7 @@ namespace Logger
             // 
             this.dtpTimestamp.CustomFormat = "";
             this.dtpTimestamp.Location = new System.Drawing.Point(312, 267);
-            this.dtpTimestamp.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpTimestamp.Margin = new System.Windows.Forms.Padding(2);
             this.dtpTimestamp.Name = "dtpTimestamp";
             this.dtpTimestamp.Size = new System.Drawing.Size(145, 20);
             this.dtpTimestamp.TabIndex = 3;
@@ -130,7 +131,7 @@ namespace Logger
             this.cbLine2Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine2Operator.FormattingEnabled = true;
             this.cbLine2Operator.Location = new System.Drawing.Point(148, 70);
-            this.cbLine2Operator.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine2Operator.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine2Operator.Name = "cbLine2Operator";
             this.cbLine2Operator.Size = new System.Drawing.Size(86, 21);
             this.cbLine2Operator.TabIndex = 6;
@@ -143,7 +144,7 @@ namespace Logger
             this.cbLine2Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine2Field.FormattingEnabled = true;
             this.cbLine2Field.Location = new System.Drawing.Point(31, 70);
-            this.cbLine2Field.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine2Field.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine2Field.Name = "cbLine2Field";
             this.cbLine2Field.Size = new System.Drawing.Size(112, 21);
             this.cbLine2Field.TabIndex = 5;
@@ -156,7 +157,7 @@ namespace Logger
             this.cbLine2AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine2AndOr.FormattingEnabled = true;
             this.cbLine2AndOr.Location = new System.Drawing.Point(403, 70);
-            this.cbLine2AndOr.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine2AndOr.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine2AndOr.Name = "cbLine2AndOr";
             this.cbLine2AndOr.Size = new System.Drawing.Size(82, 21);
             this.cbLine2AndOr.TabIndex = 4;
@@ -169,7 +170,7 @@ namespace Logger
             this.cbLine4Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine4Operator.FormattingEnabled = true;
             this.cbLine4Operator.Location = new System.Drawing.Point(148, 126);
-            this.cbLine4Operator.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine4Operator.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine4Operator.Name = "cbLine4Operator";
             this.cbLine4Operator.Size = new System.Drawing.Size(86, 21);
             this.cbLine4Operator.TabIndex = 14;
@@ -182,7 +183,7 @@ namespace Logger
             this.cbLine4Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine4Field.FormattingEnabled = true;
             this.cbLine4Field.Location = new System.Drawing.Point(31, 126);
-            this.cbLine4Field.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine4Field.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine4Field.Name = "cbLine4Field";
             this.cbLine4Field.Size = new System.Drawing.Size(112, 21);
             this.cbLine4Field.TabIndex = 13;
@@ -195,7 +196,7 @@ namespace Logger
             this.cbLine4AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine4AndOr.FormattingEnabled = true;
             this.cbLine4AndOr.Location = new System.Drawing.Point(403, 126);
-            this.cbLine4AndOr.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine4AndOr.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine4AndOr.Name = "cbLine4AndOr";
             this.cbLine4AndOr.Size = new System.Drawing.Size(82, 21);
             this.cbLine4AndOr.TabIndex = 12;
@@ -208,7 +209,7 @@ namespace Logger
             this.cbLine3Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine3Operator.FormattingEnabled = true;
             this.cbLine3Operator.Location = new System.Drawing.Point(148, 99);
-            this.cbLine3Operator.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine3Operator.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine3Operator.Name = "cbLine3Operator";
             this.cbLine3Operator.Size = new System.Drawing.Size(86, 21);
             this.cbLine3Operator.TabIndex = 11;
@@ -221,7 +222,7 @@ namespace Logger
             this.cbLine3Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine3Field.FormattingEnabled = true;
             this.cbLine3Field.Location = new System.Drawing.Point(31, 99);
-            this.cbLine3Field.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine3Field.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine3Field.Name = "cbLine3Field";
             this.cbLine3Field.Size = new System.Drawing.Size(112, 21);
             this.cbLine3Field.TabIndex = 10;
@@ -234,7 +235,7 @@ namespace Logger
             this.cbLine3AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine3AndOr.FormattingEnabled = true;
             this.cbLine3AndOr.Location = new System.Drawing.Point(403, 100);
-            this.cbLine3AndOr.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine3AndOr.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine3AndOr.Name = "cbLine3AndOr";
             this.cbLine3AndOr.Size = new System.Drawing.Size(82, 21);
             this.cbLine3AndOr.TabIndex = 9;
@@ -247,7 +248,7 @@ namespace Logger
             this.cbLine6Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine6Operator.FormattingEnabled = true;
             this.cbLine6Operator.Location = new System.Drawing.Point(148, 181);
-            this.cbLine6Operator.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine6Operator.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine6Operator.Name = "cbLine6Operator";
             this.cbLine6Operator.Size = new System.Drawing.Size(86, 21);
             this.cbLine6Operator.TabIndex = 22;
@@ -260,7 +261,7 @@ namespace Logger
             this.cbLine6Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine6Field.FormattingEnabled = true;
             this.cbLine6Field.Location = new System.Drawing.Point(31, 181);
-            this.cbLine6Field.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine6Field.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine6Field.Name = "cbLine6Field";
             this.cbLine6Field.Size = new System.Drawing.Size(112, 21);
             this.cbLine6Field.TabIndex = 21;
@@ -273,7 +274,7 @@ namespace Logger
             this.cbLine6AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine6AndOr.FormattingEnabled = true;
             this.cbLine6AndOr.Location = new System.Drawing.Point(403, 181);
-            this.cbLine6AndOr.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine6AndOr.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine6AndOr.Name = "cbLine6AndOr";
             this.cbLine6AndOr.Size = new System.Drawing.Size(82, 21);
             this.cbLine6AndOr.TabIndex = 20;
@@ -287,7 +288,7 @@ namespace Logger
             this.cbLine5Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine5Operator.FormattingEnabled = true;
             this.cbLine5Operator.Location = new System.Drawing.Point(148, 154);
-            this.cbLine5Operator.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine5Operator.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine5Operator.Name = "cbLine5Operator";
             this.cbLine5Operator.Size = new System.Drawing.Size(86, 21);
             this.cbLine5Operator.TabIndex = 19;
@@ -300,7 +301,7 @@ namespace Logger
             this.cbLine5Field.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine5Field.FormattingEnabled = true;
             this.cbLine5Field.Location = new System.Drawing.Point(31, 154);
-            this.cbLine5Field.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine5Field.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine5Field.Name = "cbLine5Field";
             this.cbLine5Field.Size = new System.Drawing.Size(112, 21);
             this.cbLine5Field.TabIndex = 18;
@@ -313,7 +314,7 @@ namespace Logger
             this.cbLine5AndOr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLine5AndOr.FormattingEnabled = true;
             this.cbLine5AndOr.Location = new System.Drawing.Point(403, 155);
-            this.cbLine5AndOr.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine5AndOr.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine5AndOr.Name = "cbLine5AndOr";
             this.cbLine5AndOr.Size = new System.Drawing.Size(82, 21);
             this.cbLine5AndOr.TabIndex = 17;
@@ -324,7 +325,7 @@ namespace Logger
             // 
             this.btnOK.ForeColor = System.Drawing.Color.Black;
             this.btnOK.Location = new System.Drawing.Point(384, 209);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(2);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(59, 23);
             this.btnOK.TabIndex = 26;
@@ -337,7 +338,7 @@ namespace Logger
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.ForeColor = System.Drawing.Color.Black;
             this.btnCancel.Location = new System.Drawing.Point(54, 209);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(60, 23);
             this.btnCancel.TabIndex = 27;
@@ -349,7 +350,7 @@ namespace Logger
             // 
             this.rtbSQLResult.BackColor = System.Drawing.SystemColors.Window;
             this.rtbSQLResult.Location = new System.Drawing.Point(6, 242);
-            this.rtbSQLResult.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rtbSQLResult.Margin = new System.Windows.Forms.Padding(2);
             this.rtbSQLResult.Name = "rtbSQLResult";
             this.rtbSQLResult.ReadOnly = true;
             this.rtbSQLResult.Size = new System.Drawing.Size(492, 62);
@@ -361,7 +362,7 @@ namespace Logger
             this.cbLine1Value.Cursor = System.Windows.Forms.Cursors.Default;
             this.cbLine1Value.FormattingEnabled = true;
             this.cbLine1Value.Location = new System.Drawing.Point(235, 44);
-            this.cbLine1Value.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine1Value.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine1Value.Name = "cbLine1Value";
             this.cbLine1Value.Size = new System.Drawing.Size(161, 21);
             this.cbLine1Value.TabIndex = 35;
@@ -373,7 +374,7 @@ namespace Logger
             // 
             this.cbLine2Value.FormattingEnabled = true;
             this.cbLine2Value.Location = new System.Drawing.Point(235, 70);
-            this.cbLine2Value.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine2Value.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine2Value.Name = "cbLine2Value";
             this.cbLine2Value.Size = new System.Drawing.Size(161, 21);
             this.cbLine2Value.TabIndex = 36;
@@ -385,7 +386,7 @@ namespace Logger
             // 
             this.cbLine3Value.FormattingEnabled = true;
             this.cbLine3Value.Location = new System.Drawing.Point(235, 100);
-            this.cbLine3Value.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine3Value.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine3Value.Name = "cbLine3Value";
             this.cbLine3Value.Size = new System.Drawing.Size(161, 21);
             this.cbLine3Value.TabIndex = 37;
@@ -397,7 +398,7 @@ namespace Logger
             // 
             this.cbLine4Value.FormattingEnabled = true;
             this.cbLine4Value.Location = new System.Drawing.Point(235, 126);
-            this.cbLine4Value.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine4Value.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine4Value.Name = "cbLine4Value";
             this.cbLine4Value.Size = new System.Drawing.Size(161, 21);
             this.cbLine4Value.TabIndex = 38;
@@ -409,7 +410,7 @@ namespace Logger
             // 
             this.cbLine5Value.FormattingEnabled = true;
             this.cbLine5Value.Location = new System.Drawing.Point(235, 154);
-            this.cbLine5Value.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine5Value.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine5Value.Name = "cbLine5Value";
             this.cbLine5Value.Size = new System.Drawing.Size(161, 21);
             this.cbLine5Value.TabIndex = 39;
@@ -421,7 +422,7 @@ namespace Logger
             // 
             this.cbLine6Value.FormattingEnabled = true;
             this.cbLine6Value.Location = new System.Drawing.Point(235, 181);
-            this.cbLine6Value.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbLine6Value.Margin = new System.Windows.Forms.Padding(2);
             this.cbLine6Value.Name = "cbLine6Value";
             this.cbLine6Value.Size = new System.Drawing.Size(161, 21);
             this.cbLine6Value.TabIndex = 40;
@@ -436,7 +437,8 @@ namespace Logger
             this.saveToolStripMenuItem,
             this.loadToolStripMenuItem,
             this.deleteToolStripMenuItem,
-            this.clearToolStripMenuItem});
+            this.clearToolStripMenuItem,
+            this.refreshDataToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(3, 1, 0, 1);
@@ -593,6 +595,13 @@ namespace Logger
             this.label10.TabIndex = 51;
             this.label10.Text = "And/Or";
             // 
+            // refreshDataToolStripMenuItem
+            // 
+            this.refreshDataToolStripMenuItem.Name = "refreshDataToolStripMenuItem";
+            this.refreshDataToolStripMenuItem.Size = new System.Drawing.Size(85, 22);
+            this.refreshDataToolStripMenuItem.Text = "Refresh Data";
+            this.refreshDataToolStripMenuItem.Click += new System.EventHandler(this.refreshDataToolStripMenuItem_Click);
+            // 
             // AdvancedFilterw
             // 
             this.AcceptButton = this.btnOK;
@@ -644,7 +653,7 @@ namespace Logger
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AdvancedFilterw";
@@ -703,5 +712,6 @@ namespace Logger
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshDataToolStripMenuItem;
     }
 }

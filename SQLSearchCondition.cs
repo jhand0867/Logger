@@ -53,10 +53,10 @@ namespace Logger
 
             // MLH Temporary remove selection to allow us to set and get all search conditions
 
-            //if (sourceValue == "")
-            sql = @"SELECT * FROM [sqlBuilder]";
-            //else
-            //    sql = @"SELECT * FROM [sqlBuilder] WHERE [source] = '" + sourceValue + "'" ;
+            if (sourceValue == "")
+                sql = @"SELECT * FROM [sqlBuilder]";
+            else
+                sql = @"SELECT * FROM [sqlBuilder] WHERE [source] = '" + sourceValue + "'" ;
 
             DbCrud db = new DbCrud();
             DataTable dt = db.GetTableFromDb(sql);
