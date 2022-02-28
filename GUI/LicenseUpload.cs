@@ -12,17 +12,18 @@ namespace Logger
 
         private void btnLicenseUpload_Click(object sender, EventArgs e)
         {
-                License license = new License();
-                if (txtLicenseFile.Text.Contains("Logger.Lic"))
-                {
-                    license.UploadLicense(txtLicenseFile.Text);
-                    MessageBox.Show("Upload Successful");
-                    license.GetPermissions();
-                }
-                else
-                {
-                    MessageBox.Show("File is not a valid license");
-                }
+            License license = new License();
+            if (txtLicenseFile.Text.Contains("Logger.Lic"))
+            {
+                license.UploadLicense(txtLicenseFile.Text);
+                MessageBox.Show("Upload Successful");
+                license.GetPermissions();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("File is not a valid license");
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -37,7 +38,7 @@ namespace Logger
             try
             {
                 if (openFileDialog.ShowDialog((IWin32Window)this) == DialogResult.OK)
-                                txtLicenseFile.Text = openFileDialog.FileName;
+                    txtLicenseFile.Text = openFileDialog.FileName;
             }
             catch (AccessViolationException ex)
             {

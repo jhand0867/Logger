@@ -46,6 +46,7 @@ namespace Logger
             fileToolStripMenuItem.Font = new Font("Arial", 10);
             viewToolStripMenuItem.Font = new Font("Arial", 10);
             searchToolStripMenuItem.Font = new Font("Arial", 10);
+            contextMenuStrip1.Font = new Font("Arial", 10);
             //cbQueryName.Font = new Font("Arial", 10);
         }
 
@@ -91,7 +92,7 @@ namespace Logger
                 {
                     dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
                 }
-                
+
                 writeGeneralInfo(ProjectData.logID);
 
             }
@@ -146,10 +147,8 @@ namespace Logger
         private void writeGeneralInfo(string logID)
         {
             Project pr = new Project();
-            
-            string logName = pr.getLogName(logID);
+
             // write generalInfo record with prname and logid
-            // MLH here
 
             DbCrud db = new DbCrud();
             DataTable dt = new DataTable();
@@ -169,7 +168,7 @@ namespace Logger
             {
                 sql = "SELECT * FROM generalInfo limit 1";
                 dt = db.GetTableFromDb(sql);
-              
+
                 sql = "DELETE FROM generalInfo where logID ='" + dt.Rows[0]["logID"].ToString() + "'";
                 db.crudToDb(sql);
             }
@@ -178,10 +177,16 @@ namespace Logger
 
             dt = pr.getALogByID(logID);
             string prjKey = dt.Rows[0]["prjKey"].ToString();
+            string logName = pr.getLogName(logID);
+            string projectName = pr.getProjectNameByProjectKey(prjKey);
+
             sql = $@"INSERT INTO generalInfo (logID, logName)
-                        VALUES ( '{logID}','Project: {pr.getProjectNameByProjectKey(prjKey)} File: {logName.Substring(logName.LastIndexOf("\\"),logName.Length - logName.LastIndexOf("\\"))}')";
+                        VALUES ( '{logID}','Project: {projectName} File: {logName.Substring(logName.LastIndexOf("\\")+1, logName.Length - (logName.LastIndexOf("\\")+1))}')";
 
             db.crudToDb(sql);
+
+            this.Text = "LogView." + projectName + ": " +
+                        logName.Substring(logName.LastIndexOf("\\") + 1, logName.Length - (logName.LastIndexOf("\\") + 1));
 
         }
 
@@ -608,7 +613,7 @@ namespace Logger
             {
                 Form advancedFilter = Application.OpenForms["AdvancedFilterw"];
                 advancedFilter.BringToFront();
-                advancedFilter.Show(); 
+                advancedFilter.Show();
             }
             else
             {

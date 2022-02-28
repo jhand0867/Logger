@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Projects));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Logs", 0, 0);
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Logs", 0, 0);
             this.listView1 = new System.Windows.Forms.ListView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -193,12 +193,12 @@
             this.treeView1.Location = new System.Drawing.Point(543, 30);
             this.treeView1.Margin = new System.Windows.Forms.Padding(2);
             this.treeView1.Name = "treeView1";
-            treeNode1.ImageIndex = 0;
-            treeNode1.Name = "Node0";
-            treeNode1.SelectedImageIndex = 0;
-            treeNode1.Text = "Logs";
+            treeNode2.ImageIndex = 0;
+            treeNode2.Name = "Node0";
+            treeNode2.SelectedImageIndex = 0;
+            treeNode2.Text = "Logs";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowNodeToolTips = true;
             this.treeView1.Size = new System.Drawing.Size(311, 265);
@@ -257,7 +257,8 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(859, 379);
+            this.ClientSize = new System.Drawing.Size(859, 299);
+            this.ContextMenuStrip = this.contextMenuStrip2;
             this.Controls.Add(this.hamburguerMenu);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.listView1);

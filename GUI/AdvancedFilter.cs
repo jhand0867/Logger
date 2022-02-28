@@ -233,8 +233,8 @@ namespace Logger
 
             for (int i = 0; i < 6; i++)
             {
-                if (gridrows[i].SQLFieldName != "" && 
-                    gridrows[i].SQLCondition != "" && 
+                if (gridrows[i].SQLFieldName != "" &&
+                    gridrows[i].SQLCondition != "" &&
                     gridrows[i].SQLFieldValue != "")
                 {
                     temp = gridrows[i].SQLFieldValue;
@@ -283,8 +283,8 @@ namespace Logger
 
                 if (i < 5 &&
                              gridrows[i].SQLAndOr != "" &&
-                             gridrows[i + 1].SQLFieldName != "" && 
-                             gridrows[i + 1].SQLCondition != "" && 
+                             gridrows[i + 1].SQLFieldName != "" &&
+                             gridrows[i + 1].SQLCondition != "" &&
                              gridrows[i + 1].SQLFieldValue != "")
 
                     rtbSQLResult.Text = rtbSQLResult.Text + gridrows[i].SQLAndOr + " ";

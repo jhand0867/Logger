@@ -248,6 +248,9 @@ namespace Logger
             this.pName = "";
             this.pBrief = "";
             this.pLogs = 0;
+
+            //  this.recTypesDic.Add("11", "treq, Transaction Request");   IDEA1
+
             this.recTypesDic.Add("11", "treq");
             this.recTypesDic.Add("4", "treply");
             this.recTypesDic.Add("311", "screens");
@@ -373,6 +376,16 @@ namespace Logger
             DbCrud dbCrud = new DbCrud();
             string sql1 = "SELECT prjKey FROM project where prjName = '" + prjName + "'";
             string scalarStrFromDb = dbCrud.GetScalarStrFromDb(sql1);
+
+            string sql11 = "SELECT id FROM logs where prjKey = '" + scalarStrFromDb + "'";
+            DataTable DT = dbCrud.GetTableFromDb(sql11);
+            foreach(DataRow DR in DT.Rows)
+            {
+                log.Info("Dropping data from all records tables");
+                App.Prj.dropDataByLogID(DR["id"].ToString());
+            }
+            
+
             string sql2 = "DELETE FROM loginfo WHERE prjKey = '" + scalarStrFromDb + "'";
             bool db1 = dbCrud.crudToDb(sql2);
             string sql3 = "DELETE FROM project where prjName ='" + prjName + "'";
@@ -709,10 +722,12 @@ namespace Logger
             dictionary.Add(this.recTypesDic["31C"], scalarIntFromDb7);
             string sql8 = "SELECT COUNT(2) FROM treq  WHERE logID =" + logID;
             int scalarIntFromDb8 = dbCrud.GetScalarIntFromDb(sql8);
-            dictionary.Add(this.recTypesDic["11"], scalarIntFromDb8);
+            //dictionary.Add(this.recTypesDic["11"], scalarIntFromDb8);
+            dictionary.Add("Transaction Request", scalarIntFromDb8);
             string sql9 = "SELECT COUNT(2) FROM treply  WHERE logID =" + logID;
             int scalarIntFromDb9 = dbCrud.GetScalarIntFromDb(sql9);
-            dictionary.Add(this.recTypesDic["4"], scalarIntFromDb9);
+            //dictionary.Add(this.recTypesDic["4"], scalarIntFromDb9);
+            dictionary.Add("Transaction Reply", scalarIntFromDb9);
             string sql10 = "SELECT COUNT(2) FROM iccCurrencyDOT  WHERE logID =" + logID;
             int scalarIntFromDb10 = dbCrud.GetScalarIntFromDb(sql10);
             dictionary.Add(this.recTypesDic["81"], scalarIntFromDb10);
@@ -782,8 +797,104 @@ namespace Logger
 
         public void detachLogByID(string logID)
         {
-            if (new DbCrud().crudToDb("DELETE from loginfo WHERE logID = " + logID + " ;DELETE from logs WHERE ID = " + logID + " ;UPDATE Project SET prjlogs = prjlogs - 1 WHERE prjlogs > 0 and prjKey ='" + App.Prj.Key + "'"))
-                ;
+            if (new DbCrud().crudToDb("DELETE from loginfo WHERE logID = " + logID + 
+                                      " ;DELETE from logs WHERE ID = " + logID + 
+                                      " ;UPDATE Project SET prjlogs = prjlogs - 1 " +
+                                      "WHERE prjlogs > 0 and prjKey ='" + App.Prj.Key + "'")) 
+            {
+                dropDataByLogID(logID);
+            }
+        }
+
+        internal void dropDataByLogID(string logID)
+        {
+            string sql = $@"SQLITE_LOCK_EXCLUSIVE
+            delete from [configId] WHERE logID = {logID};
+            delete from [configParamsInfo] WHERE logID = {logID};
+            delete from [configParamsTimers] WHERE logID = {logID};
+            delete from [enhancedParams] WHERE logID = {logID};
+            delete from [enhancedParamsInfo] WHERE logID = {logID};
+            delete from [enhancedTimers] WHERE logID = {logID};
+            delete from [extEncryption] WHERE logID = {logID};
+            delete from [macFieldSelection] WHERE logID = {logID};
+            delete from [fitinfo] WHERE logID = {logID};
+            delete from [stateinfo] WHERE logID = {logID};
+            delete from [screeninfo] WHERE logID = {logID};
+            delete from [treply] WHERE logID = {logID};
+            delete from [tReplyCheckProcessing] WHERE logID = {logID};
+            delete from [treplyPrinterData] WHERE logID = {logID};
+            delete from [treq] WHERE logID = {logID};
+            delete from [treqOptions] WHERE logID = {logID};
+            delete from [treqCurrencies] WHERE logID = {logID};
+            delete from [treqChecks] WHERE logID = {logID};
+            DELETE FROM [EMVConfiguration] WHERE logID = {logID};
+            DELETE FROM [ICCCurrencyDOT] WHERE logID = {logID};
+            DELETE FROM [ICCTransactionDOT] WHERE logID = {logID};
+            DELETE FROM [ICCLanguageSupportT] WHERE logID = {logID};
+            DELETE FROM [ICCTerminalDOT] WHERE logID = {logID};
+            DELETE FROM [ICCApplicationIDT] WHERE logID = {logID};
+            DELETE FROM [solicitedStatus9] WHERE logID = {logID};
+            DELETE FROM [solicitedStatus8] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusB] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusC] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusF1] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusF2] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusF3] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusF4] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusF5] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusF6] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusF7] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusFH] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusFI] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusFJ] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusFK] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusFL] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusFM] WHERE logID = {logID};
+            DELETE FROM [solicitedStatusFN] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusA] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusB] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusC] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusD] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusE] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusF] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusG] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusH] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusK] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusL] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusM] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusP] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusQ] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusR] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusS] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusV] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusw] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatusY] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatus5c] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatus61] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatus66] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatus71] WHERE logID = {logID};
+            DELETE FROM [encryptorInitData1] WHERE logID = {logID};
+            DELETE FROM [encryptorInitData2] WHERE logID = {logID};
+            DELETE FROM [encryptorInitData3] WHERE logID = {logID};
+            DELETE FROM [encryptorInitData4] WHERE logID = {logID};
+            DELETE FROM [encryptorInitData6] WHERE logID = {logID};
+            DELETE FROM [encryptorInitData7] WHERE logID = {logID};
+            DELETE FROM [encryptorInitData8] WHERE logID = {logID};
+            DELETE FROM [encryptorInitData9] WHERE logID = {logID};
+            DELETE FROM [encryptorInitDataA] WHERE logID = {logID};
+            DELETE FROM [encryptorInitDataB] WHERE logID = {logID};
+            DELETE FROM [encryptorInitDataD] WHERE logID = {logID};
+            DELETE FROM [encryptorInitDataE] WHERE logID = {logID};
+            DELETE FROM [uploadEjData] WHERE logID = {logID};
+            DELETE FROM [ackEjUploadBlock] WHERE logID = {logID};
+            DELETE FROM [ackStopEj] WHERE logID = {logID};
+            DELETE FROM [terminalCommands] WHERE logID = {logID};
+            DELETE FROM [dispenserMapping] WHERE logID = {logID};
+            DELETE FROM [interactiveTranResponse] WHERE logID = {logID};
+            DELETE FROM [logDetail] WHERE logID = {logID}; ";
+
+            DbCrud DB = new DbCrud();
+            bool dropResult = DB.crudToDb(sql);
         }
     }
 }

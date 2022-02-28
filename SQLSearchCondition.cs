@@ -52,11 +52,12 @@ namespace Logger
             string sql;
 
             // MLH Temporary remove selection to allow us to set and get all search conditions
+            // source value = 'I' is for Internal use to include Regular Expressions
 
             if (sourceValue == "")
                 sql = @"SELECT * FROM [sqlBuilder]";
             else
-                sql = @"SELECT * FROM [sqlBuilder] WHERE [source] = '" + sourceValue + "'" ;
+                sql = @"SELECT * FROM [sqlBuilder] WHERE [source] = '" + sourceValue + "'";
 
             DbCrud db = new DbCrud();
             DataTable dt = db.GetTableFromDb(sql);

@@ -23,7 +23,9 @@ namespace Logger
         public Projects()
         {
             InitializeComponent();
-            this.menuStrip1.Font = new Font("Helvetica", 10);
+            this.menuStrip1.Font = new Font("Arial", 10);
+            this.contextMenuStrip1.Font = new Font("Arial", 10);
+            this.contextMenuStrip2.Font = new Font("Arial", 10);
         }
 
 
@@ -35,6 +37,7 @@ namespace Logger
         internal void Projects_Load(object sender, EventArgs e)
         {
             new App().MenuPermissions(App.Prj.Permissions, this.menuStrip1.Items, menusTypes.ProjectOptions);
+            
             Projects.log.Debug((object)"Loading projects info");
             this.loadInfo();
         }
@@ -219,19 +222,42 @@ namespace Logger
                     // mlh adding log id as tag
                     tn.Tag = dr["id"].ToString();
                     tn.ImageIndex = 0;
+                    //for (int x = 4; x < dt.Columns.Count - 1; x++)
+                    //{
+                    //    // if the log was scanned
+                    //    if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
+                    //    //JMH
+                    //    {
+                    //        tn.Nodes.Add(dt.Columns[x].ColumnName + "  [" + dicBits[dt.Columns[x].ColumnName] + "]");
+                    //        tn.LastNode.Tag = dicBits[dt.Columns[x].ColumnName];
+                    //        if (dicBits[dt.Columns[x].ColumnName].ToString() != "0")
+                    //            tn.LastNode.ImageIndex = 1;
+                    //        else
+                    //            tn.LastNode.ImageIndex = 0;
+                    //    }
+                    //}
+                    //mlh
+
                     for (int x = 4; x < dt.Columns.Count - 1; x++)
                     {
+                        // if at least one log was scanned
                         if (dr[x].ToString() == "True" || dr[x].ToString() == "true")
-                        //JMH
                         {
-                            tn.Nodes.Add(dt.Columns[x].ColumnName + "  [" + dicBits[dt.Columns[x].ColumnName] + "]");
-                            tn.LastNode.Tag = dicBits[dt.Columns[x].ColumnName];
-                            if (dicBits[dt.Columns[x].ColumnName].ToString() != "0")
-                                tn.LastNode.ImageIndex = 1;
-                            else
-                                tn.LastNode.ImageIndex = 0;
+                            foreach (KeyValuePair<string, int> i in dicBits)
+                            {
+
+                                tn.Nodes.Add(i.Key + "  [" + i.Value + "]");
+                                tn.LastNode.Tag = i.Value;
+                                if (i.Value.ToString() != "0")
+                                    tn.LastNode.ImageIndex = 1;
+                                else
+                                    tn.LastNode.ImageIndex = 0;
+
+                            }
+                        break;
                         }
                     }
+                    //mlh 
                 }
                 treeView1.Nodes.Add(tn);
             }
@@ -433,7 +459,8 @@ namespace Logger
             int indexEndOfNodeText = nodeText.IndexOf("]");
             if ((indexStartOfNodeText > 0) && (indexEndOfNodeText > 0))
             {
-                nodeText = tn.SelectedNode.Text.Substring((indexStartOfNodeText + 1), (indexEndOfNodeText - indexStartOfNodeText) - 1);
+                nodeText = tn.SelectedNode.Text.Substring((indexStartOfNodeText + 1), 
+                            (indexEndOfNodeText - indexStartOfNodeText) - 1);
             }
 
             if (nodeText == "0")

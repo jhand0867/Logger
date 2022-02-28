@@ -43,29 +43,29 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(85, 89);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(42, 46);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 25);
+            this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Name :";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(85, 139);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(42, 72);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(132, 25);
+            this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 0;
             this.label2.Text = "Description :";
             // 
             // tbPName
             // 
-            this.tbPName.Location = new System.Drawing.Point(257, 80);
-            this.tbPName.Margin = new System.Windows.Forms.Padding(4);
+            this.tbPName.Location = new System.Drawing.Point(128, 42);
+            this.tbPName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbPName.Name = "tbPName";
-            this.tbPName.Size = new System.Drawing.Size(304, 31);
+            this.tbPName.Size = new System.Drawing.Size(154, 20);
             this.tbPName.TabIndex = 1;
             this.tbPName.Text = "Untitled";
             this.tbPName.TextChanged += new System.EventHandler(this.tbPName_TextChanged);
@@ -73,20 +73,20 @@
             // 
             // tbPBrief
             // 
-            this.tbPBrief.Location = new System.Drawing.Point(257, 139);
-            this.tbPBrief.Margin = new System.Windows.Forms.Padding(4);
+            this.tbPBrief.Location = new System.Drawing.Point(128, 72);
+            this.tbPBrief.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbPBrief.Multiline = true;
             this.tbPBrief.Name = "tbPBrief";
-            this.tbPBrief.Size = new System.Drawing.Size(672, 124);
+            this.tbPBrief.Size = new System.Drawing.Size(338, 66);
             this.tbPBrief.TabIndex = 2;
             // 
             // btnCreate
             // 
             this.btnCreate.Enabled = false;
-            this.btnCreate.Location = new System.Drawing.Point(257, 360);
-            this.btnCreate.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCreate.Location = new System.Drawing.Point(128, 187);
+            this.btnCreate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCreate.Name = "btnCreate";
-            this.btnCreate.Size = new System.Drawing.Size(205, 50);
+            this.btnCreate.Size = new System.Drawing.Size(102, 26);
             this.btnCreate.TabIndex = 3;
             this.btnCreate.Text = "Create";
             this.btnCreate.UseVisualStyleBackColor = true;
@@ -94,10 +94,10 @@
             // 
             // btnMenu
             // 
-            this.btnMenu.Location = new System.Drawing.Point(725, 360);
-            this.btnMenu.Margin = new System.Windows.Forms.Padding(4);
+            this.btnMenu.Location = new System.Drawing.Point(362, 187);
+            this.btnMenu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnMenu.Name = "btnMenu";
-            this.btnMenu.Size = new System.Drawing.Size(205, 50);
+            this.btnMenu.Size = new System.Drawing.Size(102, 26);
             this.btnMenu.TabIndex = 3;
             this.btnMenu.Text = "Menu";
             this.btnMenu.UseVisualStyleBackColor = true;
@@ -106,10 +106,10 @@
             // btnUpdate
             // 
             this.btnUpdate.Enabled = false;
-            this.btnUpdate.Location = new System.Drawing.Point(497, 360);
-            this.btnUpdate.Margin = new System.Windows.Forms.Padding(4);
+            this.btnUpdate.Location = new System.Drawing.Point(248, 187);
+            this.btnUpdate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(205, 50);
+            this.btnUpdate.Size = new System.Drawing.Size(102, 26);
             this.btnUpdate.TabIndex = 4;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
@@ -121,11 +121,10 @@
             // 
             // ProjectInfo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
-            this.ClientSize = new System.Drawing.Size(1067, 562);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(534, 292);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnMenu);
             this.Controls.Add(this.btnCreate);
@@ -133,7 +132,8 @@
             this.Controls.Add(this.tbPName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProjectInfo";

@@ -508,6 +508,9 @@ namespace Logger
 
                     foreach (string currencyChecks in tmpCurrencies)
                     {
+                        // here 
+                        if (currencyChecks == "")
+                            break;
                         int offset2 = 0;
                         depCurrency curr = new depCurrency();
                         checks cheques = new checks();
@@ -549,6 +552,7 @@ namespace Logger
                         }
                     }
                     treq.NumberOfCurrencies = depositCurrencies.Count;
+                    i++;
 
                 }
 
@@ -558,6 +562,7 @@ namespace Logger
                 {
                     treq.FieldIdLessThan = tmpTypes[i].Substring(0, 1);
                     treq.VGLanguageId1 = tmpTypes[i].Substring(1, 2);
+                    i++;
                 }
 
                 // future expansion
@@ -683,7 +688,7 @@ namespace Logger
                 /// id int not null identity primary key,
                 foreach (depCurrency c in depositCurrencies)
                 {
-                    sql = @"INSERT INTO treqCurrencys([logkey],[depositCurrency],[amountExponentSign]," +
+                    sql = @"INSERT INTO treqCurrencies([logkey],[depositCurrency],[amountExponentSign]," +
                       "[amountExponentValue],[totalCustomerAmount],[totalDeriveAmount],[zeroes1],[numberOfChecks],[logID]) " +
                       " VALUES('" + r.typeIndex + "','" +
                                    c.DepositCurrency + "','" +
@@ -691,8 +696,8 @@ namespace Logger
                                    c.AmountExponentValue + "','" +
                                    c.TotalCustomerAmount + "','" +
                                    c.TotalDeriveAmount + "','" +
-                                   c.Zero42 + "','" +
-                                   c.NumOfChecks + "'," +
+                                   c.Zero42 + "'," +
+                                   c.NumOfChecks + "," +
                                    logID + ")";
 
                     if (db.crudToDb(sql) == false)

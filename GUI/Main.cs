@@ -17,7 +17,7 @@ namespace Logger
             this.fileToolStripMenuItem.Font = new Font("Arial", 10);
 
             //DbCrud DB = new DbCrud();
-            
+
             //DataTable dt = DB.GetTableFromDb("SELECT * FROM generalInfo");
             //foreach (DataRow row in dt.Rows)
             //{
@@ -118,7 +118,7 @@ namespace Logger
 
             for (int i = O.DropDownItems.Count; i > 2; i--)
             {
-                O.DropDownItems.RemoveAt(i-1);
+                O.DropDownItems.RemoveAt(i - 1);
             }
 
             DbCrud DB = new DbCrud();
@@ -145,7 +145,7 @@ namespace Logger
                 LV.BringToFront();
                 LV.Show();
             }
-            
+
         }
     }
 }
