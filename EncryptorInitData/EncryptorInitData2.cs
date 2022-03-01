@@ -59,8 +59,11 @@ namespace Logger
             k2.Luno = tmpTypes[1];
             k2.InformationIdentifier = tmpTypes[3];
 
-            k2.EppPublicKey = tmpTypes[4].Substring(0, 320);
-            k2.EppPublicKeySignature = tmpTypes[4].Substring(320, 320);
+            if (tmpTypes[4].Length > 319)
+                k2.EppPublicKey = tmpTypes[4].Substring(0, 320);
+
+            if (tmpTypes[4].Length > 320)
+                k2.EppPublicKeySignature = tmpTypes[4].Substring(320, tmpTypes[4].Length - 320);
 
             return k2;
         }

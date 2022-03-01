@@ -37,7 +37,7 @@ namespace Logger
                 encryptorInitB kB = parseData(r.typeContent);
 
                 string sql = @"INSERT INTO encryptorInitDataB([logkey],[rectype],[messageClass],[messageSubClass],[luno],[informationIdentifier],
-	                        [remoteKeyProtocol],[certificateState],[eppVarLgthSNCap,[prjkey],[logID]) " +
+	                        [remoteKeyProtocol],[certificateState],[eppVarLgthSNCap],[prjkey],[logID]) " +
                             " VALUES('" + r.typeIndex + "','" + kB.Rectype + "','" + kB.MessageClass + "','" + kB.MessageSubClass + "','" + kB.Luno + "','" +
                                kB.InformationIdentifier + "','" + kB.RemoteKeyProtocol + "','" +
                                kB.CertificateState + "','" + kB.EppVarLgthSNCap + "','" + Key + "'," + logID + ")";
@@ -61,9 +61,12 @@ namespace Logger
             kB.Luno = tmpTypes[1];
             kB.InformationIdentifier = tmpTypes[3];
 
-            kB.RemoteKeyProtocol = tmpTypes[4].Substring(0, 2);
-            kB.CertificateState = tmpTypes[4].Substring(2, 2);
-            kB.EppVarLgthSNCap = tmpTypes[4].Substring(4, 1);
+            if (tmpTypes[4].Length > 1)
+                kB.RemoteKeyProtocol = tmpTypes[4].Substring(0, 2);
+            if (tmpTypes[4].Length > 3)
+                kB.CertificateState = tmpTypes[4].Substring(2, 2);
+            if (tmpTypes[4].Length > 4)
+                kB.EppVarLgthSNCap = tmpTypes[4].Substring(4, 1);
 
             return kB;
         }

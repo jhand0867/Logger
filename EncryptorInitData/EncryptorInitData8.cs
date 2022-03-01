@@ -62,8 +62,10 @@ namespace Logger
             k8.Luno = tmpTypes[1];
             k8.InformationIdentifier = tmpTypes[3];
 
-            k8.BinaryDataLength = tmpTypes[4].Substring(0, 3);
-            k8.SstCertificate = tmpTypes[4].Substring(3, tmpTypes[4].Length - 3);
+            if (tmpTypes[4].Length > 2)
+                k8.BinaryDataLength = tmpTypes[4].Substring(0, 3);
+            if (tmpTypes[4].Length > 3)
+                k8.SstCertificate = tmpTypes[4].Substring(3, tmpTypes[4].Length - 3);
 
             return k8;
         }

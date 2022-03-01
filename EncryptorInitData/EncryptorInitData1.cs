@@ -58,8 +58,12 @@ namespace Logger
             k1.Luno = tmpTypes[1];
             k1.InformationIdentifier = tmpTypes[3];
 
-            k1.EppSerialNumber = tmpTypes[4].Substring(0, 8);
-            k1.EppSerialNumberSignature = tmpTypes[4].Substring(8, 320);
+            if (tmpTypes[4].Length > 7)
+                k1.EppSerialNumber = tmpTypes[4].Substring(0, 8);
+
+            // epp Serial Number Signature should have 320 characters
+            if (tmpTypes[4].Length > 8)
+                k1.EppSerialNumberSignature = tmpTypes[4].Substring(8, tmpTypes[4].Length - 8);
 
             return k1;
         }

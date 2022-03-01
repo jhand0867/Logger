@@ -62,8 +62,10 @@ namespace Logger
             k7.Luno = tmpTypes[1];
             k7.InformationIdentifier = tmpTypes[3];
 
-            k7.BinaryDataLength = tmpTypes[4].Substring(0, 3);
-            k7.RsaKVV = tmpTypes[4].Substring(3, tmpTypes[4].Length - 3);
+            if (tmpTypes[4].Length > 2)
+                k7.BinaryDataLength = tmpTypes[4].Substring(0, 3);
+            if (tmpTypes[4].Length > 3)
+                k7.RsaKVV = tmpTypes[4].Substring(3, tmpTypes[4].Length - 3);
 
             return k7;
         }

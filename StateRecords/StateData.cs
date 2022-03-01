@@ -344,7 +344,7 @@ namespace Logger
         {
             DataTable dt = new DataTable();
             string sql = @"SELECT * FROM [dataDescription] WHERE recType = '" + "S"
-                    + "' AND SUBSTRING(subRecType, 3, " + stateType.Length + ") = '" + stateType + "'";
+                    + "' AND SUBSTR(subRecType, 3, " + stateType.Length + ") = '" + stateType + "'";
 
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);

@@ -61,9 +61,12 @@ namespace Logger
             kA.Luno = tmpTypes[1];
             kA.InformationIdentifier = tmpTypes[3];
 
-            kA.KvvNewDesKey = tmpTypes[4].Substring(0, 6);
-            kA.BinaryDataLength = tmpTypes[4].Substring(6, 3);
-            kA.KeyLoadAck = tmpTypes[4].Substring(9, tmpTypes[4].Length - 9);
+            if (tmpTypes[4].Length > 5)
+                kA.KvvNewDesKey = tmpTypes[4].Substring(0, 6);
+            if (tmpTypes[4].Length > 8)
+                kA.BinaryDataLength = tmpTypes[4].Substring(6, 3);
+            if (tmpTypes[4].Length > 9)
+                kA.KeyLoadAck = tmpTypes[4].Substring(9, tmpTypes[4].Length - 9);
 
             return kA;
         }

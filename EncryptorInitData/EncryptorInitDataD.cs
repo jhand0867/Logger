@@ -81,16 +81,31 @@ namespace Logger
 
             string[] eppAttributes = tmpTypes[4].Split((char)0x1d);
 
-            kD.EppVendorCo = eppAttributes[0].Substring(0, 1);
-            kD.PciVendorName = eppAttributes[0].Substring(1, eppAttributes[0].Length - 1);
-            kD.EppModelId = eppAttributes[1].Substring(0, 1);
-            kD.PciModelName = eppAttributes[1].Substring(1, eppAttributes[1].Length - 1);
-            kD.EppHardwareId = eppAttributes[2].Substring(0, 1);
-            kD.PciHardwareName = eppAttributes[2].Substring(1, eppAttributes[2].Length - 1);
-            kD.EppFirmwareId = eppAttributes[3].Substring(0, 1);
-            kD.PciFirmwareName = eppAttributes[3].Substring(1, eppAttributes[3].Length - 1);
-            kD.EppAppIds = eppAttributes[4].Substring(0, 1);
-            kD.PciAppName = eppAttributes[4].Substring(1, eppAttributes[4].Length - 1);
+            if (eppAttributes.Length > 0)
+            {
+               if (eppAttributes[0].Length > 0) kD.EppVendorCo = eppAttributes[0].Substring(0, 1);
+               if (eppAttributes[0].Length > 1) kD.PciVendorName = eppAttributes[0].Substring(1, eppAttributes[0].Length - 1);
+            }
+            if (eppAttributes.Length > 1)
+            {
+                if (eppAttributes[1].Length > 0) kD.EppModelId = eppAttributes[1].Substring(0, 1);
+                if (eppAttributes[1].Length > 1) kD.PciModelName = eppAttributes[1].Substring(1, eppAttributes[1].Length - 1);
+            }
+            if (eppAttributes.Length > 2)
+            {
+                if (eppAttributes[2].Length > 0) kD.EppHardwareId = eppAttributes[2].Substring(0, 1);
+                if (eppAttributes[2].Length > 1) kD.PciHardwareName = eppAttributes[2].Substring(1, eppAttributes[2].Length - 1);
+            }
+            if (eppAttributes.Length > 3)
+            {
+                if (eppAttributes[3].Length > 0) kD.EppFirmwareId = eppAttributes[3].Substring(0, 1);
+                if (eppAttributes[3].Length > 1) kD.PciFirmwareName = eppAttributes[3].Substring(1, eppAttributes[3].Length - 1);
+            }
+            if (eppAttributes.Length > 4)
+            {
+                if (eppAttributes[4].Length > 0) kD.EppAppIds = eppAttributes[4].Substring(0, 1);
+                if (eppAttributes[4].Length > 1) kD.PciAppName = eppAttributes[4].Substring(1, eppAttributes[4].Length - 1);
+            }
 
             return kD;
         }

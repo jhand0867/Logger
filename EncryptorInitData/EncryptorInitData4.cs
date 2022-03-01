@@ -63,10 +63,14 @@ namespace Logger
             k4.Luno = tmpTypes[1];
             k4.InformationIdentifier = tmpTypes[3];
 
-            k4.MasterKVV = tmpTypes[4].Substring(0, 6);
-            k4.ComKVV = tmpTypes[4].Substring(6, 6);
-            k4.MacKVV = tmpTypes[4].Substring(12, 6);
-            k4.BkeyKVV = tmpTypes[4].Substring(18, 6);
+            if (tmpTypes[4].Length > 5)
+                k4.MasterKVV = tmpTypes[4].Substring(0, 6);
+            if (tmpTypes[4].Length > 11)
+                k4.ComKVV = tmpTypes[4].Substring(6, 6);
+            if (tmpTypes[4].Length > 17)
+                k4.MacKVV = tmpTypes[4].Substring(12, 6);
+            if (tmpTypes[4].Length > 23)
+                k4.BkeyKVV = tmpTypes[4].Substring(18, 6);
 
             return k4;
         }

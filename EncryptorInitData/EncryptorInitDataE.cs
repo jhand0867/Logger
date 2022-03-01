@@ -61,8 +61,10 @@ namespace Logger
 
             string[] eppAttributes = tmpTypes[4].Split((char)0x1d);
 
-            kE.EppSerialNumber = eppAttributes[0];
-            kE.SnMultipliedbySKvendor = eppAttributes[1];
+            if (eppAttributes.Length > 0)
+                kE.EppSerialNumber = eppAttributes[0];
+            if (eppAttributes.Length > 1)
+                kE.SnMultipliedbySKvendor = eppAttributes[1];
 
             return kE;
         }
