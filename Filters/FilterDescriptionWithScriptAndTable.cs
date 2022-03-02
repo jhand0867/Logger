@@ -37,10 +37,12 @@ namespace Logger
                     fieldResult = hit.Value.Substring(indexOfScriptStart + 1, indexOfSctiptEnd - 1);
                     string[] scriptOptions = fieldResult.Split(',');
 
-                    // {0,2,!2B}{4,2,!2C}{6,2,!2DD}
+                    // {0,2,!2B}{4,2,!2C}{6,2,!2D}
                     // i.e. parsing of first script:
-                    // Take field value from position 0 two characters and use table 2 and search for value 'B' +
-                    // the two characters from the field value
+                    // Parse fieldValue take from position 0 two characters.
+                    // (! = Look for Table) Description labels are on DataDescription table fieldType=2
+                    // Search in the list for subRecType = B + the two characters from the fieldValue
+
 
                     if (descriptionTable == null)
                         descriptionTable = getDescriptionX(scriptOptions[2].Substring(1, 1));

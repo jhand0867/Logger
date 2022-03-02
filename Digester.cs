@@ -29,6 +29,7 @@ namespace Logger
             recTypeDic.Add("2", () => new FilterXWithScript().executeScript(fieldType, fieldValue));
             recTypeDic.Add("3", () => new filterSupplyData().executeScript(fieldType, fieldValue));
             recTypeDic.Add("4", () => new FilterXWithScript().executeScript(fieldType, fieldValue));
+            recTypeDic.Add("5", () => new FilterXWithScript().executeScript(fieldType, fieldValue));
             recTypeDic.Add("7", () => new FilterXWithScript().executeScript(fieldType, fieldValue));
             recTypeDic.Add("9", () => new FilterDescriptionWithScriptAndTable().executeScript(fieldValue, scriptValue));
 
