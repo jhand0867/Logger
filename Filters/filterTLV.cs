@@ -4,7 +4,7 @@ namespace Logger
 {
     class filterTLV : Digester
     {
-        public new string executeScript(string fieldType, string fieldValue)
+        public new string executeScript(string fieldValue, string fieldType)
         {
             string fieldDesc = "";
 

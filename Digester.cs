@@ -23,15 +23,14 @@ namespace Logger
 
         public string fieldDigester(string fieldType, string fieldValue, string scriptValue)
         {
+            // scriptValue will contain the fieldType from DataDescription when a table is needed on the Script 
+            //
             var recTypeDic = new Dictionary<string, Func<string>>();
-            recTypeDic.Add("0", () => new FilterDescriptionWithScript().executeScript(fieldValue, scriptValue));
-            recTypeDic.Add("1", () => new filterTLV().executeScript(fieldType, fieldValue));
-            recTypeDic.Add("2", () => new FilterXWithScript().executeScript(fieldType, fieldValue));
-            recTypeDic.Add("3", () => new filterSupplyData().executeScript(fieldType, fieldValue));
-            recTypeDic.Add("4", () => new FilterXWithScript().executeScript(fieldType, fieldValue));
-            recTypeDic.Add("5", () => new FilterXWithScript().executeScript(fieldType, fieldValue));
-            recTypeDic.Add("7", () => new FilterXWithScript().executeScript(fieldType, fieldValue));
-            recTypeDic.Add("9", () => new FilterDescriptionWithScriptAndTable().executeScript(fieldValue, scriptValue));
+            recTypeDic.Add("00", () => new FilterDescriptionWithScript().executeScript(fieldValue, scriptValue));
+            recTypeDic.Add("01", () => new filterTLV().executeScript(fieldValue, scriptValue));
+            recTypeDic.Add("02", () => new FilterXWithScript().executeScript(fieldValue, scriptValue));
+            recTypeDic.Add("03", () => new filterSupplyData().executeScript(fieldValue, scriptValue));
+            recTypeDic.Add("09", () => new FilterDescriptionWithScriptAndTable().executeScript(fieldValue, scriptValue));
 
             try
             {

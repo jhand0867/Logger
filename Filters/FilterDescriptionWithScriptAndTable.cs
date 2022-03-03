@@ -25,8 +25,8 @@ namespace Logger
 
             foreach (Match hit in scriptsToApply)
             {
-                if (hit.Index == 0)
-                    continue;
+                //if (hit.Index == 0)
+                //    continue;
                 field4Offset += hit.Length;
                 int indexOfScriptStart = hit.Value.IndexOf("{", 0);
                 int indexOfSctiptEnd = hit.Value.IndexOf("}", indexOfScriptStart);

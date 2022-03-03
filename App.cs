@@ -135,11 +135,44 @@ namespace Logger
             return stringBuilder.ToString();
         }
 
+        //internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)
+        //{
+        //    string optionDescription = "";
+        //    string str = "";
+        //    string fieldType = "";
+        //    if (fieldValue.Trim() == "" || fieldValue == null)
+        //        return optionDescription;
+        //    foreach (DataRow row in (InternalDataCollectionBase)dataTable.Rows)
+        //    {
+        //        if (row[2].ToString().Trim() == field)
+        //        {
+        //            optionDescription = row[3].ToString().Trim();
+        //            if (row[5].ToString() != null && row[5].ToString().Trim() != "")
+        //            {
+        //                str = LoggerFactory.Create_Digester().fieldDigester(row[5].ToString(), fieldValue, (string)null);
+        //                fieldValue = fieldValue.Replace(";", " ");
+        //            }
+        //            if (row[4].ToString().Length > 0 && row[4].ToString().Substring(0, 1) == "{")
+        //            {
+        //                MatchCollection matchCollection = new Regex("(\\{.*?\\})", RegexOptions.Singleline).Matches(row[4].ToString());
+        //                if (matchCollection.Count > 0)
+        //                    fieldType = matchCollection[0].ToString().Substring(1, 1);
+        //                Digester digester = LoggerFactory.Create_Digester();
+        //                optionDescription += digester.fieldDigester(fieldType, fieldValue, row[4].ToString());
+        //                break;
+        //            }
+        //            optionDescription = optionDescription + " = " + fieldValue;
+        //            optionDescription = !(row[4].ToString() == "") || !(str != "") ? optionDescription + this.insertDescription(row[4].ToString()) + str : optionDescription + str;
+        //            break;
+        //        }
+        //    }
+        //    return optionDescription;
+        //}
+
         internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)
         {
             string optionDescription = "";
             string str = "";
-            string fieldType = "";
             if (fieldValue.Trim() == "" || fieldValue == null)
                 return optionDescription;
             foreach (DataRow row in (InternalDataCollectionBase)dataTable.Rows)
@@ -147,22 +180,19 @@ namespace Logger
                 if (row[2].ToString().Trim() == field)
                 {
                     optionDescription = row[3].ToString().Trim();
-                    if (row[5].ToString() != null && row[5].ToString().Trim() != "")
+                    if (row[6].ToString().Length == 2 && !string.IsNullOrEmpty(row[5].ToString().Trim()))
                     {
-                        str = LoggerFactory.Create_Digester().fieldDigester(row[5].ToString(), fieldValue, (string)null);
+                        str = LoggerFactory.Create_Digester().fieldDigester(row[6].ToString(), fieldValue, row[5].ToString());
                         fieldValue = fieldValue.Replace(";", " ");
                     }
-                    if (row[4].ToString().Length > 0 && row[4].ToString().Substring(0, 1) == "{")
+                    if (row[6].ToString().Length == 2 && row[7].ToString().Length > 0 && row[7].ToString().Substring(0, 1) == "{")
                     {
-                        MatchCollection matchCollection = new Regex("(\\{.*?\\})", RegexOptions.Singleline).Matches(row[4].ToString());
-                        if (matchCollection.Count > 0)
-                            fieldType = matchCollection[0].ToString().Substring(1, 1);
                         Digester digester = LoggerFactory.Create_Digester();
-                        optionDescription += digester.fieldDigester(fieldType, fieldValue, row[4].ToString());
+                        optionDescription += digester.fieldDigester(row[6].ToString(), fieldValue, row[7].ToString());
                         break;
                     }
                     optionDescription = optionDescription + " = " + fieldValue;
-                    optionDescription = !(row[4].ToString() == "") || !(str != "") ? optionDescription + this.insertDescription(row[4].ToString()) + str : optionDescription + str;
+                    optionDescription = !(row[7].ToString() == "") || !(str != "") ? optionDescription + this.insertDescription(row[7].ToString()) + str : optionDescription + str;
                     break;
                 }
             }

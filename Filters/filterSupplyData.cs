@@ -11,7 +11,7 @@ namespace Logger
         //      will search for E0 in data description table to show the description for E
         //      and then will search for each of the positions (E1,E2,E3,E4, etc) in data description table
 
-        public new string executeScript(string fieldType, string fieldValue)
+        public new string executeScript(string fieldValue, string fieldType)
         {
 
             string fieldDesc = "";
