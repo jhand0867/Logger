@@ -35,6 +35,24 @@ namespace Logger
             btnPrev.Location = new Point(this.Width - 80, prevButtonLocation.Y);
             Point nextButtonLocation = btnNext.Location;
             btnNext.Location = new Point(this.Width - 80, nextButtonLocation.Y);
+
+
+            StringBuilder strTable = new StringBuilder();
+            strTable.Append(@"{\rtf1");
+            for (int i = 0; i < 5; i++)
+            {
+                strTable.Append(@"\trowd");
+                strTable.Append(@"\cellx1000");
+                strTable.Append(@"\cellx3000");
+                strTable.Append(@"\cellx9000");
+                //strTable.Append(@"\intbl \cell \row");
+                strTable.Append(@"\intbl 1" + @"\cell  Joe" + @"\cell  Handschu ya vamos a dormir que manana hay que trabajr" + @"\row");
+            }
+            strTable.Append(@"\pard");
+            strTable.Append(@"}");
+            txtFieldData.Rtf = strTable.ToString();
+
+
         }
 
         public void setData(DataGridViewRow dgvr)
@@ -51,15 +69,16 @@ namespace Logger
             string logID = dgvr.Cells["logID"].Value.ToString();
 
             string prjKey = dgvr.Cells["prjKey"].Value.ToString();
-            txtFieldData.Text = "";
+            // MLH temporary comment out testing adding table
+            //txtFieldData.Text = "";
 
             string recType = App.Prj.getRecord(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             if (recType != "")
             {
                 IMessage theRecord = LoggerFactory.Create_Record(recType);
-                if (theRecord != null)
-                    //txtFieldData.Text = WebUtility.HtmlDecode(theRecord.parseToView(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString()));
-                    txtFieldData.Text = theRecord.parseToView(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
+                // MLH temporary comment out testing adding table
+                //if (theRecord != null)
+                //txtFieldData.Text = theRecord.parseToView(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             }
         }
 
