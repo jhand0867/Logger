@@ -21,16 +21,16 @@ namespace Logger
                                 "9F4E,9F4F,A5,BF0C,";
 
 
-        public string fieldDigester(string fieldType, string fieldValue, string scriptValue)
+        public string fieldDigester(string fieldType, string fieldValue, string scriptOrTableID)
         {
             // scriptValue will contain the fieldType from DataDescription when a table is needed on the Script 
             //
             var recTypeDic = new Dictionary<string, Func<string>>();
-            recTypeDic.Add("00", () => new FilterDescriptionWithScript().executeScript(fieldValue, scriptValue));
-            recTypeDic.Add("01", () => new filterTLV().executeScript(fieldValue, scriptValue));
-            recTypeDic.Add("02", () => new FilterXWithScript().executeScript(fieldValue, scriptValue));
-            recTypeDic.Add("03", () => new filterSupplyData().executeScript(fieldValue, scriptValue));
-            recTypeDic.Add("09", () => new FilterDescriptionWithScriptAndTable().executeScript(fieldValue, scriptValue));
+            recTypeDic.Add("00", () => new FilterDescriptionWithScript().executeScript(fieldValue, scriptOrTableID));
+            recTypeDic.Add("01", () => new filterTLV().executeScript(fieldValue, scriptOrTableID));
+            recTypeDic.Add("02", () => new FilterXWithScript().executeScript(fieldValue, scriptOrTableID));
+            recTypeDic.Add("03", () => new filterSupplyData().executeScript(fieldValue, scriptOrTableID));
+            recTypeDic.Add("09", () => new FilterDescriptionWithScriptAndTable().executeScript(fieldValue, scriptOrTableID));
 
             try
             {

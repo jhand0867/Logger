@@ -192,7 +192,7 @@ namespace Logger
                         break;
                     }
                     optionDescription = optionDescription + " = " + fieldValue;
-                    optionDescription = !(row[7].ToString() == "") || !(str != "") ? optionDescription + this.insertDescription(row[7].ToString()) + str : optionDescription + str;
+                    optionDescription = !(row[4].ToString() == "") || !(str != "") ? optionDescription + this.insertDescription(row[4].ToString()) + str : optionDescription + str;
                     break;
                 }
             }
