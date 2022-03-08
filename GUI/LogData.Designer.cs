@@ -55,10 +55,10 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(16, 26);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(8, 14);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(170, 37);
+            this.label1.Size = new System.Drawing.Size(89, 19);
             this.label1.TabIndex = 1;
             this.label1.Text = "TimeStamp:";
             // 
@@ -68,10 +68,10 @@
             this.txtTimestamp.BackColor = System.Drawing.Color.Transparent;
             this.txtTimestamp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTimestamp.ForeColor = System.Drawing.Color.Black;
-            this.txtTimestamp.Location = new System.Drawing.Point(184, 29);
-            this.txtTimestamp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.txtTimestamp.Location = new System.Drawing.Point(92, 15);
+            this.txtTimestamp.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txtTimestamp.Name = "txtTimestamp";
-            this.txtTimestamp.Size = new System.Drawing.Size(70, 31);
+            this.txtTimestamp.Size = new System.Drawing.Size(36, 17);
             this.txtTimestamp.TabIndex = 2;
             this.txtTimestamp.Text = "ttttttt";
             // 
@@ -81,10 +81,10 @@
             this.txtMethod.BackColor = System.Drawing.Color.Transparent;
             this.txtMethod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMethod.ForeColor = System.Drawing.Color.Black;
-            this.txtMethod.Location = new System.Drawing.Point(732, 82);
-            this.txtMethod.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.txtMethod.Location = new System.Drawing.Point(366, 43);
+            this.txtMethod.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txtMethod.Name = "txtMethod";
-            this.txtMethod.Size = new System.Drawing.Size(70, 31);
+            this.txtMethod.Size = new System.Drawing.Size(36, 17);
             this.txtMethod.TabIndex = 4;
             this.txtMethod.Text = "ttttttt";
             // 
@@ -93,10 +93,10 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(584, 79);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(292, 41);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(126, 37);
+            this.label3.Size = new System.Drawing.Size(65, 19);
             this.label3.TabIndex = 3;
             this.label3.Text = "Method:";
             // 
@@ -106,10 +106,10 @@
             this.txtClass.BackColor = System.Drawing.Color.Transparent;
             this.txtClass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtClass.ForeColor = System.Drawing.Color.Black;
-            this.txtClass.Location = new System.Drawing.Point(732, 29);
-            this.txtClass.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.txtClass.Location = new System.Drawing.Point(366, 15);
+            this.txtClass.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txtClass.Name = "txtClass";
-            this.txtClass.Size = new System.Drawing.Size(70, 31);
+            this.txtClass.Size = new System.Drawing.Size(36, 17);
             this.txtClass.TabIndex = 6;
             this.txtClass.Text = "ttttttt";
             // 
@@ -118,10 +118,10 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(584, 26);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(292, 14);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(88, 37);
+            this.label5.Size = new System.Drawing.Size(46, 19);
             this.label5.TabIndex = 5;
             this.label5.Text = "Class:";
             // 
@@ -131,10 +131,10 @@
             this.txtLogLevel.BackColor = System.Drawing.Color.Transparent;
             this.txtLogLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLogLevel.ForeColor = System.Drawing.Color.Black;
-            this.txtLogLevel.Location = new System.Drawing.Point(184, 82);
-            this.txtLogLevel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.txtLogLevel.Location = new System.Drawing.Point(92, 43);
+            this.txtLogLevel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txtLogLevel.Name = "txtLogLevel";
-            this.txtLogLevel.Size = new System.Drawing.Size(70, 31);
+            this.txtLogLevel.Size = new System.Drawing.Size(36, 17);
             this.txtLogLevel.TabIndex = 8;
             this.txtLogLevel.Text = "ttttttt";
             // 
@@ -143,10 +143,10 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(16, 79);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Location = new System.Drawing.Point(8, 41);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(146, 37);
+            this.label7.Size = new System.Drawing.Size(77, 19);
             this.label7.TabIndex = 7;
             this.label7.Text = "Log Level:";
             // 
@@ -156,10 +156,10 @@
             this.txtFileName.BackColor = System.Drawing.Color.Transparent;
             this.txtFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFileName.ForeColor = System.Drawing.Color.Black;
-            this.txtFileName.Location = new System.Drawing.Point(184, 142);
-            this.txtFileName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.txtFileName.Location = new System.Drawing.Point(92, 74);
+            this.txtFileName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(70, 31);
+            this.txtFileName.Size = new System.Drawing.Size(36, 17);
             this.txtFileName.TabIndex = 10;
             this.txtFileName.Text = "ttttttt";
             // 
@@ -168,10 +168,10 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(16, 139);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Location = new System.Drawing.Point(8, 72);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(152, 37);
+            this.label9.Size = new System.Drawing.Size(80, 19);
             this.label9.TabIndex = 9;
             this.label9.Text = "File Name:";
             // 
@@ -181,10 +181,10 @@
             this.txtType.BackColor = System.Drawing.Color.Transparent;
             this.txtType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtType.ForeColor = System.Drawing.Color.Black;
-            this.txtType.Location = new System.Drawing.Point(732, 142);
-            this.txtType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.txtType.Location = new System.Drawing.Point(366, 74);
+            this.txtType.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.txtType.Name = "txtType";
-            this.txtType.Size = new System.Drawing.Size(70, 31);
+            this.txtType.Size = new System.Drawing.Size(36, 17);
             this.txtType.TabIndex = 12;
             this.txtType.Text = "ttttttt";
             // 
@@ -193,10 +193,10 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(584, 139);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Location = new System.Drawing.Point(292, 72);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(86, 37);
+            this.label11.Size = new System.Drawing.Size(45, 19);
             this.label11.TabIndex = 11;
             this.label11.Text = "Type:";
             // 
@@ -205,10 +205,10 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(16, 184);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(8, 96);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(147, 37);
+            this.label2.Size = new System.Drawing.Size(76, 19);
             this.label2.TabIndex = 13;
             this.label2.Text = "Raw Data:";
             // 
@@ -217,10 +217,10 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(16, 527);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(8, 274);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(98, 37);
+            this.label4.Size = new System.Drawing.Size(51, 19);
             this.label4.TabIndex = 15;
             this.label4.Text = "Fields:";
             // 
@@ -228,21 +228,21 @@
             // 
             this.rtbRawData.BackColor = System.Drawing.Color.White;
             this.rtbRawData.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbRawData.Location = new System.Drawing.Point(23, 225);
-            this.rtbRawData.Margin = new System.Windows.Forms.Padding(4);
+            this.rtbRawData.Location = new System.Drawing.Point(12, 117);
+            this.rtbRawData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rtbRawData.Name = "rtbRawData";
             this.rtbRawData.ReadOnly = true;
-            this.rtbRawData.Size = new System.Drawing.Size(1135, 298);
+            this.rtbRawData.Size = new System.Drawing.Size(570, 157);
             this.rtbRawData.TabIndex = 16;
             this.rtbRawData.Text = "";
             // 
             // btnPrev
             // 
             this.btnPrev.Image = ((System.Drawing.Image)(resources.GetObject("btnPrev.Image")));
-            this.btnPrev.Location = new System.Drawing.Point(1073, 38);
-            this.btnPrev.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPrev.Location = new System.Drawing.Point(536, 20);
+            this.btnPrev.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnPrev.Name = "btnPrev";
-            this.btnPrev.Size = new System.Drawing.Size(69, 42);
+            this.btnPrev.Size = new System.Drawing.Size(34, 22);
             this.btnPrev.TabIndex = 17;
             this.btnPrev.UseVisualStyleBackColor = true;
             this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
@@ -250,10 +250,10 @@
             // btnNext
             // 
             this.btnNext.Image = ((System.Drawing.Image)(resources.GetObject("btnNext.Image")));
-            this.btnNext.Location = new System.Drawing.Point(1073, 131);
-            this.btnNext.Margin = new System.Windows.Forms.Padding(4);
+            this.btnNext.Location = new System.Drawing.Point(536, 68);
+            this.btnNext.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(69, 42);
+            this.btnNext.Size = new System.Drawing.Size(34, 22);
             this.btnNext.TabIndex = 18;
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
@@ -261,18 +261,21 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(591, 193);
+            this.linkLabel1.Location = new System.Drawing.Point(296, 100);
+            this.linkLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(110, 25);
+            this.linkLabel1.Size = new System.Drawing.Size(55, 13);
             this.linkLabel1.TabIndex = 19;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "linkLabel1";
             // 
             // txtFieldData
             // 
-            this.txtFieldData.Location = new System.Drawing.Point(23, 568);
+            this.txtFieldData.BackColor = System.Drawing.SystemColors.Window;
+            this.txtFieldData.Location = new System.Drawing.Point(12, 295);
+            this.txtFieldData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtFieldData.Name = "txtFieldData";
-            this.txtFieldData.Size = new System.Drawing.Size(1135, 301);
+            this.txtFieldData.Size = new System.Drawing.Size(570, 158);
             this.txtFieldData.TabIndex = 20;
             this.txtFieldData.Text = "";
             this.txtFieldData.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtFieldData_MouseClick);
@@ -280,10 +283,10 @@
             // 
             // LogData
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.ClientSize = new System.Drawing.Size(1169, 881);
+            this.ClientSize = new System.Drawing.Size(590, 475);
             this.Controls.Add(this.txtFieldData);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.btnNext);
@@ -304,9 +307,9 @@
             this.Controls.Add(this.txtTimestamp);
             this.Controls.Add(this.label1);
             this.ForeColor = System.Drawing.Color.Black;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(1195, 952);
+            this.MinimumSize = new System.Drawing.Size(606, 514);
             this.Name = "LogData";
             this.ShowInTaskbar = false;
             this.Text = "Log Data";

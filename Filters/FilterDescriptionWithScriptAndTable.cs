@@ -12,7 +12,7 @@ namespace Logger
             string fieldResult;
 
             if (fieldValue.Trim() != "")
-                fieldDesc = " = " + fieldValue + System.Environment.NewLine;
+                fieldDesc = fieldValue + @"\row ";
 
             // /(\{.*\})/gUgs
             Regex handleBars = new Regex(@"(\{.*?\})", RegexOptions.Singleline);
@@ -54,8 +54,8 @@ namespace Logger
                     {
                         if (item[2].ToString().Trim() == field)
                         {
-                            fieldDesc += fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
-                                           " = " + item[3].ToString().Trim() + " " + item[4].ToString().Trim() + " " + System.Environment.NewLine;
+                            fieldDesc += "\\intbl " + fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
+                                           " = \\cell " + item[3].ToString().Trim() + "\\cell " + item[4].ToString().Trim() + " " + @"\row ";
                             break;
                         }
                     }

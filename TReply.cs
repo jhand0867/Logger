@@ -824,7 +824,7 @@ namespace Logger
                 {
                     for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        checksData += dt.Columns[fieldNum].ColumnName.Trim() + "\t = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
+                        checksData += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
                     }
                 }
             }
@@ -839,8 +839,8 @@ namespace Logger
             {
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    printerData += "Printer Flag\t = " + row["printerFlag"].ToString() + System.Environment.NewLine;
-                    printerData += "Printer Data\t = " + WebUtility.HtmlDecode(row["printerData"].ToString()) + System.Environment.NewLine;
+                    printerData += @"\intbl " + "Printer Flag = " + @"\cell " + row["printerFlag"].ToString() + @"\row ";
+                    printerData += @"\intbl " + "Printer Data = " + @"\cell " + WebUtility.HtmlDecode(row["printerData"].ToString()) + @"\row ";
                 }
             }
             return printerData;

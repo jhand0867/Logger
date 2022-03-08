@@ -310,14 +310,14 @@ namespace Logger
                     extensionStateNum = extensionFound.Substring(0, 3);
                     log.Info("DataTable records = " + dt.Rows.Count);
                 }
-                fieldData += "  extension of " + stateTypetmp.Substring(0, 1) + " " + extensionStateNum + System.Environment.NewLine;
+                fieldData += "  extension of " + stateTypetmp.Substring(0, 1) + " " + extensionStateNum + @"\b0 \clmrg \cell \row ";
 
             }
             else
             {
 
                 dt = theRecord.getStateDescription(stRec.StateType);
-                fieldData += Environment.NewLine;
+                fieldData += @"\b0 \clmrg \cell \row ";
                 log.Info("DataTable records = " + dt.Rows.Count);
             }
 
@@ -335,7 +335,7 @@ namespace Logger
             }
             else
             {
-                return "";
+                return @"\cell \row ";
             }
 
         }
@@ -404,7 +404,7 @@ namespace Logger
                             for (int fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
                             {
                                 if (fieldNum == 3)
-                                    txtField += Environment.NewLine + "State Data = " + dt.Rows[rowNum][fieldNum].ToString() + " ";
+                                    txtField += "\\b State Data = " + @"\cell \clmgf " + dt.Rows[rowNum][fieldNum].ToString() + " ";
                                 else
                                     txtField += dt.Rows[rowNum][fieldNum].ToString() + " ";
                             }

@@ -434,6 +434,7 @@ namespace Logger
                         notesTypeList.Add(notesType);
                     }
                     treq.NotesType = true;
+                    i++;
                 }
 
                 if (tmpTypes.Length > i && tmpTypes[i].Length == 0) { i++; }
@@ -444,6 +445,7 @@ namespace Logger
                     treq.DocumentDataId = tmpTypes[i].Substring(0, 1);
                     treq.MICRDetected1 = tmpTypes[i].Substring(1, 1);
                     treq.MICRValue1 = tmpTypes[i].Substring(2, tmpTypes[i].Length - 2);
+                    i++;
                 }
 
                 if (tmpTypes.Length > i && tmpTypes[i].Length == 0) { i++; }
@@ -454,6 +456,7 @@ namespace Logger
                     treq.BarcodeFormatId = tmpTypes[i].Substring(1, 4);
                     treq.Reserved = tmpTypes[i].Substring(5, 2);
                     treq.ScanBarcodeData = tmpTypes[i].Substring(7, tmpTypes[i].Length - 7);
+                    i++;
                 }
 
                 if (tmpTypes.Length > i && tmpTypes[i].Length == 0) { i++; }
@@ -487,6 +490,7 @@ namespace Logger
 
                     if (numberOfCoinfromHopper > 7)
                     { treq.NumberOfCoinfromHopper8 = tmpTypes[i].Substring(15, 2); }
+                    i++;
                 }
 
                 List<depCurrency> depositCurrencies = new List<depCurrency>();
@@ -553,7 +557,6 @@ namespace Logger
                     }
                     treq.NumberOfCurrencies = depositCurrencies.Count;
                     i++;
-
                 }
 
                 if (tmpTypes.Length > i && tmpTypes[i].Length == 0) { i++; }
@@ -812,8 +815,6 @@ namespace Logger
             return txtField;
         }
 
-        // mlh NOT TESTED
-
         private string getTreqOptions(DataTable dt)
         {
             string notesType = "";
@@ -823,7 +824,7 @@ namespace Logger
                 {
                     for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        notesType += dt.Columns[fieldNum].ColumnName.Trim() + "\t = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
+                        notesType += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
                     }
                 }
             }
@@ -842,7 +843,7 @@ namespace Logger
                     for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
                         if (fieldNum != 7)
-                            currencies += dt.Columns[fieldNum].ColumnName.Trim() + "\t = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
+                            currencies += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
                     }
                 }
             }
@@ -860,7 +861,7 @@ namespace Logger
                 {
                     for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        checks += dt.Columns[fieldNum].ColumnName.Trim() + "\t = " + dt.Rows[rowNum][fieldNum].ToString() + System.Environment.NewLine;
+                        checks += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
                     }
                 }
             }

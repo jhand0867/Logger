@@ -255,9 +255,7 @@ namespace Logger
                         {
                             if (rowNum == 0)
                             {
-                                txtField += @"==================================================" + System.Environment.NewLine;
-                                txtField += @"OPTIONS" + System.Environment.NewLine;
-                                txtField += @"==================================================" + System.Environment.NewLine;
+                                txtField += @"\b OPTIONS \b0 \par \cell \row " ;
                             }
                             txtField += getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
                         }
@@ -265,9 +263,7 @@ namespace Logger
                         {
                             if (TimerStartFlag != true)
                             {
-                                txtField += @"==================================================" + System.Environment.NewLine;
-                                txtField += @"TIMERS" + System.Environment.NewLine;
-                                txtField += @"==================================================" + System.Environment.NewLine;
+                                txtField += @"\b TIMERS \b0 \par \cell \row " ;
                                 TimerStartFlag = true;
                             }
                             txtField += getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());

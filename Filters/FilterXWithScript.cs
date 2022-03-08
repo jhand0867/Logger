@@ -14,7 +14,7 @@ namespace Logger
             //string[] tmpfieldValue = fieldValue.Split(',');
 
             if (tmpfieldValue.Length > 1)
-                fieldDesc = System.Environment.NewLine;
+                fieldDesc = @"\par ";
 
             DataTable dataTable = getDescriptionX(fieldType);
 
@@ -45,7 +45,7 @@ namespace Logger
 
                             if (scriptsToApply.Count == 0)
                             {
-                                outputField += " = " + field4;
+                                outputField += " = " + @"\cell" + field4;
                                 break;
                             }
 
@@ -71,7 +71,7 @@ namespace Logger
 
                                         if (scriptOptions[3].Contains("%"))
                                         {
-                                            outputField += System.Environment.NewLine + "\t";
+                                            outputField += @"\par ";
                                         }
 
                                         if (scriptOptions[3].Contains("$"))
@@ -97,9 +97,9 @@ namespace Logger
                             }
                         }
                         if (tmpfieldValue.Length > 1)
-                            fieldDesc += "   " + item[2].ToString().Trim() + "   " + item[3].ToString().Trim() + "  " + outputField + " " + System.Environment.NewLine;
+                            fieldDesc += "   " + item[2].ToString().Trim() + "   " + item[3].ToString().Trim() + "  " + outputField + " " + @"\par ";
                         else
-                            fieldDesc += "   " + item[3].ToString().Trim() + "  " + outputField + " " + System.Environment.NewLine;
+                            fieldDesc += "   " + item[3].ToString().Trim() + "  " + outputField + " " + @"\par ";
 
                         break;
                     }

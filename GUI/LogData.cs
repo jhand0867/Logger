@@ -17,6 +17,7 @@ namespace Logger
         {
             InitializeComponent();
             PrevHeight = this.Height;
+            
         }
 
         private void LogData_FormClosing(object sender, FormClosingEventArgs e)
@@ -36,22 +37,27 @@ namespace Logger
             Point nextButtonLocation = btnNext.Location;
             btnNext.Location = new Point(this.Width - 80, nextButtonLocation.Y);
 
+            //            string message3 = @"{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;
+            //\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;\red0\green0\blue0;\red0\green0\blue0;}{\cf3 Handschu \cf ya vamos \cf4que manana hay que trabajar \cf}";
 
-            StringBuilder strTable = new StringBuilder();
-            strTable.Append(@"{\rtf1");
-            for (int i = 0; i < 5; i++)
-            {
-                strTable.Append(@"\trowd");
-                strTable.Append(@"\cellx1000");
-                strTable.Append(@"\cellx3000");
-                strTable.Append(@"\cellx9000");
-                //strTable.Append(@"\intbl \cell \row");
-                strTable.Append(@"\intbl 1" + @"\cell  Joe" + @"\cell  Handschu ya vamos a dormir que manana hay que trabajr" + @"\row");
-            }
-            strTable.Append(@"\pard");
-            strTable.Append(@"}");
-            txtFieldData.Rtf = strTable.ToString();
+            //string breakline = @"\par";
+            // \\par = break line
+            // \\b \\b0 bold
 
+            // strTable.Append(@"{\rtf1\trbrdrt\brdrs\brdrw0\brdrcf6\clbrdrl\brdrs\clbrdrb\brdrs\clbrdrr\brdrs");
+            //            strTable.Append(@"{\rtf1\ansi \par \trowd \trql\trgaph108\trrh280\trleft36\clbrdrt\brdrth \clbrdrl\brdrdb \clbrdrb\brdrdb \clbrdrr\brdrdb \cellx2636 \clbrdrt\brdrth \clbrdrl\brdrdb \clbrdrb\brdrdb \clbrdrr\brdrdb \cellx11236 \pard \intbl SC2116810, Rev. C\cell \pard \intbl Interface Control Document, Miniature Air Data Computer for AC-130H
+            //Aircraft (1 February 1990)\cell\row\pard\par}");
+            //for (int i = 0; i < 5; i++)
+            //{
+
+            //    strTable.Append(@"\intbl " + message1 + @"\cell " + message2 + @"\cell  " + message3 + @"\row");
+
+
+            //}
+            //            strTable.Append(@"{\intbl \cell Message Class =  \cell 1 Terminal Command \row
+            //\intbl \cell Luno = \cell 336 \row 
+            //\intbl \cell Command Code =  \cell 7 \row
+            //\intbl \cell Modifier =  6 \row \par \pard");
 
         }
 
@@ -70,16 +76,44 @@ namespace Logger
 
             string prjKey = dgvr.Cells["prjKey"].Value.ToString();
             // MLH temporary comment out testing adding table
-            //txtFieldData.Text = "";
+            txtFieldData.Text = "";
 
             string recType = App.Prj.getRecord(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
             if (recType != "")
             {
                 IMessage theRecord = LoggerFactory.Create_Record(recType);
                 // MLH temporary comment out testing adding table
-                //if (theRecord != null)
-                //txtFieldData.Text = theRecord.parseToView(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
-            }
+                if (theRecord != null)
+                {
+                    StringBuilder strTable = new StringBuilder();
+                    
+                    strTable.Append(@"{\rtf1");
+                    strTable.Append(@"{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;
+            \red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;\red0\green0\blue0;\red0\green0\blue0;}");
+                    strTable.Append(@"\trbrdrt\brdrs\brdrw10
+\trbrdrl\brdrs\brdrw10
+\trbrdrb\brdrs\brdrw10
+\trbrdrr\brdrs\brdrw10");
+                    strTable.Append(@"\trowd\trgaph200");
+                    strTable.Append(@"\clbrdrt\brdrw10\brdrs
+\clbrdrl\brdrw10\brdrs
+\clbrdrb\brdrw10\brdrs
+\clbrdrr\brdrw10\brdrs \cellx3000");
+                    strTable.Append(@"\clbrdrt\brdrw10\brdrs
+\clbrdrl\brdrw10\brdrs
+\clbrdrb\brdrw10\brdrs
+\clbrdrr\brdrw10\brdrs \cellx5000");
+                    strTable.Append(@"\clbrdrt\brdrw10\brdrs
+\clbrdrl\brdrw10\brdrs
+\clbrdrb\brdrw10\brdrs
+\clbrdrr\brdrw10\brdrs \cellx9000");
+                    //txtFieldData.Text = theRecord.parseToView(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString());
+                    strTable.Append(theRecord.parseToView(logKey, logID, prjKey, dgvr.Cells["Log Data"].Value.ToString()));
+                    strTable.Append(@"}");
+                    txtFieldData.Rtf = strTable.ToString();
+                }
+
+                }
         }
 
         public ReceiveLogData getPrevRow;

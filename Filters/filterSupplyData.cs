@@ -16,7 +16,7 @@ namespace Logger
 
             string fieldDesc = "";
             if (fieldValue.Trim() != "")
-                fieldDesc = System.Environment.NewLine;
+                fieldDesc = @"\par ";
 
             string[] tmpfieldValue = fieldValue.Split(';');
             DataTable deviceNames = getDescriptionX(fieldType);
@@ -42,8 +42,8 @@ namespace Logger
                                 if (ss[2].ToString().Substring(2, 1) == field.Substring(pos, 1))
                                     ssDescr = ss[3].ToString().Trim();
                             }
-                        fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + " = " + field.Substring(pos, 1) +
-                                    " " + ssDescr + System.Environment.NewLine;
+                        fieldDesc = fieldDesc + "\\cell " + item[3].ToString().Trim() + " = \\cell " + field.Substring(pos, 1) +
+                                    "\\cell " + ssDescr + @"\row ";
                         pos++;
                     }
                 }

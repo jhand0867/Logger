@@ -21,7 +21,7 @@ namespace Logger
             MatchCollection scriptsToApply = handleBars.Matches(scriptValue.Trim());
 
             if (scriptsToApply.Count == 0)
-                outputField += " = " + fieldValue;
+                outputField += " = " + @"\cell " + fieldValue;
 
             int offset = 0;
             while (offset < fieldValue.Length)
@@ -29,8 +29,6 @@ namespace Logger
 
                 foreach (Match hit in scriptsToApply)
                 {
-                    //if (hit.Index == 0)
-                    //    continue;
                     field4Offset += hit.Length;
                     int indexOfScriptStart = hit.Value.IndexOf("{", 0);
                     int indexOfSctiptEnd = hit.Value.IndexOf("}", indexOfScriptStart);
@@ -47,7 +45,8 @@ namespace Logger
 
                         if (scriptOptions[3].Contains("%"))
                         {
-                            outputField += System.Environment.NewLine + "\t";
+                            //outputField += System.Environment.NewLine + "\t";
+                            outputField += @"\par ";
                         }
 
                         if (scriptOptions[3].Contains("$"))
@@ -69,7 +68,9 @@ namespace Logger
                     }
                 }
             }
-            fieldDesc = fieldDesc + "   " + "  " + outputField + " " + System.Environment.NewLine;
+            //fieldDesc = fieldDesc + "   " + "  " + outputField + " " + @"\par ";
+            fieldDesc = @"\cell " + outputField + " " + @"\par ";
+
             return fieldDesc;
         }
         public string formattedOutput(string value, string formatter)
