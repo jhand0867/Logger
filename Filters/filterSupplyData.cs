@@ -42,6 +42,9 @@ namespace Logger
                                 if (ss[2].ToString().Substring(2, 1) == field.Substring(pos, 1))
                                     ssDescr = ss[3].ToString().Trim();
                             }
+
+                        // MLH Here!! does it need to finish with \row ? 
+
                         fieldDesc = fieldDesc + "\\cell " + item[3].ToString().Trim() + " = \\cell " + field.Substring(pos, 1) +
                                     "\\cell " + ssDescr + @"\row ";
                         pos++;

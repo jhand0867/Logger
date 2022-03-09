@@ -126,10 +126,10 @@ namespace Logger
                 for (int rowNum = 0; rowNum < dts[0].Rows.Count; rowNum++)
                 {
                     // Configuration Data
-                    txtField += System.Environment.NewLine + "Configuration Data Parsing: " + System.Environment.NewLine;
+                    txtField +=  "Configuration Data Parsing: " + @"\row ";
 
                     for (int colNum = 3; colNum < dts[0].Columns.Count - 1; colNum++)
-                        txtField += App.Prj.getOptionDescription(iccRecDt, "1" + colNum.ToString("00"), dts[0].Rows[rowNum][colNum].ToString());
+                        txtField += @"\cell " + App.Prj.getOptionDescription(iccRecDt, "1" + colNum.ToString("00"), dts[0].Rows[rowNum][colNum].ToString());
                 }
             return txtField;
         }

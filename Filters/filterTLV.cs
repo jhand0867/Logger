@@ -8,20 +8,19 @@ namespace Logger
         {
             string fieldDesc = "";
 
-            //if (fieldValue.Trim() != "")
-            //    fieldDesc = System.Environment.NewLine;
-
             string[] tmpfieldValue = fieldValue.Split(';');
             DataTable dataTable = getDescriptionX(fieldType);
 
             // Use fieldType = 1 when fieldvalue from message is a "Tag Length Value (TLV)" format
+
+            int i = 1;
 
             foreach (string field in tmpfieldValue)
             {
                 string[] tlv = field.Split(' ');
 
                 if ((tlv.Length > 1) && (fieldDesc == ""))
-                    fieldDesc = System.Environment.NewLine;
+                    fieldDesc = @"\row ";
 
                 foreach (DataRow item in dataTable.Rows)
                 {
@@ -29,18 +28,19 @@ namespace Logger
                     {
                         if (tlv.Length > 1)
                         {
-                            fieldDesc = fieldDesc + "   " + item[3].ToString().Trim() + " = " + tlv[0] +
-                                        " Length = " + tlv[1] + " Value = " + tlv[2];
+                            fieldDesc = fieldDesc + @" \cell " + "Tag = " + tlv[0] + @"\par " + item[3].ToString().Trim() + @" \cell " +
+                                        " Length = " + tlv[1] + @" \par " + " Value = " + tlv[2] + @" \cell ";
                         }
                         else
                         {
-                            fieldDesc = fieldDesc + "   " + item[3].ToString().Trim();
+                            fieldDesc = fieldDesc + "\\cell " + item[3].ToString().Trim();
                         }
-
-                        fieldDesc = fieldDesc + System.Environment.NewLine;
+                        if (i < tmpfieldValue.Length)
+                            fieldDesc = fieldDesc + @" \row ";
                         break;
                     }
                 }
+                i++;
             }
             return fieldDesc;
         }
