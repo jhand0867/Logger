@@ -505,12 +505,15 @@ namespace Logger
         private DataGridViewRow MovePrevRowOnDGV()
         {
             DataGridViewRow dgvr = null;
-            int nrow = dgvLog.SelectedCells[0].RowIndex;
-            if (dgvLog.RowCount > nrow + 1)
+            if (dgvLog.SelectedCells.Count > 0)
             {
-                int col = dgvLog.CurrentCell.ColumnIndex;
-                dgvLog.CurrentCell = dgvLog[col, nrow + 1];
-                dgvr = dgvLog.CurrentCell.OwningRow;
+                int nrow = dgvLog.SelectedCells[0].RowIndex;
+                if (dgvLog.RowCount > nrow + 1)
+                {
+                    int col = dgvLog.CurrentCell.ColumnIndex;
+                    dgvLog.CurrentCell = dgvLog[col, nrow + 1];
+                    dgvr = dgvLog.CurrentCell.OwningRow;
+                }
             }
             return dgvr;
         }

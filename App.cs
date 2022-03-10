@@ -177,24 +177,42 @@ namespace Logger
             {
                 if (row[2].ToString().Trim() == field)
                 {
+                    string[] descriptionFields = new string[] { "", "", "" };
+
                     optionDescription = row[3].ToString().Trim();
                     if (row[6].ToString().Length == 2 && !string.IsNullOrEmpty(row[5].ToString().Trim()))
                     {
                         str = LoggerFactory.Create_Digester().fieldDigester(row[6].ToString(), fieldValue, row[5].ToString());
                         fieldValue = fieldValue.Replace(";", " ");
                     }
+
                     if (row[6].ToString().Length == 2 && row[7].ToString().Length > 0 && row[7].ToString().Substring(0, 1) == "{")
                     {
                         Digester digester = LoggerFactory.Create_Digester();
-                       // optionDescription += digester.fieldDigester(row[6].ToString(), fieldValue, row[7].ToString());
-                        optionDescription = @"\intbl " + optionDescription + @" = \cell " + digester.fieldDigester(row[6].ToString(), fieldValue, row[7].ToString());
+                        // optionDescription += digester.fieldDigester(row[6].ToString(), fieldValue, row[7].ToString());
+
+                        descriptionFields[0] = optionDescription;
+                        descriptionFields[1] = digester.fieldDigester(row[6].ToString(), fieldValue, row[7].ToString());
+                        descriptionFields[2] = "";
+                        optionDescription = insertRowRtf(descriptionFields);
+
+
+                        // optionDescription = @"\intbl " + optionDescription + @" = \cell " + digester.fieldDigester(row[6].ToString(), fieldValue, row[7].ToString());
                         break;
                     }
                     //    strTable.Append(@"\intbl " + message1 + @"\cell " + message2 + @"\cell  " + message3 + @"\row");
 
-                    optionDescription = @"\intbl " + optionDescription + " = " + @"\cell " + fieldValue;
-                    optionDescription = !(row[4].ToString() == "") || !(str != "") ? optionDescription + @"\cell " + this.insertDescription(row[4].ToString()) + str : optionDescription + @"\cell " + str;
-                    optionDescription += @"\cell \row ";
+
+                    descriptionFields[0] = optionDescription;
+                    descriptionFields[1] = fieldValue;
+                    descriptionFields[2] = !(row[4].ToString() == "") || !(str != "") ? insertDescription(row[4].ToString()) + str : str;
+                    optionDescription = insertRowRtf(descriptionFields);
+
+
+
+                    //optionDescription = @"\intbl " + optionDescription + " = " + @"\cell " + fieldValue;
+                    //optionDescription = !(row[4].ToString() == "") || !(str != "") ? optionDescription + @"\cell " + this.insertDescription(row[4].ToString()) + str : optionDescription + @"\cell " + str;
+                    //optionDescription += @"\cell \row ";
                     break;
                 }
             }
@@ -206,6 +224,12 @@ namespace Logger
             string str = "";
             if (!string.IsNullOrEmpty(fieldDescription))
                 str = fieldDescription.Trim() + @"\par ";
+            return str;
+        }
+
+        internal string insertRowRtf(string[] rows)
+        {
+            string str = @" \intbl " + rows[0] + @" \cell " + rows[1] + @" \cell " + rows[2] + @" \cell \row ";
             return str;
         }
 

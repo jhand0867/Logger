@@ -21,7 +21,10 @@ namespace Logger
             MatchCollection scriptsToApply = handleBars.Matches(scriptValue.Trim());
 
             if (scriptsToApply.Count == 0)
-                outputField += " = " + @"\cell " + fieldValue;
+                outputField = fieldValue;
+
+            // outputField += " = " + @"\cell " + fieldValue;
+
 
             int offset = 0;
             while (offset < fieldValue.Length)
@@ -68,8 +71,9 @@ namespace Logger
                     }
                 }
             }
-            //fieldDesc = fieldDesc + "   " + "  " + outputField + " " + @"\par ";
-            fieldDesc = @"\cell " + outputField + " " + @"\par ";
+            //fieldDesc = @"\cell " + outputField + " " + @"\par ";
+            fieldDesc = outputField;
+
 
             return fieldDesc;
         }

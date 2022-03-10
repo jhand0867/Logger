@@ -14,13 +14,14 @@ namespace Logger
             // Use fieldType = 1 when fieldvalue from message is a "Tag Length Value (TLV)" format
 
             int i = 1;
+            string[] descriptionFields = new string[] { "", "", "" };
 
             foreach (string field in tmpfieldValue)
             {
                 string[] tlv = field.Split(' ');
 
-                if ((tlv.Length > 1) && (fieldDesc == ""))
-                    fieldDesc = @"\row ";
+                //if ((tlv.Length > 1) && (fieldDesc == ""))
+                //    fieldDesc = @"\row ";
 
                 foreach (DataRow item in dataTable.Rows)
                 {
@@ -28,15 +29,26 @@ namespace Logger
                     {
                         if (tlv.Length > 1)
                         {
-                            fieldDesc = fieldDesc + @" \cell " + "Tag = " + tlv[0] + @"\par " + item[3].ToString().Trim() + @" \cell " +
-                                        " Length = " + tlv[1] + @" \par " + " Value = " + tlv[2] + @" \cell ";
+                            //fieldDesc = fieldDesc + @" \cell " + "Tag = " + tlv[0] + @"\par " + item[3].ToString().Trim() + @" \cell " +
+                            //            " Length = " + tlv[1] + @" \par " + " Value = " + tlv[2] + @" \cell ";
+
+                            descriptionFields[0] = "";
+                            descriptionFields[1] = "Tag = " + tlv[0] + @"\par " + item[3].ToString().Trim();
+                            descriptionFields[2] = " Length = " + tlv[1] + @" \par " + " Value = " + tlv[2];
+                            fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
                         }
                         else
                         {
-                            fieldDesc = fieldDesc + "\\cell " + item[3].ToString().Trim();
+                            descriptionFields[0] = "";
+                            descriptionFields[1] = item[3].ToString().Trim();
+                            descriptionFields[2] = "";
+
+                            fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields); 
+                            
+                            //fieldDesc = fieldDesc + "\\cell " + item[3].ToString().Trim();
                         }
-                        if (i < tmpfieldValue.Length)
-                            fieldDesc = fieldDesc + @" \row ";
+                        //if (i < tmpfieldValue.Length)
+                        //    fieldDesc = fieldDesc + @" \row ";
                         break;
                     }
                 }
