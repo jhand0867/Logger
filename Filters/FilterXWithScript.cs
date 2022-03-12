@@ -11,7 +11,8 @@ namespace Logger
             string fieldDesc = "";
 
             string[] tmpfieldValue = fieldValue.Split(';');
-            //string[] tmpfieldValue = fieldValue.Split(',');
+
+            string[] descriptionFields = new string[] { "", "", "" };
 
             if (tmpfieldValue.Length > 1)
                 fieldDesc = @"\par ";
@@ -45,7 +46,8 @@ namespace Logger
 
                             if (scriptsToApply.Count == 0)
                             {
-                                outputField += " = " + @"\cell" + field4;
+                               outputField += " = " + @"\cell" + field4;
+                                //outputField = field4;
                                 break;
                             }
 
@@ -89,9 +91,6 @@ namespace Logger
                                             outputField += workField.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
                                         }
 
-
-
-
                                     }
                                 }
                             }
@@ -100,6 +99,13 @@ namespace Logger
                             fieldDesc += "   " + item[2].ToString().Trim() + "   " + item[3].ToString().Trim() + "  " + outputField + " " + @"\par ";
                         else
                             fieldDesc += "   " + item[3].ToString().Trim() + "  " + outputField + " " + @"\par ";
+
+                        //if (tmpfieldValue.Length > 1)
+                        //    descriptionFields[0] = "";
+                        //descriptionFields[1] = item[3].ToString().Trim();
+                        //descriptionFields[2] = "";
+
+                        //fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
 
                         break;
                     }

@@ -818,13 +818,20 @@ namespace Logger
         private string getCheckProccessing(DataTable dt)
         {
             string checksData = "";
+            string[] descriptionFields = new string[] { "", "", "" };
+
             if (dt.Rows.Count > 0)
             {
                 for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                 {
                     for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        checksData += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
+                        //checksData += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
+                        descriptionFields[0] = dt.Columns[fieldNum].ColumnName.Trim();
+                        descriptionFields[1] = dt.Rows[rowNum][fieldNum].ToString();
+                        descriptionFields[2] = "";
+
+                        checksData += App.Prj.insertRowRtf(descriptionFields);
                     }
                 }
             }
@@ -834,13 +841,24 @@ namespace Logger
         private string getPrinterData(DataTable dataTable)
         {
             string printerData = "";
+            string[] descriptionFields = new string[] { "", "", "" };
 
             if (dataTable.Rows.Count > 0)
             {
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    printerData += @"\intbl " + "Printer Flag = " + @"\cell " + row["printerFlag"].ToString() + @"\row ";
-                    printerData += @"\intbl " + "Printer Data = " + @"\cell " + WebUtility.HtmlDecode(row["printerData"].ToString()) + @"\row ";
+                    //printerData += @"\intbl " + "Printer Flag = " + @"\cell " + row["printerFlag"].ToString() + @"\row ";
+                    //printerData += @"\intbl " + "Printer Data = " + @"\cell " + WebUtility.HtmlDecode(row["printerData"].ToString()) + @"\row ";
+
+                    descriptionFields[0] = "Printer Flag ";
+                    descriptionFields[1] = row["printerFlag"].ToString();
+                    descriptionFields[2] = "";
+                    printerData += App.Prj.insertRowRtf(descriptionFields);
+
+                    descriptionFields[0] = "Printer Data ";
+                    descriptionFields[1] = WebUtility.HtmlDecode(row["printerData"].ToString());
+                    descriptionFields[2] = "";
+                    printerData += App.Prj.insertRowRtf(descriptionFields);
                 }
             }
             return printerData;

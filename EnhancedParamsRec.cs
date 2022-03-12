@@ -232,6 +232,7 @@ namespace Logger
         {
             List<DataTable> dts = getRecord(logKey, logID, projectKey);
             string txtField = "";
+            string[] descriptionFields = new string[] { "", "", "" };
 
             if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
 
@@ -255,7 +256,13 @@ namespace Logger
                         {
                             if (rowNum == 0)
                             {
-                                txtField += @"\b OPTIONS \b0 \par \cell \row " ;
+                                //txtField += @"\b OPTIONS \b0 \par \cell \row " ;
+
+                                descriptionFields[0] = @"\b OPTIONS \b0";
+                                descriptionFields[1] = "";
+                                descriptionFields[2] = "";
+
+                                txtField += App.Prj.insertRowRtf(descriptionFields);
                             }
                             txtField += getOptionDescription(paramRecDt, "O" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());
                         }
@@ -263,7 +270,12 @@ namespace Logger
                         {
                             if (TimerStartFlag != true)
                             {
-                                txtField += @"\b TIMERS \b0 \par \cell \row " ;
+                                //txtField += @"\b TIMERS \b0 \par \cell \row " ;
+                                descriptionFields[0] = @"\b TIMERS \b0";
+                                descriptionFields[1] = "";
+                                descriptionFields[2] = "";
+
+                                txtField += App.Prj.insertRowRtf(descriptionFields);
                                 TimerStartFlag = true;
                             }
                             txtField += getOptionDescription(paramRecDt, "T" + dt.Rows[rowNum][3].ToString(), dt.Rows[rowNum][4].ToString());

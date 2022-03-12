@@ -299,6 +299,7 @@ namespace Logger
 
             string stateTypetmp = stRec.StateType;
             string fieldData = "";
+            string[] descriptionFields = new string[] { "", "", "" };
 
             if (stRec.StateType == "Z")
             {
@@ -310,14 +311,20 @@ namespace Logger
                     extensionStateNum = extensionFound.Substring(0, 3);
                     log.Info("DataTable records = " + dt.Rows.Count);
                 }
-                fieldData += "  extension of " + stateTypetmp.Substring(0, 1) + " " + extensionStateNum + @"\b0 \clmrg \cell \row ";
+
+                descriptionFields[0] = "\\b Extension of " + stateTypetmp.Substring(0, 1) + " " + extensionStateNum + @"\b0  ";
+                descriptionFields[1] = "";
+                descriptionFields[2] = "";
+
+                fieldData += App.Prj.insertRowRtf(descriptionFields);
+
+                // fieldData += "  Extension of " + stateTypetmp.Substring(0, 1) + " " + extensionStateNum + @"\b0 \clmrg \cell \row ";
 
             }
             else
             {
 
                 dt = theRecord.getStateDescription(stRec.StateType);
-                fieldData += @"\b0 \clmrg \cell \row ";
                 log.Info("DataTable records = " + dt.Rows.Count);
             }
 
@@ -335,7 +342,8 @@ namespace Logger
             }
             else
             {
-                return @"\cell \row ";
+                //return @"\cell \row ";
+                return "";
             }
 
         }
@@ -398,16 +406,21 @@ namespace Logger
                     }
                     else
                     {
-
                         for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                         {
+                            string[] descriptionFields = new string[] { "", "", "" };
+                            string txtStateData = "";
+
                             for (int fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
                             {
-                                if (fieldNum == 3)
-                                    txtField += "\\b State Data = " + @"\cell \clmgf " + dt.Rows[rowNum][fieldNum].ToString() + " ";
-                                else
-                                    txtField += dt.Rows[rowNum][fieldNum].ToString() + " ";
+                                txtStateData += dt.Rows[rowNum][fieldNum].ToString() + " ";
                             }
+
+                            descriptionFields[0] = "\\b State Data ";
+                            descriptionFields[1] = txtStateData + @" \b0 ";
+                            descriptionFields[2] = "";
+
+                            txtField += App.Prj.insertRowRtf(descriptionFields);
 
                             StateData stRec = LoggerFactory.Create_StateRecord();
                             stRec.StateNumber = dt.Rows[rowNum][3].ToString();

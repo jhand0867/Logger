@@ -11,8 +11,19 @@ namespace Logger
             string fieldDesc = "";
             string fieldResult;
 
+            string[] descriptionFields = new string[] { "", "", "" };
+
+            //if (fieldValue.Trim() != "")
+            //    fieldDesc = fieldValue + @"\row ";
+
             if (fieldValue.Trim() != "")
-                fieldDesc = fieldValue + @"\row ";
+            {
+                descriptionFields[0] = fieldValue;
+                descriptionFields[1] = "";
+                descriptionFields[2] = "";
+
+                fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
+            }
 
             // /(\{.*\})/gUgs
             Regex handleBars = new Regex(@"(\{.*?\})", RegexOptions.Singleline);
@@ -54,8 +65,15 @@ namespace Logger
                     {
                         if (item[2].ToString().Trim() == field)
                         {
-                            fieldDesc += "\\intbl " + fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
-                                           " = \\cell " + item[3].ToString().Trim() + "\\cell " + item[4].ToString().Trim() + " " + @"\row ";
+
+                            descriptionFields[0] = fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
+                            descriptionFields[1] = item[3].ToString().Trim();
+                            descriptionFields[2] = item[4].ToString().Trim();
+
+                            fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
+
+                            //fieldDesc += "\\intbl " + fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
+                            //               " = \\cell " + item[3].ToString().Trim() + "\\cell " + item[4].ToString().Trim() + " " + @"\row ";
                             break;
                         }
                     }

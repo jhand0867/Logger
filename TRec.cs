@@ -818,13 +818,20 @@ namespace Logger
         private string getTreqOptions(DataTable dt)
         {
             string notesType = "";
+            string[] descriptionFields = new string[] { "", "", "" };
+
             if (dt.Rows.Count > 0)
             {
                 for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                 {
                     for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        notesType += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
+                        // notesType += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
+                        descriptionFields[0] = dt.Columns[fieldNum].ColumnName.Trim();
+                        descriptionFields[1] = dt.Rows[rowNum][fieldNum].ToString();
+                        descriptionFields[2] = "";
+
+                        notesType += App.Prj.insertRowRtf(descriptionFields);
                     }
                 }
             }
@@ -836,6 +843,8 @@ namespace Logger
         private string getTreqCurrencies(DataTable dt)
         {
             string currencies = "";
+            string[] descriptionFields = new string[] { "", "", "" };
+
             if (dt.Rows.Count > 0)
             {
                 for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
@@ -843,7 +852,14 @@ namespace Logger
                     for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
                         if (fieldNum != 7)
-                            currencies += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
+                        {
+                            // currencies += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
+                            descriptionFields[0] = dt.Columns[fieldNum].ColumnName.Trim();
+                            descriptionFields[1] = dt.Rows[rowNum][fieldNum].ToString();
+                            descriptionFields[2] = "";
+
+                            currencies += App.Prj.insertRowRtf(descriptionFields);
+                        }
                     }
                 }
             }
@@ -855,13 +871,20 @@ namespace Logger
         private string getTreqCheques(DataTable dt)
         {
             string checks = "";
+            string[] descriptionFields = new string[] { "", "", "" };
+
             if (dt.Rows.Count > 0)
             {
                 for (int rowNum = 0; rowNum < dt.Rows.Count; rowNum++)
                 {
                     for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        checks += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
+                        // checks += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
+                        descriptionFields[0] = dt.Columns[fieldNum].ColumnName.Trim();
+                        descriptionFields[1] = dt.Rows[rowNum][fieldNum].ToString();
+                        descriptionFields[2] = "";
+
+                        checks += App.Prj.insertRowRtf(descriptionFields);
                     }
                 }
             }

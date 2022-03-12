@@ -33,7 +33,7 @@ namespace Logger
                             //            " Length = " + tlv[1] + @" \par " + " Value = " + tlv[2] + @" \cell ";
 
                             descriptionFields[0] = "";
-                            descriptionFields[1] = "Tag = " + tlv[0] + @"\par " + item[3].ToString().Trim();
+                            descriptionFields[1] = "Tag = " + tlv[0] + @" \par " + item[3].ToString().Trim();
                             descriptionFields[2] = " Length = " + tlv[1] + @" \par " + " Value = " + tlv[2];
                             fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
                         }

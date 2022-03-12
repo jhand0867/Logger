@@ -231,7 +231,6 @@ namespace Logger
                         {
                             for (int fieldNum = 3; fieldNum < dt.Columns.Count - 3; fieldNum++)
                                 txtField += getOptionDescription(scrdt, fieldNum.ToString("00"), dt.Rows[rowNum][fieldNum].ToString());
-                            txtField += Environment.NewLine;
                         }
                     }
             }

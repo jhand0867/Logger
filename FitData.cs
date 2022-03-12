@@ -250,9 +250,7 @@ namespace Logger
 
                                 if (fieldNum == 3)
                                 {
-                                    //txtField += @"==================================================" + Environment.NewLine;
                                     txtField += @"\b" + getOptionDescription(fitdt, fieldNum.ToString("00"), dt.Rows[rowNum][fieldNum].ToString()) + @"\b0";
-                                    //txtField += @"==================================================" + Environment.NewLine;
                                 }
                                 else
                                     txtField += getOptionDescription(fitdt, fieldNum.ToString("00"), dt.Rows[rowNum][fieldNum].ToString());

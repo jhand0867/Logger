@@ -166,6 +166,10 @@ namespace Logger
         //    return optionDescription;
         //}
 
+        //// DescriptionData requires a fieldName and should have either 
+        //// fieldDescription (row[4]), fieldType (row[5]), or scriptValue (row[7]). It can not have a combination of them,
+        //// except for rectype 'X', which can have fieldDescription and fieldType
+
         internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)
         {
             string optionDescription = "";
@@ -179,11 +183,34 @@ namespace Logger
                 {
                     string[] descriptionFields = new string[] { "", "", "" };
 
-                    optionDescription = row[3].ToString().Trim();
+                   // optionDescription = row[3].ToString().Trim();
+                    descriptionFields[0] = row[3].ToString().Trim();
+
+                    if (!string.IsNullOrEmpty(row[4].ToString().Trim()))
+                    {
+                        descriptionFields[1] = fieldValue;
+                        descriptionFields[2] = row[4].ToString().Trim();
+                        optionDescription = insertRowRtf(descriptionFields);
+                        break;
+                    }
+
                     if (row[6].ToString().Length == 2 && !string.IsNullOrEmpty(row[5].ToString().Trim()))
                     {
                         str = LoggerFactory.Create_Digester().fieldDigester(row[6].ToString(), fieldValue, row[5].ToString());
                         fieldValue = fieldValue.Replace(";", " ");
+
+                        descriptionFields[1] = fieldValue;
+
+                        if (str.Contains("\\intbl "))
+                        {
+                            descriptionFields[2] = "";
+                            optionDescription = insertRowRtf(descriptionFields);
+                            optionDescription += str;
+                            break;
+                        }
+                        descriptionFields[2] = str;
+                        optionDescription = insertRowRtf(descriptionFields);
+                        break;
                     }
 
                     if (row[6].ToString().Length == 2 && row[7].ToString().Length > 0 && row[7].ToString().Substring(0, 1) == "{")
@@ -191,44 +218,44 @@ namespace Logger
                         Digester digester = LoggerFactory.Create_Digester();
                         // optionDescription += digester.fieldDigester(row[6].ToString(), fieldValue, row[7].ToString());
 
-                        descriptionFields[0] = optionDescription;
+ 
                         descriptionFields[1] = digester.fieldDigester(row[6].ToString(), fieldValue, row[7].ToString());
                         descriptionFields[2] = "";
                         optionDescription = insertRowRtf(descriptionFields);
-
-
                         // optionDescription = @"\intbl " + optionDescription + @" = \cell " + digester.fieldDigester(row[6].ToString(), fieldValue, row[7].ToString());
                         break;
                     }
                     //    strTable.Append(@"\intbl " + message1 + @"\cell " + message2 + @"\cell  " + message3 + @"\row");
 
-
-                    descriptionFields[0] = optionDescription;
                     descriptionFields[1] = fieldValue;
-                    descriptionFields[2] = !(row[4].ToString() == "") || !(str != "") ? insertDescription(row[4].ToString()) + str : str;
+                    descriptionFields[2] = "";
                     optionDescription = insertRowRtf(descriptionFields);
-
-
 
                     //optionDescription = @"\intbl " + optionDescription + " = " + @"\cell " + fieldValue;
                     //optionDescription = !(row[4].ToString() == "") || !(str != "") ? optionDescription + @"\cell " + this.insertDescription(row[4].ToString()) + str : optionDescription + @"\cell " + str;
                     //optionDescription += @"\cell \row ";
-                    break;
+
                 }
             }
             return optionDescription;
         }
 
-        internal string insertDescription(string fieldDescription)
-        {
-            string str = "";
-            if (!string.IsNullOrEmpty(fieldDescription))
-                str = fieldDescription.Trim() + @"\par ";
-            return str;
-        }
+        //internal string insertDescription(string fieldDescription)
+        //{
+        //    string str = "";
+        //    if (!string.IsNullOrEmpty(fieldDescription))
+        //        str = fieldDescription.Trim() + @"\par ";
+        //    return str;
+        //}
 
         internal string insertRowRtf(string[] rows)
         {
+            // how many dataFields did I get?
+
+            foreach(string dataField in rows)
+            {
+
+            }
             string str = @" \intbl " + rows[0] + @" \cell " + rows[1] + @" \cell " + rows[2] + @" \cell \row ";
             return str;
         }

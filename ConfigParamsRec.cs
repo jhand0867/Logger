@@ -176,6 +176,7 @@ namespace Logger
         {
             List<DataTable> dts = getRecord(logKey, logID, projectKey);
             string txtField = "";
+            string[] descriptionFields = new string[] { "", "", "" };
 
             if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
 
@@ -193,9 +194,11 @@ namespace Logger
                             {
                                 if (dts[1].Rows.Count > 0)
                                 {
-                                    txtField += @"==================================================" + System.Environment.NewLine;
-                                    txtField += @"TIMERS" + System.Environment.NewLine;
-                                    txtField += @"==================================================" + System.Environment.NewLine;
+                                    descriptionFields[0] = @"\b TIMERS \b0";
+                                    descriptionFields[1] = "";
+                                    descriptionFields[2] = "";
+
+                                    txtField += App.Prj.insertRowRtf(descriptionFields);
                                     txtField += getTimers(dts[1], configDt);
                                 }
                                 continue;
