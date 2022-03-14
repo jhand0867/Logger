@@ -128,13 +128,16 @@ namespace Logger
 
                 foreach (typeRec r in typeRecs)
                 {
-                    if (r.typeContent.Length == 8)
+                    if (!string.IsNullOrEmpty(r.typeContent))
                     {
-                        continue;
-                    }
-                    if (r.typeContent.Substring(0, 3) == "000")
-                    {
-                        loadNum++;
+                        if (r.typeContent.Length == 8)
+                        {
+                            continue;
+                        }
+                        if (r.typeContent.Substring(0, 3) == "000")
+                        {
+                            loadNum++;
+                        }
                     }
                     // convert to hex
                     string[] fit2Hex = new string[42];

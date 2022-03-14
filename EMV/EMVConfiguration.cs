@@ -31,26 +31,16 @@ namespace Logger
     {
         private string rectype;
         private string transactionType;
-        private string responseFormat;
-        private string responseLength;
-        private string transactionTypeTag;
-        private string transactionTypeLgth;
-        private string transactionTypeValue;
-        private string transactionCatCodeTag;
-        private string transactionCatCodeLgth;
-        private string transactionCatCodeValue;
+        private string responseFormat2Tag;
+        private string responseFormat2Length;
+        private string responseFormat2Value;
 
         public string Rectype { get => rectype; set => rectype = value; }
         public string TransactionType { get => transactionType; set => transactionType = value; }
-        public string ResponseFormat { get => responseFormat; set => responseFormat = value; }
-        public string ResponseLength { get => responseLength; set => responseLength = value; }
-        public string TransactionTypeTag { get => transactionTypeTag; set => transactionTypeTag = value; }
-        public string TransactionTypeLgth { get => transactionTypeLgth; set => transactionTypeLgth = value; }
-        public string TransactionTypeValue { get => transactionTypeValue; set => transactionTypeValue = value; }
-        public string TransactionCatCodeTag { get => transactionCatCodeTag; set => transactionCatCodeTag = value; }
-        public string TransactionCatCodeLgth { get => transactionCatCodeLgth; set => transactionCatCodeLgth = value; }
-        public string TransactionCatCodeValue { get => transactionCatCodeValue; set => transactionCatCodeValue = value; }
-    };
+        public string ResponseFormat2Tag { get => responseFormat2Tag; set => responseFormat2Tag = value; }
+        public string ResponseFormat2Length { get => responseFormat2Length; set => responseFormat2Length = value; }
+        public string ResponseFormat2Value { get => responseFormat2Value; set => responseFormat2Value = value; }
+    }
     struct iccLanguage
     {
         private string rectype;

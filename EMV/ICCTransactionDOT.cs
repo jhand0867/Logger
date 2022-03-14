@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Logger
@@ -51,13 +52,10 @@ namespace Logger
                 foreach (iccTransaction c in iccTransactionDOTList)
                 {
 
-                    string sql = @"INSERT INTO ICCTransactionDOT([logkey],[rectype],[transactionType],[responseFormat],[responseLength],
-	                            [transactionTypeTag],[transactionTypeLgth],[transactionTypeValue],[transactionCatCodeTag],
-	                            [transactionCatCodeLgth],[transactionCatCodeValue],[logID]) " +
-                      " VALUES('" + r.typeIndex + "','" + c.Rectype + "','" + c.TransactionType + "','" + c.ResponseFormat + "','" +
-                                c.ResponseLength + "','" + c.TransactionTypeTag + "','" + c.TransactionTypeLgth + "','" +
-                                c.TransactionTypeValue + "','" + c.TransactionCatCodeTag + "','" + c.TransactionCatCodeLgth + "','" +
-                                c.TransactionCatCodeValue + "'," + logID + ")";
+                    string sql = @"INSERT INTO ICCTransactionDOT([logkey],[rectype],[transactionType],[responseFormat2Tag],[responseFormat2Length],
+	                            [responseFormat2Value],[logID]) " +
+                      " VALUES('" + r.typeIndex + "','" + c.Rectype + "','" + c.TransactionType + "','" + c.ResponseFormat2Tag + "','" +
+                                c.ResponseFormat2Length + "','" + c.ResponseFormat2Value + "'," + logID + ")";
 
                     DbCrud db = new DbCrud();
                     if (db.crudToDb(sql) == false)
@@ -78,43 +76,22 @@ namespace Logger
             iccTransaction iccTransaction = new iccTransaction();
             List<iccTransaction> iccTransactionDOTList = new List<iccTransaction>();
 
+            // 050177159C01019F53015A9F03060000000000005F2A0208400277159C01309F53015A9F03060000000000005F2A0208400377159C01909F53015A9F03060000000000005F2A0208400477159C01599F53015A9F03060000000000005F2A0208400577159C01919F53015A9F03060000000000005F2A020840
             int offset = 2;
             for (int x = 0; x < int.Parse(tmpTypes.Substring(0, 2)); x++)
             {
                 iccTransaction.Rectype = "82";
                 iccTransaction.TransactionType = tmpTypes.Substring(offset, 2);
                 offset += 2;
-                iccTransaction.ResponseFormat = tmpTypes.Substring(offset, 2);
+                iccTransaction.ResponseFormat2Tag = tmpTypes.Substring(offset, 2);
                 offset += 2;
-                iccTransaction.ResponseLength = tmpTypes.Substring(offset, 2);
+                iccTransaction.ResponseFormat2Length =  Int32.Parse(tmpTypes.Substring(offset, 2),System.Globalization.NumberStyles.HexNumber).ToString() ;
+                int length = Int32.Parse(iccTransaction.ResponseFormat2Length) * 2;
                 offset += 2;
-                iccTransaction.TransactionTypeTag = tmpTypes.Substring(offset, 2);
-                offset += 2;
-                iccTransaction.TransactionTypeLgth = tmpTypes.Substring(offset, 2);
-                offset += 2;
-                iccTransaction.TransactionTypeValue = tmpTypes.Substring(offset,
-                                     int.Parse(iccTransaction.TransactionTypeLgth) * 2);
-                offset += int.Parse(iccTransaction.TransactionTypeLgth) * 2;
-
-                // check if ResponseLength has been reached, 
-                // meaning that there is no Category Code TLVs to process
-
-                int currentOffset = 4 + (int.Parse(iccTransaction.TransactionTypeLgth) * 2);
-                if ((int.Parse(iccTransaction.ResponseLength) * 2) == currentOffset)
-                {
-                    iccTransactionDOTList.Add(iccTransaction);
-                    continue;
-                }
-
-                iccTransaction.TransactionCatCodeTag = tmpTypes.Substring(offset, 4);
-                offset += 4;
-                iccTransaction.TransactionCatCodeLgth = tmpTypes.Substring(offset, 2);
-                offset += 2;
-                iccTransaction.TransactionCatCodeValue = tmpTypes.Substring(offset,
-                                     int.Parse(iccTransaction.TransactionCatCodeLgth) * 2);
-                offset += int.Parse(iccTransaction.TransactionCatCodeLgth) * 2;
-
+                iccTransaction.ResponseFormat2Value = new Digester().iccTLVTags(tmpTypes.Substring(offset, length));
                 iccTransactionDOTList.Add(iccTransaction);
+                
+                offset += length;
             }
             return iccTransactionDOTList;
         }

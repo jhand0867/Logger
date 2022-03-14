@@ -622,7 +622,7 @@ namespace Logger
             if (tableFromDb != null)
             {
                 alogByIdWithRegExp = tableFromDb.Clone();
-                foreach (DataRow row1 in (InternalDataCollectionBase)tableFromDb.Rows)
+                foreach (DataRow row1 in tableFromDb.Rows)
                 {
                     row1[9] = (object)WebUtility.HtmlDecode(row1[9].ToString());
                     if ((uint)regex.Matches(row1[9].ToString()).Count > 0U)
