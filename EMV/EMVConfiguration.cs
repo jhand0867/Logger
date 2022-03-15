@@ -7,25 +7,15 @@ namespace Logger
     {
         private string rectype;
         private string currencyType;
-        private string responseFormat;
-        private string responseLength;
-        private string trCurrencyCodeTag;
-        private string trCurrencyCodeLgth;
-        private string trCurrencyCodeValue;
-        private string trCurrencyExpTag;
-        private string trCurrencyExpLgth;
-        private string trCurrencyExpValue;
+        private string responseFormat2Tag;
+        private string responseFormat2Length;
+        private string responseFormat2Value;
 
         public string Rectype { get => rectype; set => rectype = value; }
         public string CurrencyType { get => currencyType; set => currencyType = value; }
-        public string ResponseFormat { get => responseFormat; set => responseFormat = value; }
-        public string ResponseLength { get => responseLength; set => responseLength = value; }
-        public string TrCurrencyCodeTag { get => trCurrencyCodeTag; set => trCurrencyCodeTag = value; }
-        public string TrCurrencyCodeLgth { get => trCurrencyCodeLgth; set => trCurrencyCodeLgth = value; }
-        public string TrCurrencyCodeValue { get => trCurrencyCodeValue; set => trCurrencyCodeValue = value; }
-        public string TrCurrencyExpTag { get => trCurrencyExpTag; set => trCurrencyExpTag = value; }
-        public string TrCurrencyExpLgth { get => trCurrencyExpLgth; set => trCurrencyExpLgth = value; }
-        public string TrCurrencyExpValue { get => trCurrencyExpValue; set => trCurrencyExpValue = value; }
+        public string ResponseFormat2Tag { get => responseFormat2Tag; set => responseFormat2Tag = value; }
+        public string ResponseFormat2Length { get => responseFormat2Length; set => responseFormat2Length = value; }
+        public string ResponseFormat2Value { get => responseFormat2Value; set => responseFormat2Value = value; }
     }
     struct iccTransaction
     {

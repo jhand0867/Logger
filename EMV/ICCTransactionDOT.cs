@@ -76,7 +76,9 @@ namespace Logger
             iccTransaction iccTransaction = new iccTransaction();
             List<iccTransaction> iccTransactionDOTList = new List<iccTransaction>();
 
-            // 050177159C01019F53015A9F03060000000000005F2A0208400277159C01309F53015A9F03060000000000005F2A0208400377159C01909F53015A9F03060000000000005F2A0208400477159C01599F53015A9F03060000000000005F2A0208400577159C01919F53015A9F03060000000000005F2A020840
+            // to preserve the original format, iccTransaction.ResponseFormat2Length field is stored in its hexadecimal value.
+            // ie. field length value "15" is equal to 42 bytes (decimal value 21*2)
+            // 
             int offset = 2;
             for (int x = 0; x < int.Parse(tmpTypes.Substring(0, 2)); x++)
             {
@@ -85,8 +87,8 @@ namespace Logger
                 offset += 2;
                 iccTransaction.ResponseFormat2Tag = tmpTypes.Substring(offset, 2);
                 offset += 2;
-                iccTransaction.ResponseFormat2Length =  Int32.Parse(tmpTypes.Substring(offset, 2),System.Globalization.NumberStyles.HexNumber).ToString() ;
-                int length = Int32.Parse(iccTransaction.ResponseFormat2Length) * 2;
+                iccTransaction.ResponseFormat2Length = tmpTypes.Substring(offset, 2);
+                int length = Int32.Parse(tmpTypes.Substring(offset, 2), System.Globalization.NumberStyles.HexNumber) * 2;
                 offset += 2;
                 iccTransaction.ResponseFormat2Value = new Digester().iccTLVTags(tmpTypes.Substring(offset, length));
                 iccTransactionDOTList.Add(iccTransaction);

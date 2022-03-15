@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Logger
@@ -50,13 +51,10 @@ namespace Logger
                 // write currency DOT
                 foreach (iccCurrency c in iccCurrencyDOTList)
                 {
-                    string sql = @"INSERT INTO ICCCurrencyDOT([logkey],[rectype],[currencyType],[responseFormat],[responseLength],
-	                            [trCurrencyCodeTag],[trCurrencyCodeLgth],[trCurrencyCodeValue],[trCurrencyExpTag],
-	                            [trCurrencyExpLgth],[trCurrencyExpValue],[logID]) " +
-                      " VALUES('" + r.typeIndex + "','" + c.Rectype + "','" + c.CurrencyType + "','" + c.ResponseFormat + "','" +
-                                c.ResponseLength + "','" + c.TrCurrencyCodeTag + "','" + c.TrCurrencyCodeLgth + "','" +
-                                c.TrCurrencyCodeValue + "','" + c.TrCurrencyExpTag + "','" + c.TrCurrencyExpLgth + "','" +
-                                c.TrCurrencyExpValue + "'," + logID + ")";
+                    string sql = @"INSERT INTO ICCCurrencyDOT([logkey],[rectype],[currencyType],[responseFormat2Tag],
+                                [responseFormat2Length],[responseFormat2Value],[logID]) " +
+                      " VALUES('" + r.typeIndex + "','" + c.Rectype + "','" + c.CurrencyType + "','" + c.ResponseFormat2Tag + "','" +
+                                c.ResponseFormat2Length + "','" + c.ResponseFormat2Value + "'," + logID + ")";
 
                     DbCrud db = new DbCrud();
                     if (db.crudToDb(sql) == false)
@@ -86,24 +84,35 @@ namespace Logger
                 iccCurrency.Rectype = "81";
                 iccCurrency.CurrencyType = r.Substring(offset, 2);
                 offset += 2;
-                iccCurrency.ResponseFormat = r.Substring(offset, 2);
+                iccCurrency.ResponseFormat2Tag = r.Substring(offset, 2);
                 offset += 2;
-                iccCurrency.ResponseLength = r.Substring(offset, 2);
+                iccCurrency.ResponseFormat2Length = r.Substring(offset, 2);
+                int length = Int32.Parse(r.Substring(offset, 2), System.Globalization.NumberStyles.HexNumber) * 2;
                 offset += 2;
-                iccCurrency.TrCurrencyCodeTag = r.Substring(offset, 4);
-                offset += 4;
-                iccCurrency.TrCurrencyCodeLgth = r.Substring(offset, 2);
-                offset += 2;
-                iccCurrency.TrCurrencyCodeValue = r.Substring(offset, int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2);
-                offset += int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2;
-                iccCurrency.TrCurrencyExpTag = r.Substring(offset, 4);
-                offset += 4;
-                iccCurrency.TrCurrencyExpLgth = r.Substring(offset, 2);
-                offset += 2;
-                iccCurrency.TrCurrencyExpValue = r.Substring(offset, int.Parse(iccCurrency.TrCurrencyExpLgth) * 2);
-                offset += int.Parse(iccCurrency.TrCurrencyExpLgth) * 2;
-
+                iccCurrency.ResponseFormat2Value = new Digester().iccTLVTags(r.Substring(offset, length));
                 iccCurrencyDOTList.Add(iccCurrency);
+                offset += length;
+                //iccCurrency.Rectype = "81";
+                //iccCurrency.CurrencyType = r.Substring(offset, 2);
+                //offset += 2;
+                //iccCurrency.ResponseFormat = r.Substring(offset, 2);
+                //offset += 2;
+                //iccCurrency.ResponseLength = r.Substring(offset, 2);
+                //offset += 2;
+                //iccCurrency.TrCurrencyCodeTag = r.Substring(offset, 4);
+                //offset += 4;
+                //iccCurrency.TrCurrencyCodeLgth = r.Substring(offset, 2);
+                //offset += 2;
+                //iccCurrency.TrCurrencyCodeValue = r.Substring(offset, int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2);
+                //offset += int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2;
+                //iccCurrency.TrCurrencyExpTag = r.Substring(offset, 4);
+                //offset += 4;
+                //iccCurrency.TrCurrencyExpLgth = r.Substring(offset, 2);
+                //offset += 2;
+                //iccCurrency.TrCurrencyExpValue = r.Substring(offset, int.Parse(iccCurrency.TrCurrencyExpLgth) * 2);
+                //offset += int.Parse(iccCurrency.TrCurrencyExpLgth) * 2;
+
+                //iccCurrencyDOTList.Add(iccCurrency);
 
             }
             log.Debug("Returning Parsed data:" + iccCurrencyDOTList.ToString());
