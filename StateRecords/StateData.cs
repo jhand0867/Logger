@@ -317,9 +317,6 @@ namespace Logger
                 descriptionFields[2] = "";
 
                 fieldData += App.Prj.insertRowRtf(descriptionFields);
-
-                // fieldData += "  Extension of " + stateTypetmp.Substring(0, 1) + " " + extensionStateNum + @"\b0 \clmrg \cell \row ";
-
             }
             else
             {
@@ -342,7 +339,6 @@ namespace Logger
             }
             else
             {
-                //return @"\cell \row ";
                 return "";
             }
 

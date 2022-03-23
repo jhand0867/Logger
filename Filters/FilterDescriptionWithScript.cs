@@ -23,9 +23,6 @@ namespace Logger
             if (scriptsToApply.Count == 0)
                 outputField = fieldValue;
 
-            // outputField += " = " + @"\cell " + fieldValue;
-
-
             int offset = 0;
             while (offset < fieldValue.Length)
             {
@@ -48,7 +45,6 @@ namespace Logger
 
                         if (scriptOptions[3].Contains("%"))
                         {
-                            //outputField += System.Environment.NewLine + "\t";
                             outputField += @"\par ";
                         }
 
@@ -71,9 +67,7 @@ namespace Logger
                     }
                 }
             }
-            //fieldDesc = @"\cell " + outputField + " " + @"\par ";
             fieldDesc = outputField;
-
 
             return fieldDesc;
         }

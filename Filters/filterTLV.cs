@@ -20,18 +20,12 @@ namespace Logger
             {
                 string[] tlv = field.Split(' ');
 
-                //if ((tlv.Length > 1) && (fieldDesc == ""))
-                //    fieldDesc = @"\row ";
-
                 foreach (DataRow item in dataTable.Rows)
                 {
                     if (item[2].ToString().Trim() == tlv[0])
                     {
                         if (tlv.Length > 1)
                         {
-                            //fieldDesc = fieldDesc + @" \cell " + "Tag = " + tlv[0] + @"\par " + item[3].ToString().Trim() + @" \cell " +
-                            //            " Length = " + tlv[1] + @" \par " + " Value = " + tlv[2] + @" \cell ";
-
                             descriptionFields[0] = "";
                             descriptionFields[1] = "Tag = " + tlv[0] + @" \par " + item[3].ToString().Trim();
                             descriptionFields[2] = " Length = " + tlv[1] + @" \par " + " Value = " + tlv[2];
@@ -42,13 +36,8 @@ namespace Logger
                             descriptionFields[0] = "";
                             descriptionFields[1] = item[3].ToString().Trim();
                             descriptionFields[2] = "";
-
                             fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields); 
-                            
-                            //fieldDesc = fieldDesc + "\\cell " + item[3].ToString().Trim();
                         }
-                        //if (i < tmpfieldValue.Length)
-                        //    fieldDesc = fieldDesc + @" \row ";
                         break;
                     }
                 }

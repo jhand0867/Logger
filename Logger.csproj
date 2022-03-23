@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbCrud.cs" />
+    <Compile Include="EncryptorInitData\EncryptorInitData5.cs" />
     <Compile Include="Filters\FilterDescriptionWithScriptAndTable.cs" />
     <Compile Include="Filters\FilterDescriptionWithScript.cs" />
     <Compile Include="Filters\filterSupplyData.cs" />

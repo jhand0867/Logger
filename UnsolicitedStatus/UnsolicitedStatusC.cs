@@ -129,22 +129,30 @@ namespace Logger
                 us.LengthCmd = tmpTypes[i].Substring(aidOffset, 2);
                 aidOffset = aidOffset + 2;
 
-                int tmpOffset = int.Parse(us.LengthCmd) * 2;
-                if (tmpOffset > 0)
+                if ((tmpTypes[i].Length - aidOffset) > 6)
                 {
-                    us.CmdData = tmpTypes[i].Substring(aidOffset, tmpOffset);
-                    aidOffset = aidOffset + tmpOffset;
+                    int tmpOffset = int.Parse(us.LengthCmd, System.Globalization.NumberStyles.HexNumber) * 2;
+                    if (tmpOffset > 0)
+                    {
+                        us.CmdData = tmpTypes[i].Substring(aidOffset, tmpOffset);
+                        aidOffset = aidOffset + tmpOffset;
+                    }
                 }
 
                 us.LengthExpected = tmpTypes[i].Substring(aidOffset, 2);
                 aidOffset = aidOffset + 2;
 
-                tmpOffset = int.Parse(us.LengthExpected) * 2;
-                if (tmpOffset > 0)
+                if ((tmpTypes[i].Length - aidOffset) > 4)
                 {
-                    us.ResponseData = tmpTypes[i].Substring(aidOffset, tmpOffset);
-                    aidOffset = aidOffset + tmpOffset;
+                    int tmpOffset = int.Parse(us.LengthExpected, System.Globalization.NumberStyles.HexNumber) * 2;
+                    if (tmpOffset > 0)
+                    {
+                        
+                        us.ResponseData = tmpTypes[i].Substring(aidOffset, tmpOffset);
+                        aidOffset = aidOffset + tmpOffset;
+                    }
                 }
+
                 us.Sw1 = tmpTypes[i].Substring(aidOffset, 2);
                 aidOffset = aidOffset + 2;
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Logger
@@ -50,12 +51,10 @@ namespace Logger
                 foreach (iccTerminal c in iccTerminalList)
                 {
                     entries += 1;
-                    string sql = @"INSERT INTO ICCTerminalDOT([logkey],[rectype],[responseFormat],[responseLength],[terCountryCodeTag],
-                                	[terCountryCodeLgth],[terCountryCodeValue],[terTypeTag],[terTypeLgth],[terTypeValue],[logID]) " +
-                      " VALUES('" + r.typeIndex + "','" + c.Rectype + "','" + c.ResponseFormat + "','" + c.ResponseLength + "','" +
-                                c.TerCountryCodeTag + "','" + c.TerCountryCodeLgth + "','" + c.TerCountryCodeValue + "','" +
-                                c.TerTypeTag + "','" + c.TerTypeLgth + "','" + c.TerTypeValue + "'," +
-                                logID + ")";
+                    string sql = @"INSERT INTO ICCTerminalDOT([logkey],[rectype],[responseFormat2Tag],[responseFormat2Length],
+                                     [responseFormat2Value],[logID]) " +
+                      " VALUES('" + r.typeIndex + "','" + c.Rectype + "','" + c.ResponseFormat2Tag + "','" + c.ResponseFormat2Length + "','" +
+                                c.ResponseFormat2Value + "'," + logID + ")";
 
                     DbCrud db = new DbCrud();
                     if (db.crudToDb(sql) == false)
@@ -78,23 +77,13 @@ namespace Logger
 
             iccTerminal.Rectype = "84";
             int offset = 0;
-            iccTerminal.ResponseFormat = tmpTypes.Substring(offset, 2);
-            offset += 2;
-            iccTerminal.ResponseLength = tmpTypes.Substring(offset, 2);
-            offset += 2;
-            iccTerminal.TerCountryCodeTag = tmpTypes.Substring(offset, 4);
-            offset += 4;
-            iccTerminal.TerCountryCodeLgth = tmpTypes.Substring(offset, 2);
-            offset += 2;
-            iccTerminal.TerCountryCodeValue = tmpTypes.Substring(offset, int.Parse(iccTerminal.TerCountryCodeLgth) * 2);
-            offset += int.Parse(iccTerminal.TerCountryCodeLgth) * 2;
-            iccTerminal.TerTypeTag = tmpTypes.Substring(offset, 4);
-            offset += 4;
-            iccTerminal.TerTypeLgth = tmpTypes.Substring(offset, 2);
-            offset += 2;
-            iccTerminal.TerTypeValue = tmpTypes.Substring(offset, int.Parse(iccTerminal.TerTypeLgth) * 2);
-            offset += int.Parse(iccTerminal.TerTypeLgth) * 2;
 
+                iccTerminal.ResponseFormat2Tag = tmpTypes.Substring(offset, 2);
+                offset += 2;
+                iccTerminal.ResponseFormat2Length = tmpTypes.Substring(offset, 2);
+                int length = Int32.Parse(tmpTypes.Substring(offset, 2), System.Globalization.NumberStyles.HexNumber) * 2;
+                offset += 2;
+                iccTerminal.ResponseFormat2Value = new Digester().iccTLVTags(tmpTypes.Substring(offset, length));
             iccTerminalList.Add(iccTerminal);
             return iccTerminalList;
         }

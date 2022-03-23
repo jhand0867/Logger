@@ -15,8 +15,6 @@ namespace Logger
         {
 
             string fieldDesc = "";
-            //if (fieldValue.Trim() != "")
-            //    fieldDesc = @"\par ";
 
             string[] descriptionFields = new string[] { "", "", "" };
 
@@ -48,11 +46,7 @@ namespace Logger
                         descriptionFields[0] = "";
                         descriptionFields[1] = item[3].ToString().Trim();
                         descriptionFields[2] = field.Substring(pos, 1) + "  " + ssDescr;
-
                         fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
-
-                        //fieldDesc = fieldDesc + "\\cell " + item[3].ToString().Trim() + " = \\cell " + field.Substring(pos, 1) +
-                        //            "\\cell " + ssDescr + @"\row ";
                         pos++;
                     }
                 }

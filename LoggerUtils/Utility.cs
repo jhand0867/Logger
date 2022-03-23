@@ -181,75 +181,7 @@ namespace Logger
                 WriteLog(@"c:" + @"\LOG\", "ATMSetup.LOG", "Exception setting " + xmlElement + " setting up configuration files " + e.Message);
                 Environment.Exit(1);
             }
-
             return nodes;
-
-        }
-
-        public void updateData()
-        {
-
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
-            {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
-                String sql = "";
-
-                sql = @"UPDATE Table1 SET logkey = 'TEST4' WHERE logline LIKE 'TEST3'";
-
-                command = new SqlCommand(sql, cnn);
-                dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                dataAdapter.InsertCommand.ExecuteNonQuery();
-
-                command.Dispose();
-                cnn.Close();
-
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-            }
-
-        }
-        public void deleteData()
-        {
-
-            string connectionString;
-            SqlConnection cnn;
-
-            connectionString = ConfigurationManager.ConnectionStrings["LoggerDB"].ConnectionString;
-            cnn = new SqlConnection(connectionString);
-            try
-            {
-                cnn.Open();
-
-                SqlCommand command;
-                SqlDataAdapter dataAdapter = new SqlDataAdapter();
-                String sql = "";
-
-                sql = @"DELETE from Table1 WHERE id = 1";
-
-                command = new SqlCommand(sql, cnn);
-                dataAdapter.InsertCommand = new SqlCommand(sql, cnn);
-                dataAdapter.InsertCommand.ExecuteNonQuery();
-
-                command.Dispose();
-                cnn.Close();
-
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine(dbEx.ToString());
-
-            }
-
         }
     }
 }

@@ -256,8 +256,6 @@ namespace Logger
                         {
                             if (rowNum == 0)
                             {
-                                //txtField += @"\b OPTIONS \b0 \par \cell \row " ;
-
                                 descriptionFields[0] = @"\b OPTIONS \b0";
                                 descriptionFields[1] = "";
                                 descriptionFields[2] = "";
@@ -270,7 +268,6 @@ namespace Logger
                         {
                             if (TimerStartFlag != true)
                             {
-                                //txtField += @"\b TIMERS \b0 \par \cell \row " ;
                                 descriptionFields[0] = @"\b TIMERS \b0";
                                 descriptionFields[1] = "";
                                 descriptionFields[2] = "";

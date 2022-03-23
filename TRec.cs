@@ -826,7 +826,6 @@ namespace Logger
                 {
                     for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        // notesType += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
                         descriptionFields[0] = dt.Columns[fieldNum].ColumnName.Trim();
                         descriptionFields[1] = dt.Rows[rowNum][fieldNum].ToString();
                         descriptionFields[2] = "";
@@ -853,7 +852,6 @@ namespace Logger
                     {
                         if (fieldNum != 7)
                         {
-                            // currencies += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
                             descriptionFields[0] = dt.Columns[fieldNum].ColumnName.Trim();
                             descriptionFields[1] = dt.Rows[rowNum][fieldNum].ToString();
                             descriptionFields[2] = "";
@@ -879,7 +877,6 @@ namespace Logger
                 {
                     for (int fieldNum = 2; fieldNum < dt.Columns.Count - 1; fieldNum++)
                     {
-                        // checks += @"\intbl " + dt.Columns[fieldNum].ColumnName.Trim() + " = " + @"\cell " + dt.Rows[rowNum][fieldNum].ToString() + @"\row ";
                         descriptionFields[0] = dt.Columns[fieldNum].ColumnName.Trim();
                         descriptionFields[1] = dt.Rows[rowNum][fieldNum].ToString();
                         descriptionFields[2] = "";

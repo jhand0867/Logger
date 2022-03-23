@@ -50,24 +50,14 @@ namespace Logger
     struct iccTerminal
     {
         private string rectype;
-        private string responseFormat;
-        private string responseLength;
-        private string terCountryCodeTag;
-        private string terCountryCodeLgth;
-        private string terCountryCodeValue;
-        private string terTypeTag;
-        private string terTypeLgth;
-        private string terTypeValue;
+        private string responseFormat2Tag;
+        private string responseFormat2Length;
+        private string responseFormat2Value;
 
         public string Rectype { get => rectype; set => rectype = value; }
-        public string ResponseFormat { get => responseFormat; set => responseFormat = value; }
-        public string ResponseLength { get => responseLength; set => responseLength = value; }
-        public string TerCountryCodeTag { get => terCountryCodeTag; set => terCountryCodeTag = value; }
-        public string TerCountryCodeLgth { get => terCountryCodeLgth; set => terCountryCodeLgth = value; }
-        public string TerCountryCodeValue { get => terCountryCodeValue; set => terCountryCodeValue = value; }
-        public string TerTypeTag { get => terTypeTag; set => terTypeTag = value; }
-        public string TerTypeLgth { get => terTypeLgth; set => terTypeLgth = value; }
-        public string TerTypeValue { get => terTypeValue; set => terTypeValue = value; }
+        public string ResponseFormat2Tag { get => responseFormat2Tag; set => responseFormat2Tag = value; }
+        public string ResponseFormat2Length { get => responseFormat2Length; set => responseFormat2Length = value; }
+        public string ResponseFormat2Value { get => responseFormat2Value; set => responseFormat2Value = value; }
     }
     struct iccApplication
     {

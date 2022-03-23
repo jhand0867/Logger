@@ -36,29 +36,6 @@ namespace Logger
             btnPrev.Location = new Point(this.Width - 80, prevButtonLocation.Y);
             Point nextButtonLocation = btnNext.Location;
             btnNext.Location = new Point(this.Width - 80, nextButtonLocation.Y);
-
-            //            string message3 = @"{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;
-            //\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;\red0\green0\blue0;\red0\green0\blue0;}{\cf3 Handschu \cf ya vamos \cf4que manana hay que trabajar \cf}";
-
-            //string breakline = @"\par";
-            // \\par = break line
-            // \\b \\b0 bold
-
-            // strTable.Append(@"{\rtf1\trbrdrt\brdrs\brdrw0\brdrcf6\clbrdrl\brdrs\clbrdrb\brdrs\clbrdrr\brdrs");
-            //            strTable.Append(@"{\rtf1\ansi \par \trowd \trql\trgaph108\trrh280\trleft36\clbrdrt\brdrth \clbrdrl\brdrdb \clbrdrb\brdrdb \clbrdrr\brdrdb \cellx2636 \clbrdrt\brdrth \clbrdrl\brdrdb \clbrdrb\brdrdb \clbrdrr\brdrdb \cellx11236 \pard \intbl SC2116810, Rev. C\cell \pard \intbl Interface Control Document, Miniature Air Data Computer for AC-130H
-            //Aircraft (1 February 1990)\cell\row\pard\par}");
-            //for (int i = 0; i < 5; i++)
-            //{
-
-            //    strTable.Append(@"\intbl " + message1 + @"\cell " + message2 + @"\cell  " + message3 + @"\row");
-
-
-            //}
-            //            strTable.Append(@"{\intbl \cell Message Class =  \cell 1 Terminal Command \row
-            //\intbl \cell Luno = \cell 336 \row 
-            //\intbl \cell Command Code =  \cell 7 \row
-            //\intbl \cell Modifier =  6 \row \par \pard");
-
         }
 
         public void setData(DataGridViewRow dgvr)

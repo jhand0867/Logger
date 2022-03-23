@@ -70,7 +70,7 @@ namespace Logger
             List<DataTable> dts = getRecord(logKey, logID, projectKey, recordType.Substring(2, recordType.Length - 2));
             string txtField = "";
 
-            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
+            if (dts == null || dts[0] == null || dts[0].Rows.Count == 0) { return txtField; }
 
             DataTable ss = getDescription(recordType.Substring(2, recordType.Length - 2));
 

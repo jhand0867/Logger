@@ -183,10 +183,18 @@ namespace Logger
 
                     if (row[6].ToString().Length == 2 && row[7].ToString().Length > 0 && row[7].ToString().Substring(0, 1) == "{")
                     {
-                        Digester digester = LoggerFactory.Create_Digester();
- 
-                        descriptionFields[1] = digester.fieldDigester(row[6].ToString(), fieldValue, row[7].ToString());
-                        descriptionFields[2] = "";
+                        str = LoggerFactory.Create_Digester().fieldDigester(row[6].ToString(), fieldValue, row[7].ToString());
+
+                        descriptionFields[1] = fieldValue;
+
+                        if (str.Contains("\\intbl "))
+                        {
+                            descriptionFields[2] = "";
+                            optionDescription = insertRowRtf(descriptionFields);
+                            optionDescription += str;
+                            break;
+                        }
+                        descriptionFields[2] = str;
                         optionDescription = insertRowRtf(descriptionFields);
                         break;
                     }
@@ -200,9 +208,26 @@ namespace Logger
             return optionDescription;
         }
 
+
         internal string insertRowRtf(string[] rows)
         {
-            string str = @" \intbl " + rows[0] + @" \cell " + rows[1] + @" \cell " + rows[2] + @" \cell \row ";
+            string str = "";
+            if ((rows[1].Length == 0) && (rows[2].Length == 0))
+            {
+                string tableDef = @"\trowd\trgaph80\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx9000";
+                str = tableDef + @" \intbl " + rows[0] + @" \cell \row ";
+            }
+            else
+            if (rows[2].Length == 0)
+            {
+                string tableDef = @"\trowd\trgaph80\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx3000\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx9000";
+                str = tableDef + @" \intbl " + rows[0] + @" \cell " + rows[1] + @" \cell \row ";
+            }
+            else
+            {
+                string tableDef = @"\trowd\trgaph80\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx3000\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx5000\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx9000";
+                str = tableDef + @" \intbl " + rows[0] + @" \cell " + rows[1] + @" \cell " + rows[2] + @" \cell \row ";
+            }
             return str;
         }
 

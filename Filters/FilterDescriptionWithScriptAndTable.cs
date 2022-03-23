@@ -13,17 +13,15 @@ namespace Logger
 
             string[] descriptionFields = new string[] { "", "", "" };
 
+
             //if (fieldValue.Trim() != "")
-            //    fieldDesc = fieldValue + @"\row ";
+            //{
+            //    descriptionFields[0] = fieldValue;
+            //    descriptionFields[1] = "";
+            //    descriptionFields[2] = "";
 
-            if (fieldValue.Trim() != "")
-            {
-                descriptionFields[0] = fieldValue;
-                descriptionFields[1] = "";
-                descriptionFields[2] = "";
-
-                fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
-            }
+            //    fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
+            //}
 
             // /(\{.*\})/gUgs
             Regex handleBars = new Regex(@"(\{.*?\})", RegexOptions.Singleline);
@@ -36,8 +34,6 @@ namespace Logger
 
             foreach (Match hit in scriptsToApply)
             {
-                //if (hit.Index == 0)
-                //    continue;
                 field4Offset += hit.Length;
                 int indexOfScriptStart = hit.Value.IndexOf("{", 0);
                 int indexOfSctiptEnd = hit.Value.IndexOf("}", indexOfScriptStart);
@@ -72,8 +68,6 @@ namespace Logger
 
                             fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
 
-                            //fieldDesc += "\\intbl " + fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
-                            //               " = \\cell " + item[3].ToString().Trim() + "\\cell " + item[4].ToString().Trim() + " " + @"\row ";
                             break;
                         }
                     }

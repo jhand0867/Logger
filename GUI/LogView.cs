@@ -946,8 +946,6 @@ namespace Logger
             rtbMahineAndSoftwareInfo.Font = new Font(FontFamily.GenericMonospace, 9);
             rtbMahineAndSoftwareInfo.SelectionFont = new Font(FontFamily.GenericSansSerif, 12);
             rtbMahineAndSoftwareInfo.SelectionColor = Color.Red;
-            ///richTextBox1.AppendText(System.Environment.NewLine + "Testing Testing Testing");
-
 
         }
 

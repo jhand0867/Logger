@@ -171,7 +171,7 @@ namespace Logger
             recTypeDic.Add("232", () => new EncryptorInitData2());
             recTypeDic.Add("233", () => new EncryptorInitData3());
             recTypeDic.Add("234", () => new EncryptorInitData4());
-            //recTypeDic.Add("235", () => new EncryptorInitData5());
+            recTypeDic.Add("235", () => new EncryptorInitData5());
             recTypeDic.Add("236", () => new EncryptorInitData6());
             recTypeDic.Add("237", () => new EncryptorInitData7());
             recTypeDic.Add("238", () => new EncryptorInitData8());

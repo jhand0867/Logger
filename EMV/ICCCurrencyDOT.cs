@@ -92,28 +92,6 @@ namespace Logger
                 iccCurrency.ResponseFormat2Value = new Digester().iccTLVTags(r.Substring(offset, length));
                 iccCurrencyDOTList.Add(iccCurrency);
                 offset += length;
-                //iccCurrency.Rectype = "81";
-                //iccCurrency.CurrencyType = r.Substring(offset, 2);
-                //offset += 2;
-                //iccCurrency.ResponseFormat = r.Substring(offset, 2);
-                //offset += 2;
-                //iccCurrency.ResponseLength = r.Substring(offset, 2);
-                //offset += 2;
-                //iccCurrency.TrCurrencyCodeTag = r.Substring(offset, 4);
-                //offset += 4;
-                //iccCurrency.TrCurrencyCodeLgth = r.Substring(offset, 2);
-                //offset += 2;
-                //iccCurrency.TrCurrencyCodeValue = r.Substring(offset, int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2);
-                //offset += int.Parse(iccCurrency.TrCurrencyCodeLgth) * 2;
-                //iccCurrency.TrCurrencyExpTag = r.Substring(offset, 4);
-                //offset += 4;
-                //iccCurrency.TrCurrencyExpLgth = r.Substring(offset, 2);
-                //offset += 2;
-                //iccCurrency.TrCurrencyExpValue = r.Substring(offset, int.Parse(iccCurrency.TrCurrencyExpLgth) * 2);
-                //offset += int.Parse(iccCurrency.TrCurrencyExpLgth) * 2;
-
-                //iccCurrencyDOTList.Add(iccCurrency);
-
             }
             log.Debug("Returning Parsed data:" + iccCurrencyDOTList.ToString());
             return iccCurrencyDOTList;
@@ -139,10 +117,7 @@ namespace Logger
                     descriptionFields[0] = "Configuration Data Parsing: ";
                     descriptionFields[1] = "";
                     descriptionFields[2] = "";
-
                     txtField += App.Prj.insertRowRtf(descriptionFields);
-
-                    //txtField +=  "Configuration Data Parsing: " + @"\row ";
 
                     for (int colNum = 3; colNum < dts[0].Columns.Count - 1; colNum++)
                         txtField +=  App.Prj.getOptionDescription(iccRecDt, "1" + colNum.ToString("00"), dts[0].Rows[rowNum][colNum].ToString());

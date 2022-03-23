@@ -11,11 +11,7 @@ namespace Logger
             string fieldDesc = "";
 
             string[] tmpfieldValue = fieldValue.Split(';');
-
             string[] descriptionFields = new string[] { "", "", "" };
-
-            if (tmpfieldValue.Length > 1)
-                fieldDesc = @"\par ";
 
             DataTable dataTable = getDescriptionX(fieldType);
 
@@ -46,8 +42,7 @@ namespace Logger
 
                             if (scriptsToApply.Count == 0)
                             {
-                               outputField += " = " + @"\cell" + field4;
-                                //outputField = field4;
+                                outputField = field4;
                                 break;
                             }
 
@@ -73,7 +68,7 @@ namespace Logger
 
                                         if (scriptOptions[3].Contains("%"))
                                         {
-                                            outputField += @"\par ";
+                                            outputField += @" \par ";
                                         }
 
                                         if (scriptOptions[3].Contains("$"))
@@ -96,16 +91,14 @@ namespace Logger
                             }
                         }
                         if (tmpfieldValue.Length > 1)
-                            fieldDesc += "   " + item[2].ToString().Trim() + "   " + item[3].ToString().Trim() + "  " + outputField + " " + @"\par ";
+                        {
+                            descriptionFields[0] = ""; 
+                            descriptionFields[1] = item[3].ToString().Trim();
+                            descriptionFields[2] = outputField;
+                            fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
+                        }
                         else
-                            fieldDesc += "   " + item[3].ToString().Trim() + "  " + outputField + " " + @"\par ";
-
-                        //if (tmpfieldValue.Length > 1)
-                        //    descriptionFields[0] = "";
-                        //descriptionFields[1] = item[3].ToString().Trim();
-                        //descriptionFields[2] = "";
-
-                        //fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
+                            fieldDesc += item[3].ToString().Trim() + "  " + outputField;
 
                         break;
                     }
