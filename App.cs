@@ -218,7 +218,7 @@ namespace Logger
                 str = tableDef + @" \intbl " + rows[0] + @" \cell \row ";
             }
             else
-            if (rows[2].Length == 0)
+            if ((rows[2].Length == 0) && (rows[1].Length > 23))
             {
                 string tableDef = @"\trowd\trgaph80\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx3000\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx9000";
                 str = tableDef + @" \intbl " + rows[0] + @" \cell " + rows[1] + @" \cell \row ";
@@ -227,6 +227,27 @@ namespace Logger
             {
                 string tableDef = @"\trowd\trgaph80\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx3000\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx5000\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx9000";
                 str = tableDef + @" \intbl " + rows[0] + @" \cell " + rows[1] + @" \cell " + rows[2] + @" \cell \row ";
+            }
+            return str;
+        }
+
+        internal string insertRowRtf(string[] rows, int numberOfColums)
+        {
+            string str, tableDef = "";
+            switch (numberOfColums)
+            {
+                case 1:
+                    tableDef = @"\trowd\trgaph80\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx9000";
+                    str = tableDef + @" \intbl " + rows[0] + @" \cell \row ";
+                    break;
+                case 2:
+                    tableDef = @"\trowd\trgaph80\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx3000\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx9000";
+                    str = tableDef + @" \intbl " + rows[0] + @" \cell " + rows[1] + @" \cell \row ";
+                    break;
+                default: // default is to print 3 columns
+                    tableDef = @"\trowd\trgaph80\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx3000\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx5000\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs \cellx9000";
+                    str = tableDef + @" \intbl " + rows[0] + @" \cell " + rows[1] + @" \cell " + rows[2] + @" \cell \row ";
+                    break;
             }
             return str;
         }
