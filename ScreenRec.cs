@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text.RegularExpressions;
+
 
 namespace Logger
 {
@@ -24,20 +26,36 @@ namespace Logger
         public string MessageSeqNumber { get => messageSeqNumber; set => messageSeqNumber = value; }
     }
 
-    public class screenRec : App, IMessage
+    public struct scrInfo
     {
-        private string plogkey;
-        private string prectype;
-        private string pscrnum;
-        private string pscrdata;
-        private string pload;
+        private string rectype;
+        private string screenNum;
+        private string screenData;
+        private string keyboardNum;
+        private string keyboardData;
+        private string touchScreenData;
+        private string nestedKeyboardData;
+        private string miscKeyboardData;
+
+        public string Rectype { get => rectype; set => rectype = value; }
+        public string ScreenNum { get => screenNum; set => screenNum = value; }
+        public string ScreenData { get => screenData; set => screenData = value; }
+        public string KeyboardNum { get => keyboardNum; set => keyboardNum = value; }
+        public string KeyboardData { get => keyboardData; set => keyboardData = value; }
+        public string TouchScreenData { get => touchScreenData; set => touchScreenData = value; }
+        public string NestedKeyboardData { get => nestedKeyboardData; set => nestedKeyboardData = value; }
+        public string MiscKeyboardData { get => miscKeyboardData; set => miscKeyboardData = value; }
+    }
+
+        public class screenRec : App, IMessage
+    {
 
         public bool ValidateScreen(string scrNum)
         {
             string sql = @"SELECT * FROM [screeninfo] " +
                                  "WHERE [scrnum ] ='" + scrNum + "'";
 
-            Dictionary<string, screenRec> resultData = readData(sql);
+            Dictionary<string, scrInfo> resultData = readData(sql);
 
             if (resultData.Count <= 0)
             {
@@ -48,25 +66,28 @@ namespace Logger
 
         }
 
-        public new Dictionary<string, screenRec> readData(string sql)
+        public new Dictionary<string, scrInfo> readData(string sql)
         {
-            // here mlh
-
             DataTable dt = new DataTable();
             DbCrud db = new DbCrud();
             dt = db.GetTableFromDb(sql);
-            Dictionary<string, screenRec> dicData = new Dictionary<string, screenRec>();
+            Dictionary<string, scrInfo> dicData = new Dictionary<string, scrInfo>();
 
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {
-                    screenRec sr = new screenRec();
-                    sr.prectype = row[2].ToString();
-                    sr.pscrnum = row[3].ToString();
-                    sr.pscrdata = row[4].ToString();
-                    sr.pload = row[5].ToString();
-                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), sr);
+                    scrInfo si = new scrInfo();
+                    si.Rectype = row[2].ToString();
+                    si.ScreenNum = row[3].ToString();
+                    si.ScreenData = row[4].ToString();
+                    si.KeyboardNum = row[5].ToString();
+                    si.KeyboardData = row[6].ToString();
+                    si.TouchScreenData = row[7].ToString();
+                    si.NestedKeyboardData = row[8].ToString();
+                    si.MiscKeyboardData = row[9].ToString();
+
+                    dicData.Add(row[1].ToString() + Convert.ToInt32(row[0]).ToString(), si);
 
                 }
             }
@@ -106,45 +127,56 @@ namespace Logger
                 parms.MessageSeqNumber = tmpTypes[2];
                 parms.MessageSubclass = tmpTypes[3].Substring(0, 1);
                 parms.MessageIdentifier = tmpTypes[3].Substring(1, 1);
+                string[] scrdata = null;
+                int screens = 0;
+                scrInfo screenInfo = new scrInfo();
 
                 foreach (string item in dataTypes)
                 {
-                    typeRec tr = new typeRec();
-                    tr.typeIndex = rParent.typeIndex;
-                    tr.typeContent = item;
-                    typeRecs.Add(tr);
-                }
-                int screens = 0;
-                foreach (typeRec r in typeRecs)
-                {
-                    string scrdata = null;
-                    string scrnum = null;
-                    if (r.typeContent.Length < 3)
-                    {
-                        continue;
-                    }
-                    scrnum = r.typeContent.Substring(0, 3);
+                    System.Text.RegularExpressions.Regex regexp = new System.Text.RegularExpressions.Regex("^[0-9]{4}|[0-9]{3}|\".+\"|[A-Za-z]\\d\\d\\d\\d|[A-Za-z]\\d\\d");
+
+                    MatchCollection screenNumMaches = regexp.Matches(item);
+                    int screenNumberLength = screenNumMaches[0].Length;
+                    screenInfo.ScreenNum = screenNumMaches[0].Value;
+                    scrdata = item.Substring(screenNumberLength, item.Length - screenNumberLength).Split((char)0x1d);
+                  
                     screens++;
 
-                    if (r.typeContent.Substring(0, 3) == "C00")
-                    {
+                    if (screenInfo.ScreenNum == "C00")
                         loadNum++;
-                    }
 
-                    if (r.typeContent.Length > 3)
+                    if (scrdata[0].Length > 0)
+                        screenInfo.ScreenData = scrdata[0].Replace(@"'", @"''");
+
+                    if (scrdata.Length > 1)
                     {
-                        scrdata = r.typeContent.Substring(3, r.typeContent.Length - 3);
-                        scrdata = scrdata.Replace(@"'", @"''");
+                        screenInfo.KeyboardNum = scrdata[1].Substring(0, 3);
+                        screenInfo.KeyboardData = scrdata[1].Substring(3, scrdata[1].Length - 3);
                     }
 
-                    sql = @"INSERT INTO screeninfo([logkey],[rectype],[scrnum],[scrdata],[load],[prjkey],[logID])" +
-                          " VALUES('" + r.typeIndex + "','" +
+                    if (scrdata.Length > 2)
+                        screenInfo.TouchScreenData = scrdata[2];
+
+                    if (scrdata.Length > 3)
+                        screenInfo.NestedKeyboardData = scrdata[3];
+
+                    if (scrdata.Length > 4)
+                        screenInfo.MiscKeyboardData = scrdata[4];
+
+                    sql = @"INSERT INTO screeninfo([logkey],[rectype],[screenNum],[screenData],
+                                         [keyboardNum],[keyboardData],[touchScreenData],[nestedKeyboardData],
+                                         [miscKeyboardData],[load],[prjkey],[logID])" +
+                          " VALUES('" + rParent.typeIndex + "','" +
                                        'E' + "','" +
-                          r.typeContent.Substring(0, 3) + "','" + // screenNum
-                                       scrdata + "','" + // screenData
+                                       screenInfo.ScreenNum + "','" + // screenNum
+                                       screenInfo.ScreenData + "','" + // screenData
+                                       screenInfo.KeyboardNum + "','" +
+                                       screenInfo.KeyboardData + "','" +
+                                       screenInfo.TouchScreenData + "','" +
+                                       screenInfo.NestedKeyboardData + "','" +
+                                       screenInfo.MiscKeyboardData + "','" +
                                        loadNum.ToString() + "','" +
                                        Key + "'," + logID + ")";
-
 
                     DbCrud db = new DbCrud();
                     if (db.crudToDb(sql) == false)

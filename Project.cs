@@ -818,6 +818,7 @@ namespace Logger
             delete from [fitinfo] WHERE logID = {logID};
             delete from [stateinfo] WHERE logID = {logID};
             delete from [screeninfo] WHERE logID = {logID};
+            delete from [screenRec] WHERE logID = {logID};   
             delete from [treply] WHERE logID = {logID};
             delete from [tReplyCheckProcessing] WHERE logID = {logID};
             delete from [treplyPrinterData] WHERE logID = {logID};
