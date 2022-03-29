@@ -33,168 +33,168 @@ namespace Logger
         private string pPermissions;
         private readonly string[,] recordTypes = new string[27, 4]
         {
-      {
-        "ATM2HOST: 11",
-        "0",
-        "",
-        "11"
-      },
-      {
-        "HOST2ATM: 4",
-        "0",
-        "",
-        "4"
-      },
-      {
-        "HOST2ATM: 3",
-        "3",
-        "11",
-        "311"
-      },
-      {
-        "HOST2ATM: 3",
-        "3",
-        "12",
-        "312"
-      },
-      {
-        "HOST2ATM: 3",
-        "3",
-        "13",
-        "313"
-      },
-      {
-        "HOST2ATM: 3",
-        "3",
-        "15",
-        "315"
-      },
-      {
-        "HOST2ATM: 3",
-        "3",
-        "16",
-        "316"
-      },
-      {
-        "HOST2ATM: 3",
-        "3",
-        "1A",
-        "31A"
-      },
-      {
-        "HOST2ATM: 3",
-        "3",
-        "1B",
-        "31B"
-      },
-      {
-        "HOST2ATM: 3",
-        "3",
-        "1C",
-        "31C"
-      },
-      {
-        "HOST2ATM: 3",
-        "3",
-        "1E",
-        "31E"
-      },
-      {
-        "HOST2ATM: 8",
-        "2",
-        "1",
-        "81"
-      },
-      {
-        "HOST2ATM: 8",
-        "2",
-        "2",
-        "82"
-      },
-      {
-        "HOST2ATM: 8",
-        "2",
-        "3",
-        "83"
-      },
-      {
-        "HOST2ATM: 8",
-        "2",
-        "4",
-        "84"
-      },
-      {
-        "HOST2ATM: 8",
-        "2",
-        "5",
-        "85"
-      },
-      {
-        "ATM2HOST: 22",
-        "0",
-        "",
-        "22"
-      },
-      {
-        "ATM2HOST: 12",
-        "0",
-        "",
-        "12"
-      },
-      {
-        "ATM2HOST: 23",
-        "0",
-        "",
-        "23"
-      },
-      {
-        "ATM2HOST: 61",
-        "0",
-        "",
-        "61H"
-      },
-      {
-        "HOST2ATM: 6",
-        "3",
-        "1",
-        "61J"
-      },
-      {
-        "HOST2ATM: 6",
-        "3",
-        "2",
-        "62"
-      },
-      {
-        "HOST2ATM: 6",
-        "3",
-        "3",
-        "63"
-      },
-      {
-        "HOST2ATM: 3",
-        "3",
-        "4",
-        "34"
-      },
-      {
-        "HOST2ATM: 1",
-        "0",
-        "",
-        "1"
-      },
-      {
-        "HOST2ATM: 3",
-        "3",
-        "2",
-        "32"
-      },
-      {
-        "ATM2HOST: 22",
-        "3",
-        "F",
-        "22"
-      }
+          {
+            "ATM2HOST: 11",
+            "0",
+            "",
+            "11"
+          },
+          {
+            "HOST2ATM: 4",
+            "0",
+            "",
+            "4"
+          },
+          {
+            "HOST2ATM: 3",
+            "3",
+            "11",
+            "311"
+          },
+          {
+            "HOST2ATM: 3",
+            "3",
+            "12",
+            "312"
+          },
+          {
+            "HOST2ATM: 3",
+            "3",
+            "13",
+            "313"
+          },
+          {
+            "HOST2ATM: 3",
+            "3",
+            "15",
+            "315"
+          },
+          {
+            "HOST2ATM: 3",
+            "3",
+            "16",
+            "316"
+          },
+          {
+            "HOST2ATM: 3",
+            "3",
+            "1A",
+            "31A"
+          },
+          {
+            "HOST2ATM: 3",
+            "3",
+            "1B",
+            "31B"
+          },
+          {
+            "HOST2ATM: 3",
+            "3",
+            "1C",
+            "31C"
+          },
+          {
+            "HOST2ATM: 3",
+            "3",
+            "1E",
+            "31E"
+          },
+          {
+            "HOST2ATM: 8",
+            "2",
+            "1",
+            "81"
+          },
+          {
+            "HOST2ATM: 8",
+            "2",
+            "2",
+            "82"
+          },
+          {
+            "HOST2ATM: 8",
+            "2",
+            "3",
+            "83"
+          },
+          {
+            "HOST2ATM: 8",
+            "2",
+            "4",
+            "84"
+          },
+          {
+            "HOST2ATM: 8",
+            "2",
+            "5",
+            "85"
+          },
+          {
+            "ATM2HOST: 22",
+            "0",
+            "",
+            "22"
+          },
+          {
+            "ATM2HOST: 12",
+            "0",
+            "",
+            "12"
+          },
+          {
+            "ATM2HOST: 23",
+            "0",
+            "",
+            "23"
+          },
+          {
+            "ATM2HOST: 61",
+            "0",
+            "",
+            "61H"
+          },
+          {
+            "HOST2ATM: 6",
+            "3",
+            "1",
+            "61J"
+          },
+          {
+            "HOST2ATM: 6",
+            "3",
+            "2",
+            "62"
+          },
+          {
+            "HOST2ATM: 6",
+            "3",
+            "3",
+            "63"
+          },
+          {
+            "HOST2ATM: 3",
+            "3",
+            "4",
+            "34"
+          },
+          {
+            "HOST2ATM: 1",
+            "0",
+            "",
+            "1"
+          },
+          {
+            "HOST2ATM: 3",
+            "3",
+            "2",
+            "32"
+          },
+          {
+            "ATM2HOST: 22",
+            "3",
+            "F",
+            "22"
+          }
         };
         private List<StateData> extensionsLst = new List<StateData>();
         public Dictionary<string, string> recTypesDic = new Dictionary<string, string>();
@@ -379,12 +379,12 @@ namespace Logger
 
             string sql11 = "SELECT id FROM logs where prjKey = '" + scalarStrFromDb + "'";
             DataTable DT = dbCrud.GetTableFromDb(sql11);
-            foreach(DataRow DR in DT.Rows)
+            foreach (DataRow DR in DT.Rows)
             {
                 log.Info("Dropping data from all records tables");
                 App.Prj.dropDataByLogID(DR["id"].ToString());
             }
-            
+
 
             string sql2 = "DELETE FROM loginfo WHERE prjKey = '" + scalarStrFromDb + "'";
             bool db1 = dbCrud.crudToDb(sql2);
@@ -795,10 +795,10 @@ namespace Logger
 
         public void detachLogByID(string logID)
         {
-            if (new DbCrud().crudToDb("DELETE from loginfo WHERE logID = " + logID + 
-                                      " ;DELETE from logs WHERE ID = " + logID + 
+            if (new DbCrud().crudToDb("DELETE from loginfo WHERE logID = " + logID +
+                                      " ;DELETE from logs WHERE ID = " + logID +
                                       " ;UPDATE Project SET prjlogs = prjlogs - 1 " +
-                                      "WHERE prjlogs > 0 and prjKey ='" + App.Prj.Key + "'")) 
+                                      "WHERE prjlogs > 0 and prjKey ='" + App.Prj.Key + "'"))
             {
                 dropDataByLogID(logID);
             }

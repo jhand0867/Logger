@@ -17,7 +17,7 @@ namespace Logger
         {
             InitializeComponent();
             PrevHeight = this.Height;
-            
+
         }
 
         private void LogData_FormClosing(object sender, FormClosingEventArgs e)
@@ -63,7 +63,7 @@ namespace Logger
                 if (theRecord != null)
                 {
                     StringBuilder strTable = new StringBuilder();
-                    
+
                     strTable.Append(@"{\rtf1");
                     strTable.Append(@"{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;
             \red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;\red0\green0\blue0;\red0\green0\blue0;}");
@@ -90,7 +90,7 @@ namespace Logger
                     txtFieldData.Rtf = strTable.ToString();
                 }
 
-                }
+            }
         }
 
         public ReceiveLogData getPrevRow;

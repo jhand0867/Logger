@@ -120,7 +120,7 @@ namespace Logger
                     txtField += App.Prj.insertRowRtf(descriptionFields);
 
                     for (int colNum = 3; colNum < dts[0].Columns.Count - 1; colNum++)
-                        txtField +=  App.Prj.getOptionDescription(iccRecDt, "1" + colNum.ToString("00"), dts[0].Rows[rowNum][colNum].ToString());
+                        txtField += App.Prj.getOptionDescription(iccRecDt, "1" + colNum.ToString("00"), dts[0].Rows[rowNum][colNum].ToString());
                 }
             return txtField;
         }

@@ -147,7 +147,7 @@ namespace Logger
                     int tmpOffset = int.Parse(us.LengthExpected, System.Globalization.NumberStyles.HexNumber) * 2;
                     if (tmpOffset > 0)
                     {
-                        
+
                         us.ResponseData = tmpTypes[i].Substring(aidOffset, tmpOffset);
                         aidOffset = aidOffset + tmpOffset;
                     }

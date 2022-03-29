@@ -47,7 +47,7 @@ namespace Logger
         public string MiscKeyboardData { get => miscKeyboardData; set => miscKeyboardData = value; }
     }
 
-        public class screenRec : App, IMessage
+    public class screenRec : App, IMessage
     {
 
         public bool ValidateScreen(string scrNum)
@@ -139,7 +139,7 @@ namespace Logger
                     int screenNumberLength = screenNumMaches[0].Length;
                     screenInfo.ScreenNum = screenNumMaches[0].Value;
                     scrdata = item.Substring(screenNumberLength, item.Length - screenNumberLength).Split((char)0x1d);
-                  
+
                     screens++;
 
                     if (screenInfo.ScreenNum == "C00")

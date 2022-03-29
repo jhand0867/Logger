@@ -78,12 +78,12 @@ namespace Logger
             iccTerminal.Rectype = "84";
             int offset = 0;
 
-                iccTerminal.ResponseFormat2Tag = tmpTypes.Substring(offset, 2);
-                offset += 2;
-                iccTerminal.ResponseFormat2Length = tmpTypes.Substring(offset, 2);
-                int length = Int32.Parse(tmpTypes.Substring(offset, 2), System.Globalization.NumberStyles.HexNumber) * 2;
-                offset += 2;
-                iccTerminal.ResponseFormat2Value = new Digester().iccTLVTags(tmpTypes.Substring(offset, length));
+            iccTerminal.ResponseFormat2Tag = tmpTypes.Substring(offset, 2);
+            offset += 2;
+            iccTerminal.ResponseFormat2Length = tmpTypes.Substring(offset, 2);
+            int length = Int32.Parse(tmpTypes.Substring(offset, 2), System.Globalization.NumberStyles.HexNumber) * 2;
+            offset += 2;
+            iccTerminal.ResponseFormat2Value = new Digester().iccTLVTags(tmpTypes.Substring(offset, length));
             iccTerminalList.Add(iccTerminal);
             return iccTerminalList;
         }

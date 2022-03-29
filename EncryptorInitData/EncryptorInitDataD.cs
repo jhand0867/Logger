@@ -83,8 +83,8 @@ namespace Logger
 
             if (eppAttributes.Length > 0)
             {
-               if (eppAttributes[0].Length > 0) kD.EppVendorCo = eppAttributes[0].Substring(0, 1);
-               if (eppAttributes[0].Length > 1) kD.PciVendorName = eppAttributes[0].Substring(1, eppAttributes[0].Length - 1);
+                if (eppAttributes[0].Length > 0) kD.EppVendorCo = eppAttributes[0].Substring(0, 1);
+                if (eppAttributes[0].Length > 1) kD.PciVendorName = eppAttributes[0].Substring(1, eppAttributes[0].Length - 1);
             }
             if (eppAttributes.Length > 1)
             {

@@ -37,7 +37,7 @@ namespace Logger
         internal void Projects_Load(object sender, EventArgs e)
         {
             new App().MenuPermissions(App.Prj.Permissions, this.menuStrip1.Items, menusTypes.ProjectOptions);
-            
+
             Projects.log.Debug((object)"Loading projects info");
             this.loadInfo();
         }
@@ -254,7 +254,7 @@ namespace Logger
                                     tn.LastNode.ImageIndex = 0;
 
                             }
-                        break;
+                            break;
                         }
                     }
                     //mlh 
@@ -459,7 +459,7 @@ namespace Logger
             int indexEndOfNodeText = nodeText.IndexOf("]");
             if ((indexStartOfNodeText > 0) && (indexEndOfNodeText > 0))
             {
-                nodeText = tn.SelectedNode.Text.Substring((indexStartOfNodeText + 1), 
+                nodeText = tn.SelectedNode.Text.Substring((indexStartOfNodeText + 1),
                             (indexEndOfNodeText - indexStartOfNodeText) - 1);
             }
 

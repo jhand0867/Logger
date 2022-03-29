@@ -36,7 +36,7 @@ namespace Logger
                             descriptionFields[0] = "";
                             descriptionFields[1] = item[3].ToString().Trim();
                             descriptionFields[2] = "";
-                            fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields); 
+                            fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
                         }
                         break;
                     }

@@ -92,7 +92,7 @@ namespace Logger
                         }
                         if (tmpfieldValue.Length > 1)
                         {
-                            descriptionFields[0] = ""; 
+                            descriptionFields[0] = "";
                             descriptionFields[1] = item[3].ToString().Trim();
                             descriptionFields[2] = outputField;
                             fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);

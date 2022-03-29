@@ -92,7 +92,7 @@ namespace Logger
                 offset += 2;
                 iccTransaction.ResponseFormat2Value = new Digester().iccTLVTags(tmpTypes.Substring(offset, length));
                 iccTransactionDOTList.Add(iccTransaction);
-                
+
                 offset += length;
             }
             return iccTransactionDOTList;

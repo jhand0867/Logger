@@ -181,7 +181,7 @@ namespace Logger
             string projectName = pr.getProjectNameByProjectKey(prjKey);
 
             sql = $@"INSERT INTO generalInfo (logID, logName)
-                        VALUES ( '{logID}','Project: {projectName} File: {logName.Substring(logName.LastIndexOf("\\")+1, logName.Length - (logName.LastIndexOf("\\")+1))}')";
+                        VALUES ( '{logID}','Project: {projectName} File: {logName.Substring(logName.LastIndexOf("\\") + 1, logName.Length - (logName.LastIndexOf("\\") + 1))}')";
 
             db.crudToDb(sql);
 
