@@ -407,7 +407,13 @@ namespace Logger
                             string[] descriptionFields = new string[] { "", "", "" };
                             string txtStateData = "";
 
-                            for (int fieldNum = 3; fieldNum < dt.Columns.Count - 5; fieldNum++)
+                            descriptionFields[0] = "\\b State Number ";
+                            descriptionFields[1] = dt.Rows[rowNum][3].ToString() + @" \b0 ";
+                            descriptionFields[2] = "";
+
+                            txtField += App.Prj.insertRowRtf(descriptionFields);
+
+                            for (int fieldNum = 4; fieldNum < dt.Columns.Count - 5; fieldNum++)
                             {
                                 txtStateData += dt.Rows[rowNum][fieldNum].ToString() + " ";
                             }
