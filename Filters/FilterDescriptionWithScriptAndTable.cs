@@ -57,6 +57,11 @@ namespace Logger
                     // if not match, then check if fieldValue > value in the descriptions list and fieldValue > value in the script (GT00) 
                     // then that is the description to display.
 
+
+                    // mlh 
+                    // here 
+                    // test script with GT with State H and X
+
                     descriptionTable = getDescriptionX(scriptOptions[2].Substring(1, 1), scriptOptions[2].Substring(2, 1));
 
 
@@ -90,7 +95,10 @@ namespace Logger
                                 descriptionFields[2] = item[3].ToString().Trim();
                             }
 
-                            fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
+                            if (scriptsToApply.Count == 1)
+                                fieldDesc = item[3].ToString().Trim();
+                            else
+                                fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
 
                             break;
                         }
@@ -101,9 +109,13 @@ namespace Logger
                             switch (logicalOperation_operator)
                             {
                                 case "GT":
-                                    bool result = (Convert.ToInt32(fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]))) > 
-                                                   Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1))) && 
-                                                  (Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1)) > Convert.ToInt32(logicalOperation_value)); 
+                                    //bool result = (Convert.ToInt32(fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]))) > 
+                                    //               Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1))) && 
+                                    //              (Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1)) > Convert.ToInt32(logicalOperation_value));
+                                    bool result = (Convert.ToInt32(fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]))) >
+                                                   Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1))) &&
+                                                  (Convert.ToInt32(fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])))  >
+                                                   Convert.ToInt32(logicalOperation_value));
                                     if (result)
                                     {
                                         descriptionFields[0] = "";
@@ -119,8 +131,10 @@ namespace Logger
                                             descriptionFields[2] = item[3].ToString().Trim();
                                         }
 
-
-                                        fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
+                                        if (scriptsToApply.Count == 1)
+                                            fieldDesc = item[3].ToString().Trim();
+                                        else
+                                            fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
                                     }
                                     break;
                                 default:
