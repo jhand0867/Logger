@@ -12,7 +12,7 @@ namespace Logger
 
             base.ValidateState(stateData);
 
-            if (stateData.StateType == "Y")
+            if (stateData.StateType == "w")
             {
 
             }

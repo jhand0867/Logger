@@ -130,25 +130,36 @@ namespace Logger
         {
             string tags = "";
             int offset = 0;
-            while (offset < strTag.Length)
+
+            try
             {
-                if (emvTags.Contains("," + strTag.Substring(offset, 2) + ","))
+
+
+                while (offset < strTag.Length)
                 {
+                    if (emvTags.Contains("," + strTag.Substring(offset, 2) + ","))
+                    {
+                        tags += strTag.Substring(offset, 2) + " ";
+                        offset += 2;
+                    }
+                    else
+                    {
+                        tags += strTag.Substring(offset, 4) + " ";
+                        offset += 4;
+                    }
                     tags += strTag.Substring(offset, 2) + " ";
+                    int hexLength = Convert.ToInt32(strTag.Substring(offset, 2), 16);
                     offset += 2;
+                    tags += strTag.Substring(offset, hexLength * 2) + ";";
+                    offset += hexLength * 2;
                 }
-                else
-                {
-                    tags += strTag.Substring(offset, 4) + " ";
-                    offset += 4;
-                }
-                tags += strTag.Substring(offset, 2) + " ";
-                int hexLength = Convert.ToInt32(strTag.Substring(offset, 2), 16);
-                offset += 2;
-                tags += strTag.Substring(offset, hexLength * 2) + ";";
-                offset += hexLength * 2;
+                return tags;
             }
-            return tags;
+            catch (Exception)
+            {
+                System.Windows.MessageBox.Show(tags);
+                return tags;
+            }
         }
 
         public string executeScript(string fieldType, string fieldValue)

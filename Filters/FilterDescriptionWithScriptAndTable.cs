@@ -54,13 +54,9 @@ namespace Logger
                     // (! = Look for Table) Description labels are on DataDescription table fieldType=2 subRectype = 1 
                     // Search in the descriptions list for subRecType = 1 + the two characters from the fieldValue
                     // if match found, then that is the description to display.
-                    // if not match, then check if fieldValue > value in the descriptions list and fieldValue > value in the script (GT00) 
+                    // if not match, then check if fieldValue > value in the descriptions list and descriptions list >,= value in the script (GT00) (EQ00)
                     // then that is the description to display.
 
-
-                    // mlh 
-                    // here 
-                    // test script with GT with State H and X
 
                     descriptionTable = getDescriptionX(scriptOptions[2].Substring(1, 1), scriptOptions[2].Substring(2, 1));
 
@@ -83,8 +79,8 @@ namespace Logger
                         if (item[2].ToString().Trim() == field)
                         {
                             descriptionFields[0] = "";
-                            descriptionFields[1] = fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));  
- 
+                            descriptionFields[1] = fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
+
                             if (!String.IsNullOrEmpty(item[4].ToString().Trim()))
                             {
                                 descriptionFields[1] += "  " + item[3].ToString().Trim();
@@ -106,41 +102,45 @@ namespace Logger
 
                         if (logicalOperation_value != "" && Regex.IsMatch(item[2].ToString(), @"^\d+$"))
                         {
+                            bool result = false;
+
                             switch (logicalOperation_operator)
                             {
                                 case "GT":
-                                    //bool result = (Convert.ToInt32(fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]))) > 
-                                    //               Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1))) && 
-                                    //              (Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1)) > Convert.ToInt32(logicalOperation_value));
-                                    bool result = (Convert.ToInt32(fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]))) >
-                                                   Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1))) &&
-                                                  (Convert.ToInt32(fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])))  >
-                                                   Convert.ToInt32(logicalOperation_value));
-                                    if (result)
-                                    {
-                                        descriptionFields[0] = "";
-                                        descriptionFields[1] = fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
-
-                                        if (!String.IsNullOrEmpty(item[4].ToString().Trim()))
-                                        {
-                                            descriptionFields[1] += "  " + item[3].ToString().Trim();
-                                            descriptionFields[2] = item[4].ToString().Trim();
-                                        }
-                                        else
-                                        {
-                                            descriptionFields[2] = item[3].ToString().Trim();
-                                        }
-
-                                        if (scriptsToApply.Count == 1)
-                                            fieldDesc = item[3].ToString().Trim();
-                                        else
-                                            fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
-                                    }
+                                    result = (Convert.ToInt32(fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]))) >
+                                              Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1))) &&
+                                             (Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1)) > Convert.ToInt32(logicalOperation_value));
+                                    break;
+                                case "EQ":
+                                    result = (Convert.ToInt32(fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]))) >
+                                              Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1))) &&
+                                             (Convert.ToInt32(item[2].ToString().Substring(1, item[2].ToString().Length - 1)) == Convert.ToInt32(logicalOperation_value));
                                     break;
                                 default:
                                     break;
                             }
+                            if (result)
+                            {
+                                descriptionFields[0] = "";
+                                descriptionFields[1] = fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
 
+                                if (!String.IsNullOrEmpty(item[4].ToString().Trim()))
+                                {
+                                    descriptionFields[1] += "  " + item[3].ToString().Trim();
+                                    descriptionFields[2] = item[4].ToString().Trim();
+                                }
+                                else
+                                {
+                                    descriptionFields[2] = item[3].ToString().Trim();
+                                }
+
+                                if (scriptsToApply.Count == 1)
+                                    fieldDesc = item[3].ToString().Trim();
+                                else
+                                    fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
+
+                                break;
+                            }
                         }
 
                     }
