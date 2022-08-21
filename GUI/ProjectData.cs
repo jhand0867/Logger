@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 
@@ -16,6 +17,20 @@ namespace Logger
         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         internal static string logID = "";
+        private static int HOSTTOEXIT = 19;
+        private static int EXITTOHOST = 26;
+        private static int HOSTTOATMOPT = 4;
+        private static int HOSTTOATMOPTTOSKIP = 12;
+        private static int ATMTOHOSTOPT = 22;
+        private static int ATMTOHOSTOPTTOSKIP = 6;
+        private static int EMVOPT = 28;
+        private static int NUMOPT = 32;
+
+
+
+        public Dictionary<int, int> optionDbfieldMatch = new Dictionary<int, int>();
+
+
         public ProjectData()
         {
             InitializeComponent();
@@ -222,20 +237,24 @@ namespace Logger
         }
         private void optionSelected(int option, bool refresh)
         {
+            // MLH changed here to allow ALL when at least one is still to SCAN
             // option is the entry position in the RecordTypes array
-
-            string regExStr = App.Prj.RecordTypes[option, 0] + "%";
-            string recordType = App.Prj.RecordTypes[option, 3];
-
-            log.Debug($"Scanning for '{recordType}' records started");
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
             int nrow = dgvr.Index;
-            string logID = dgvr.Cells[0].Value.ToString();
 
-            App.Prj.getData(regExStr, recordType, logID, option);
-            log.Debug($"Scanning for '{recordType}' records completed");
+            if (option >= 0)
+            {
+                string regExStr = App.Prj.RecordTypes[option, 0] + "%";
+                string recordType = App.Prj.RecordTypes[option, 3];
 
+                log.Debug($"Scanning for '{recordType}' records started");
+
+                string logID = dgvr.Cells[0].Value.ToString();
+
+                App.Prj.getData(regExStr, recordType, logID, option);
+                log.Debug($"Scanning for '{recordType}' records completed");
+            }
             if (refresh)
             {
                 dataGridView1.DataSource = buildDataGridView1();
@@ -262,18 +281,22 @@ namespace Logger
 
         private void scanToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // MLH changed here to allow ALL when at least one message type is still to SCAN
+
             if (dataGridView1.Rows.Count == 0)
                 return;
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            scanToolStripMenuItem.DropDownItems[0].Enabled = true;
+            scanToolStripMenuItem.DropDownItems[0].Enabled = false;
 
             for (int i = 4; i < dgvr.Cells.Count - 1; i++)
             {
-                if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
-                {
-                    scanToolStripMenuItem.DropDownItems[0].Enabled = false;
+                if (i == EXITTOHOST || i == HOSTTOEXIT) continue;
+
+                if (dgvr.Cells[i].Value.ToString() != "True" && dgvr.Cells[i].Value.ToString() != "true")
+                { 
+                    scanToolStripMenuItem.DropDownItems[0].Enabled = true;
                     break;
                 }
             }
@@ -298,7 +321,7 @@ namespace Logger
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            for (int x = 0, i = 4; i < dgvr.Cells.Count - 12; i++, x++)
+            for (int x = 0, i = HOSTTOATMOPT; i < dgvr.Cells.Count - HOSTTOATMOPTTOSKIP; i++, x++)
             {
                 if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
                 {
@@ -318,7 +341,7 @@ namespace Logger
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            for (int x = 0, i = 21; i < dgvr.Cells.Count - 6; i++, x++)
+            for (int x = 0, i = ATMTOHOSTOPT; i < dgvr.Cells.Count - ATMTOHOSTOPTTOSKIP; i++, x++)
             {
                 if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
                 {
@@ -338,7 +361,7 @@ namespace Logger
 
             DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            for (int x = 0, i = 27; i < dgvr.Cells.Count - 1; i++, x++)
+            for (int x = 0, i = EMVOPT; i < dgvr.Cells.Count - 1; i++, x++)
             {
                 if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
                 {
@@ -401,12 +424,66 @@ namespace Logger
 
         }
 
+        private void voiceGuidanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            optionSelected(26, true);
+        }
+
+
         private void allToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 25; i++)
-                optionSelected(i, false);
+            // MLH changed here to allow ALL when at least one is still to SCAN
 
-            optionSelected(25, true);
+            if (dataGridView1.Rows.Count == 0)
+                return;
+
+            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+
+            if (optionDbfieldMatch.Count == 0)
+            {
+
+                optionDbfieldMatch.Add(4, 2);       // screens
+                optionDbfieldMatch.Add(5, 3);       // states
+                optionDbfieldMatch.Add(6, 4);       // configParametersLoad
+                optionDbfieldMatch.Add(7, 5);       // fit
+                optionDbfieldMatch.Add(8, 6);       // configID
+                optionDbfieldMatch.Add(9, 7);       // enhancedParametersLoad
+                optionDbfieldMatch.Add(10, 8);      // mac
+                optionDbfieldMatch.Add(11, 9);      // dateandtime
+                optionDbfieldMatch.Add(12, 10);     // dispenserCurrency
+                optionDbfieldMatch.Add(13, 1);      // treply
+                optionDbfieldMatch.Add(14, 25);     // interactiveTranResponse
+                optionDbfieldMatch.Add(15, 23);     // extendedEncrypKeyChange
+                optionDbfieldMatch.Add(16, 20);     // ejAckBlock
+                optionDbfieldMatch.Add(17, 21);     // ejAckStop
+                optionDbfieldMatch.Add(18, 22);     // ejOptionsTimers
+                optionDbfieldMatch.Add(19, 99);       // hostToExit
+                optionDbfieldMatch.Add(20, 24);     // terminalCommands
+                optionDbfieldMatch.Add(21, 26);     // voiceGuidance
+                optionDbfieldMatch.Add(22, 0);      // treq
+                optionDbfieldMatch.Add(23, 16);     // solicitedStatus
+                optionDbfieldMatch.Add(24, 17);     // unsolicitedStatus
+                optionDbfieldMatch.Add(25, 18);     // encryptorInitData
+                optionDbfieldMatch.Add(26, 99);       // exitToHost
+                optionDbfieldMatch.Add(27, 19);     // uploadEjData
+                optionDbfieldMatch.Add(28, 11);     // iccCurrencyDOT
+                optionDbfieldMatch.Add(29, 12);     // iccTransactionDOT
+                optionDbfieldMatch.Add(30, 13);     // iccLanguageSupportT
+                optionDbfieldMatch.Add(31, 14);     // iccTerminalDOT
+                optionDbfieldMatch.Add(32, 15);     // iccApplicationIDT
+
+            }
+            for (int i = HOSTTOATMOPT; i <= NUMOPT; i++)
+            {
+                if (i == EXITTOHOST || i == HOSTTOEXIT) continue;
+
+                if (dgvr.Cells[i].Value.ToString() != "True" && dgvr.Cells[i].Value.ToString() != "true")
+                {
+                    optionSelected(optionDbfieldMatch[i], false);
+                }
+            }
+
+            optionSelected(-1, true);
 
             // completed();
 

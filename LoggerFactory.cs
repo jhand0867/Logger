@@ -186,6 +186,7 @@ namespace Logger
             recTypeDic.Add("62", () => new AckStopEj());
             recTypeDic.Add("63", () => new EjOptionsTimers());
             recTypeDic.Add("1", () => new TerminalCommands());
+            recTypeDic.Add("31V", () => new voiceGuidance());
             try
             {
                 return recTypeDic[recType]();

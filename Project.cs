@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Net;
 using System.Reflection;
@@ -190,11 +191,12 @@ namespace Logger
             "32"
           },
           {
-            "ATM2HOST: 22",
+            "HOST2ATM: 3",
             "3",
-            "F",
-            "22"
+            "1V",
+            "31V"
           }
+
         };
         private List<StateData> extensionsLst = new List<StateData>();
         public Dictionary<string, string> recTypesDic = new Dictionary<string, string>();
@@ -277,6 +279,7 @@ namespace Logger
             this.recTypesDic.Add("34", "extendedEncrypKeyChange");
             this.recTypesDic.Add("1", "terminalCommands");
             this.recTypesDic.Add("32", "interactiveTranResponse");
+            this.recTypesDic.Add("31V", "voiceGuidance");
         }
 
         public Project(string pName, string pBrief) => this.createProject(pName, pBrief);
@@ -777,6 +780,10 @@ namespace Logger
             string sql26 = "SELECT COUNT(2) FROM interactiveTranResponse  WHERE logID =" + logID;
             int scalarIntFromDb26 = dbCrud.GetScalarIntFromDb(sql26);
             dictionary.Add("Interactive Transaction Response", scalarIntFromDb26);
+            string sql27 = "SELECT COUNT(2) FROM voiceGuidance  WHERE logID =" + logID;
+            int scalarIntFromDb27 = dbCrud.GetScalarIntFromDb(sql27);
+            dictionary.Add("Voice Guidance", scalarIntFromDb27);
+
             return dictionary;
         }
 
@@ -890,7 +897,8 @@ namespace Logger
             DELETE FROM [terminalCommands] WHERE logID = {logID};
             DELETE FROM [dispenserMapping] WHERE logID = {logID};
             DELETE FROM [interactiveTranResponse] WHERE logID = {logID};
-            DELETE FROM [logDetail] WHERE logID = {logID}; ";
+            DELETE FROM [logDetail] WHERE logID = {logID}; 
+            DELETE FROM[voiceGuidance] WHERE logID = { logID }; ";
 
             DbCrud DB = new DbCrud();
             bool dropResult = DB.crudToDb(sql);

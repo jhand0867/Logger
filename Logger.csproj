@@ -97,6 +97,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VoiceGuidance.cs" />
     <Compile Include="DbCrud.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData5.cs" />
     <Compile Include="Filters\FilterDescriptionWithScriptAndTable.cs" />
@@ -434,10 +435,13 @@
     <Content Include="GUI\Icon1.ico" />
     <Content Include="Logger01.ico" />
     <Content Include="System Notes.txt" />
-    <Compile Include="\\Mac\Home\Downloads\DbCrud.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Logger472\LoggerRegistry\LoggerRegistry\LoggerRegistry.csproj">
+    <ProjectReference Include="..\472\LoggerCrypto\LoggerCrypto\LoggerCrypto.csproj">
+      <Project>{7eb5144a-1aa9-4dbb-b62d-4d206b4f81e4}</Project>
+      <Name>LoggerCrypto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\472\LoggerRegistry\LoggerRegistry\LoggerRegistry.csproj">
       <Project>{90f8fbaa-3e21-4441-863e-b2b392c0d052}</Project>
       <Name>LoggerRegistry</Name>
     </ProjectReference>
@@ -446,7 +450,7 @@
       <Name>LoggerLicense</Name>
     </ProjectReference>
     <ProjectReference Include="..\LoggerProgressBar1\LoggerProgressBar1.csproj">
-      <Project>{9d99844a-f55a-460b-b505-b8fe803fadce}</Project>
+      <Project>{9D99844A-F55A-460B-B505-B8FE803FADCE}</Project>
       <Name>LoggerProgressBar1</Name>
     </ProjectReference>
     <ProjectReference Include="LoggerUtils\LoggerUtils.csproj">

@@ -51,7 +51,8 @@ namespace Logger
             // get the query info
             string sql;
 
-            // MLH Temporary remove selection to allow us to set and get all search conditions
+            // MLH Temporary comment out the if and else condition
+            // leaving only the select all to allow us to set and get all search conditions
             // source value = 'I' is for Internal use to include Regular Expressions
 
             if (sourceValue == "")

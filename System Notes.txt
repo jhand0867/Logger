@@ -31,7 +31,7 @@ MSG TYPE  MSG CLASS  MSG SUBCLASS  IDENTIFIER  COMMAND
    8          8         3                       ICC Language Support DOT
    8          8         4                       ICC Terminal DOT
    8          8         5                       ICC Termina Acceptable Application IDs table.
-
+   V          3         1               V       Voice Guidance XML
 
 
    ******** Advanced Filter ********
