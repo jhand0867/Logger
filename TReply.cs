@@ -788,7 +788,7 @@ namespace Logger
                             {
                                 if (dts[1].Rows.Count > 0)
                                 {
-                                    txtField += getPrinterData(dts[1]);
+                                    txtField += getPrinterData(dts[1], tReplyDt);
                                 }
                                 continue;
                             }
@@ -837,7 +837,7 @@ namespace Logger
             return checksData;
         }
 
-        private string getPrinterData(DataTable dataTable)
+        private string getPrinterData(DataTable dataTable, DataTable tReplyDt)
         {
             string printerData = "";
             string[] descriptionFields = new string[] { "", "", "" };
@@ -846,15 +846,20 @@ namespace Logger
             {
                 foreach (DataRow row in dataTable.Rows)
                 {
-                    descriptionFields[0] = "Printer Flag ";
-                    descriptionFields[1] = row["printerFlag"].ToString();
-                    descriptionFields[2] = "";
-                    printerData += App.Prj.insertRowRtf(descriptionFields);
+                    //descriptionFields[0] = "Printer Flag ";
+                    //descriptionFields[1] = row["printerFlag"].ToString();
+                    //descriptionFields[2] = "";
+                    //printerData += App.Prj.insertRowRtf(descriptionFields);
 
-                    descriptionFields[0] = "Printer Data ";
-                    descriptionFields[1] = WebUtility.HtmlDecode(row["printerData"].ToString());
-                    descriptionFields[2] = "";
-                    printerData += App.Prj.insertRowRtf(descriptionFields);
+                    //descriptionFields[0] = "Printer Data ";
+                    //descriptionFields[1] = WebUtility.HtmlDecode(row["printerData"].ToString());
+                    //descriptionFields[2] = "";
+                    //printerData += App.Prj.insertRowRtf(descriptionFields);
+
+                    printerData += getOptionDescription(tReplyDt, "261", row["printerFlag"].ToString());
+                    printerData += getOptionDescription(tReplyDt, "262", WebUtility.HtmlDecode(row["printerData"].ToString()));
+
+
                 }
             }
             return printerData;

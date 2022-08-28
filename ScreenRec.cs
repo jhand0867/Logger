@@ -133,6 +133,8 @@ namespace Logger
 
                 foreach (string item in dataTypes)
                 {
+                    if (item == String.Empty) continue;
+
                     System.Text.RegularExpressions.Regex regexp = new System.Text.RegularExpressions.Regex("^[0-9]{4}|[0-9]{3}|\".+\"|[A-Za-z]\\d\\d\\d\\d|[A-Za-z]\\d\\d");
 
                     MatchCollection screenNumMaches = regexp.Matches(item);

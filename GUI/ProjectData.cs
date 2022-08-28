@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Logger
@@ -39,6 +40,7 @@ namespace Logger
             this.menuStrip1.Font = new System.Drawing.Font("Arial", 10);
             this.logsToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10);
             this.scanToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10);
+            
         }
         public RefreshData ReloadDataView;
 

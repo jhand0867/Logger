@@ -136,7 +136,8 @@ namespace Logger
         }
 
         //// DescriptionData requires a fieldName and should have either 
-        //// fieldDescription (row[4]), fieldType (row[5]), or scriptValue (row[7]). It can not have a combination of them,
+        //// fieldDescription (row[4]), fieldType (row[5]), or scriptValue (row[7]). 
+        ///  It can not have a combination of them,
         //// except for rectype 'X', which can have fieldDescription and fieldType
 
         internal string getOptionDescription(DataTable dataTable, string field, string fieldValue)

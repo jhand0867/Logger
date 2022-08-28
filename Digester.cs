@@ -157,7 +157,8 @@ namespace Logger
             }
             catch (Exception)
             {
-                System.Windows.MessageBox.Show(tags);
+                log.Info($"Tags exception: {tags}  ");
+                
                 return tags;
             }
         }
@@ -166,5 +167,10 @@ namespace Logger
         {
             return "";
         }
+
+        public int scriptAnalyzer(string scriptValue)
+        {
+
+        } 
     }
 }
