@@ -137,7 +137,8 @@ namespace Logger
                 object o = command.ExecuteScalar();
 
                 string result = null;
-                result = o.ToString();
+                if (o != null)
+                    result = o.ToString();
 
                 command.Dispose();
                 cnn.Close();

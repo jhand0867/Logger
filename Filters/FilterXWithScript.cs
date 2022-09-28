@@ -27,28 +27,34 @@ namespace Logger
                     {
                         int offset = item[2].ToString().Trim().Length;
                         int reminder = field.Length - offset;
-                        string field4 = item[4].ToString().Trim();
+                        string field7 = item[7].ToString().Trim();
                         string fieldResult = "";
                         string outputField = "";
-                        int lengthOfField4 = field4.Length;
+                        int lengthOfField7 = field7.Length;
 
                         // /(\{.*\})/gUgs
                         Regex handleBars = new Regex(@"(\{.*?\})", RegexOptions.Singleline);
-                        int field4Offset = 0;
+                        int field7Offset = 0;
 
-                        while (field4Offset < lengthOfField4 - 1)
+                        while (field7Offset < lengthOfField7 - 1)
                         {
-                            MatchCollection scriptsToApply = handleBars.Matches(field4);
+                            MatchCollection scriptsToApply = handleBars.Matches(field7);
 
                             if (scriptsToApply.Count == 0)
                             {
-                                outputField = field4;
+                                outputField = field7;
+                                break;
+                            }
+                            if (reminder <= 0)
+                            {
                                 break;
                             }
 
+                            string workField = field.Substring(offset, reminder);
+
                             foreach (Match hit in scriptsToApply)
                             {
-                                field4Offset += hit.Length;
+                                field7Offset += hit.Length;
                                 int indexOfScriptStart = hit.Value.IndexOf("{", 0);
                                 int indexOfSctiptEnd = hit.Value.IndexOf("}", indexOfScriptStart);
                                 if (indexOfScriptStart != -1)
@@ -58,9 +64,8 @@ namespace Logger
                                     fieldResult = hit.Value.Substring(indexOfScriptStart + 1, indexOfSctiptEnd - 1);
                                     string[] scriptOptions = fieldResult.Split(',');
 
-                                    string workField = field.Substring(offset, reminder);
 
-                                    if (workField.Length >= Convert.ToInt32(scriptOptions[1]))
+                                    if (workField.Length >= Convert.ToInt32(scriptOptions[0]) + Convert.ToInt32(scriptOptions[1]))
                                     {
                                         // % = new line
                                         // ^ = at the start
@@ -94,11 +99,11 @@ namespace Logger
                         {
                             descriptionFields[0] = "";
                             descriptionFields[1] = item[3].ToString().Trim();
-                            descriptionFields[2] = outputField;
+                            descriptionFields[2] = item[4].ToString().Trim() + outputField;
                             fieldDesc = fieldDesc + App.Prj.insertRowRtf(descriptionFields);
                         }
                         else
-                            fieldDesc += item[3].ToString().Trim() + "  " + outputField;
+                            fieldDesc += item[3].ToString().Trim() + "  " + item[4].ToString().Trim() + " " + outputField;
 
                         break;
                     }

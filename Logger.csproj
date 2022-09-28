@@ -97,6 +97,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StateRecords\StateV.cs" />
+    <Compile Include="StateRecords\State98.cs" />
     <Compile Include="VoiceGuidance.cs" />
     <Compile Include="DbCrud.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData5.cs" />

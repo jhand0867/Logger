@@ -42,27 +42,29 @@ namespace Logger
                         // % = new line
                         // ^ = at the start
                         // $ = at the end
+                        if (fieldValue.Length >= Convert.ToInt32(scriptOptions[0]) + Convert.ToInt32(scriptOptions[1]))
+                        {
 
-                        if (scriptOptions[3].Contains("%"))
-                        {
-                            outputField += @"\par ";
-                        }
+                            if (scriptOptions[3].Contains("%"))
+                            {
+                                outputField += @"\par ";
+                            }
 
-                        if (scriptOptions[3].Contains("$"))
-                        {
-                            outputField += fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
-                                           scriptOptions[2].Substring(0, scriptOptions[2].Length);
+                            if (scriptOptions[3].Contains("$"))
+                            {
+                                outputField += fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1])) +
+                                               scriptOptions[2].Substring(0, scriptOptions[2].Length);
+                            }
+                            else if (scriptOptions[3].Contains("^"))
+                            {
+                                outputField += scriptOptions[2].Substring(0, scriptOptions[2].Length) + " =" +
+                                fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
+                            }
+                            else
+                            {
+                                outputField += fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
+                            }
                         }
-                        else if (scriptOptions[3].Contains("^"))
-                        {
-                            outputField += scriptOptions[2].Substring(0, scriptOptions[2].Length) + " =" +
-                            fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
-                        }
-                        else
-                        {
-                            outputField += fieldValue.Substring(Convert.ToInt32(scriptOptions[0]), Convert.ToInt32(scriptOptions[1]));
-                        }
-
                         offset += Convert.ToInt32(scriptOptions[1]);
                     }
                 }

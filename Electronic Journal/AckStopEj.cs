@@ -63,7 +63,7 @@ namespace Logger
         public bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "EJ Acknowldege Stop" ;
             lpb.Maximum = typeRecs.Count + 1;
 
             foreach (typeRec r in typeRecs)

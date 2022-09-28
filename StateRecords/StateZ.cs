@@ -192,6 +192,15 @@ namespace Logger
                         break;
                     }
                 }
+                if (state.StateType == "b")
+                {
+                    if (state.Val8 == st.StateNumber)
+                    {
+                        // this is the extension
+                        stateFound = state.StateNumber + "b1";
+                        break;
+                    }
+                }
 
 
                 continue;

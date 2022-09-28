@@ -91,6 +91,12 @@ namespace Logger
             stateTypeDic.Add("_", () => new State5F());
             stateTypeDic.Add("k", () => new State6B());
             stateTypeDic.Add("w", () => new State77());
+            stateTypeDic.Add("b", () => new State98());
+
+            // MLH 09/22 
+            // not in stateTypeDic "LMNORSVbdefgmzz"
+            // not in StateData stateTypes = @"+,./;?_"
+            // string stateTypes = @"ABCDEFGHIJK_LMNRSTUVWXYZbdefgkm>wz&+,-./?;";
 
             try
             {

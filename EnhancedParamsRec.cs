@@ -46,7 +46,7 @@ namespace Logger
         public bool writeData(List<typeRec> inTypeRecs, string key, string logID)
         {
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "Enhanced Paremeters";
             lpb.Maximum = inTypeRecs.Count + 1;
 
             DbCrud db = new DbCrud();
@@ -216,6 +216,21 @@ namespace Logger
             return dts;
 
         }
+
+        public string getOptionNum(string logKey, string logID, string optionNum)
+        {
+            List<DataTable> dts = new List<DataTable>();
+            DbCrud db = new DbCrud();
+
+            string sql = @"SELECT optionCode from enhancedParams WHERE logID = '" + logID +
+                                                        "' AND logkey LIKE '" + logKey + "%'" +
+                                                        " AND optionNum = '" + optionNum + "'";
+            string optionCode = db.GetScalarStrFromDb(sql);
+
+            return optionCode;
+
+        }
+
 
         public DataTable getDescription()
         {

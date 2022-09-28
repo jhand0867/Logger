@@ -63,7 +63,7 @@ namespace Logger
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "Configuration Parameters";
             lpb.Maximum = (typeRecs.Count / 3) + 1;
 
             DbCrud db = new DbCrud();

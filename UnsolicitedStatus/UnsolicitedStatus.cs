@@ -94,7 +94,7 @@ namespace Logger
         public virtual bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "Unsolicited Status";
             lpb.Maximum = typeRecs.Count + 1;
 
             foreach (typeRec r in typeRecs)

@@ -11,7 +11,10 @@ namespace Logger
         private string lastTransactionNotesDispenseData;
         private string lastTransactionCoinageAmountDispensed;
         private string lastTransactionCoinsDispenseData;
+        private string lastTransactionCashDepositDirection;
         private string lastTransactionCashDepositData;
+        private string numRecycleCstReported;
+        private string recycleCstData;
 
         public string SerialNumber { get => serialNumber; set => serialNumber = value; }
         public string LastStatusIssued { get => lastStatusIssued; set => lastStatusIssued = value; }
@@ -19,6 +22,9 @@ namespace Logger
         public string LastTransactionCoinageAmountDispensed { get => lastTransactionCoinageAmountDispensed; set => lastTransactionCoinageAmountDispensed = value; }
         public string LastTransactionCoinsDispenseData { get => lastTransactionCoinsDispenseData; set => lastTransactionCoinsDispenseData = value; }
         public string LastTransactionCashDepositData { get => lastTransactionCashDepositData; set => lastTransactionCashDepositData = value; }
+        public string NumRecycleCstReported { get => numRecycleCstReported; set => numRecycleCstReported = value; }
+        public string RecycleCstData { get => recycleCstData; set => recycleCstData = value; }
+        public string LastTransactionCashDepositDirection { get => lastTransactionCashDepositDirection; set => lastTransactionCashDepositDirection = value; }
     }
 
     public struct depCurrency
@@ -185,6 +191,10 @@ namespace Logger
 
     class TRec : App, IMessage
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+        System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
         public DataTable getDescription()
         {
             DataTable dt = new DataTable();
@@ -202,7 +212,7 @@ namespace Logger
             int loadNum = 0;
 
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "Transaction Request";
             lpb.Maximum = typeRecs.Count + 1;
 
             foreach (typeRec r in typeRecs)
@@ -248,58 +258,97 @@ namespace Logger
                 if (tmpTypes.Length > i && tmpTypes[i].Length > 0 &&
                     tmpTypes[i].Substring(0, 1) == "2")
                 {
-                    sql = @"SELECT [optionNum] FROM [enhancedParams] " +
-                                  "WHERE [optionCode] ='76'";
-                    int fourOrSeven = 20;
-                    Dictionary<string, string> resultData = readData(sql);
+                    ////
+                    /// How to locate and fetch a:
+                    ///  - similar log from same model and/or machine number
+                    ///  - use that logs Enhanced Configuration Parameters to read the current log
+                    /// We need to cover for the additional fields provided for recycling
+                    /// 04 001003 002010 003001 004002
+
+                    string optionCode = getEnhancedParmOption(key, logID, "76");
+
+                    int offset = 6;
 
                     treq.TransactionStatusDataID = tmpTypes[i].Substring(0, 1);
                     lastTransactionStatus lst = new lastTransactionStatus();
                     lst.SerialNumber = tmpTypes[i].Substring(1, 4);
                     lst.LastStatusIssued = tmpTypes[i].Substring(5, 1);
 
-                    if ((resultData.Count == 0) ||
-                       (resultData.Count > 0 && resultData.ContainsValue("000")))
+                    if (optionCode == "000")
                     {
-                        if (tmpTypes[i].Length > 25)
+                        if (tmpTypes[i].Length >= 25)
                         {
+                            offset = offset + 20;
                             lst.LastTransactionNotesDispenseData =
                             tmpTypes[i].Substring(6, 20);
                         }
-                        else
-                        {
-                            Console.WriteLine(" Error Treq.lastTransactionStatusData");
-                        }
+                        else log.Error(" Error Treq.lastTransactionStatusData (4 cassettes)");
                     }
                     else
                     {
-                        if (tmpTypes[i].Length > 40)
+                        if (tmpTypes[i].Length >= 40)
                         {
-                            fourOrSeven = 35;
+                            offset = offset + 35;
                             lst.LastTransactionNotesDispenseData =
                             tmpTypes[i].Substring(6, 35);
                         }
-                        else
-                        {
-                            Console.WriteLine(" Error Treq.lastTransactionStatusData");
-                        }
+                        else log.Error(" Error Treq.lastTransactionStatusData (7 cassettes)");
+                        
                     }
 
-                    fourOrSeven = fourOrSeven + 6;
+                    lst.LastTransactionCoinageAmountDispensed =
+                    tmpTypes[i].Substring(offset, 5);
 
-                    if (tmpTypes[i].Length > fourOrSeven + 25)
+                    offset = offset + 5;
+
+                    optionCode = getEnhancedParmOption(key, logID, "79");
+
+                    if (optionCode == "000")
                     {
-                        lst.LastTransactionCoinageAmountDispensed =
-                        tmpTypes[i].Substring(fourOrSeven, 5);
+                        if (tmpTypes[i].Length >= offset + 20)
+                        {
+                            lst.LastTransactionCoinsDispenseData =
+                            tmpTypes[i].Substring(offset, 20);
+                            offset = offset + 20;
 
-                        fourOrSeven = fourOrSeven + 5;
-                        lst.LastTransactionCoinsDispenseData =
-                            tmpTypes[i].Substring(fourOrSeven, 20);
-
-                        fourOrSeven = fourOrSeven + 20;
-                        lst.LastTransactionCashDepositData =
-                            tmpTypes[i].Substring(fourOrSeven, tmpTypes[i].Length - fourOrSeven);
+                        }
+                        else  log.Error("Error Treq.lastTransactionStatusData (4 hoppers)");
+                        
                     }
+                    else
+                    {
+                        if (tmpTypes[i].Length >= offset + 20)
+                        {
+                            lst.LastTransactionCoinsDispenseData =
+                            tmpTypes[i].Substring(offset, 20);
+                            offset = offset + 20;
+                        }
+                        else log.Error(" Error Treq.lastTransactionStatusData (more than 4 hoppers");
+                        
+                    }
+
+                    if (tmpTypes[i].Length >= offset + 21) 
+                    {
+                        lst.LastTransactionCashDepositDirection =
+                            tmpTypes[i].Substring(offset, 1);
+                        lst.LastTransactionCashDepositData =
+                            tmpTypes[i].Substring(offset+1, 20);
+                        offset = offset + 21;
+
+                    }
+                    if (tmpTypes[i].Length > offset)
+                    {
+                        lst.NumRecycleCstReported =
+                        tmpTypes[i].Substring(offset, 2);
+                        offset = offset + 2;
+                    }
+
+                    if (tmpTypes[i].Length > offset)
+                    {
+                        lst.RecycleCstData =
+                        tmpTypes[i].Substring(offset, tmpTypes[i].Length - offset);
+                    }
+
                     treq.LastTransactionStatusData = lst;
                     i++;
                 }
@@ -597,7 +646,8 @@ namespace Logger
                       ",[BufferB],[BufferC],[track1Identier],[track1Data],[transactionStatusDataID] " +
                       ",[lastTransactionStatusSerialNumber],[lastTransactionStatusLastStatusIssued] " +
                       ",[lastTransactionStatusNotesDispensedData],[lastTransactionStatusCoinageAmountDispensed]" +
-                      ",[lastTransactionStatusCoinsDispensedData],[lastTransactionStatusCashDepositData] " +
+                      ",[lastTransactionStatusCoinsDispensedData],[lastTransactionStatusCashDepositDirection] " +
+                       ",[lastTransactionStatusCashDepositData],[NumRecycleCstReported],[recycleCstData] " +
                       ",[CSPDataIdU],[CSPDataU],[confirmationCSPDataIdV],[confirmationCSPDataV] " +
                       ",[vcDataIdW],[vcDataW],[vcDataIdX],[vcDataX],[vcDataIdY],[vcDataY],[vcDataIdZ] " +
                       ",[vcDataZ],[vcDataIDBracket],[vcDataBracket],[vcDataIDSlash],[vcDataSlash] " +
@@ -630,7 +680,10 @@ namespace Logger
                                    treq.LastTransactionStatusData.LastTransactionNotesDispenseData + "','" +
                                    treq.LastTransactionStatusData.LastTransactionCoinageAmountDispensed + "','" +
                                    treq.LastTransactionStatusData.LastTransactionCoinsDispenseData + "','" +
+                                   treq.LastTransactionStatusData.LastTransactionCashDepositDirection + "','" +
                                    treq.LastTransactionStatusData.LastTransactionCashDepositData + "','" +
+                                   treq.LastTransactionStatusData.NumRecycleCstReported + "','" +
+                                   treq.LastTransactionStatusData.RecycleCstData + "','" +
                                    treq.CSPDataIdU1 + "','" +
                                    treq.CSPDataU1 + "','" +
                                    treq.ConfirmationCSPDataIdV + "','" +
@@ -685,7 +738,7 @@ namespace Logger
                 /// 
                 /// 2. insert option record to treqOptions table
                 /// 3. insert depositCurrencies record to treqCurrencies
-                /// 4. insert depostChecks records to treqChecks
+                /// 4. insert depositChecks records to treqChecks
                 /// 
                 /// *//
                 /// id int not null identity primary key,
@@ -783,7 +836,7 @@ namespace Logger
                 {
                     for (int field = 3; field <= dts[0].Rows[rowNum].ItemArray.Length - 3; field++)
                     {
-                        if (field == 44)
+                        if (field == 47)
                         {
                             if (dts[1].Rows.Count > 0)
                             {
@@ -791,7 +844,7 @@ namespace Logger
                             }
                             continue;
                         }
-                        if (field == 64)
+                        if (field == 67)
                         {
                             if (dts[2].Rows.Count > 0)
                             {
@@ -886,6 +939,12 @@ namespace Logger
                 }
             }
             return checks;
+        }
+
+        private string getEnhancedParmOption(string logKey, string logID, string optionNum)
+        { 
+            EnhancedParamsRec enhancedParamsRec = new EnhancedParamsRec();
+            return enhancedParamsRec.getOptionNum(logKey, logID, optionNum);
         }
 
     }

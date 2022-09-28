@@ -409,7 +409,10 @@ namespace Logger
             string[] strArray = System.IO.File.ReadAllLines(filename);
             LoggerProgressBar1.LoggerProgressBar1 loggerProgressBar = this.getLoggerProgressBar();
             loggerProgressBar.Maximum = strArray.Length + 1;
-            loggerProgressBar.LblTitle = this.ToString();
+            // loggerProgressBar.LblTitle = this.ToString();
+
+            loggerProgressBar.LblTitle = filename.Substring(filename.LastIndexOf("\\") + 1, filename.Length - (filename.LastIndexOf("\\") + 1));
+
             int num1 = 0;
             int num2 = 0;
             int num3 = 0;

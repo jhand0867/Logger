@@ -7,6 +7,9 @@ namespace Logger
 
     class SolicitedStatus : App, IMessage
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+        System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 
         public Dictionary<string, string> ssTypes = new Dictionary<string, string>();
 
@@ -35,9 +38,6 @@ namespace Logger
             ssTypes.Add("FN", "22FN");
         }
 
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-        System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         public DataTable getDescription()
         {
             throw new NotImplementedException();
@@ -57,7 +57,7 @@ namespace Logger
             return dt;
         }
 
-        public List<DataTable> getRecord(string logKey, string logID, string projectKey, string recType)
+        public new List<DataTable> getRecord(string logKey, string logID, string projectKey, string recType)
         {
             List<DataTable> dts = new List<DataTable>();
             DbCrud db = new DbCrud();
@@ -84,6 +84,10 @@ namespace Logger
             {
                 for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
                 {
+                    string[] colData = dts[0].Rows[0][colNum].ToString().Split(';');
+
+
+
                     txtField += App.Prj.getOptionDescription(ss, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
                                                          dts[0].Rows[0][colNum].ToString());
 
@@ -96,7 +100,7 @@ namespace Logger
         public virtual bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "Solicited Status";
             lpb.Maximum = typeRecs.Count + 1;
 
             foreach (typeRec r in typeRecs)

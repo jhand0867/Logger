@@ -95,10 +95,10 @@ namespace Logger
 
         public virtual void ValidateState(StateData stateData)
         {
-            string stateTypes = @"ABCDEFGHIJKLMNORSTVWXYZbdefgkmwz->&z";
+            string stateTypes = @"ABCDEFGHIJK_LMNRSTUVWXYZbdefgkm>wz&+,-./?;";
             if (!(stateTypes.Contains(stateData.StateType)))
             {
-                Console.WriteLine("Not a valid state type");
+                log.Info("Not a valid state type");
             }
         }
 
@@ -107,7 +107,7 @@ namespace Logger
             int stateNum = Convert.ToInt32(value);
             if (!(stateNum >= 0 && stateNum <= 999))
             {
-                Console.WriteLine("Value not in range 000 to 999");
+                log.Info("Value not in range 000 to 999");
                 return null;
             }
 
@@ -118,7 +118,7 @@ namespace Logger
 
             if (resultData.Count <= 0)
             {
-                Console.WriteLine("Error state does not exist");
+                log.Info("Error state does not exist");
                 return null;
             }
             return resultData;
@@ -160,7 +160,7 @@ namespace Logger
             // DbCrud to save the staterec table
 
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "State Data";
             lpb.Maximum = inTypeRecs.Count + 1;
 
             foreach (typeRec rParent in inTypeRecs)

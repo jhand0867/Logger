@@ -73,7 +73,7 @@ namespace Logger
         {
 
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "EJ Options and Timers";
             lpb.Maximum = typeRecs.Count + 1;
 
             foreach (typeRec r in typeRecs)

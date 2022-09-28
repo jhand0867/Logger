@@ -220,7 +220,7 @@ namespace Logger
         {
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
             lpb.Maximum = typeRecs.Count + 1;
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "Transaction Reply";
 
             foreach (typeRec r in typeRecs)
             {

@@ -168,9 +168,9 @@ namespace Logger
             return "";
         }
 
-        public int scriptAnalyzer(string scriptValue)
-        {
+        //public int scriptAnalyzer(string scriptValue)
+        //{
 
-        } 
+        //} 
     }
 }

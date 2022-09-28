@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 
 namespace Logger
 {
@@ -90,12 +91,41 @@ namespace Logger
             ss.HwConfigurationData = statusInfo[0].Substring(1, 3);
             for (int x = 1; x < statusInfo.Length; x++)
             {
+
                 ss.HwConfigurationData += ";" + statusInfo[x];
             }
 
             if (tmpTypes.Length > i + 4)
                 ss.Mac = tmpTypes[i + 4];
             return ss;
+        }
+
+        new public string parseToView(string logKey, string logID, string projectKey, string recValue)
+        {
+            string recordType = getRecordType(recValue);
+            List<DataTable> dts = getRecord(logKey, logID, projectKey, recordType.Substring(2, recordType.Length - 2));
+            string txtField = "";
+
+            if (dts == null || dts[0].Rows.Count == 0) { return txtField; }
+
+            DataTable ss = getDescription(recordType.Substring(2, recordType.Length - 2));
+
+            if (dts[0].Rows.Count > 0)
+            {
+                for (int colNum = 3; colNum < dts[0].Columns.Count - 2; colNum++)
+                {
+                    string dataElement = dts[0].Rows[0][colNum].ToString();
+                    //if (dataElement.Length == 5)
+
+
+
+                    txtField += App.Prj.getOptionDescription(ss, recordType.Substring(2, recordType.Length - 2) + colNum.ToString("00"),
+                                                         dts[0].Rows[0][colNum].ToString());
+
+                }
+            }
+            return txtField;
+
         }
     }
 }

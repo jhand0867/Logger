@@ -97,7 +97,7 @@ namespace Logger
         public bool writeData(List<typeRec> inTypeRecs, string Key, string logID)
         {
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "Screen Records";
             lpb.Maximum = inTypeRecs.Count + 1;
 
             String sql = "";

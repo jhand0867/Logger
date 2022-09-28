@@ -52,7 +52,7 @@ namespace Logger
         public bool writeData(List<typeRec> typeRecs, string key, string logID)
         {
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "Date and Time";
             lpb.Maximum = typeRecs.Count + 1;
 
             int loadNum = 0;

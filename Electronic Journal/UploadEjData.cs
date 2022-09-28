@@ -75,7 +75,7 @@ namespace Logger
         {
 
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
-            lpb.LblTitle = this.ToString();
+            lpb.LblTitle = "Upload EJ Data";
             lpb.Maximum = typeRecs.Count + 1;
 
             foreach (typeRec r in typeRecs)
