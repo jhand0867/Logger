@@ -95,10 +95,10 @@ namespace Logger
 
         public virtual void ValidateState(StateData stateData)
         {
-            string stateTypes = @"ABCDEFGHIJK_LMNRSTUVWXYZbdefgkm>wz&+,-./?;";
+            string stateTypes = @"ABCDEFGHIJK_LMNORSTUVWXYZbdefgkm>wz&+,-./?;";
             if (!(stateTypes.Contains(stateData.StateType)))
             {
-                log.Info("Not a valid state type");
+                log.Info("Not a valid state type " + stateData.StateType);
             }
         }
 

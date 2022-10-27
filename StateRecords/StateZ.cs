@@ -202,6 +202,47 @@ namespace Logger
                     }
                 }
 
+                if (state.StateType == "R")
+                {
+                    if (state.Val8 == st.StateNumber)
+                    {
+                        // this is the extension
+                        stateFound = state.StateNumber + "R1";
+                        break;
+                    }
+                }
+
+                if (state.StateType == "S")
+                {
+                    if (state.Val8 == st.StateNumber)
+                    {
+                        // this is the extension
+                        stateFound = state.StateNumber + "S1";
+                        break;
+                    }
+                }
+
+                if (state.StateType == "m")
+                {
+                    if (state.Val4 == st.StateNumber)
+                    {
+                        // this is the extension
+                        stateFound = state.StateNumber + "m1";
+                        break;
+                    }
+                    if (state.Val5 == st.StateNumber)
+                    {
+                        // this is the extension
+                        stateFound = state.StateNumber + "m2";
+                        break;
+                    }
+                    if (state.Val8 == st.StateNumber)
+                    {
+                        // this is the extension
+                        stateFound = state.StateNumber + "m3";
+                        break;
+                    }
+                }
 
                 continue;
 

@@ -265,7 +265,7 @@ namespace Logger
                     /// We need to cover for the additional fields provided for recycling
                     /// 04 001003 002010 003001 004002
 
-                    string optionCode = getEnhancedParmOption(key, logID, "76");
+                    string optionCode = getEnhancedParmOption(logID, "76");
 
                     int offset = 6;
 
@@ -301,7 +301,7 @@ namespace Logger
 
                     offset = offset + 5;
 
-                    optionCode = getEnhancedParmOption(key, logID, "79");
+                    optionCode = getEnhancedParmOption(logID, "79");
 
                     if (optionCode == "000")
                     {
@@ -446,12 +446,11 @@ namespace Logger
 
                 if (tmpTypes.Length > i && tmpTypes[i].Substring(0, 1) == "w")
                 {
-                    sql = @"SELECT [optionNum] FROM [enhancedParams] " +
-                                    "WHERE [optionCode] ='45'";
                     /**
+                     * * jmh to update comment below is misleading
                      * if 45 is 000, 2 digit, if it is 001, 3 digit 
                      * **/
-                    Dictionary<string, string> resultData = readData(sql);
+                    string optionCode = getEnhancedParmOption(logID, "45");
 
                     treq.DeviceIdw = tmpTypes[i].Substring(0, 1);
 
@@ -460,10 +459,7 @@ namespace Logger
                     string optionNum = "00000000";
                     int digitPad = 2;
 
-                    foreach (string item in resultData.Values)
-                    {
-                        optionNum = u.dec2bin(item, 8);
-                    }
+                    optionNum = u.dec2bin(optionCode, 8);
 
                     if (optionNum.Substring(1, 1) == "1")
                     {
@@ -941,10 +937,10 @@ namespace Logger
             return checks;
         }
 
-        private string getEnhancedParmOption(string logKey, string logID, string optionNum)
+        private string getEnhancedParmOption(string logID, string optionNum)
         { 
             EnhancedParamsRec enhancedParamsRec = new EnhancedParamsRec();
-            return enhancedParamsRec.getOptionNum(logKey, logID, optionNum);
+            return enhancedParamsRec.getOptionNum(logID, optionNum);
         }
 
     }

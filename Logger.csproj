@@ -97,8 +97,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StateRecords\State64.cs" />
+    <Compile Include="StateRecords\State65.cs" />
+    <Compile Include="StateRecords\State66.cs" />
+    <Compile Include="StateRecords\State67.cs" />
+    <Compile Include="StateRecords\State6D.cs" />
+    <Compile Include="StateRecords\State7A.cs" />
+    <Compile Include="StateRecords\StateO.cs" />
+    <Compile Include="StateRecords\StateR.cs" />
+    <Compile Include="StateRecords\StateS.cs" />
+    <Compile Include="StateRecords\StateL.cs" />
     <Compile Include="StateRecords\StateV.cs" />
-    <Compile Include="StateRecords\State98.cs" />
+    <Compile Include="StateRecords\State62.cs" />
     <Compile Include="VoiceGuidance.cs" />
     <Compile Include="DbCrud.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData5.cs" />

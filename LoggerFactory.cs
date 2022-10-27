@@ -91,12 +91,27 @@ namespace Logger
             stateTypeDic.Add("_", () => new State5F());
             stateTypeDic.Add("k", () => new State6B());
             stateTypeDic.Add("w", () => new State77());
-            stateTypeDic.Add("b", () => new State98());
+            stateTypeDic.Add("b", () => new State62());
 
-            // MLH 09/22 
-            // not in stateTypeDic "LMNORSVbdefgmzz"
-            // not in StateData stateTypes = @"+,./;?_"
-            // string stateTypes = @"ABCDEFGHIJK_LMNRSTUVWXYZbdefgkm>wz&+,-./?;";
+            stateTypeDic.Add("M", () => new StateM());
+            stateTypeDic.Add("N", () => new StateN());
+            stateTypeDic.Add("V", () => new StateV());
+
+            stateTypeDic.Add("L", () => new StateL());
+            stateTypeDic.Add("R", () => new StateR());
+            stateTypeDic.Add("S", () => new StateS());
+
+            // class O  not found in the manual
+            stateTypeDic.Add("O", () => new StateO());
+            stateTypeDic.Add("d", () => new State64());
+            stateTypeDic.Add("e", () => new State65());
+            stateTypeDic.Add("f", () => new State66());
+            stateTypeDic.Add("g", () => new State67());
+
+            stateTypeDic.Add("m", () => new State6D());
+
+            //see manual for explanation on this state(s)
+            stateTypeDic.Add("z", () => new State7A());
 
             try
             {

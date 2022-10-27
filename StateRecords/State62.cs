@@ -2,7 +2,7 @@
 
 namespace Logger
 {
-    class State98 : StateData
+    class State62 : StateData
     {
         public override void ValidateState(StateData stateData)
         {

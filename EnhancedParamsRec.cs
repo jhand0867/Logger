@@ -217,13 +217,12 @@ namespace Logger
 
         }
 
-        public string getOptionNum(string logKey, string logID, string optionNum)
+        public string getOptionNum(string logID, string optionNum)
         {
             List<DataTable> dts = new List<DataTable>();
             DbCrud db = new DbCrud();
 
-            string sql = @"SELECT optionCode from enhancedParams WHERE logID = '" + logID +
-                                                        "' AND logkey LIKE '" + logKey + "%'" +
+            string sql = @"SELECT optionCode from enhancedParams WHERE logID = " + logID +
                                                         " AND optionNum = '" + optionNum + "'";
             string optionCode = db.GetScalarStrFromDb(sql);
 

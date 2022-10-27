@@ -108,7 +108,7 @@ namespace Logger
             if (tableFromDb.Rows.Count > 0)
             {
                 foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)
-                    dictionary.Add(row[1].ToString() + Convert.ToInt64(row[0]).ToString(), row[0].ToString());
+                    dictionary.Add(row[0].ToString() + Convert.ToInt64(row[0]).ToString(), row[0].ToString());
             }
             return dictionary;
         }
