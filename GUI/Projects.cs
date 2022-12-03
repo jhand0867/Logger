@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -34,12 +35,19 @@ namespace Logger
             //MessageBox.Show(listView1.SelectedItems[0].SubItems[0].Text);
         }
 
-        internal void Projects_Load(object sender, EventArgs e)
+        internal async void Projects_Load(object sender, EventArgs e)
         {
             new App().MenuPermissions(App.Prj.Permissions, this.menuStrip1.Items, menusTypes.ProjectOptions);
 
             Projects.log.Debug((object)"Loading projects info");
-            this.loadInfo();
+            
+            
+            bool result = await loadInfoAsync();
+            //loadInfo();
+
+            //MessageBox.Show(timr.Interval.ToString());
+            
+            
         }
 
         internal void loadInfo()
@@ -94,6 +102,62 @@ namespace Logger
                 editToolStripMenuItem.Enabled = false;
                 deleteToolStripMenuItem.Enabled = false;
             }
+        }
+
+        internal async Task<bool> loadInfoAsync()
+        {
+            listView1.View = View.Details;
+            listView1.Name = "ProjectsList";
+            listView1.Columns.Add("Project Name", 120, HorizontalAlignment.Center);
+            listView1.Columns.Add("Project Description", 240, HorizontalAlignment.Center);
+            listView1.Columns.Add("Logs", 40, HorizontalAlignment.Center);
+            listView1.SmallImageList = imageList1;
+
+            listView1.LargeImageList = imageList1;
+            hamburguerMenu.ForeColor = Color.White;
+            hamburguerMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
+            //hamburguerMenu.Text = char.ConvertFromUtf32('\u2630'); // "☰";
+
+            Projects prForm = new Projects();
+            prForm.BringToFront();
+
+            DataTable dt = await App.Prj.getAllProjectsAsync();
+
+            log.Debug("Retrieving projects info");
+            listView1.Items.Clear();
+
+            foreach (DataRow projectData in dt.Rows)
+            {
+
+                var lvi = new ListViewItem(new string[] { projectData["prjName"].ToString(),
+                                                          projectData["prjBrief"].ToString(),
+                                                          projectData["prjLogs"].ToString().Trim() });
+                lvi.Tag = projectData["prjKey"].ToString();
+                lvi.ImageIndex = 0;
+                listView1.Items.Add(lvi);
+                listView1.Items[0].Selected = true;
+                for (int i = 0; i < listView1.Columns.Count; i++)
+                {
+                    listView1.Columns[i].Width = 200;
+                }
+
+                listView1.Refresh();
+
+
+            }
+
+            treeView1.Nodes.Clear();
+
+            if (dt.Rows.Count > 0)
+                listView1_Load(listView1.Items[0]);
+            else
+            {
+                editToolStripMenuItem.Enabled = false;
+                deleteToolStripMenuItem.Enabled = false;
+            }
+            return true;
+
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)

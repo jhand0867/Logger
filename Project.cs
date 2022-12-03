@@ -7,7 +7,7 @@ using System.Data;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
-
+using System.Threading.Tasks;
 
 namespace Logger
 {
@@ -304,6 +304,15 @@ namespace Logger
             return projectById;
         }
 
+        public async Task<DataTable> getAllProjectsAsync()
+        {
+            DataTable dataTable = new DataTable();
+            DbCrud dbCrud = new DbCrud();
+            dataTable = await dbCrud.GetTableFromDbAsync("SELECT * FROM project");
+            return dataTable;
+
+        }
+
         public DataTable getAllProjects()
         {
             DataTable dataTable = new DataTable();
@@ -584,9 +593,20 @@ namespace Logger
                 ;
         }
 
+        public async Task<DataTable> getGroupOptionsAsync(string logID, string fieldName)
+        {
+            DataTable dataTable = new DataTable();
+            DbCrud crud = new DbCrud();
+
+            dataTable = await crud.GetTableFromDbAsync("SELECT DISTINCT " + fieldName + " FROM loginfo WHERE logID =" + logID + " ORDER BY " + fieldName + " ASC");
+            return dataTable;
+        }
+
+
         public DataTable getGroupOptions(string logID, string fieldName)
         {
             DataTable dataTable = new DataTable();
+            // return dataTable;
             return new DbCrud().GetTableFromDb("SELECT DISTINCT " + fieldName + " FROM loginfo WHERE logID =" + logID + " ORDER BY " + fieldName + " ASC");
         }
 
@@ -682,6 +702,31 @@ namespace Logger
         {
             DataTable dataTable = new DataTable();
             DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp',\r\n                                                              [group2] as 'Log Level',[group3] as 'File Name',\r\n                                                              [group4] as 'Class',[group5] as 'Method',\r\n                                                              [group6] as 'Type',\r\n                                                              [group7] as 'Log',\r\n                                                              [group8] as 'Log Data',[group9],\r\n                                                              [prjKey],[logID] FROM [loginfo] \r\n                                                              WHERE logID =" + logID + " order by id asc");
+            if (tableFromDb != null)
+            {
+                foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)
+                    row[9] = (object)WebUtility.HtmlDecode(row[9].ToString());
+            }
+            return tableFromDb;
+        }
+
+        public DataTable getALogByID1000(string logID)
+        {
+            DataTable dataTable = new DataTable();
+            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp',\r\n                                                              [group2] as 'Log Level',[group3] as 'File Name',\r\n                                                              [group4] as 'Class',[group5] as 'Method',\r\n                                                              [group6] as 'Type',\r\n                                                              [group7] as 'Log',\r\n                                                              [group8] as 'Log Data',[group9],\r\n                                                              [prjKey],[logID] FROM [loginfo] \r\n                                                              WHERE logID =" + logID + " order by id asc limit 1000");
+            if (tableFromDb != null)
+            {
+                foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)
+                    row[9] = (object)WebUtility.HtmlDecode(row[9].ToString());
+            }
+            return tableFromDb;
+        }
+        public async Task<DataTable> getALogByIDAsync(string logID)
+        {
+         
+            DbCrud dbCrud = new DbCrud();
+
+            DataTable tableFromDb = await dbCrud.GetTableFromDbAsync("SELECT [id],[logkey],[group1] as 'Timestamp',\r\n                                                              [group2] as 'Log Level',[group3] as 'File Name',\r\n                                                              [group4] as 'Class',[group5] as 'Method',\r\n                                                              [group6] as 'Type',\r\n                                                              [group7] as 'Log',\r\n                                                              [group8] as 'Log Data',[group9],\r\n                                                              [prjKey],[logID] FROM [loginfo] \r\n                                                              WHERE logID =" + logID + " order by id asc");
             if (tableFromDb != null)
             {
                 foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)

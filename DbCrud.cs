@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Data.Odbc;
+using System.Threading.Tasks;
 //using System.Data.SqlClient;
 //using Devart.Data.SQLite;
 
@@ -51,6 +52,40 @@ namespace Logger
 
         }
 
+        public async Task<DataTable> GetTableFromDbAsync(string sql)
+        {
+            log.Info($"Read From Database: {sql}  ");
+
+            string connectionString;
+            OdbcConnection cnn;
+
+            connectionString = ConfigurationManager.ConnectionStrings["LoggerSQLite"].ConnectionString;
+            cnn = new OdbcConnection(connectionString);
+            DataTable dt = new DataTable();
+
+            try
+            {
+                cnn.Open();
+                OdbcDataAdapter sda = new OdbcDataAdapter(sql, cnn);
+                await Task.Run(() => sda.Fill(dt));
+                cnn.Close();
+            }
+            catch (Exception dbEx)
+            {
+                if (cnn.State == ConnectionState.Open)
+                {
+                    cnn.Close();
+                }
+                log.Error("Database Error: " + dbEx.ToString());
+                return null;
+            }
+
+            return dt;
+
+        }
+
+
+
         public DataTable GetTableFromDb(string sql)
         {
             log.Info($"Read From Database: {sql}  ");
@@ -82,6 +117,8 @@ namespace Logger
             return dt;
 
         }
+
+
 
         public int GetScalarIntFromDb(string sql)
         {
