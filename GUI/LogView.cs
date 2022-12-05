@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Linq;
-
-
+using System.Text.RegularExpressions;
 
 namespace Logger
 {
@@ -47,13 +46,11 @@ namespace Logger
             InitializeComponent();
             this.FormClosing += LogView_FormClosing;
             dgvLog.DefaultCellStyle.Font = new Font(FontFamily.GenericSansSerif, 9);
-            //dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             mainMenu.Font = new Font("Arial", 10);
             fileToolStripMenuItem.Font = new Font("Arial", 10);
             viewToolStripMenuItem.Font = new Font("Arial", 10);
             searchToolStripMenuItem.Font = new Font("Arial", 10);
             contextMenuStrip1.Font = new Font("Arial", 10);
-            //cbQueryName.Font = new Font("Arial", 10);
         }
 
         private void LogView_FormClosing(object sender, FormClosingEventArgs e)
@@ -63,24 +60,11 @@ namespace Logger
             GC.Collect();
         }
 
-        [DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        private const int WM_SETREDRAW = 0x000B;
-
-        public static void SuspendRedraw(Control target)
-        {
-            SendMessage(target.Handle, WM_SETREDRAW, 0, 0);
-        }
-        public static void RestoreRedraw(Control target)
-        {
-            SendMessage(target.Handle, WM_SETREDRAW, 1, 0);
-        }
-
-
         private async void LogView_Load(object sender, EventArgs e)
         {
-           dgvLog.Visible = false;
-            //SuspendRedraw(dgvLog);
+            dgvLog.Visible = false;
+            bool tagFlag = false;
+            DataTable dt = new DataTable();
 
             App app = new App();
 
@@ -95,6 +79,7 @@ namespace Logger
                 // Tag is populated with the logID;MessageClass
                 // MessageClass must match a SearchCondition table record.
 
+
                 if (Tag != null)
                 {
                     string[] tagSplit = Tag.ToString().Split(';');
@@ -108,6 +93,7 @@ namespace Logger
                     else
                     {
                         sql = searchConditionBuilt(tagSplit[1]);
+                        tagFlag = true;
                         dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sql.SqlLike, sql.RegExpStr);
                     }
                 }
@@ -115,8 +101,6 @@ namespace Logger
                 {
                     dgvLog.DataSource = App.Prj.getALogByID1000(ProjectData.logID);
                 }
-
-                //RestoreRedraw(dgvLog);
 
                 writeGeneralInfo(ProjectData.logID);
 
@@ -134,7 +118,6 @@ namespace Logger
             if (dgvLog.Rows.Count == 0)
                 this.Close();
 
-            //dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             if (dgvLog.ColumnCount > 0)
             {
                 dgvLog.Columns["Timestamp"].Width = TIMESTAMP_COLUMN_WIDTH;
@@ -169,102 +152,13 @@ namespace Logger
             }
 
             Task<DataTable> dtTask = App.Prj.getALogByIDAsync(ProjectData.logID);
-            DataTable dt = await dtTask;
-            dgvLog.DataSource = dt;
+            dt = await dtTask;
 
+            if (!tagFlag)
+                dgvLog.DataSource = dt;
+            
             dtCopy = dt.Copy();
-
-           //dgvLog.ClearSelection();
-
         }
-
-        //private void LogView_Load(object sender, EventArgs e)
-        //{
-        //    App app = new App();
-        //    app.MenuPermissions(App.Prj.Permissions, this.viewToolStripMenuItem.DropDownItems, menusTypes.LogViewLogs);
-        //    app.MenuPermissions(App.Prj.Permissions, this.fileToolStripMenuItem.DropDownItems, menusTypes.LogViewFiles);
-        //    app.MenuPermissions(App.Prj.Permissions, this.searchToolStripMenuItem.DropDownItems, menusTypes.LogViewFilter);
-        //    try
-        //    {
-        //        //dgvLog.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-        //        //dgvLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-
-        //        // Tag is populated with the logID;MessageClass
-        //        // MessageClass must match a SearchCondition table record.
-
-        //        if (Tag != null)
-        //        {
-        //            string[] tagSplit = Tag.ToString().Split(';');
-        //            ProjectData.logID = tagSplit[0];
-        //            scSqlLikeAndRegExp sql = new scSqlLikeAndRegExp();
-
-        //            if (Tag.ToString().IndexOf("log") != -1)
-        //            {
-        //                dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
-        //            }
-        //            else
-        //            {
-        //                sql = searchConditionBuilt(tagSplit[1]);
-        //                dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sql.SqlLike, sql.RegExpStr);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
-        //        }
-
-        //        // JMH check how and what is GeneralInfo
-        //        writeGeneralInfo(ProjectData.logID);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //    if (dgvLog.DataSource == null)
-        //    {
-        //        MessageBox.Show("unable to access database, please retry");
-        //        return;
-        //    }
-
-        //    if (dgvLog.Rows.Count == 0)
-        //        this.Close();
-
-        //    //dgvLog.Columns["Timestamp"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-        //    if (dgvLog.ColumnCount > 0)
-        //    {
-        //        dgvLog.Columns["Timestamp"].Width = TIMESTAMP_COLUMN_WIDTH;
-        //    }
-        //    else
-        //    {
-        //        this.Hide();
-        //        this.Close();
-        //        return;
-        //    }
-
-        //    //await AddHeadersAsync(dgvLog);
-        //    AddHeaders(dgvLog);
-
-        //    dgvLog.Dock = DockStyle.Fill;
-        //    dgvLog.ColumnHeadersVisible = true;
-        //    dgvLog.Columns["id"].Visible = false;
-        //    dgvLog.Columns["logKey"].Visible = false;
-        //    //  dgvLog.Columns["Log"].Visible = false;
-        //    dgvLog.Columns["group9"].Visible = false;
-        //    dgvLog.Columns["LogID"].Visible = false;
-        //    dgvLog.Columns["prjKey"].Visible = false;
-        //    dgvLog.Columns["Log Data"].Width = 620;
-        //    dgvLog.RowsDefaultCellStyle.BackColor = Color.Honeydew;
-        //    dgvLog.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
-        //    dgvLog.AlternatingRowsDefaultCellStyle.Font = new Font(Font.FontFamily, 9);
-
-        //    using (Font font = new Font(
-        //        dgvLog.DefaultCellStyle.Font.FontFamily, 9, FontStyle.Regular))
-        //    {
-        //        dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
-        //    }
-        //    //  dgvLog.ClearSelection();
-        //}
 
         private void writeGeneralInfo(string logID)
         {
@@ -296,55 +190,6 @@ namespace Logger
             }
 
             // Insert record with new id
-
-            //dt = pr.getALogByID(logID);
-            //string prjKey = dt.Rows[0]["prjKey"].ToString();
-            string logName = pr.getLogName(logID);
-            string projectName = pr.getProjectNameByProjectKey(dgvLog.Rows[0].Cells["prjKey"].Value.ToString());
-
-            sql = $@"INSERT INTO generalInfo (logID, logName)
-                        VALUES ( '{logID}','Project: {projectName} File: {logName.Substring(logName.LastIndexOf("\\") + 1, logName.Length - (logName.LastIndexOf("\\") + 1))}')";
-
-            db.crudToDb(sql);
-
-            this.Text = "LogView." + projectName + ": " +
-                        logName.Substring(logName.LastIndexOf("\\") + 1, logName.Length - (logName.LastIndexOf("\\") + 1));
-
-        }
-
-        private  async Task writeGeneralInfoAsync(string logID)
-        {
-            Project pr = new Project();
-
-            // write generalInfo record with prname and logid
-
-            DbCrud db = new DbCrud();
-            DataTable dt = new DataTable();
-
-            // Remove record if exists
-            string sql = "SELECT COUNT(1) FROM generalInfo WHERE logID =" + logID;
-            if (db.GetScalarIntFromDb(sql) > 0)
-            {
-                sql = "DELETE FROM generalInfo where logID ='" + logID + "'";
-                db.crudToDb(sql);
-            }
-
-            // Remove oldest record if number of logs browsed >= 10
-
-            sql = "SELECT COUNT(1) FROM generalInfo";
-            if (db.GetScalarIntFromDb(sql) >= 3)
-            {
-                sql = "SELECT * FROM generalInfo limit 1";
-                dt = db.GetTableFromDb(sql);
-
-                sql = "DELETE FROM generalInfo where logID ='" + dt.Rows[0]["logID"].ToString() + "'";
-                db.crudToDb(sql);
-            }
-
-            // Insert record with new id
-
-            //dt = await pr.getALogByIDAsync(logID);
-            //string prjKey = dt.Rows[0]["prjKey"].ToString();
             string logName = pr.getLogName(logID);
             string projectName = pr.getProjectNameByProjectKey(dgvLog.Rows[0].Cells["prjKey"].Value.ToString());
 
@@ -371,7 +216,9 @@ namespace Logger
 
         private void reloadData()
         {
-            dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
+            // dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
+
+            dgvLog.DataSource = dtCopy;
 
             if (dgvLog.DataSource == null)
             {
@@ -459,8 +306,6 @@ namespace Logger
                 cmbColumHeader4_Click(sender, e, cmbColumHeader4, logID);
             };
 
-           // cmbColumHeader4.DataSource = dgvLog.Rows.Cast<DataGridViewRow>().Select(x => x.Cells["Method"].Value.ToString()).Distinct().ToList();
-
             cmbColumHeader4.DisplayMember = "group5";
             cmbColumHeader4.DropDownStyle = ComboBoxStyle.DropDownList;
             loc = dgvLog.GetCellDisplayRectangle(3, -1, true).Location;
@@ -472,13 +317,15 @@ namespace Logger
 
             // header group6
             cmbColumHeader5.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbColumHeader5.Items.Add("NORMAL");
-            cmbColumHeader5.Items.Add("RECV");
-            cmbColumHeader5.Items.Add("SEND");
 
             cmbColumHeader5.SelectionChangeCommitted += delegate (object sender, EventArgs e)
             {
                 cmbColumHeader5_SelectionChangeCommitted(sender, e, cmbColumHeader5, logID);
+            };
+
+            cmbColumHeader5.Click += delegate (object sender, EventArgs e)
+            {
+                cmbColumHeader5_Click(sender, e, cmbColumHeader5, logID);
             };
 
             loc = dgvLog.GetCellDisplayRectangle(4, -1, true).Location;
@@ -500,7 +347,6 @@ namespace Logger
                 cmbColumHeader7_Click(sender, e, cmbColumHeader7, logID);
             };
 
-            // cmbColumHeader7.DataSource = dgvLog.Rows.Cast<DataGridViewRow>().Select(x => x.Cells["Log"].Value.ToString()).Distinct().ToList();
             cmbColumHeader7.DisplayMember = "group7";
             cmbColumHeader7.DropDownStyle = ComboBoxStyle.DropDownList;
             loc = dgvLog.GetCellDisplayRectangle(5, -1, true).Location;
@@ -536,112 +382,6 @@ namespace Logger
             cmbColumHeader6.Visible = true;
         }
 
-        //private async Task AddHeadersAsync(DataGridView dataGridView)
-        //{
-        //    Point loc;
-        //    string logID = dgvLog.Rows[0].Cells["LogID"].Value.ToString();
-
-        //    // header group4
-
-        //    cmbColumHeader2.SelectionChangeCommitted += delegate (object sender, EventArgs e)
-        //    {
-        //        cmbColumHeader2_SelectionChangeCommitted(sender, e, cmbColumHeader2, logID);
-        //    };
-
-        //    cmbColumHeader2.Click += delegate (object sender, EventArgs e)
-        //    {
-        //        cmbColumHeader2_Click(sender, e, cmbColumHeader2, logID);
-        //    };
-
-        //    cmbColumHeader2.DataSource = await App.Prj.getGroupOptionsAsync(logID, "group4");
-        //    cmbColumHeader2.DisplayMember = "group4";
-        //    cmbColumHeader2.DropDownStyle = ComboBoxStyle.DropDownList;
-        //    loc = dgvLog.GetCellDisplayRectangle(2, -1, true).Location;
-        //    cmbColumHeader2.Location = new Point(loc.X + dgvLog.Columns[2].Width, 1);
-        //    cmbColumHeader2.Width = dgvLog.Columns[3].Width;
-        //    dgvLog.Controls.Clear();
-        //    dgvLog.Controls.Add(cmbColumHeader2);
-        //    cmbColumHeader2.ResetText();
-        //    cmbColumHeader2.SelectedIndex = -1;
-        //    cmbColumHeader2.Visible = true;
-
-        //    // header group5
-
-        //    cmbColumHeader4.SelectionChangeCommitted += delegate (object sender, EventArgs e)
-        //    {
-        //        cmbColumHeader4_SelectionChangeCommitted(sender, e, cmbColumHeader4, logID);
-        //    };
-        //    cmbColumHeader4.DataSource = await App.Prj.getGroupOptionsAsync(logID, "group5");
-        //    cmbColumHeader4.DisplayMember = "group5";
-        //    cmbColumHeader4.DropDownStyle = ComboBoxStyle.DropDownList;
-        //    loc = dgvLog.GetCellDisplayRectangle(3, -1, true).Location;
-        //    cmbColumHeader4.Location = new Point(loc.X + dgvLog.Columns[3].Width, 1);
-        //    cmbColumHeader4.Size = dgvLog.Columns[3].HeaderCell.Size;
-        //    dgvLog.Controls.Add(cmbColumHeader4);
-        //    cmbColumHeader4.SelectedIndex = -1;
-        //    cmbColumHeader4.Visible = true;
-
-        //    // header group6
-        //    cmbColumHeader5.DropDownStyle = ComboBoxStyle.DropDownList;
-        //    cmbColumHeader5.Items.Add("NORMAL");
-        //    cmbColumHeader5.Items.Add("RECV");
-        //    cmbColumHeader5.Items.Add("SEND");
-
-        //    cmbColumHeader5.SelectionChangeCommitted += delegate (object sender, EventArgs e)
-        //    {
-        //        cmbColumHeader5_SelectionChangeCommitted(sender, e, cmbColumHeader5, logID);
-        //    };
-
-        //    loc = dgvLog.GetCellDisplayRectangle(4, -1, true).Location;
-        //    cmbColumHeader5.Location = new Point(loc.X + dgvLog.Columns[4].Width, 1);
-        //    cmbColumHeader5.Size = dgvLog.Columns[4].HeaderCell.Size;
-        //    dgvLog.Controls.Add(cmbColumHeader5);
-        //    cmbColumHeader5.SelectedIndex = -1;
-        //    cmbColumHeader5.Visible = true;
-
-        //    // header group7 - Log
-
-        //    cmbColumHeader7.SelectionChangeCommitted += delegate (object sender, EventArgs e)
-        //    {
-        //        cmbColumHeader7_SelectionChangeCommitted(sender, e, cmbColumHeader7, logID);
-        //    };
-
-        //    cmbColumHeader7.DataSource = await App.Prj.getGroupOptionsAsync(logID, "group7");
-        //    cmbColumHeader7.DisplayMember = "group7";
-        //    cmbColumHeader7.DropDownStyle = ComboBoxStyle.DropDownList;
-        //    loc = dgvLog.GetCellDisplayRectangle(5, -1, true).Location;
-        //    cmbColumHeader7.Location = new Point(loc.X + dgvLog.Columns[5].Width, 1);
-        //    cmbColumHeader7.Size = dgvLog.Columns[5].HeaderCell.Size;
-        //    dgvLog.Controls.Add(cmbColumHeader7);
-        //    cmbColumHeader7.SelectedIndex = -1;
-        //    cmbColumHeader7.Visible = true;
-
-        //    // header Log Data
-
-        //    cmbColumHeader6.DropDownStyle = ComboBoxStyle.DropDownList;
-        //    cmbColumHeader6.Items.Add("ATM2HOST");
-        //    cmbColumHeader6.Items.Add("HOST2ATM");
-        //    cmbColumHeader6.Items.Add("Host Connected");
-        //    cmbColumHeader6.Items.Add("Host Disconnected");
-        //    cmbColumHeader6.Items.Add("CashDispenser");
-        //    cmbColumHeader6.Items.Add("State Created");
-
-        //    cmbColumHeader6.SelectionChangeCommitted += delegate (object sender, EventArgs e)
-        //    {
-        //        cmbColumHeader6_SelectionChangeCommitted(sender, e, cmbColumHeader6, logID);
-        //    };
-
-        //    // where to display the dropdown 
-        //    // Location, width, height
-        //    loc = dgvLog.GetCellDisplayRectangle(6, -1, true).Location;
-        //    cmbColumHeader6.Location = new Point(loc.X + dgvLog.Columns[6].Width, 1);
-        //    cmbColumHeader6.Width = 620;
-        //    cmbColumHeader6.Height = 21;
-        //    dgvLog.Controls.Add(cmbColumHeader6);
-        //    cmbColumHeader6.SelectedIndex = -1;
-        //    cmbColumHeader6.Visible = true;
-        //}
-
         private void cmbColumHeader2_Click(object sender, EventArgs e, ComboBox cmbColumHeader2, string logID)
         {
           cmbColumHeader2.DataSource = dtCopy.AsEnumerable().Select(x => x["Class"].ToString()).Distinct().ToList();
@@ -652,10 +392,8 @@ namespace Logger
 
         private void cmbColumHeader2_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
-            string sqlLike = "='" + c.Text + "'";
-            //this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group4", sqlLike);
             dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => s.Field<string>("Class") == c.Text).CopyToDataTable();
-            //
+
             cmbColumHeader4.SelectedIndex = -1;
             cmbColumHeader4.SelectedItem = null;
             cmbColumHeader5.SelectedIndex = -1;
@@ -670,8 +408,7 @@ namespace Logger
 
         private void cmbColumHeader4_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
-            string sqlLike = "='" + c.Text + "'";
-            this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group5", sqlLike);
+            dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => s.Field<string>("Method") == c.Text).CopyToDataTable();
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.SelectedItem = null;
             cmbColumHeader5.SelectedIndex = -1;
@@ -694,8 +431,7 @@ namespace Logger
 
         private void cmbColumHeader5_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
-            string sqlLike = " LIKE '%[[]" + c.Text + "%'";
-            this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group6", sqlLike);
+            dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => s.Field<string>("Type").Contains(c.Text)).CopyToDataTable();
 
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.SelectedItem = null;
@@ -709,10 +445,17 @@ namespace Logger
             this.dgvLog.Refresh();
         }
 
+        private void cmbColumHeader5_Click(object sender, EventArgs e, ComboBox cmbColumHeader5, string logID)
+        {
+            cmbColumHeader5.DataSource = dtCopy.AsEnumerable().Select(x => x["Type"].ToString()).Distinct().ToList();
+            cmbColumHeader5.SelectedIndex = -1;
+            cmbColumHeader5.SelectedItem = null;
+
+        }
+
         private void cmbColumHeader7_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
-            string sqlLike = "='" + c.Text + "'";
-            this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group7", sqlLike);
+            dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => s.Field<string>("Log") == c.Text).CopyToDataTable();
             cmbColumHeader2.SelectedIndex = -1;
             cmbColumHeader2.SelectedItem = null;
             cmbColumHeader4.SelectedIndex = -1;
@@ -736,23 +479,31 @@ namespace Logger
         private void cmbColumHeader6_SelectionChangeCommitted(object sender, System.EventArgs e, System.Windows.Forms.ComboBox c, string logID)
         {
 
-            //string sqlLike = " LIKE '%" + c.Text + "%'";
-            //this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", sqlLike);
-
             ComboBox cb = sender as ComboBox;
             string sqlLike;
 
             if (cb.SelectedIndex < 6)
             {
-                sqlLike = " LIKE '%" + c.Text + "%'";
-                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(logID, "group8", sqlLike);
+                try
+                {
+                    dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => s.Field<string>("Log Data").Contains(c.Text)).CopyToDataTable();
+
+                }
+                catch (Exception)
+                {
+                    dgvLog.DataSource = dtCopy.Copy().Clone();
+                    
+                }
+
+
+                
             }
             else
             {
-                // work in rogress - future feature
-                // doesn't work.
-                sqlLike = " LIKE '%" + c.Text.Substring(0, 8) + "%'";
-                this.dgvLog.DataSource = App.Prj.getALogByIDWithCriteria2(logID, "group8", sqlLike);
+             // work in progress - future feature
+             // doesn't work.
+             sqlLike = " LIKE '%" + c.Text.Substring(0, 8) + "%'";
+             dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => s.Field<string>("Log Data").Contains(c.Text.Substring(0,8))).CopyToDataTable();
             }
 
             doDgvColumns();
@@ -842,15 +593,11 @@ namespace Logger
             int rowIndex = dgvLog.SelectedCells[0].RowIndex;
             string key = dgvLog.Rows[rowIndex].Cells["logkey"].Value.ToString();
 
-            //dgvLog.DataSource = App.Prj.getALogByID(ProjectData.logID);
             dgvLog.DataSource = dtCopy;
-
-            // Console.WriteLine(row.Cells[1].Value.ToString());
 
             // search the key in the datagridview
             foreach (DataGridViewRow row in dgvLog.Rows)
             {
-
                 if (row.Cells[1].Value.ToString().Contains(key))
                 {
                     dgvLog.FirstDisplayedScrollingRowIndex = row.Index;
@@ -1080,6 +827,7 @@ namespace Logger
         private void cbQueryName_SelectedIndexChanged(object sender, EventArgs e)
         {
             scSqlLikeAndRegExp sql = new scSqlLikeAndRegExp();
+            
 
             sql = searchConditionBuilt(cbQueryName.Text);
 
@@ -1087,12 +835,27 @@ namespace Logger
             {
                 if (sql.RegExpStr != "")
                 {
-                    dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sql.SqlLike, sql.RegExpStr);
+                    Regex regex = new Regex(sql.RegExpStr);
+                    // dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sql.SqlLike, sql.RegExpStr);
+                    //DataTable dt = dtCopy.AsEnumerable().Where(s => s.Field<string>("Log Data").Contains(sqlFromRegExp)).CopyToDataTable();
+                    DataTable dt = new DataTable();
+                    try
+                    {
+                        dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => regex.IsMatch(s.Field<string>("Log Data"))).CopyToDataTable();
 
+                    }
+                    catch (Exception)
+                    {
+                        dgvLog.DataSource = dtCopy.Copy().Clone();
+
+                    }
                 }
                 else
                 {
+                    string sqlFromSqlike = sql.SqlLike.Substring(sql.SqlLike.IndexOf("'") + 1, sql.SqlLike.Length - sql.SqlLike.IndexOf("'") - 3);
                     dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sql.SqlLike);
+                    //dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => s.Field<string>("Log Data").Contains(sqlFromSqlike)).CopyToDataTable();
+
                 }
                 dgvLog.ClearSelection();
                 dgvLog.Refresh();
