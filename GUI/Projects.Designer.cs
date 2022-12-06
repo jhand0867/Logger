@@ -71,6 +71,8 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView1_ItemSelectionChanged);
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.listView1.Click += new System.EventHandler(this.listView1_Click);
+            this.listView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
             this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
             this.listView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDown);
             // 
@@ -149,7 +151,7 @@
             // 
             this.newToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(45, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(44, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -157,7 +159,7 @@
             // 
             this.editToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(43, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
@@ -166,7 +168,7 @@
             this.deleteToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Padding = new System.Windows.Forms.Padding(0);
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(49, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(48, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 

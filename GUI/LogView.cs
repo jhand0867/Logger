@@ -836,9 +836,7 @@ namespace Logger
                 if (sql.RegExpStr != "")
                 {
                     Regex regex = new Regex(sql.RegExpStr);
-                    // dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sql.SqlLike, sql.RegExpStr);
-                    //DataTable dt = dtCopy.AsEnumerable().Where(s => s.Field<string>("Log Data").Contains(sqlFromRegExp)).CopyToDataTable();
-                    DataTable dt = new DataTable();
+                     DataTable dt = new DataTable();
                     try
                     {
                         dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => regex.IsMatch(s.Field<string>("Log Data"))).CopyToDataTable();
@@ -847,16 +845,13 @@ namespace Logger
                     catch (Exception)
                     {
                         dgvLog.DataSource = dtCopy.Copy().Clone();
-
                     }
                 }
                 else
                 {
-                    string sqlFromSqlike = sql.SqlLike.Substring(sql.SqlLike.IndexOf("'") + 1, sql.SqlLike.Length - sql.SqlLike.IndexOf("'") - 3);
+                    //string sqlFromSqlike = sql.SqlLike.Substring(sql.SqlLike.IndexOf("'") + 1, sql.SqlLike.Length - sql.SqlLike.IndexOf("'") - 3);
                     dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sql.SqlLike);
-                    //dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => s.Field<string>("Log Data").Contains(sqlFromSqlike)).CopyToDataTable();
-
-                }
+                 }
                 dgvLog.ClearSelection();
                 dgvLog.Refresh();
             }

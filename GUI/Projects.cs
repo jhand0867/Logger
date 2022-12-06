@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -193,8 +194,9 @@ namespace Logger
 
                 ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
                 item = items[0];
-                //Project prj = App.Prj.getProjectByID(item.Tag.ToString());
-                App.Prj = App.Prj.getProjectByID(item.Tag.ToString());
+                Project prj = new Project(); // App.Prj.getProjectByID(item.Tag.ToString());
+                //App.Prj = App.Prj.getProjectByID(item.Tag.ToString());
+                prj = App.Prj.getProjectByID(item.Tag.ToString());
                 ProjectData prjData = new ProjectData();
                 prjData.ReloadDataView += new RefreshData(RefresDataListView);
                 prjData.BringToFront();
@@ -205,27 +207,34 @@ namespace Logger
 
         internal void RefresDataListView()
         {
-            loadInfo();
+            // loadInfo();
         }
 
         private void listView1_MouseDown(object sender, MouseEventArgs e)
         {
             bool match = false;
 
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
-            {
-                treeView1.Nodes.Clear();
+            Console.WriteLine(e.Clicks.ToString());
+            
+            //if (e.Button == System.Windows.Forms.MouseButtons.Left && e.Clicks == 1)
+            //{
+            //    //if (listView1.SelectedItems.Count == 1 && treeView1.Nodes.Count == 0)
+            //        treeView1.Nodes.Clear();
 
-                foreach (ListViewItem item in listView1.Items)
-                {
-                    if (item.Bounds.Contains(new Point(e.X, e.Y)))
-                    {
-                        listView1_Load(item);
-                    }
-                    match = true;
-                    continue;
-                }
-            }
+
+            //    foreach (ListViewItem item in listView1.Items)
+            //    {
+            //        if (item.Bounds.Contains(new Point(e.X, e.Y)))
+            //        {
+            //            listView1_Load(item);
+            //        }
+            //        match = true;
+            //        continue;
+            //    }
+
+            //}
+
+            
 
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
@@ -546,6 +555,29 @@ namespace Logger
         private void listView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             App.Prj.Key = App.Prj.getProjectIDByName(e.Item.Text);
+            
+        }
+
+        private void listView1_Click(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void listView1_MouseClick(object sender, MouseEventArgs e)
+        {
+
+                treeView1.Nodes.Clear();
+
+                foreach (ListViewItem item in listView1.Items)
+                {
+                    if (item.Bounds.Contains(new Point(e.X, e.Y)))
+                    {
+                        listView1_Load(item);
+                    }
+                    continue;
+                }
+
         }
     }
 }
