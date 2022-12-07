@@ -84,6 +84,7 @@ namespace Logger
                 lvi.ImageIndex = 0;
                 listView1.Items.Add(lvi);
                 listView1.Items[0].Selected = true;
+                selectedProject = listView1.SelectedItems[0].Text;
                 for (int i = 0; i < listView1.Columns.Count; i++)
                 {
                     listView1.Columns[i].Width = 200;
@@ -134,10 +135,13 @@ namespace Logger
                 var lvi = new ListViewItem(new string[] { projectData["prjName"].ToString(),
                                                           projectData["prjBrief"].ToString(),
                                                           projectData["prjLogs"].ToString().Trim() });
+                
                 lvi.Tag = projectData["prjKey"].ToString();
                 lvi.ImageIndex = 0;
+                
                 listView1.Items.Add(lvi);
                 listView1.Items[0].Selected = true;
+                selectedProject = listView1.SelectedItems[0].Text;
                 for (int i = 0; i < listView1.Columns.Count; i++)
                 {
                     listView1.Columns[i].Width = 200;
@@ -185,7 +189,8 @@ namespace Logger
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-
+          if (e.Clicks == 2)
+            { 
             log.Debug("Listing attched logs " + listView1.SelectedItems.Count.ToString());
             ListViewItem item = new ListViewItem();
             if (listView1.SelectedItems.Count == 1)
@@ -194,14 +199,14 @@ namespace Logger
 
                 ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
                 item = items[0];
-                Project prj = new Project(); // App.Prj.getProjectByID(item.Tag.ToString());
-                //App.Prj = App.Prj.getProjectByID(item.Tag.ToString());
+                Project prj = new Project(); 
                 prj = App.Prj.getProjectByID(item.Tag.ToString());
                 ProjectData prjData = new ProjectData();
                 prjData.ReloadDataView += new RefreshData(RefresDataListView);
                 prjData.BringToFront();
                 prjData.ShowDialog();
             }
+          }
 
         }
 
@@ -213,28 +218,6 @@ namespace Logger
         private void listView1_MouseDown(object sender, MouseEventArgs e)
         {
             bool match = false;
-
-            Console.WriteLine(e.Clicks.ToString());
-            
-            //if (e.Button == System.Windows.Forms.MouseButtons.Left && e.Clicks == 1)
-            //{
-            //    //if (listView1.SelectedItems.Count == 1 && treeView1.Nodes.Count == 0)
-            //        treeView1.Nodes.Clear();
-
-
-            //    foreach (ListViewItem item in listView1.Items)
-            //    {
-            //        if (item.Bounds.Contains(new Point(e.X, e.Y)))
-            //        {
-            //            listView1_Load(item);
-            //        }
-            //        match = true;
-            //        continue;
-            //    }
-
-            //}
-
-            
 
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
@@ -564,11 +547,28 @@ namespace Logger
 
         }
 
+        private string selectedProject = "";
+
         private void listView1_MouseClick(object sender, MouseEventArgs e)
         {
+           
+            if ((e.Clicks == 1) &&
+               (e.Button != System.Windows.Forms.MouseButtons.Right))
+               {
+                if (selectedProject == String.Empty)
+                    selectedProject = listView1.SelectedItems[0].Text;
 
-                treeView1.Nodes.Clear();
-
+                if (selectedProject != null)
+                {
+                    if (selectedProject == listView1.SelectedItems[0].Text)
+                        return;
+                    else
+                    {
+                        selectedProject = listView1.SelectedItems[0].Text;
+                        treeView1.Nodes.Clear();
+                    }
+                }
+                
                 foreach (ListViewItem item in listView1.Items)
                 {
                     if (item.Bounds.Contains(new Point(e.X, e.Y)))
@@ -577,6 +577,7 @@ namespace Logger
                     }
                     continue;
                 }
+            }
 
         }
     }
