@@ -83,18 +83,15 @@ namespace Logger
                 lvi.Tag = projectData["prjKey"].ToString();
                 lvi.ImageIndex = 0;
                 listView1.Items.Add(lvi);
-                listView1.Items[0].Selected = true;
-                selectedProject = listView1.SelectedItems[0].Text;
+                
                 for (int i = 0; i < listView1.Columns.Count; i++)
                 {
                     listView1.Columns[i].Width = 200;
                 }
-
                 listView1.Refresh();
-
-
             }
-
+            listView1.Items[0].Selected = true;
+            selectedProject = listView1.SelectedItems[0].Text;
             treeView1.Nodes.Clear();
 
             if (dt.Rows.Count > 0)
@@ -123,8 +120,8 @@ namespace Logger
 
             Projects prForm = new Projects();
             prForm.BringToFront();
-
-            DataTable dt = await App.Prj.getAllProjectsAsync();
+            Task<DataTable> dtTask = App.Prj.getAllProjectsAsync();
+            DataTable dt = await dtTask;
 
             log.Debug("Retrieving projects info");
             listView1.Items.Clear();
@@ -140,17 +137,16 @@ namespace Logger
                 lvi.ImageIndex = 0;
                 
                 listView1.Items.Add(lvi);
-                listView1.Items[0].Selected = true;
-                selectedProject = listView1.SelectedItems[0].Text;
+                
                 for (int i = 0; i < listView1.Columns.Count; i++)
                 {
                     listView1.Columns[i].Width = 200;
                 }
-
                 listView1.Refresh();
-
-
             }
+            //if (!listView1.Items[0].Selected)
+            //listView1.Items[0].Selected = true;
+            //selectedProject = listView1.SelectedItems[0].Text;
 
             treeView1.Nodes.Clear();
 
@@ -555,19 +551,12 @@ namespace Logger
             if ((e.Clicks == 1) &&
                (e.Button != System.Windows.Forms.MouseButtons.Right))
                {
-                if (selectedProject == String.Empty)
-                    selectedProject = listView1.SelectedItems[0].Text;
-
-                if (selectedProject != null)
+                if (selectedProject == String.Empty || selectedProject != listView1.SelectedItems[0].Text)
                 {
-                    if (selectedProject == listView1.SelectedItems[0].Text)
-                        return;
-                    else
-                    {
-                        selectedProject = listView1.SelectedItems[0].Text;
-                        treeView1.Nodes.Clear();
-                    }
+                    selectedProject = listView1.SelectedItems[0].Text;
+                    treeView1.Nodes.Clear();
                 }
+                else return;
                 
                 foreach (ListViewItem item in listView1.Items)
                 {
@@ -579,6 +568,65 @@ namespace Logger
                 }
             }
 
+        }
+
+        private void listView1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void listView1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == 38 && selectedProject == String.Empty)
+            {
+                return;
+            }
+            int currIndex = listView1.SelectedIndices[0]; 
+            selectedProject = listView1.SelectedItems[0].Text;
+
+            if (e.KeyValue == 38 || e.KeyValue == 40)
+            {
+                treeView1.Nodes.Clear();
+
+                foreach (ListViewItem item in listView1.Items)
+                {
+                    if (item.Index == currIndex)
+                    {
+                        listView1_Load(item);
+                    }
+                    continue;
+                }
+            }
+
+
+            //if (e.KeyValue == 38 || e.KeyValue == 40)
+            //{
+
+            //    if (selectedProject == String.Empty)
+            //        selectedProject = listView1.SelectedItems[0].Text;
+
+            //    if (selectedProject != null)
+            //    {
+            //        if (selectedProject == listView1.SelectedItems[0].Text)
+            //            return;
+            //        else
+            //        {
+            //            selectedProject = listView1.SelectedItems[0].Text;
+            //            treeView1.Nodes.Clear();
+            //        }
+            //    }
+
+            //    treeView1.Nodes.Clear();
+
+            //    foreach (ListViewItem item in listView1.Items)
+            //    {
+            //        if (item.Bounds.Contains(new Point(e.X, e.Y)))
+            //        {
+            //            listView1_Load(item);
+            //        }
+            //        continue;
+            //    }
+            //}
         }
     }
 }
