@@ -9,13 +9,13 @@ using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Logger.GUI;
 
 namespace Logger
 {
 
     public delegate DataGridViewRow ReceiveLogData();
-    //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-    //System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+    
 
 
     public struct scSqlLikeAndRegExp
@@ -28,6 +28,10 @@ namespace Logger
     }
     public partial class LogView : Form
     {
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+            System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         // needed to set the column's width of the datagridview.
         public const int TIMESTAMP_COLUMN_WIDTH = 165;
 
@@ -95,6 +99,8 @@ namespace Logger
                         sql = searchConditionBuilt(tagSplit[1]);
                         tagFlag = true;
                         dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sql.SqlLike, sql.RegExpStr);
+
+                        
                     }
                 }
                 else
@@ -150,14 +156,18 @@ namespace Logger
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
             }
+            lblDGVMessage.Text = "Loading...";
 
             Task<DataTable> dtTask = App.Prj.getALogByIDAsync(ProjectData.logID);
             dt = await dtTask;
+
+            lblDGVMessage.Visible = false;
 
             if (!tagFlag)
                 dgvLog.DataSource = dt;
             
             dtCopy = dt.Copy();
+
         }
 
         private void writeGeneralInfo(string logID)
@@ -774,12 +784,13 @@ namespace Logger
             }
             catch (COMException ec)
             {
-                //todo: add exception handling fro file i/o
-                MessageBox.Show("File in use by other application", ec.ToString());
+                MessageBox.Show("File in use by other application");
+                log.Error($"File in use by other application {ec.ToString()}");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Application Error: {0}", e.ToString());
+                MessageBox.Show("Application Error");
+                log.Error($"Application Error {e.ToString()}");
             }
         }
 
@@ -793,7 +804,8 @@ namespace Logger
             catch (Exception ex)
             {
                 obj = null;
-                MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
+                MessageBox.Show("Exception Occured while releasing object ");
+                log.Error($"Exception Occured while releasing object {ex.ToString()}");
             }
             finally
             {
@@ -941,7 +953,7 @@ namespace Logger
 
         }
 
-        // todo JMH Review tooltip functionality 
+        // todo: JMH Review tooltip functionality 
 
         private void cbQueryName_DrawItem(object sender, DrawItemEventArgs e)
         {

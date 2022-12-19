@@ -147,5 +147,12 @@ namespace Logger
             }
 
         }
+
+        private void updatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DbCrud db = new DbCrud();
+            db.crudToDb(".dump dataDescription");
+
+        }
     }
 }

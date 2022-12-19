@@ -97,6 +97,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUI\MessageWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\MessageWindow.Designer.cs">
+      <DependentUpon>MessageWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="StateRecords\State64.cs" />
     <Compile Include="StateRecords\State65.cs" />
     <Compile Include="StateRecords\State66.cs" />
@@ -311,7 +317,7 @@
     <Compile Include="UnsolicitedStatus\UnsolicitedStatus71.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusC.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusY.cs" />
-    <Compile Include="UnsolicitedStatus\UnsolicitedStatusW.cs" />
+    <Compile Include="UnsolicitedStatus\UnsolicitedStatus77.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusV.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusS.cs" />
     <Compile Include="UnsolicitedStatus\UnsolicitedStatusR.cs" />
@@ -347,6 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\MessageWindow.resx">
+      <DependentUpon>MessageWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\ProjectData.resx">
       <DependentUpon>ProjectData.cs</DependentUpon>

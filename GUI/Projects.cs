@@ -44,64 +44,63 @@ namespace Logger
             
             
             bool result = await loadInfoAsync();
-            //loadInfo();
-
-            //MessageBox.Show(timr.Interval.ToString());
-            
-            
+             
         }
 
-        internal void loadInfo()
-        {
-            listView1.View = View.Details;
-            listView1.Name = "ProjectsList";
-            listView1.Columns.Add("Project Name", 120, HorizontalAlignment.Center);
-            listView1.Columns.Add("Project Description", 240, HorizontalAlignment.Center);
-            listView1.Columns.Add("Logs", 40, HorizontalAlignment.Center);
-            listView1.SmallImageList = imageList1;
+        //internal void loadInfo()
+        //{
+        //    listView1.View = View.Details;
+        //    listView1.Name = "ProjectsList";
+        //    listView1.Columns.Add("Project Name", 120, HorizontalAlignment.Center);
+        //    listView1.Columns.Add("Project Description", 240, HorizontalAlignment.Center);
+        //    listView1.Columns.Add("Logs", 40, HorizontalAlignment.Center);
+        //    listView1.SmallImageList = imageList1;
 
-            listView1.LargeImageList = imageList1;
-            hamburguerMenu.ForeColor = Color.White;
-            hamburguerMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        //    listView1.LargeImageList = imageList1;
+        //    hamburguerMenu.ForeColor = Color.White;
+        //    hamburguerMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
-            //hamburguerMenu.Text = char.ConvertFromUtf32('\u2630'); // "☰";
+        //    //hamburguerMenu.Text = char.ConvertFromUtf32('\u2630'); // "☰";
 
-            Projects prForm = new Projects();
-            prForm.BringToFront();
+        //    Projects prForm = new Projects();
+        //    prForm.BringToFront();
 
-            DataTable dt = App.Prj.getAllProjects();
+        //    DataTable dt = App.Prj.getAllProjects();
 
-            log.Debug("Retrieving projects info");
-            listView1.Items.Clear();
+        //    log.Debug("Retrieving projects info");
+        //    listView1.Items.Clear();
 
-            foreach (DataRow projectData in dt.Rows)
-            {
+        //    foreach (DataRow projectData in dt.Rows)
+        //    {
 
-                var lvi = new ListViewItem(new string[] { projectData["prjName"].ToString(),
-                                                          projectData["prjBrief"].ToString(),
-                                                          projectData["prjLogs"].ToString().Trim() });
-                lvi.Tag = projectData["prjKey"].ToString();
-                lvi.ImageIndex = 0;
-                listView1.Items.Add(lvi);
+        //        var lvi = new ListViewItem(new string[] { projectData["prjName"].ToString(),
+        //                                                  projectData["prjBrief"].ToString(),
+        //                                                  projectData["prjLogs"].ToString().Trim() });
+        //        lvi.Tag = projectData["prjKey"].ToString();
+        //        lvi.ImageIndex = 0;
+        //        listView1.Items.Add(lvi);
                 
-                for (int i = 0; i < listView1.Columns.Count; i++)
-                {
-                    listView1.Columns[i].Width = 200;
-                }
-                listView1.Refresh();
-            }
-            listView1.Items[0].Selected = true;
-            selectedProject = listView1.SelectedItems[0].Text;
-            treeView1.Nodes.Clear();
+        //        for (int i = 0; i < listView1.Columns.Count; i++)
+        //        {
+        //            listView1.Columns[i].Width = 200;
+        //        }
+        //        listView1.Refresh();
+        //    }
+        //    if (listView1.Items.Count > 0)
+        //    {
+        //        listView1.Items[0].Selected = true;
+        //        selectedProject = listView1.SelectedItems[0].Text;
+        //    }
+        //    treeView1.Nodes.Clear();
 
-            if (dt.Rows.Count > 0)
-                listView1_Load(listView1.Items[0]);
-            else
-            {
-                editToolStripMenuItem.Enabled = false;
-                deleteToolStripMenuItem.Enabled = false;
-            }
-        }
+        //    if (dt.Rows.Count > 0)
+        //        listView1_Load(listView1.Items[0]);
+        //    else
+        //    {
+        //        editToolStripMenuItem.Enabled = false;
+        //        deleteToolStripMenuItem.Enabled = false;
+        //    }
+        //}
 
         internal async Task<bool> loadInfoAsync()
         {
@@ -151,7 +150,11 @@ namespace Logger
             treeView1.Nodes.Clear();
 
             if (dt.Rows.Count > 0)
+            {
                 listView1_Load(listView1.Items[0]);
+                editToolStripMenuItem.Enabled = true;
+                deleteToolStripMenuItem.Enabled = true;
+            }
             else
             {
                 editToolStripMenuItem.Enabled = false;
@@ -191,6 +194,7 @@ namespace Logger
             ListViewItem item = new ListViewItem();
             if (listView1.SelectedItems.Count == 1)
             {
+                selectedProject = "";
                 this.TopMost = false;
 
                 ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
@@ -208,7 +212,7 @@ namespace Logger
 
         internal void RefresDataListView()
         {
-            // loadInfo();
+            loadInfoAsync();
         }
 
         private void listView1_MouseDown(object sender, MouseEventArgs e)
@@ -360,7 +364,7 @@ namespace Logger
         private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             deleteInfo();
-            loadInfo();
+            loadInfoAsync();
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
@@ -404,16 +408,19 @@ namespace Logger
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (listView1.SelectedItems.Count != 1)
+                return;
+
             deleteInfo();
-            loadInfo();
+            loadInfoAsync();
+      
         }
 
         private void deleteInfo()
         {
             if (listView1.Items.Count == 0)
-            {
                 return;
-            }
+            
             string prjName = listView1.SelectedItems[0].Text;
             var result = MessageBox.Show($"This will delete the project: {prjName} and all its logs\n do you want to continue",
                 "Alert!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -578,9 +585,11 @@ namespace Logger
         private void listView1_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyValue == 38 && selectedProject == String.Empty)
-            {
                 return;
-            }
+       
+            if (listView1.SelectedIndices.Count < 1)
+                return;
+
             int currIndex = listView1.SelectedIndices[0]; 
             selectedProject = listView1.SelectedItems[0].Text;
 
@@ -597,36 +606,6 @@ namespace Logger
                     continue;
                 }
             }
-
-
-            //if (e.KeyValue == 38 || e.KeyValue == 40)
-            //{
-
-            //    if (selectedProject == String.Empty)
-            //        selectedProject = listView1.SelectedItems[0].Text;
-
-            //    if (selectedProject != null)
-            //    {
-            //        if (selectedProject == listView1.SelectedItems[0].Text)
-            //            return;
-            //        else
-            //        {
-            //            selectedProject = listView1.SelectedItems[0].Text;
-            //            treeView1.Nodes.Clear();
-            //        }
-            //    }
-
-            //    treeView1.Nodes.Clear();
-
-            //    foreach (ListViewItem item in listView1.Items)
-            //    {
-            //        if (item.Bounds.Contains(new Point(e.X, e.Y)))
-            //        {
-            //            listView1_Load(item);
-            //        }
-            //        continue;
-            //    }
-            //}
         }
     }
 }

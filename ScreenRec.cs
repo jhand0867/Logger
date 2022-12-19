@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 
 namespace Logger
 {
-    // todo:  COMPLETE CLASS
     public struct scrRec
     {
         private string rectype;

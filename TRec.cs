@@ -459,7 +459,8 @@ namespace Logger
                     string optionNum = "00000000";
                     int digitPad = 2;
 
-                    optionNum = u.dec2bin(optionCode, 8);
+                    if ((optionCode != string.Empty) && (optionCode != null ))
+                        optionNum = u.dec2bin(optionCode, 8);
 
                     if (optionNum.Substring(1, 1) == "1")
                     {

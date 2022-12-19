@@ -34,13 +34,14 @@ namespace Logger
 
             try
             {
-                //todo: fix it gracefully
-                //
                 return recTypeDic[fieldType]();
+                log.Debug($"Applying Digester {fieldType}");
             }
             catch (Exception ex)
             {
-                return ex.StackTrace;
+                log.Error($"Applying Digester {fieldType} {ex.StackTrace}");
+
+                return String.Empty;
             }
         }
 

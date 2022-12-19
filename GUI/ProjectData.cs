@@ -6,7 +6,6 @@ using System.Windows.Forms;
 
 namespace Logger
 
-//todo: check the form refresh after log is attached for first time, not enabling scan option from menu.
 {
 
 

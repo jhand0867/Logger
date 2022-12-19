@@ -100,12 +100,6 @@ namespace Logger
 
             for (int x = 0; x < tmpAids.Length; x++)
             {
-
-                //todo: Acceptable Application records show the collection of
-                //tags separated with 0x1d character
-                //we need to deal with it  
-                // added the if to skip 0x1d records
-
                 if (tmpAids[x].Length == 2) continue;
 
                 iccApp.Rectype = "85";
@@ -168,9 +162,7 @@ namespace Logger
 
                 for (int y = 0; y < hexLength; y++)
                 {
-                    // todo: currently using space as a separator between length and value
-                    // considering changing to semicolon or nothing at all and have the script formatting the output
-                    // 
+ 
                     iccApp.SecondaryAIDLgthValue += tmpAids[x].Substring(offset, 2) + " ";
                     int hexLength2 = Convert.ToInt32(tmpAids[x].Substring(offset, 2), 16);
                     offset += 2;

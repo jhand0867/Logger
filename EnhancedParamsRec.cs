@@ -233,8 +233,6 @@ namespace Logger
 
         public DataTable getDescription()
         {
-            // todo: need to add remaining O and T in the dataDescription
-
             string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'C' ";
 
             DbCrud db = new DbCrud();

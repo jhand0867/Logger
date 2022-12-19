@@ -19,7 +19,7 @@ namespace Logger.GUI
             SQLSearchCondition ssc = new SQLSearchCondition();
 
             dt = ssc.getQueryInfo(cbQueryName.Text);
-            int sqlID = 0;
+            string filterKey = string.Empty;
 
             if (dt == null) return;
 
@@ -31,8 +31,8 @@ namespace Logger.GUI
 
             if (dt.Rows.Count != 0)
             {
-                sqlID = (int)dt.Rows[0]["id"];
-                if (ssc.deleteSearchConditionBuilder(sqlID) == false)
+                filterKey = (string)dt.Rows[0]["filterKey"];
+                if (ssc.deleteSearchConditionBuilder(filterKey) == false)
                     MessageBox.Show("Filter could not be deleted");
             }
             this.Close();

@@ -662,6 +662,38 @@ namespace Logger
             return alogByIdWithRegExp;
         }
 
+        //public async Task<DataTable> getALogByIDWithRegExpAsync (string logID, string sqlLike, string regExpStr)
+        //{
+        //    DataTable dataTable = new DataTable();
+        //    DataTable alogByIdWithRegExp = new DataTable();
+        //    DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp'," +
+        //        "                            [group2] as 'Log Level',[group3] as 'File Name'," +
+        //        "                            [group4] as 'Class',[group5] as 'Method'," +
+        //        "                            [group6] as 'Type'," +
+        //        "                            [group7] as 'Log'," +
+        //        "                            [group8] as 'Log Data',[group9]," +
+        //        "                            [prjKey],[logID] FROM [loginfo] " +
+        //        "                            WHERE logID =" + logID + " AND " + sqlLike + " order by id asc");
+        //    Regex regex = new Regex(regExpStr);
+        //    if (tableFromDb != null)
+        //    {
+        //        alogByIdWithRegExp = tableFromDb.Clone();
+        //        foreach (DataRow row1 in tableFromDb.Rows)
+        //        {
+        //            row1[9] = (object)WebUtility.HtmlDecode(row1[9].ToString());
+        //            if ((uint)regex.Matches(row1[9].ToString()).Count > 0U)
+        //            {
+        //                DataRow row2 = alogByIdWithRegExp.NewRow();
+        //                row2.ItemArray = row1.ItemArray;
+        //                alogByIdWithRegExp.Rows.Add(row2);
+        //            }
+        //        }
+        //    }
+        //    return alogByIdWithRegExp;
+        //}
+
+
+
         public DataTable getALogByIDWithCriteria2(
           string logID,
           string columnName,
@@ -795,7 +827,7 @@ namespace Logger
             string sql15 = "SELECT (SELECT COUNT(2) FROM solicitedStatus8  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatus9  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusB  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusC  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF1  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF2  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF3  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF4  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF5  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF6  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusF7  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFH  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFI  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFJ  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFK  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFL  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFM  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM solicitedStatusFN  WHERE logID =" + logID + ") ";
             int scalarIntFromDb15 = dbCrud.GetScalarIntFromDb(sql15);
             dictionary.Add("Solicited Status", scalarIntFromDb15);
-            string sql16 = "SELECT (SELECT COUNT(2) FROM unsolicitedStatus5c  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatus61  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatus66  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatus71  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusA  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusB  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusC  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusD  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusE  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusF  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusG  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusH  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusK  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusL  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusM  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusP  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusQ  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusR  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusS  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusV  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusw  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusy  WHERE logID =" + logID + ") ";
+            string sql16 = "SELECT (SELECT COUNT(2) FROM unsolicitedStatus5c  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatus61  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatus66  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatus71  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusA  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusB  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusC  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusD  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusE  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusF  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusG  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusH  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusK  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusL  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusM  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusP  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusQ  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusR  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusS  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusV  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatus77  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM unsolicitedStatusy  WHERE logID =" + logID + ") ";
             int scalarIntFromDb16 = dbCrud.GetScalarIntFromDb(sql16);
             dictionary.Add("Unsolicited Status", scalarIntFromDb16);
             string sql17 = "SELECT (SELECT COUNT(2) FROM encryptorInitData1  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData2  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData3  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData4  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData6  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData7  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData8  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitData9  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitDataA  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitDataB  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitDataD  WHERE logID =" + logID + ") +          (SELECT COUNT(2) FROM encryptorInitDataE  WHERE logID =" + logID + ") ";
@@ -861,8 +893,7 @@ namespace Logger
 
         internal void dropDataByLogID(string logID)
         {
-            string sql = $@"SQLITE_LOCK_EXCLUSIVE
-            delete from [configId] WHERE logID = {logID};
+            string sql = $@"delete from [configId] WHERE logID = {logID};
             delete from [configParamsInfo] WHERE logID = {logID};
             delete from [configParamsTimers] WHERE logID = {logID};
             delete from [enhancedParams] WHERE logID = {logID};
@@ -873,14 +904,13 @@ namespace Logger
             delete from [fitinfo] WHERE logID = {logID};
             delete from [stateinfo] WHERE logID = {logID};
             delete from [screeninfo] WHERE logID = {logID};
-            delete from [screenRec] WHERE logID = {logID};   
-            delete from [treply] WHERE logID = {logID};
-            delete from [tReplyCheckProcessing] WHERE logID = {logID};
-            delete from [treplyPrinterData] WHERE logID = {logID};
-            delete from [treq] WHERE logID = {logID};
-            delete from [treqOptions] WHERE logID = {logID};
-            delete from [treqCurrencies] WHERE logID = {logID};
-            delete from [treqChecks] WHERE logID = {logID};
+            delete from treply WHERE logID = {logID};
+            delete from tReplyCheckProcessing WHERE logID = {logID};
+            delete from treplyPrinterData WHERE logID = {logID};
+            delete from treq WHERE logID = {logID};
+            delete from treqOptions WHERE logID = {logID};
+            delete from treqCurrencies WHERE logID = {logID};
+            delete from treqChecks WHERE logID = {logID};
             DELETE FROM [EMVConfiguration] WHERE logID = {logID};
             DELETE FROM [ICCCurrencyDOT] WHERE logID = {logID};
             DELETE FROM [ICCTransactionDOT] WHERE logID = {logID};
@@ -921,7 +951,7 @@ namespace Logger
             DELETE FROM [unsolicitedStatusR] WHERE logID = {logID};
             DELETE FROM [unsolicitedStatusS] WHERE logID = {logID};
             DELETE FROM [unsolicitedStatusV] WHERE logID = {logID};
-            DELETE FROM [unsolicitedStatusw] WHERE logID = {logID};
+            DELETE FROM [unsolicitedStatus77] WHERE logID = {logID};
             DELETE FROM [unsolicitedStatusY] WHERE logID = {logID};
             DELETE FROM [unsolicitedStatus5c] WHERE logID = {logID};
             DELETE FROM [unsolicitedStatus61] WHERE logID = {logID};
@@ -945,8 +975,20 @@ namespace Logger
             DELETE FROM [terminalCommands] WHERE logID = {logID};
             DELETE FROM [dispenserMapping] WHERE logID = {logID};
             DELETE FROM [interactiveTranResponse] WHERE logID = {logID};
-            DELETE FROM [logDetail] WHERE logID = {logID}; 
-            DELETE FROM[voiceGuidance] WHERE logID = { logID }; ";
+            DELETE FROM [logDetail] WHERE logID = {logID};
+            DELETE FROM [voiceGuidance] WHERE logID = {logID};
+            DELETE FROM [generalInfo] WHERE logID = {logID};
+            DELETE FROM [encryptorInitData5] WHERE logID = {logID};
+            DELETE FROM [dateTime] WHERE logID = {logID};
+            DELETE FROM [screenRec] WHERE logID = {logID};
+            DELETE FROM [ejOptionsTimers] WHERE logID = {logID};
+            DELETE FROM [staterec] WHERE logID = {logID};
+            DELETE FROM [fitrec] WHERE logID = {logID}; ";
+
+
+            //delete from[loginfo] WHERE logID = { logID };
+            //delete from[project] WHERE logID = { logID };
+            //delete from[logs] WHERE logID = { logID };
 
             DbCrud DB = new DbCrud();
             bool dropResult = DB.crudToDb(sql);

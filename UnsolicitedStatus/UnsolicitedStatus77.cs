@@ -3,7 +3,7 @@
 namespace Logger
 {
 
-    struct unsolicitedStaW
+    struct unsolicitedSta77
     {
         private string rectype;
         private string messageClass;
@@ -58,7 +58,7 @@ namespace Logger
         public string MessageSubclass { get => messageSubclass; set => messageSubclass = value; }
     };
 
-    class UnsolicitedStatusW : UnsolicitedStatus
+    class UnsolicitedStatus77 : UnsolicitedStatus
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -67,9 +67,9 @@ namespace Logger
         {
             foreach (typeRec r in typeRecs)
             {
-                unsolicitedStaW us = parseData(r.typeContent);
+                unsolicitedSta77 us = parseData(r.typeContent);
 
-                string sql = @"INSERT INTO unsolicitedStatusW([logkey],[rectype],[messageClass],[messageSubclass],[luno],
+                string sql = @"INSERT INTO unsolicitedStatus77([logkey],[rectype],[messageClass],[messageSubclass],[luno],
 	                        [dig],[deviceStatus],[errorCode],[escrowCounts],[vaultedCounts],[returnCounts],
 
 	                        [notesReturnedExitSlot],[notesInEscrow],[justVaulted],[escrowCountsNoteType],
@@ -96,9 +96,9 @@ namespace Logger
             return true;
         }
 
-        public unsolicitedStaW parseData(string r)
+        public unsolicitedSta77 parseData(string r)
         {
-            unsolicitedStaW us = new unsolicitedStaW();
+            unsolicitedSta77 us = new unsolicitedSta77();
 
             string[] tmpTypes = r.Split((char)0x1c);
 
@@ -117,27 +117,46 @@ namespace Logger
             us.ReturnCounts = tmpTypes[i].Substring(103, 50);
             us.NotesReturnedExitSlot = tmpTypes[i].Substring(153, 1);
             us.NotesInEscrow = tmpTypes[i].Substring(154, 1);
+
             if (tmpTypes[i].Length > 155)
                 us.JustVaulted = tmpTypes[i].Substring(155, 1);
 
-            // todo:  need parsing for rest of the fields starting at 
-            // us.EscrowCountsNoteType..justVaultedExcessNinety
-            // MLH 
+            if (tmpTypes[i].Length > 159)
+            {
+                us.EscrowCountsNoteType = tmpTypes[i].Substring(156, 2);
+                us.EscrowCountsDecValue = tmpTypes[i].Substring(158, 3);
+            }
+
+            if (tmpTypes[i].Length > 164)
+            {
+                us.VoltedCountsNoteType = tmpTypes[i].Substring(161, 2);
+                us.VoltedCountsDecValue = tmpTypes[i].Substring(163, 3);
+            }
+
+            if (tmpTypes[i].Length > 169)
+            {
+                us.ReturnCountsNoteType = tmpTypes[i].Substring(166, 2);
+                us.ReturnCountsDecValue = tmpTypes[i].Substring(168, 3);
+            }
+
+            if (tmpTypes[i].Length > 172)
+                us.NotesReturnedExcessNinety = tmpTypes[i].Substring(171, 3);
+
+            if (tmpTypes[i].Length > 175)
+                us.NotesInEscrowExcessNinety = tmpTypes[i].Substring(174, 3);
+  
+            if (tmpTypes[i].Length > 178)
+                us.JustVaultedExcessNinety = tmpTypes[i].Substring(177, 3);
+
 
             if (tmpTypes.Length > i + 1)
-            {
-                us.ErrorSeverity = tmpTypes[i + 1];
-            }
+                us.ErrorSeverity = tmpTypes[i + 1];          
 
             if (tmpTypes.Length > i + 2)
-            {
                 us.DiagnosticStatus = tmpTypes[i + 2];
-            }
-
+            
             if (tmpTypes.Length > i + 3)
-            {
                 us.SuppliesStatus = tmpTypes[i + 3];
-            }
 
             return us;
         }

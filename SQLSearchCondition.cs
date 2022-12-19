@@ -17,12 +17,14 @@ namespace Logger
         private string sqlFieldValue;
         private string sqlAndOr;
         private string sqlFieldOutput;
+        private string filterKey;
 
         public string SQLFieldName { get => sqlFieldName; set => sqlFieldName = value; }
         public string SQLCondition { get => sqlCondition; set => sqlCondition = value; }
         public string SQLFieldValue { get => sqlFieldValue; set => this.sqlFieldValue = value; }
         public string SQLAndOr { get => sqlAndOr; set => sqlAndOr = value; }
         public string SQLFieldOutput { get => sqlFieldOutput; set => sqlFieldOutput = value; }
+        public string FilterKey { get => filterKey; set => filterKey = value; }
 
         public SQLSearchCondition()
         {
@@ -96,7 +98,7 @@ namespace Logger
 
                 if (dt.Rows.Count != 0)
                 {
-                    string sql = @"SELECT * FROM [sqlDetail] WHERE [sqlId] = '" + dt.Rows[0]["Id"] + "'";
+                    string sql = @"SELECT * FROM [sqlDetail] WHERE [filterKey] = '" + dt.Rows[0]["filterKey"] + "'";
 
                     DbCrud db = new DbCrud();
                     dt = db.GetTableFromDb(sql);
@@ -139,11 +141,11 @@ namespace Logger
         /// </summary>
         /// <param name="_sqlID"></param>
         /// <returns></returns>
-        public bool deleteSearchConditionBuilder(int _sqlID)
+        public bool deleteSearchConditionBuilder(string _filterKey)
         {
             // update the Builder
-            string sql = @"DELETE FROM [sqlBuilder] WHERE [id] ='" + _sqlID + "'; " +
-                          "DELETE FROM [sqlDetail] WHERE [sqlId] = '" + _sqlID + "'";
+            string sql = @"DELETE FROM [sqlBuilder] WHERE [filterKey] ='" + _filterKey + "'; " +
+                          "DELETE FROM [sqlDetail] WHERE [filterKey] = '" + _filterKey + "'";
 
             DbCrud db = new DbCrud();
             return db.crudToDb(sql);
@@ -155,7 +157,7 @@ namespace Logger
         /// <param name="_queryDescription"></param>
         /// <param name="_sqlID"></param>
         /// <returns></returns>
-        public bool updateSearchConditionBuilder(string _queryName, string _queryDescription, int _sqlID)
+        public bool updateSearchConditionBuilder(string _queryName, string _queryDescription, string _filterKey)
         {
             // jmh
             // update the Builder
@@ -170,7 +172,7 @@ namespace Logger
                     " [description] = '" + _queryDescription + "'," +
                     " [date] = '" + DateTime.Now + "'," +
                     " [source] = '" + sourceValue + "' " +
-                    "WHERE [id] ='" + _sqlID + "'; DELETE FROM [sqlDetail] WHERE [sqlId] = '" + _sqlID + "'";
+                    "WHERE [filterKey] ='" + _filterKey + "'; DELETE FROM [sqlDetail] WHERE [filterKey] = '" + _filterKey + "'";
 
             DbCrud db = new DbCrud();
             return db.crudToDb(sql);
@@ -181,7 +183,7 @@ namespace Logger
         /// <param name="_queryName"></param>
         /// <param name="_queryDescription"></param>
         /// <returns>ID of the query just created</returns>
-        public int setSearchConditionBuilder(string _queryName, string _queryDescription)
+        public int setSearchConditionBuilder(string _queryName, string _queryDescription, string filterKey)
         {
 
             DataTable dt = new DataTable();
@@ -195,8 +197,8 @@ namespace Logger
                 sourceValue = "I";   // Internal 
             }
 
-            string sql = @"INSERT INTO [sqlBuilder]([name],[description],[date],[source]) " +
-                   " VALUES('" + _queryName + "','" + _queryDescription + "','" + DateTime.Now + "','" + sourceValue + "'); SELECT CAST(scope_identity() AS int); ";
+            string sql = @"INSERT INTO [sqlBuilder]([name],[description],[date],[source],[filterKey]) " +
+                   " VALUES('" + _queryName + "','" + _queryDescription + "','" + DateTime.Now + "','" + sourceValue + "','" + filterKey + "'); SELECT CAST(scope_identity() AS int); ";
 
             return db.GetScalarIntFromDb(sql);
         }
@@ -216,10 +218,10 @@ namespace Logger
                 _searchCondition.sqlCondition = "RegExp";
             }
 
-            string sql = @"INSERT INTO [sqlDetail]([fieldName],[condition],[fieldValue],[andOr],[sqlID],[fieldOutput]) " +
+            string sql = @"INSERT INTO [sqlDetail]([fieldName],[condition],[fieldValue],[andOr],[sqlID],[fieldOutput],[filterKey]) " +
                 "VALUES('" + _searchCondition.SQLFieldName + "', '" + _searchCondition.SQLCondition + "', '" +
                              _searchCondition.SQLFieldValue + "', '" + _searchCondition.SQLAndOr + "', '" +
-                             _sqlID + "', '" + _searchCondition.SQLFieldOutput + "')";
+                             _sqlID + "', '" + _searchCondition.SQLFieldOutput + "', '" + _searchCondition.filterKey + "')";
 
             DbCrud db = new DbCrud();
             return db.crudToDb(sql);

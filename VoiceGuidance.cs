@@ -4,8 +4,6 @@ using System.Data;
 
 namespace Logger
 {
-    // todo:  revise write and parse need to include response flag, Luno, message sequence
-
     struct voiceGuidanceRec
     {
         private string rectype;

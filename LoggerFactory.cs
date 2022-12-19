@@ -180,7 +180,7 @@ namespace Logger
             recTypeDic.Add("12R", () => new UnsolicitedStatusR());
             recTypeDic.Add("12S", () => new UnsolicitedStatusS());
             recTypeDic.Add("12V", () => new UnsolicitedStatusV());
-            recTypeDic.Add("12W", () => new UnsolicitedStatusW());
+            recTypeDic.Add("1277", () => new UnsolicitedStatus77());
             recTypeDic.Add("12Y", () => new UnsolicitedStatusY());
             recTypeDic.Add("1261", () => new UnsolicitedStatus61());
             recTypeDic.Add("125C", () => new UnsolicitedStatus5C());

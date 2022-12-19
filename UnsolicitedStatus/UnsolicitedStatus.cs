@@ -27,7 +27,7 @@ namespace Logger
             usTypes.Add("S", "12S");
             usTypes.Add("V", "12V");
             usTypes.Add("a", "1261");
-            usTypes.Add("w", "12W");
+            usTypes.Add("w", "1277");
             usTypes.Add("q", "1271");
             usTypes.Add("Y", "12Y");
             usTypes.Add("f", "1266");

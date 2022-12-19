@@ -42,11 +42,13 @@ namespace Logger
             // - condition
             // - fieldValue
             // - andOr
+            // - filterKey
 
             // check if query already exist
 
             DataTable dt = new DataTable();
             SQLSearchCondition ssc = new SQLSearchCondition();
+            
 
             if (tbName.Text == "" || tbName.Text == null)
             {
@@ -57,15 +59,20 @@ namespace Logger
 
             dt = ssc.getQueryInfo(tbName.Text);
             int sqlID = 0;
+            string filterKey = string.Empty;
 
             if (dt == null) return;
 
             if (dt.Rows.Count == 0)
-                sqlID = ssc.setSearchConditionBuilder(tbName.Text, tbDescription.Text);
+            {
+                filterKey = Guid.NewGuid().ToString();
+                sqlID = ssc.setSearchConditionBuilder(tbName.Text, tbDescription.Text, filterKey);
+            }
             else
             {
                 sqlID = (int)dt.Rows[0]["id"];
-                ssc.updateSearchConditionBuilder(tbName.Text, tbDescription.Text, sqlID);
+                filterKey = (string)dt.Rows[0]["filterKey"];
+                ssc.updateSearchConditionBuilder(tbName.Text, tbDescription.Text, filterKey);
             }
 
             if (gridrows[0] == null) return;
@@ -77,6 +84,7 @@ namespace Logger
                 ssc.SQLFieldValue = gridrows[i].SQLFieldValue;
                 ssc.SQLAndOr = gridrows[i].SQLAndOr;
                 ssc.SQLFieldOutput = gridrows[i].SQLFieldOutput;
+                ssc.FilterKey = filterKey;
 
                 ssc.setSearchConditionDetail(ssc, sqlID);
             }

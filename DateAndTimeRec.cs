@@ -4,9 +4,7 @@ using System.Data;
 
 namespace Logger
 {
-    // todo:  revise write and parse need to include response flag, Luno, message sequence
-
-    struct dateAndTimeRec
+     struct dateAndTimeRec
     {
         private string rectype;
         private string messageClass;
