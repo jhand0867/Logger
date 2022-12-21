@@ -168,7 +168,8 @@ namespace Logger
                    b.fieldValue,
                    b.andOr,
                    b.fieldOutput,
-                   b.filterKey
+                   b.filterKey,
+                   b.lineNumber
               FROM sqlBuilder as a JOIN sqlDetail as b
               ON a.filterKey = b.filterKey
               WHERE a.source='U';
@@ -257,7 +258,8 @@ namespace Logger
                    b.fieldValue,
                    b.andOr,
                    b.fieldOutput,
-                   b.filterKey
+                   b.filterKey,
+                   b.lineNumber
               FROM sqlBuilder as a JOIN sqlDetail as b
               ON a.filterKey = b.filterKey
               WHERE a.source='I';
