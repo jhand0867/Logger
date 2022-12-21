@@ -39,9 +39,9 @@ namespace Logger
             return new SQLSearchCondition();
         }
 
-        public static SQLSearchCondition Create_SQLSearchCondition(string _field, string _cond, string _value, string _AndOr, string _fieldOutput)
+        public static SQLSearchCondition Create_SQLSearchCondition(string _field, string _cond, string _value, string _AndOr, string _fieldOutput, int _line)
         {
-            return new SQLSearchCondition("", "", "", "", "");
+            return new SQLSearchCondition("", "", "", "", "",0);
         }
 
         public static LoadQuery Create_LoadQuery()

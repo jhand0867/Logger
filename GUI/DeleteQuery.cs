@@ -50,7 +50,7 @@ namespace Logger.GUI
 
             foreach (DataRow theRow in dt.Rows)
             {
-                string str = (theRow[1].ToString());
+                string str = (theRow["name"].ToString());
                 cb.Items.Add(str);
             }
         }

@@ -39,6 +39,8 @@
             this.aboutLoggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.licenseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.adminToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.genrateUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,7 +56,8 @@
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.projectsToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.adminToolStripMenuItem1});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Padding = new System.Windows.Forms.Padding(10, 1, 0, 1);
@@ -130,6 +133,23 @@
             this.updatesToolStripMenuItem.Text = "Updates";
             this.updatesToolStripMenuItem.Click += new System.EventHandler(this.updatesToolStripMenuItem_Click);
             // 
+            // adminToolStripMenuItem1
+            // 
+            this.adminToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.genrateUpdatesToolStripMenuItem});
+            this.adminToolStripMenuItem1.Name = "adminToolStripMenuItem1";
+            this.adminToolStripMenuItem1.Size = new System.Drawing.Size(56, 22);
+            this.adminToolStripMenuItem1.Text = "Admin";
+            this.adminToolStripMenuItem1.Visible = false;
+            this.adminToolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // genrateUpdatesToolStripMenuItem
+            // 
+            this.genrateUpdatesToolStripMenuItem.Name = "genrateUpdatesToolStripMenuItem";
+            this.genrateUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.genrateUpdatesToolStripMenuItem.Text = "Genrate Updates";
+            this.genrateUpdatesToolStripMenuItem.Click += new System.EventHandler(this.genrateUpdatesToolStripMenuItem_Click);
+            // 
             // MainW
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -167,6 +187,8 @@
         private System.Windows.Forms.ToolStripMenuItem licenseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem adminToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem genrateUpdatesToolStripMenuItem;
     }
 }
 

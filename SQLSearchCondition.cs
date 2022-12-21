@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Runtime.CompilerServices;
 
 namespace Logger
 {
@@ -18,6 +19,7 @@ namespace Logger
         private string sqlAndOr;
         private string sqlFieldOutput;
         private string filterKey;
+        private int lineNumber;
 
         public string SQLFieldName { get => sqlFieldName; set => sqlFieldName = value; }
         public string SQLCondition { get => sqlCondition; set => sqlCondition = value; }
@@ -25,6 +27,7 @@ namespace Logger
         public string SQLAndOr { get => sqlAndOr; set => sqlAndOr = value; }
         public string SQLFieldOutput { get => sqlFieldOutput; set => sqlFieldOutput = value; }
         public string FilterKey { get => filterKey; set => filterKey = value; }
+        public int LineNumber { get => lineNumber; set => lineNumber = value; }
 
         public SQLSearchCondition()
         {
@@ -33,15 +36,17 @@ namespace Logger
             SQLCondition = "";
             SQLFieldValue = "";
             SQLFieldOutput = "";
+            LineNumber = 0; 
         }
 
-        public SQLSearchCondition(string _andOr, string _fieldName, string _condition, string _value, string _output)
+        public SQLSearchCondition(string _andOr, string _fieldName, string _condition, string _value, string _output, int _line)
         {
             SQLAndOr = _andOr;
             SQLFieldName = _fieldName;
             SQLCondition = _condition;
             SQLFieldValue = _value;
             SQLFieldOutput = _output;
+            LineNumber = _line;
         }
 
         /// <summary>
@@ -98,7 +103,7 @@ namespace Logger
 
                 if (dt.Rows.Count != 0)
                 {
-                    string sql = @"SELECT * FROM [sqlDetail] WHERE [filterKey] = '" + dt.Rows[0]["filterKey"] + "'";
+                    string sql = @"SELECT * FROM [sqlDetail] WHERE [filterKey] = '" + dt.Rows[0]["filterKey"] + "' order by lineNumber";
 
                     DbCrud db = new DbCrud();
                     dt = db.GetTableFromDb(sql);
@@ -209,7 +214,7 @@ namespace Logger
         /// <param name="_searchCondition">Contains or holds one line of the AdvancedFilter</param>
         /// <param name="_sqlID">ID of the Query Name this is associated to</param>
         /// <returns></returns>
-        public bool setSearchConditionDetail(SQLSearchCondition _searchCondition, int _sqlID)
+        public bool setSearchConditionDetail(SQLSearchCondition _searchCondition)
         {
             // insert the Detail
 
@@ -218,10 +223,10 @@ namespace Logger
                 _searchCondition.sqlCondition = "RegExp";
             }
 
-            string sql = @"INSERT INTO [sqlDetail]([fieldName],[condition],[fieldValue],[andOr],[sqlID],[fieldOutput],[filterKey]) " +
+            string sql = @"INSERT INTO [sqlDetail]([fieldName],[condition],[fieldValue],[andOr],[fieldOutput],[filterKey],[lineNumber]) " +
                 "VALUES('" + _searchCondition.SQLFieldName + "', '" + _searchCondition.SQLCondition + "', '" +
                              _searchCondition.SQLFieldValue + "', '" + _searchCondition.SQLAndOr + "', '" +
-                             _sqlID + "', '" + _searchCondition.SQLFieldOutput + "', '" + _searchCondition.filterKey + "')";
+                             _searchCondition.SQLFieldOutput + "', '" + _searchCondition.FilterKey + "'," + _searchCondition.LineNumber + ")";
 
             DbCrud db = new DbCrud();
             return db.crudToDb(sql);

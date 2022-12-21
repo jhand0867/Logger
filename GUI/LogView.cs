@@ -2,20 +2,19 @@
 using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 //using System.Windows;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Logger.GUI;
 
 namespace Logger
 {
 
     public delegate DataGridViewRow ReceiveLogData();
-    
+
 
 
     public struct scSqlLikeAndRegExp
@@ -100,7 +99,7 @@ namespace Logger
                         tagFlag = true;
                         dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sql.SqlLike, sql.RegExpStr);
 
-                        
+
                     }
                 }
                 else
@@ -165,7 +164,7 @@ namespace Logger
 
             if (!tagFlag)
                 dgvLog.DataSource = dt;
-            
+
             dtCopy = dt.Copy();
 
         }
@@ -394,9 +393,9 @@ namespace Logger
 
         private void cmbColumHeader2_Click(object sender, EventArgs e, ComboBox cmbColumHeader2, string logID)
         {
-          cmbColumHeader2.DataSource = dtCopy.AsEnumerable().Select(x => x["Class"].ToString()).Distinct().ToList();
-          cmbColumHeader2.SelectedIndex = -1;
-          cmbColumHeader2.SelectedItem = null;
+            cmbColumHeader2.DataSource = dtCopy.AsEnumerable().Select(x => x["Class"].ToString()).Distinct().ToList();
+            cmbColumHeader2.SelectedIndex = -1;
+            cmbColumHeader2.SelectedItem = null;
 
         }
 
@@ -502,18 +501,18 @@ namespace Logger
                 catch (Exception)
                 {
                     dgvLog.DataSource = dtCopy.Copy().Clone();
-                    
+
                 }
 
 
-                
+
             }
             else
             {
-             // work in progress - future feature
-             // doesn't work.
-             sqlLike = " LIKE '%" + c.Text.Substring(0, 8) + "%'";
-             dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => s.Field<string>("Log Data").Contains(c.Text.Substring(0,8))).CopyToDataTable();
+                // work in progress - future feature
+                // doesn't work.
+                sqlLike = " LIKE '%" + c.Text.Substring(0, 8) + "%'";
+                dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => s.Field<string>("Log Data").Contains(c.Text.Substring(0, 8))).CopyToDataTable();
             }
 
             doDgvColumns();
@@ -839,7 +838,7 @@ namespace Logger
         private void cbQueryName_SelectedIndexChanged(object sender, EventArgs e)
         {
             scSqlLikeAndRegExp sql = new scSqlLikeAndRegExp();
-            
+
 
             sql = searchConditionBuilt(cbQueryName.Text);
 
@@ -848,7 +847,7 @@ namespace Logger
                 if (sql.RegExpStr != "")
                 {
                     Regex regex = new Regex(sql.RegExpStr);
-                     DataTable dt = new DataTable();
+                    DataTable dt = new DataTable();
                     try
                     {
                         dgvLog.DataSource = dtCopy.AsEnumerable().Where(s => regex.IsMatch(s.Field<string>("Log Data"))).CopyToDataTable();
@@ -863,7 +862,7 @@ namespace Logger
                 {
                     //string sqlFromSqlike = sql.SqlLike.Substring(sql.SqlLike.IndexOf("'") + 1, sql.SqlLike.Length - sql.SqlLike.IndexOf("'") - 3);
                     dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sql.SqlLike);
-                 }
+                }
                 dgvLog.ClearSelection();
                 dgvLog.Refresh();
             }
@@ -895,32 +894,60 @@ namespace Logger
                 for (int i = 0; i < 6; i++)
                 {
 
-                    if (dt.Rows[i][2].ToString() != "" && dt.Rows[i][3].ToString() != "" &&
-                        dt.Rows[i][4].ToString() != "" && dt.Rows[i][3].ToString() != "RegExp")
-                    {
-                        temp = dt.Rows[i][4].ToString();
+                    //if (dt.Rows[i][2].ToString() != "" && dt.Rows[i][3].ToString() != "" &&
+                    //    dt.Rows[i][4].ToString() != "" && dt.Rows[i][3].ToString() != "RegExp")
+                    //{
+                    //    temp = dt.Rows[i][4].ToString();
 
-                        if (dt.Rows[i][3].ToString() == "Like")
+                    //    if (dt.Rows[i][3].ToString() == "Like")
+                    //    {
+                    //        if (dt.Rows[i][4].ToString().StartsWith("["))
+                    //            temp = dt.Rows[i][4].ToString().Substring(1, dt.Rows[i][4].ToString().Length - 1);
+                    //        temp = "%" + temp + "%";
+                    //    }
+                    //    sql.SqlLike += " " + dt.Rows[i][2].ToString() + dt.Rows[i][3].ToString() +
+                    //           " '" + temp + "' ";
+                    //}
+
+                    //if (i < 5 &&
+                    //    dt.Rows[i][5].ToString() != "" &&
+                    //    dt.Rows[i + 1][2].ToString() != "" && dt.Rows[i + 1][3].ToString() != "" && dt.Rows[i + 1][4].ToString() != "")
+                    //{
+                    //    sql.SqlLike += dt.Rows[i][5].ToString();
+                    //}
+
+                    //if (dt.Rows[i][3].ToString() == "RegExp")
+                    //{
+                    //    sql.RegExpStr = dt.Rows[i][4].ToString();
+                    //}
+
+                    if (dt.Rows[i]["fieldName"].ToString() != "" && dt.Rows[i]["condition"].ToString() != "" &&
+                        dt.Rows[i]["fieldValue"].ToString() != "" && dt.Rows[i]["condition"].ToString() != "RegExp")
+                    {
+                        temp = dt.Rows[i]["fieldValue"].ToString();
+
+                        if (dt.Rows[i]["condition"].ToString() == "Like")
                         {
-                            if (dt.Rows[i][4].ToString().StartsWith("["))
-                                temp = dt.Rows[i][4].ToString().Substring(1, dt.Rows[i][4].ToString().Length - 1);
+                            if (dt.Rows[i]["fieldValue"].ToString().StartsWith("["))
+                                temp = dt.Rows[i]["fieldValue"].ToString().Substring(1, dt.Rows[i]["fieldOutput"].ToString().Length - 1);
                             temp = "%" + temp + "%";
                         }
-                        sql.SqlLike += " " + dt.Rows[i][2].ToString() + dt.Rows[i][3].ToString() +
+                        sql.SqlLike += " " + dt.Rows[i]["fieldName"].ToString() + dt.Rows[i]["condition"].ToString() +
                                " '" + temp + "' ";
                     }
 
                     if (i < 5 &&
-                        dt.Rows[i][5].ToString() != "" &&
-                        dt.Rows[i + 1][2].ToString() != "" && dt.Rows[i + 1][3].ToString() != "" && dt.Rows[i + 1][4].ToString() != "")
+                        dt.Rows[i]["andOr"].ToString() != "" &&
+                        dt.Rows[i + 1]["fieldValue"].ToString() != "" && dt.Rows[i + 1]["condition"].ToString() != "" && dt.Rows[i + 1]["fieldValue"].ToString() != "")
                     {
-                        sql.SqlLike += dt.Rows[i][5].ToString();
+                        sql.SqlLike += dt.Rows[i]["andOr"].ToString();
                     }
 
-                    if (dt.Rows[i][3].ToString() == "RegExp")
+                    if (dt.Rows[i]["condition"].ToString() == "RegExp")
                     {
-                        sql.RegExpStr = dt.Rows[i][4].ToString();
+                        sql.RegExpStr = dt.Rows[i]["fieldValue"].ToString();
                     }
+
                 }
 
             }

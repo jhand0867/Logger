@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Windows.Forms;
 
 namespace Logger
@@ -43,6 +44,7 @@ namespace Logger
             // - fieldValue
             // - andOr
             // - filterKey
+            // - lineNumber
 
             // check if query already exist
 
@@ -58,7 +60,6 @@ namespace Logger
             }
 
             dt = ssc.getQueryInfo(tbName.Text);
-            int sqlID = 0;
             string filterKey = string.Empty;
 
             if (dt == null) return;
@@ -66,11 +67,10 @@ namespace Logger
             if (dt.Rows.Count == 0)
             {
                 filterKey = Guid.NewGuid().ToString();
-                sqlID = ssc.setSearchConditionBuilder(tbName.Text, tbDescription.Text, filterKey);
+                ssc.setSearchConditionBuilder(tbName.Text, tbDescription.Text, filterKey);
             }
             else
             {
-                sqlID = (int)dt.Rows[0]["id"];
                 filterKey = (string)dt.Rows[0]["filterKey"];
                 ssc.updateSearchConditionBuilder(tbName.Text, tbDescription.Text, filterKey);
             }
@@ -85,8 +85,9 @@ namespace Logger
                 ssc.SQLAndOr = gridrows[i].SQLAndOr;
                 ssc.SQLFieldOutput = gridrows[i].SQLFieldOutput;
                 ssc.FilterKey = filterKey;
+                ssc.LineNumber = i + 1;
 
-                ssc.setSearchConditionDetail(ssc, sqlID);
+                ssc.setSearchConditionDetail(ssc);
             }
             delegateQryName(tbName.Text);
             this.Close();

@@ -26,12 +26,12 @@ namespace Logger
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    gridrows[i] = new SQLSearchCondition("", "", "", "", "");
-                    gridrows[i].SQLFieldName = dt.Rows[i][2].ToString();
-                    gridrows[i].SQLCondition = dt.Rows[i][3].ToString();
-                    gridrows[i].SQLFieldValue = dt.Rows[i][4].ToString();
-                    gridrows[i].SQLAndOr = dt.Rows[i][5].ToString();
-                    gridrows[i].SQLFieldOutput = dt.Rows[i][6].ToString();
+                    gridrows[i] = new SQLSearchCondition("", "", "", "", "",0);
+                    gridrows[i].SQLFieldName = dt.Rows[i]["fieldName"].ToString();
+                    gridrows[i].SQLCondition = dt.Rows[i]["condition"].ToString();
+                    gridrows[i].SQLFieldValue = dt.Rows[i]["fieldValue"].ToString();
+                    gridrows[i].SQLAndOr = dt.Rows[i]["andOr"].ToString();
+                    gridrows[i].SQLFieldOutput = dt.Rows[i]["fieldOutput"].ToString();
                 }
             }
             this.Owner.Text = "AdvancedFilter" + "." + cbQueryName.Text;
@@ -57,7 +57,7 @@ namespace Logger
 
             foreach (DataRow theRow in dt.Rows)
             {
-                string str = (theRow[1].ToString());
+                string str = (theRow["name"].ToString());
                 cb.Items.Add(str);
             }
 

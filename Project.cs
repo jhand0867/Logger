@@ -8,6 +8,7 @@ using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Logger
 {
@@ -992,6 +993,17 @@ namespace Logger
 
             DbCrud DB = new DbCrud();
             bool dropResult = DB.crudToDb(sql);
+        }
+
+        internal void ValidateUser(ToolStripMenuItem mi)
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                if (args[1].ToLower().Equals("/admin"))
+
+                mi.Visible = true;
+            }
         }
     }
 }

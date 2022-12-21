@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Web;
 using System.Windows.Forms;
 
 namespace Logger
@@ -15,6 +17,8 @@ namespace Logger
             this.projectsToolStripMenuItem.Font = new Font("Arial", 10);
             this.aboutToolStripMenuItem.Font = new Font("Arial", 10);
             this.fileToolStripMenuItem.Font = new Font("Arial", 10);
+
+            App.Prj.ValidateUser(this.adminToolStripMenuItem1);
 
             //DbCrud DB = new DbCrud();
 
@@ -150,8 +154,146 @@ namespace Logger
 
         private void updatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+            // AdvancedFilter
+            // -- Select from sqlBuilder records source = 'U'
+            // -- Select from sqlDetail records belonging to the source U
+
             DbCrud db = new DbCrud();
-            db.crudToDb(".dump dataDescription");
+            db.crudToDb(@"drop table if exists sqlDetailUpdate;
+            create table sqlDetailUpdate as
+            SELECT b.sqlId,
+                   b.fieldName,
+                   b.condition,
+                   b.fieldValue,
+                   b.andOr,
+                   b.fieldOutput,
+                   b.filterKey
+              FROM sqlBuilder as a JOIN sqlDetail as b
+              ON a.filterKey = b.filterKey
+              WHERE a.source='U';
+            drop table if exists sqlBuilderUpdate;
+            create table sqlBuilderUpdate as
+            SELECT name,
+                   description,
+                   date,
+                   source,
+                   filterKey
+              FROM sqlBuilder 
+              WHERE source='U';");
+
+
+
+
+            int exitCode;
+            Process p;
+
+            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump sqlBuilderUpdate sqlDetailUpdate --data-only \"  > sqlBuilderUpdateU.sql");
+            pI.CreateNoWindow = true;
+            pI.UseShellExecute = false;
+            pI.RedirectStandardOutput = true;
+            pI.RedirectStandardError = true;
+            pI.WorkingDirectory = @"data";
+
+            try
+            {
+                p = Process.Start(pI);
+                p.WaitForExit();
+
+                string output = p.StandardOutput.ReadToEnd();
+                string error = p.StandardError.ReadToEnd();
+
+                exitCode = p.ExitCode;
+
+                p.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
+
+
+            //MessageBox.Show("output>>" + (String.IsNullOrEmpty(output) ? "(none)" : output));
+            //MessageBox.Show("error>>" + (String.IsNullOrEmpty(error) ? "(none)" : error));
+            //MessageBox.Show("ExitCode: " + exitCode.ToString(), "ExecuteCommand");
+
+
+            // DataDescription
+            // -- run script to import the data dataDescriptionUpdate.sql
+            // -- run script to import sqlBuilderUpdate.sql and run script to add sqlBuilderUpdateU
+
+            string inputScript = String.Empty;
+            inputScript = @"drop table if exists dataDescription;
+                            drop table if exists sqlBuilder;
+                            drop table if exists sqlDetail;" + Environment.NewLine;
+            
+            inputScript += System.IO.File.ReadAllText(@"data\LoggerUpdate.sql") + Environment.NewLine;
+
+            inputScript += System.IO.File.ReadAllText(@"data\sqlBuilderUpdateU.sql");
+
+            inputScript = inputScript.Replace("sqlDetailUpdate", "sqlDetail");
+            inputScript = inputScript.Replace("sqlBuilderUpdate", "sqlBuilder");
+
+
+
+
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void genrateUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DbCrud db = new DbCrud();
+            db.crudToDb(@"drop table if exists sqlDetailUpdate;
+            create table sqlDetailUpdate as
+            SELECT b.sqlId,
+                   b.fieldName,
+                   b.condition,
+                   b.fieldValue,
+                   b.andOr,
+                   b.fieldOutput,
+                   b.filterKey
+              FROM sqlBuilder as a JOIN sqlDetail as b
+              ON a.filterKey = b.filterKey
+              WHERE a.source='I';
+            drop table if exists sqlBuilderUpdate;
+            create table sqlBuilderUpdate as
+            SELECT name,
+                   description,
+                   date,
+                   source,
+                   filterKey
+              FROM sqlBuilder 
+              WHERE source='I';");
+
+            int exitCode;
+            Process p;
+
+            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump sqlBuilderUpdate sqlDetailUpdate dataDescription\" > LoggerUpdate.sql");
+//            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump dataDescription\" >> sqlBuilderUpdate.sql");
+            pI.CreateNoWindow = true;
+            pI.UseShellExecute= false;
+            pI.RedirectStandardOutput = true;
+            pI.RedirectStandardError = true;
+            pI.WorkingDirectory= @"data";
+
+            p = Process.Start(pI);
+            p.WaitForExit();
+
+            string output = p.StandardOutput.ReadToEnd();
+            string error = p.StandardError.ReadToEnd();
+
+            exitCode = p.ExitCode;
+
+            MessageBox.Show("output>>" + (String.IsNullOrEmpty(output) ? "(none)" : output));
+            MessageBox.Show("error>>" + (String.IsNullOrEmpty(error) ? "(none)" : error));
+            MessageBox.Show("ExitCode: " + exitCode.ToString(), "ExecuteCommand");
+            p.Close();
 
         }
     }

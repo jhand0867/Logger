@@ -33,7 +33,7 @@ namespace Logger
             SQLSearchCondition sc = LoggerFactory.Create_SQLSearchCondition();
 
             for (int x = 0; x < 6; x++)
-                gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "");
+                gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "",0);
         }
 
         internal void AdvancedFilterLoad(object SQLSearchConditions)
@@ -375,7 +375,7 @@ namespace Logger
                 this.Text = uiName;
 
             for (int x = 0; x < 6; x++)
-                gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "");
+                gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "",0);
 
             AdvancedFilterLoad(gridrows);
         }

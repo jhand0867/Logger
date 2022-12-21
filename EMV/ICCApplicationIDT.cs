@@ -85,11 +85,6 @@ namespace Logger
         }
         public new List<iccApplication> parseData(string tmpTypes)
         {
-            //todo: check on TLV tags number 
-            //When the DataObject containd less tags than the 
-            //set by the number of objects, the message cannot be
-            //parsed 
-
             iccApplication iccApp = new iccApplication();
             List<iccApplication> iccAppList = new List<iccApplication>();
             Digester digester = LoggerFactory.Create_Digester();
