@@ -237,6 +237,11 @@ namespace Logger
             inputScript = inputScript.Replace("sqlDetailUpdate", "sqlDetail");
             inputScript = inputScript.Replace("sqlBuilderUpdate", "sqlBuilder");
 
+            // execute script 
+            db.crudToDb(inputScript);
+
+            
+            
 
 
 
