@@ -47,6 +47,8 @@ namespace Logger
             // Digester digester = new Digester();
 
 
+            log.Info($"Adding {this.GetType().Name}");
+
             foreach (typeRec r in typeRecs)
             {
                 solicitedStaFK ss = parseData(r.typeContent);
@@ -70,6 +72,8 @@ namespace Logger
 
         public solicitedStaFK parseData(string r)
         {
+            log.Info($"Parsing {this.GetType().Name}");
+
             solicitedStaFK ss = new solicitedStaFK();
 
             string[] tmpTypes = r.Split((char)0x1c);

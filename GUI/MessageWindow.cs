@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -28,7 +21,7 @@ namespace Logger.GUI
             timer.Enabled = true;
             timer.Start();
 
-            
+
         }
 
         private void onTimeEvent(object sender, ElapsedEventArgs e)

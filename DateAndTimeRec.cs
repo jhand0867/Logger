@@ -4,7 +4,7 @@ using System.Data;
 
 namespace Logger
 {
-     struct dateAndTimeRec
+    struct dateAndTimeRec
     {
         private string rectype;
         private string messageClass;

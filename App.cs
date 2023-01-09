@@ -1,5 +1,4 @@
 ﻿using log4net;
-using LoggerProgressBar1;
 using System;
 using System.Collections.Generic;
 using System.Data;

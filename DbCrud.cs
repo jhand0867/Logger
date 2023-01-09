@@ -32,7 +32,7 @@ namespace Logger
                 command.CommandText = sql;
                 int i = command.ExecuteNonQuery();
                 command.Dispose();
-                log.Debug("CRUD successful");
+                log.Info("CRUD successful");
                 cnn.Close();
                 return true;
             }
@@ -54,7 +54,8 @@ namespace Logger
 
         public async Task<DataTable> GetTableFromDbAsync(string sql)
         {
-            log.Info($"Read From Database: {sql}  ");
+            log.Info("Reading from database ");
+            log.Debug($"Read From Database: {sql}  ");
 
             string connectionString;
             OdbcConnection cnn;
@@ -88,7 +89,8 @@ namespace Logger
 
         public DataTable GetTableFromDb(string sql)
         {
-            log.Info($"Read From Database: {sql}  ");
+            log.Info("Getting a table from database ");
+            log.Debug($"Getting a table from database: {sql}  ");
 
             string connectionString;
             OdbcConnection cnn;
@@ -122,7 +124,9 @@ namespace Logger
 
         public int GetScalarIntFromDb(string sql)
         {
-            log.Info($"Access Database and get scalar: {sql}  ");
+            log.Info("Getting int from database ");
+            log.Debug($"Access Database and get scalar: {sql}  ");
+
             string connectionString;
             OdbcConnection cnn;
 
@@ -158,7 +162,8 @@ namespace Logger
 
         public string GetScalarStrFromDb(string sql)
         {
-            log.Info($"Access Database and get scalar: {sql} ");
+            log.Info("Getting string from database ");
+            log.Debug($"Get count of: {sql} ");
             string connectionString;
             OdbcConnection cnn;
 

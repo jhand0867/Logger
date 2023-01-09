@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace Logger
@@ -37,7 +36,7 @@ namespace Logger
             this.menuStrip1.Font = new System.Drawing.Font("Arial", 10);
             this.logsToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10);
             this.scanToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10);
-            
+
         }
         public RefreshData ReloadDataView;
 
@@ -265,12 +264,12 @@ namespace Logger
                 string regExStr = App.Prj.RecordTypes[option, 0] + "%";
                 string recordType = App.Prj.RecordTypes[option, 3];
 
-                log.Debug($"Scanning for '{recordType}' records started");
+                log.Info($"Scanning for '{recordType}' records started");
 
                 string logID = dgvr.Cells[0].Value.ToString();
 
                 App.Prj.getData(regExStr, recordType, logID, option);
-                log.Debug($"Scanning for '{recordType}' records completed");
+                log.Info($"Scanning for '{recordType}' records completed");
             }
             if (refresh)
             {
@@ -312,7 +311,7 @@ namespace Logger
                 if (i == EXITTOHOST || i == HOSTTOEXIT) continue;
 
                 if (dgvr.Cells[i].Value.ToString() != "True" && dgvr.Cells[i].Value.ToString() != "true")
-                { 
+                {
                     scanToolStripMenuItem.DropDownItems[0].Enabled = true;
                     break;
                 }
@@ -498,14 +497,14 @@ namespace Logger
             {
                 int recType = optionDbfieldMatch[recKey];
 
-                if (recType == 99 ) continue;
+                if (recType == 99) continue;
 
                 if (dgvr.Cells[recKey].Value.ToString() != "True" && dgvr.Cells[recKey].Value.ToString() != "true")
                 {
                     optionSelected(recType, false);
                 }
             }
-            
+
             optionSelected(-1, true);
 
         }

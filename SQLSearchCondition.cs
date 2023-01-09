@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Runtime.CompilerServices;
 
 namespace Logger
 {
@@ -36,7 +35,7 @@ namespace Logger
             SQLCondition = "";
             SQLFieldValue = "";
             SQLFieldOutput = "";
-            LineNumber = 0; 
+            LineNumber = 0;
         }
 
         public SQLSearchCondition(string _andOr, string _fieldName, string _condition, string _value, string _output, int _line)
@@ -62,7 +61,7 @@ namespace Logger
             // leaving only the select all to allow us to set and get all search conditions
             // source value = 'I' is for Internal use to include Regular Expressions
 
-            if (sourceValue == "")
+            if ((App.Prj.Admin) || (sourceValue == ""))
                 sql = @"SELECT * FROM [sqlBuilder]";
             else
                 sql = @"SELECT * FROM [sqlBuilder] WHERE [source] = '" + sourceValue + "'";

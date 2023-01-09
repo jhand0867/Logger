@@ -41,6 +41,7 @@
             this.updatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.adminToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.genrateUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -150,12 +151,29 @@
             this.genrateUpdatesToolStripMenuItem.Text = "Genrate Updates";
             this.genrateUpdatesToolStripMenuItem.Click += new System.EventHandler(this.genrateUpdatesToolStripMenuItem_Click);
             // 
+            // lblVersion
+            // 
+            this.lblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.BackColor = System.Drawing.Color.SteelBlue;
+            this.lblVersion.Cursor = System.Windows.Forms.Cursors.No;
+            this.lblVersion.Enabled = false;
+            this.lblVersion.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.lblVersion.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVersion.ForeColor = System.Drawing.Color.Red;
+            this.lblVersion.Location = new System.Drawing.Point(860, 5);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(72, 16);
+            this.lblVersion.TabIndex = 2;
+            this.lblVersion.Text = "Version 1.0";
+            // 
             // MainW
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(955, 583);
+            this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.mainMenu);
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
@@ -189,6 +207,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem adminToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem genrateUpdatesToolStripMenuItem;
+        private System.Windows.Forms.Label lblVersion;
     }
 }
 

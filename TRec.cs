@@ -293,7 +293,7 @@ namespace Logger
                             tmpTypes[i].Substring(6, 35);
                         }
                         else log.Error(" Error Treq.lastTransactionStatusData (7 cassettes)");
-                        
+
                     }
 
                     lst.LastTransactionCoinageAmountDispensed =
@@ -312,8 +312,8 @@ namespace Logger
                             offset = offset + 20;
 
                         }
-                        else  log.Error("Error Treq.lastTransactionStatusData (4 hoppers)");
-                        
+                        else log.Error("Error Treq.lastTransactionStatusData (4 hoppers)");
+
                     }
                     else
                     {
@@ -324,15 +324,15 @@ namespace Logger
                             offset = offset + 20;
                         }
                         else log.Error(" Error Treq.lastTransactionStatusData (more than 4 hoppers");
-                        
+
                     }
 
-                    if (tmpTypes[i].Length >= offset + 21) 
+                    if (tmpTypes[i].Length >= offset + 21)
                     {
                         lst.LastTransactionCashDepositDirection =
                             tmpTypes[i].Substring(offset, 1);
                         lst.LastTransactionCashDepositData =
-                            tmpTypes[i].Substring(offset+1, 20);
+                            tmpTypes[i].Substring(offset + 1, 20);
                         offset = offset + 21;
 
                     }
@@ -459,7 +459,7 @@ namespace Logger
                     string optionNum = "00000000";
                     int digitPad = 2;
 
-                    if ((optionCode != string.Empty) && (optionCode != null ))
+                    if ((optionCode != string.Empty) && (optionCode != null))
                         optionNum = u.dec2bin(optionCode, 8);
 
                     if (optionNum.Substring(1, 1) == "1")
@@ -939,7 +939,7 @@ namespace Logger
         }
 
         private string getEnhancedParmOption(string logID, string optionNum)
-        { 
+        {
             EnhancedParamsRec enhancedParamsRec = new EnhancedParamsRec();
             return enhancedParamsRec.getOptionNum(logID, optionNum);
         }

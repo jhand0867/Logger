@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -41,10 +40,10 @@ namespace Logger
             new App().MenuPermissions(App.Prj.Permissions, this.menuStrip1.Items, menusTypes.ProjectOptions);
 
             Projects.log.Debug((object)"Loading projects info");
-            
-            
+
+
             bool result = await loadInfoAsync();
-             
+
         }
 
         //internal void loadInfo()
@@ -79,7 +78,7 @@ namespace Logger
         //        lvi.Tag = projectData["prjKey"].ToString();
         //        lvi.ImageIndex = 0;
         //        listView1.Items.Add(lvi);
-                
+
         //        for (int i = 0; i < listView1.Columns.Count; i++)
         //        {
         //            listView1.Columns[i].Width = 200;
@@ -131,12 +130,12 @@ namespace Logger
                 var lvi = new ListViewItem(new string[] { projectData["prjName"].ToString(),
                                                           projectData["prjBrief"].ToString(),
                                                           projectData["prjLogs"].ToString().Trim() });
-                
+
                 lvi.Tag = projectData["prjKey"].ToString();
                 lvi.ImageIndex = 0;
-                
+
                 listView1.Items.Add(lvi);
-                
+
                 for (int i = 0; i < listView1.Columns.Count; i++)
                 {
                     listView1.Columns[i].Width = 200;
@@ -171,7 +170,7 @@ namespace Logger
 
         private void newProject()
         {
-            log.Debug("Open ProjectInfo");
+            log.Info("Open ProjectInfo");
             ProjectInfo pi = new ProjectInfo();
             pi.ReloadDataListView += new RefreshData(RefresDataListView);
             pi.StartPosition = FormStartPosition.CenterParent;
@@ -181,32 +180,33 @@ namespace Logger
 
         private void Projects_FormClosing(object sender, FormClosingEventArgs e)
         {
-            log.Debug("Exiting Logger");
-            Logger.MainW mw = new Logger.MainW();
-            mw.Activate();
+            App.Prj.Admin = false;
+            log.Info("Exiting Logger");
+            //Logger.MainW mw = new Logger.MainW();
+            //mw.Activate();
         }
 
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-          if (e.Clicks == 2)
-            { 
-            log.Debug("Listing attched logs " + listView1.SelectedItems.Count.ToString());
-            ListViewItem item = new ListViewItem();
-            if (listView1.SelectedItems.Count == 1)
+            if (e.Clicks == 2)
             {
-                selectedProject = "";
-                this.TopMost = false;
+                log.Info("Listing attched logs " + listView1.SelectedItems.Count.ToString());
+                ListViewItem item = new ListViewItem();
+                if (listView1.SelectedItems.Count == 1)
+                {
+                    selectedProject = "";
+                    this.TopMost = false;
 
-                ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
-                item = items[0];
-                Project prj = new Project(); 
-                prj = App.Prj.getProjectByID(item.Tag.ToString());
-                ProjectData prjData = new ProjectData();
-                prjData.ReloadDataView += new RefreshData(RefresDataListView);
-                prjData.BringToFront();
-                prjData.ShowDialog();
+                    ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
+                    item = items[0];
+                    Project prj = new Project();
+                    prj = App.Prj.getProjectByID(item.Tag.ToString());
+                    ProjectData prjData = new ProjectData();
+                    prjData.ReloadDataView += new RefreshData(RefresDataListView);
+                    prjData.BringToFront();
+                    prjData.ShowDialog();
+                }
             }
-          }
 
         }
 
@@ -413,14 +413,14 @@ namespace Logger
 
             deleteInfo();
             loadInfoAsync();
-      
+
         }
 
         private void deleteInfo()
         {
             if (listView1.Items.Count == 0)
                 return;
-            
+
             string prjName = listView1.SelectedItems[0].Text;
             var result = MessageBox.Show($"This will delete the project: {prjName} and all its logs\n do you want to continue",
                 "Alert!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -541,12 +541,12 @@ namespace Logger
         private void listView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             App.Prj.Key = App.Prj.getProjectIDByName(e.Item.Text);
-            
+
         }
 
         private void listView1_Click(object sender, EventArgs e)
         {
-            
+
 
         }
 
@@ -554,17 +554,17 @@ namespace Logger
 
         private void listView1_MouseClick(object sender, MouseEventArgs e)
         {
-           
+
             if ((e.Clicks == 1) &&
                (e.Button != System.Windows.Forms.MouseButtons.Right))
-               {
+            {
                 if (selectedProject == String.Empty || selectedProject != listView1.SelectedItems[0].Text)
                 {
                     selectedProject = listView1.SelectedItems[0].Text;
                     treeView1.Nodes.Clear();
                 }
                 else return;
-                
+
                 foreach (ListViewItem item in listView1.Items)
                 {
                     if (item.Bounds.Contains(new Point(e.X, e.Y)))
@@ -586,11 +586,11 @@ namespace Logger
         {
             if (e.KeyValue == 38 && selectedProject == String.Empty)
                 return;
-       
+
             if (listView1.SelectedIndices.Count < 1)
                 return;
 
-            int currIndex = listView1.SelectedIndices[0]; 
+            int currIndex = listView1.SelectedIndices[0];
             selectedProject = listView1.SelectedItems[0].Text;
 
             if (e.KeyValue == 38 || e.KeyValue == 40)

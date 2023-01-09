@@ -36,6 +36,7 @@ namespace Logger
             ssTypes.Add("FL", "22FL");
             ssTypes.Add("FM", "22FM");
             ssTypes.Add("FN", "22FN");
+            ssTypes.Add("Fr", "22Fr");
         }
 
         public DataTable getDescription()
@@ -50,6 +51,8 @@ namespace Logger
 
         public DataTable getDescription(string recType)
         {
+            log.Info("Loading Description Information");
+
             string sql = @"SELECT* FROM[dataDescription] WHERE recType = 'N'  AND subRecType like '" + recType + "%'";
 
             DbCrud db = new DbCrud();
@@ -59,6 +62,8 @@ namespace Logger
 
         public new List<DataTable> getRecord(string logKey, string logID, string projectKey, string recType)
         {
+            log.Info("Getting the message record");
+
             List<DataTable> dts = new List<DataTable>();
             DbCrud db = new DbCrud();
 
@@ -72,6 +77,8 @@ namespace Logger
 
         public string parseToView(string logKey, string logID, string projectKey, string recValue)
         {
+            log.Info("Formatting data to be displayed");
+
             string recordType = getRecordType(recValue);
             List<DataTable> dts = getRecord(logKey, logID, projectKey, recordType.Substring(2, recordType.Length - 2));
             string txtField = "";
@@ -99,6 +106,8 @@ namespace Logger
 
         public virtual bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
+            log.Info($"Writing {this.GetType().Name}");
+
             LoggerProgressBar1.LoggerProgressBar1 lpb = getLoggerProgressBar();
             lpb.LblTitle = "Solicited Status";
             lpb.Maximum = typeRecs.Count + 1;
@@ -113,10 +122,16 @@ namespace Logger
 
                 string recordType = getRecordType(r.typeContent);
 
-                IMessage theRecord = LoggerFactory.Create_Record(recordType);
-
-                if (theRecord.writeData(OneTypeRec, Key, logID) == false)
-                    return false;
+                try
+                {
+                    IMessage theRecord = LoggerFactory.Create_Record(recordType);
+                    if (theRecord.writeData(OneTypeRec, Key, logID) == false)
+                        return false;
+                }
+                catch (Exception ex)
+                {
+                    log.Error($"Could not create record message {recordType} {ex.ToString()}");
+                }
             }
             lpb.Visible = false;
             return true;
@@ -124,6 +139,8 @@ namespace Logger
 
         internal string getRecordType(string recValue)
         {
+            log.Info("Identifying Record Type");
+
             string[] tmpTypes = recValue.Split((char)0x1c);
 
             string recordType = "";
@@ -142,6 +159,7 @@ namespace Logger
                 recordType = ssTypes[tmpTypes[i].Substring(0, 1)];
             }
 
+            log.Info($"Record Type: {recordType}");
             return recordType;
         }
 

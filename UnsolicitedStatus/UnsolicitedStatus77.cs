@@ -144,17 +144,17 @@ namespace Logger
 
             if (tmpTypes[i].Length > 175)
                 us.NotesInEscrowExcessNinety = tmpTypes[i].Substring(174, 3);
-  
+
             if (tmpTypes[i].Length > 178)
                 us.JustVaultedExcessNinety = tmpTypes[i].Substring(177, 3);
 
 
             if (tmpTypes.Length > i + 1)
-                us.ErrorSeverity = tmpTypes[i + 1];          
+                us.ErrorSeverity = tmpTypes[i + 1];
 
             if (tmpTypes.Length > i + 2)
                 us.DiagnosticStatus = tmpTypes[i + 2];
-            
+
             if (tmpTypes.Length > i + 3)
                 us.SuppliesStatus = tmpTypes[i + 3];
 

@@ -76,7 +76,7 @@ namespace Logger
                                    dtr.MessageSeqNum + "','" +
                                    dtr.MessageSubClass + "','" +
                                    dtr.MessageIdentifier + "','" +
-                                   dtr.AudioXmlData + "','" + 
+                                   dtr.AudioXmlData + "','" +
                                    loadNum.ToString() + "','" + key + "'," + logID + ")";
 
                 DbCrud db = new DbCrud();

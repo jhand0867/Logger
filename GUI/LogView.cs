@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-//using System.Windows;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -25,6 +24,7 @@ namespace Logger
         public string SqlLike { get => sqlLike; set => sqlLike = value; }
         public string RegExpStr { get => regExpStr; set => regExpStr = value; }
     }
+
     public partial class LogView : Form
     {
 
@@ -98,8 +98,6 @@ namespace Logger
                         sql = searchConditionBuilt(tagSplit[1]);
                         tagFlag = true;
                         dgvLog.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sql.SqlLike, sql.RegExpStr);
-
-
                     }
                 }
                 else
@@ -868,12 +866,12 @@ namespace Logger
             }
 
 
-            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
-            ToolTip1.SetToolTip(cbQueryName, cbQueryName.Text);
-            ToolTip1.AutoPopDelay = 5000;
-            ToolTip1.InitialDelay = 1000;
-            ToolTip1.ReshowDelay = 500;
-            ToolTip1.ShowAlways = true;
+            //System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            //ToolTip1.SetToolTip(cbQueryName, cbQueryName.Text);
+            //ToolTip1.AutoPopDelay = 5000;
+            //ToolTip1.InitialDelay = 1000;
+            //ToolTip1.ReshowDelay = 500;
+            //ToolTip1.ShowAlways = true;
         }
 
         private scSqlLikeAndRegExp searchConditionBuilt(string queryName)
@@ -883,44 +881,16 @@ namespace Logger
 
             dt = ssc.getSearchCondition(queryName);
 
-            scSqlLikeAndRegExp sql = new scSqlLikeAndRegExp();
+            scSqlLikeAndRegExp sqlikeAndRegExp = new scSqlLikeAndRegExp();
 
             string temp = "";
-            sql.RegExpStr = "";
-            sql.SqlLike = "";
+            sqlikeAndRegExp.RegExpStr = "";
+            sqlikeAndRegExp.SqlLike = "";
 
             if (dt.Rows.Count != 0)
             {
                 for (int i = 0; i < 6; i++)
                 {
-
-                    //if (dt.Rows[i][2].ToString() != "" && dt.Rows[i][3].ToString() != "" &&
-                    //    dt.Rows[i][4].ToString() != "" && dt.Rows[i][3].ToString() != "RegExp")
-                    //{
-                    //    temp = dt.Rows[i][4].ToString();
-
-                    //    if (dt.Rows[i][3].ToString() == "Like")
-                    //    {
-                    //        if (dt.Rows[i][4].ToString().StartsWith("["))
-                    //            temp = dt.Rows[i][4].ToString().Substring(1, dt.Rows[i][4].ToString().Length - 1);
-                    //        temp = "%" + temp + "%";
-                    //    }
-                    //    sql.SqlLike += " " + dt.Rows[i][2].ToString() + dt.Rows[i][3].ToString() +
-                    //           " '" + temp + "' ";
-                    //}
-
-                    //if (i < 5 &&
-                    //    dt.Rows[i][5].ToString() != "" &&
-                    //    dt.Rows[i + 1][2].ToString() != "" && dt.Rows[i + 1][3].ToString() != "" && dt.Rows[i + 1][4].ToString() != "")
-                    //{
-                    //    sql.SqlLike += dt.Rows[i][5].ToString();
-                    //}
-
-                    //if (dt.Rows[i][3].ToString() == "RegExp")
-                    //{
-                    //    sql.RegExpStr = dt.Rows[i][4].ToString();
-                    //}
-
                     if (dt.Rows[i]["fieldName"].ToString() != "" && dt.Rows[i]["condition"].ToString() != "" &&
                         dt.Rows[i]["fieldValue"].ToString() != "" && dt.Rows[i]["condition"].ToString() != "RegExp")
                     {
@@ -932,7 +902,7 @@ namespace Logger
                                 temp = dt.Rows[i]["fieldValue"].ToString().Substring(1, dt.Rows[i]["fieldOutput"].ToString().Length - 1);
                             temp = "%" + temp + "%";
                         }
-                        sql.SqlLike += " " + dt.Rows[i]["fieldName"].ToString() + dt.Rows[i]["condition"].ToString() +
+                        sqlikeAndRegExp.SqlLike += " " + dt.Rows[i]["fieldName"].ToString() + dt.Rows[i]["condition"].ToString() +
                                " '" + temp + "' ";
                     }
 
@@ -940,19 +910,19 @@ namespace Logger
                         dt.Rows[i]["andOr"].ToString() != "" &&
                         dt.Rows[i + 1]["fieldValue"].ToString() != "" && dt.Rows[i + 1]["condition"].ToString() != "" && dt.Rows[i + 1]["fieldValue"].ToString() != "")
                     {
-                        sql.SqlLike += dt.Rows[i]["andOr"].ToString();
+                        sqlikeAndRegExp.SqlLike += dt.Rows[i]["andOr"].ToString();
                     }
 
                     if (dt.Rows[i]["condition"].ToString() == "RegExp")
                     {
-                        sql.RegExpStr = dt.Rows[i]["fieldValue"].ToString();
+                        sqlikeAndRegExp.RegExpStr = dt.Rows[i]["fieldValue"].ToString();
                     }
 
                 }
 
             }
 
-            return sql;
+            return sqlikeAndRegExp;
         }
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)

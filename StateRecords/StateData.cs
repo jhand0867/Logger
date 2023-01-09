@@ -114,11 +114,13 @@ namespace Logger
             string sql = @"SELECT * FROM [stateinfo] " +
                           "WHERE [stateNum ] ='" + value + "'";
 
-            Dictionary<string, StateData> resultData = this.readData(sql);
+            log.Info("Getting State data");
+
+            Dictionary<string, StateData> resultData = readData(sql);
 
             if (resultData.Count <= 0)
             {
-                log.Info("Error state does not exist");
+                log.Error("Error state does not exist");
                 return null;
             }
             return resultData;

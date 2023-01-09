@@ -12,6 +12,9 @@ namespace Logger
 
     public partial class AdvancedFilterw : Form
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+            System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public ToPassDataGridView PassDataGridView;
 
         // options for SQLSearchCondition properties (fields, conditions, andOr)
@@ -24,20 +27,27 @@ namespace Logger
 
         public AdvancedFilterw()
         {
+            log.Info("Opening AdvancedFilter");
             InitializeComponent();
             menuStrip1.Font = new Font("Arial", 10);
 
+            if (App.Prj.Admin)
+            {
+                conditions = new string[] { "", "Like", "RegExp", "=", "<>", ">", "<" };
+            }
 
             // intitialize sql fields
 
             SQLSearchCondition sc = LoggerFactory.Create_SQLSearchCondition();
 
             for (int x = 0; x < 6; x++)
-                gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "",0);
+                gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "", 0);
         }
 
         internal void AdvancedFilterLoad(object SQLSearchConditions)
         {
+            log.Info($"Reloading filter table");
+
             gridrows = (SQLSearchCondition[])SQLSearchConditions;
 
             // for each line in the AdvancedFilter (condition)
@@ -186,6 +196,8 @@ namespace Logger
                 cbOperators.Items.Add("Greater Than");
                 cbOperators.Items.Add("Less Than");
             }
+            else
+                if (App.Prj.Admin) cbOperators.Items.Add("RegExp");
         }
 
         /// <summary>
@@ -227,15 +239,19 @@ namespace Logger
               WHERE logID =9 and 
              
              */
-            string sqlLike = "";
             System.Data.DataTable dt = new System.Data.DataTable();
+
+            scSqlLikeAndRegExp sqlikeAndRegExp = new scSqlLikeAndRegExp();
+
             string temp = "";
+            sqlikeAndRegExp.RegExpStr = "";
+            sqlikeAndRegExp.SqlLike = "";
 
             for (int i = 0; i < 6; i++)
             {
                 if (gridrows[i].SQLFieldName != "" &&
                     gridrows[i].SQLCondition != "" &&
-                    gridrows[i].SQLFieldValue != "")
+                    gridrows[i].SQLFieldValue != "" && gridrows[i].SQLCondition != "RegExp")
                 {
                     temp = gridrows[i].SQLFieldValue;
 
@@ -246,29 +262,36 @@ namespace Logger
 
                         temp = "%" + temp + "%";
                     }
-                    sqlLike += " " + gridrows[i].SQLFieldName + gridrows[i].SQLCondition +
+                    sqlikeAndRegExp.SqlLike += " " + gridrows[i].SQLFieldName + gridrows[i].SQLCondition +
                            " '" + temp + "' ";
+
                 }
 
                 if (i < 5 &&
                     gridrows[i].SQLAndOr != "" &&
                     gridrows[i + 1].SQLFieldName != "" && gridrows[i + 1].SQLCondition != "" && gridrows[i + 1].SQLFieldValue != "")
 
-                    sqlLike += gridrows[i].SQLAndOr;
+                    sqlikeAndRegExp.SqlLike += gridrows[i].SQLAndOr;
+
+                if (gridrows[i].SQLCondition == "RegExp")
+                {
+                    sqlikeAndRegExp.RegExpStr = gridrows[i].SQLFieldValue;
+                }
             }
 
-            if (sqlLike != "")
+            if ((sqlikeAndRegExp.SqlLike != "") || (sqlikeAndRegExp.RegExpStr != ""))
             {
-                //object ob = Application.OpenForms["LogView"].Controls[1].Controls[0].Controls["dgvLog"];
                 DataGridView dg = PassDataGridView();
                 if (dg != null)
                 {
-                    dg.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sqlLike);
+                    dg.DataSource = App.Prj.getALogByIDWithRegExp(ProjectData.logID, sqlikeAndRegExp.SqlLike, sqlikeAndRegExp.RegExpStr);
+
                     dg.Refresh();
 
                 }
             }
         }
+
 
         private void preview()
         {
@@ -375,7 +398,7 @@ namespace Logger
                 this.Text = uiName;
 
             for (int x = 0; x < 6; x++)
-                gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "",0);
+                gridrows[x] = LoggerFactory.Create_SQLSearchCondition("", "", "", "", "", 0);
 
             AdvancedFilterLoad(gridrows);
         }

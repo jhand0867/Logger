@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlTypes;
 using System.Windows.Forms;
 
 namespace Logger
 {
     public partial class SaveQuery : Form
     {
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+                System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public ToPassData delegateQryName;
 
         private SQLSearchCondition[] gridrows = new SQLSearchCondition[6];
@@ -14,6 +17,9 @@ namespace Logger
         public SaveQuery(object sQLSearchCondition, string queryName)
         {
             InitializeComponent();
+
+            log.Info("Saving Search Condition");
+
             gridrows = (SQLSearchCondition[])sQLSearchCondition;
 
             if (queryName != "")
@@ -50,7 +56,7 @@ namespace Logger
 
             DataTable dt = new DataTable();
             SQLSearchCondition ssc = new SQLSearchCondition();
-            
+
 
             if (tbName.Text == "" || tbName.Text == null)
             {

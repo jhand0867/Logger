@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Net;
 using System.Reflection;
@@ -33,6 +32,8 @@ namespace Logger
         private int pLogs;
         private License pLicense;
         private string pPermissions;
+        private string pVersion;
+        private bool pAdmin;
         private readonly string[,] recordTypes = new string[27, 4]
         {
           {
@@ -197,8 +198,8 @@ namespace Logger
             "1V",
             "31V"
           }
-
         };
+
         private List<StateData> extensionsLst = new List<StateData>();
         public Dictionary<string, string> recTypesDic = new Dictionary<string, string>();
 
@@ -241,6 +242,8 @@ namespace Logger
             get => this.pPermissions;
             set => this.pPermissions = value;
         }
+        public bool Admin { get => pAdmin; set => pAdmin = value; }
+        public string Version { get => pVersion; set => pVersion = value; }
 
         private License getLicense() => new License().VerifyLicenseRegistry();
 
@@ -617,14 +620,18 @@ namespace Logger
           string sqlLike)
         {
             DataTable dataTable = new DataTable();
-            DataTable tableFromDb = new DbCrud().GetTableFromDb("SELECT [id],[logkey],[group1] as 'Timestamp'," +
-                "                            [group2] as 'Log Level',[group3] as 'File Name'," +
-                "                            [group4] as 'Class',[group5] as 'Method'," +
-                "                            [group6] as 'Type'," +
-                "                            [group7] as 'Log'," +
-                "                            [group8] as 'Log Data',[group9]," +
-                "                            [prjKey],[logID] FROM [loginfo] " +
-                "                            WHERE logID =" + logID + " AND " + columnName + sqlLike + " order by id asc");
+
+            string sql = @"SELECT [id],[logkey],[group1] as 'Timestamp'," +
+                "                           [group2] as 'Log Level',[group3] as 'File Name'," +
+                "                           [group4] as 'Class',[group5] as 'Method'," +
+                "                           [group6] as 'Type'," +
+                "                           [group7] as 'Log'," +
+                "                           [group8] as 'Log Data',[group9]," +
+                "                           [prjKey],[logID] FROM [loginfo] " +
+                "                            WHERE logID =" + logID + " AND " + sqlLike + "' order by id asc";
+            //            "                            WHERE logID =" + logID + " AND " + sqlLike.Substring(0, sqlLike.LastIndexOf("%") + 1) + "' order by id asc";
+
+            DataTable tableFromDb = new DbCrud().GetTableFromDb(sql);
             if (tableFromDb != null)
             {
                 foreach (DataRow row in (InternalDataCollectionBase)tableFromDb.Rows)
@@ -756,7 +763,7 @@ namespace Logger
         }
         public async Task<DataTable> getALogByIDAsync(string logID)
         {
-         
+
             DbCrud dbCrud = new DbCrud();
 
             DataTable tableFromDb = await dbCrud.GetTableFromDbAsync("SELECT [id],[logkey],[group1] as 'Timestamp',\r\n                                                              [group2] as 'Log Level',[group3] as 'File Name',\r\n                                                              [group4] as 'Class',[group5] as 'Method',\r\n                                                              [group6] as 'Type',\r\n                                                              [group7] as 'Log',\r\n                                                              [group8] as 'Log Data',[group9],\r\n                                                              [prjKey],[logID] FROM [loginfo] \r\n                                                              WHERE logID =" + logID + " order by id asc");
@@ -1000,9 +1007,17 @@ namespace Logger
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length > 1)
             {
+                log.Debug($"Admin switch found");
                 if (args[1].ToLower().Equals("/admin"))
 
-                mi.Visible = true;
+                    mi.Visible = true;
+                GetPassword psw = new GetPassword();
+                psw.ShowDialog();
+            }
+            else
+            {
+                log.Debug($"Admin switch not found");
+                mi.Visible = false;
             }
         }
     }

@@ -37,6 +37,8 @@ namespace Logger
 
         public override bool writeData(List<typeRec> typeRecs, string Key, string logID)
         {
+            log.Info($"Adding {this.GetType().Name}");
+            
             foreach (typeRec r in typeRecs)
             {
                 solicitedStaF4 ss = parseData(r.typeContent);
@@ -58,6 +60,8 @@ namespace Logger
 
         public solicitedStaF4 parseData(string r)
         {
+            log.Info($"Parsing {this.GetType().Name}");
+
             solicitedStaF4 ss = new solicitedStaF4();
 
             string[] tmpTypes = r.Split((char)0x1c);

@@ -1,48 +1,61 @@
-﻿using System;
+﻿using LoggerUtil;
+using Microsoft.Win32;
+using System;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Web;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Logger
 {
     public partial class MainW : Form
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+            System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public MainW()
         {
+            log.Info($"Logger Started");
             InitializeComponent();
             this.BackColor = System.Drawing.Color.LightGray;
+            mainMenu.ForeColor = System.Drawing.Color.White;
             //this.mainMenu.Font = new Font("Helvetica", 18);
             this.projectsToolStripMenuItem.Font = new Font("Arial", 10);
             this.aboutToolStripMenuItem.Font = new Font("Arial", 10);
             this.fileToolStripMenuItem.Font = new Font("Arial", 10);
+            this.Text = "Hello";
 
+            // check if admin switch was included
+            log.Info($"Checking for admin");
             App.Prj.ValidateUser(this.adminToolStripMenuItem1);
 
-            //DbCrud DB = new DbCrud();
 
-            //DataTable dt = DB.GetTableFromDb("SELECT * FROM generalInfo");
-            //foreach (DataRow row in dt.Rows)
-            //{
-            //    ToolStripMenuItem MI = new ToolStripMenuItem();
-            //    MI.Name = row["logID"].ToString();
-            //    MI.Text = row["logName"].ToString();
+            // display version
 
-            //    this.fileToolStripMenuItem.DropDownItems.Add(MI);
-            //}
+            lblVersion.Text = "Version " + getVersion();
+            //lblVersion.ForeColor = System.Drawing.Color.White;
 
-            //int i = fileToolStripMenuItem.DropDownItems.Count;
+            log.Info($"Logger Version {lblVersion.Text}");
 
             ToolStripManager.Renderer = new CustomProfessionalRenderer();
             //mainMenu.Renderer = new RedTextRenderer();
+
+            log.Info("Checking License");
 
             License license = new License();
             App.Prj.Permissions = license.GetPermissions();
             App.Prj.LicenseKey = license.VerifyLicenseRegistry();
             double num = new JulianDate().JD(DateTime.Now);
             if (App.Prj.LicenseKey != null && Convert.ToDouble(App.Prj.LicenseKey.EndDate) >= num)
+            {
+                log.Info("Licesense is current");
                 return;
+            }
+
+            log.Info("License is not current");
+            log.Debug($"License: {license.ToString()}");
+
             App.Prj.Permissions = "Customer: 0001\n" +
                 "LicenseType: \n" +
                 "Starts on: \n" +
@@ -54,6 +67,8 @@ namespace Logger
                 "LogView Files Options: 11111000\n" +
                 "LogView Filter Options: 11000000\n";
 
+            
+                
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -96,7 +111,26 @@ namespace Logger
             splasWindow.BringToFront();
             Cursor.Hide();
             splasWindow.ShowDialog();
+            // check if recent update was done
 
+            string strUp = getUpdateFlag();
+
+
+            string message = @"Logger recent update kept a backup, Would you like to remove the backup?";
+
+            if (strUp == "1")
+            {
+                DialogResult result = MessageBox.Show(message, "Backup Copy", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    //Directory.Delete(Directory.GetCurrentDirectory() + @"\update", true);
+
+                    RegistryManager rm = new RegistryManager();
+
+                    bool updated = rm.UpdateKey(@"SOFTWARE\Logger", "0", "Updated");
+
+                }
+            }
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -154,11 +188,22 @@ namespace Logger
 
         private void updatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            UpdatesUpload uploads = new UpdatesUpload();
+            uploads.ShowDialog();
+        }
+
+        private void uploadUpdates(string updateFile)
+        {
+            log.Info("Open ZIP archive for update") ;
+
+
+            log.Info("Updating Logger");
 
             // AdvancedFilter
             // -- Select from sqlBuilder records source = 'U'
             // -- Select from sqlDetail records belonging to the source U
 
+            log.Debug("Exporting to work tables sqlBuilderUpdate and sqlDetailUpdate User Filters");
             DbCrud db = new DbCrud();
             db.crudToDb(@"drop table if exists sqlDetailUpdate;
             create table sqlDetailUpdate as
@@ -183,9 +228,9 @@ namespace Logger
               FROM sqlBuilder 
               WHERE source='U';");
 
+            // start batch process
 
-
-
+            log.Debug("About to dump sqlBuilderUpdate sqlDetailUpdate tables to sqlBuilderUpdate.sql");
             int exitCode;
             Process p;
 
@@ -211,25 +256,20 @@ namespace Logger
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                log.Error($"ERROR: Dump failed {ex.Message}");
             }
-            
-
-
-            //MessageBox.Show("output>>" + (String.IsNullOrEmpty(output) ? "(none)" : output));
-            //MessageBox.Show("error>>" + (String.IsNullOrEmpty(error) ? "(none)" : error));
-            //MessageBox.Show("ExitCode: " + exitCode.ToString(), "ExecuteCommand");
-
 
             // DataDescription
             // -- run script to import the data dataDescriptionUpdate.sql
             // -- run script to import sqlBuilderUpdate.sql and run script to add sqlBuilderUpdateU
 
+            log.Debug("About to drop tables if exist dataDescription, sqlBuilder and sqlDetail");
             string inputScript = String.Empty;
             inputScript = @"drop table if exists dataDescription;
                             drop table if exists sqlBuilder;
                             drop table if exists sqlDetail;" + Environment.NewLine;
-            
+
+
             inputScript += System.IO.File.ReadAllText(@"data\LoggerUpdate.sql") + Environment.NewLine;
 
             inputScript += System.IO.File.ReadAllText(@"data\sqlBuilderUpdateU.sql");
@@ -240,10 +280,49 @@ namespace Logger
             // execute script 
             db.crudToDb(inputScript);
 
-            
-            
+        }
+
+        private string getVersion()
+        {
+            int offset = 0;
+            int keyLenght = 0;
+
+            RegistryManager rm = new RegistryManager();
+            string keyContent = rm.ReadKey(@"SOFTWARE\Logger");
+            string[] subKeys = keyContent.Split('\n');
+
+            offset = subKeys[0].IndexOf("=") + 1;
+            keyLenght = subKeys[0].Length;
 
 
+
+
+
+            return subKeys[0].Substring(offset, keyLenght - offset);
+
+        }
+
+        private string getUpdateFlag()
+        {
+            int offset = 0;
+            int keyLenght = 0;
+
+            RegistryManager rm = new RegistryManager();
+            string keyContent = rm.ReadKey(@"SOFTWARE\Logger");
+            string[] subKeys = keyContent.Split('\n');
+            string keyValue = string.Empty;
+            foreach (string subKey in subKeys)
+            {
+                if (subKey.Contains("Updated="))
+                {
+                    offset = subKey.IndexOf("=") + 1;
+                    keyLenght = subKey.Length;
+                    keyValue = subKey.Substring(offset, keyLenght - offset);
+                }
+            }
+
+
+            return keyValue;
 
         }
 
@@ -253,6 +332,11 @@ namespace Logger
         }
 
         private void genrateUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            generateUpdates();
+        }
+
+        private void generateUpdates()
         {
             DbCrud db = new DbCrud();
             db.crudToDb(@"drop table if exists sqlDetailUpdate;
@@ -282,25 +366,29 @@ namespace Logger
             Process p;
 
             ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump sqlBuilderUpdate sqlDetailUpdate dataDescription\" > LoggerUpdate.sql");
-//            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump dataDescription\" >> sqlBuilderUpdate.sql");
+            //            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump dataDescription\" >> sqlBuilderUpdate.sql");
             pI.CreateNoWindow = true;
-            pI.UseShellExecute= false;
+            pI.UseShellExecute = false;
             pI.RedirectStandardOutput = true;
             pI.RedirectStandardError = true;
-            pI.WorkingDirectory= @"data";
+            pI.WorkingDirectory = @"data";
 
-            p = Process.Start(pI);
-            p.WaitForExit();
+            try
+            {
+                p = Process.Start(pI);
+                p.WaitForExit();
 
-            string output = p.StandardOutput.ReadToEnd();
-            string error = p.StandardError.ReadToEnd();
+                string output = p.StandardOutput.ReadToEnd();
+                string error = p.StandardError.ReadToEnd();
 
-            exitCode = p.ExitCode;
+                exitCode = p.ExitCode;
 
-            MessageBox.Show("output>>" + (String.IsNullOrEmpty(output) ? "(none)" : output));
-            MessageBox.Show("error>>" + (String.IsNullOrEmpty(error) ? "(none)" : error));
-            MessageBox.Show("ExitCode: " + exitCode.ToString(), "ExecuteCommand");
-            p.Close();
+                p.Close();
+            }
+            catch (Exception ex)
+            {
+                log.Error($"ERROR: Dump failed {ex.Message}");
+            }
 
         }
     }

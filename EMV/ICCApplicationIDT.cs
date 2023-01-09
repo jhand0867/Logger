@@ -157,7 +157,7 @@ namespace Logger
 
                 for (int y = 0; y < hexLength; y++)
                 {
- 
+
                     iccApp.SecondaryAIDLgthValue += tmpAids[x].Substring(offset, 2) + " ";
                     int hexLength2 = Convert.ToInt32(tmpAids[x].Substring(offset, 2), 16);
                     offset += 2;

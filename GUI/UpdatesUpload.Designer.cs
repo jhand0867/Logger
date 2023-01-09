@@ -1,7 +1,7 @@
 ﻿
-namespace Logger.GUI
+namespace Logger
 {
-    partial class UpdatesUpoad
+    partial class UpdatesUpload
     {
         /// <summary>
         /// Required designer variable.
@@ -31,36 +31,50 @@ namespace Logger.GUI
         {
             this.lblUpdateSelectFile = new System.Windows.Forms.Label();
             this.btnSelectFile = new System.Windows.Forms.Button();
+            this.lblUploadMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblUpdateSelectFile
             // 
             this.lblUpdateSelectFile.AutoSize = true;
-            this.lblUpdateSelectFile.Location = new System.Drawing.Point(94, 117);
+            this.lblUpdateSelectFile.Location = new System.Drawing.Point(47, 61);
+            this.lblUpdateSelectFile.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUpdateSelectFile.Name = "lblUpdateSelectFile";
-            this.lblUpdateSelectFile.Size = new System.Drawing.Size(237, 25);
+            this.lblUpdateSelectFile.Size = new System.Drawing.Size(121, 13);
             this.lblUpdateSelectFile.TabIndex = 0;
             this.lblUpdateSelectFile.Text = "Select Update Package";
             this.lblUpdateSelectFile.Click += new System.EventHandler(this.label1_Click);
             // 
             // btnSelectFile
             // 
-            this.btnSelectFile.Location = new System.Drawing.Point(386, 111);
+            this.btnSelectFile.Location = new System.Drawing.Point(252, 55);
+            this.btnSelectFile.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSelectFile.Name = "btnSelectFile";
-            this.btnSelectFile.Size = new System.Drawing.Size(156, 46);
+            this.btnSelectFile.Size = new System.Drawing.Size(78, 24);
             this.btnSelectFile.TabIndex = 1;
             this.btnSelectFile.Text = "File";
             this.btnSelectFile.UseVisualStyleBackColor = true;
             this.btnSelectFile.Click += new System.EventHandler(this.btnSelectFile_Click);
             // 
-            // UpdatesUpoad
+            // lblUploadMessage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.lblUploadMessage.AutoSize = true;
+            this.lblUploadMessage.Location = new System.Drawing.Point(75, 109);
+            this.lblUploadMessage.Name = "lblUploadMessage";
+            this.lblUploadMessage.Size = new System.Drawing.Size(35, 13);
+            this.lblUploadMessage.TabIndex = 2;
+            this.lblUploadMessage.Text = "label1";
+            // 
+            // UpdatesUpload
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(400, 144);
+            this.Controls.Add(this.lblUploadMessage);
             this.Controls.Add(this.btnSelectFile);
             this.Controls.Add(this.lblUpdateSelectFile);
-            this.Name = "UpdatesUpoad";
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Name = "UpdatesUpload";
             this.Text = "Updates Upoad";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -71,5 +85,6 @@ namespace Logger.GUI
 
         private System.Windows.Forms.Label lblUpdateSelectFile;
         private System.Windows.Forms.Button btnSelectFile;
+        private System.Windows.Forms.Label lblUploadMessage;
     }
 }

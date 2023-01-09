@@ -159,7 +159,7 @@ namespace Logger
             catch (Exception)
             {
                 log.Info($"Tags exception: {tags}  ");
-                
+
                 return tags;
             }
         }
