@@ -34,8 +34,9 @@ namespace Logger
 
             try
             {
-                return recTypeDic[fieldType]();
                 log.Debug($"Applying Digester {fieldType}");
+                return recTypeDic[fieldType]();
+
             }
             catch (Exception ex)
             {

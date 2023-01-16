@@ -1,5 +1,4 @@
-﻿using LoggerUtil;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -20,11 +19,6 @@ namespace Logger
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnSelectFile_Click(object sender, EventArgs e)
         {
 
@@ -39,7 +33,7 @@ namespace Logger
 
                     if (File.Exists(Directory.GetCurrentDirectory() + @"\update\Logger\DB\LoggerUpdate.sql"))
                         File.Delete(Directory.GetCurrentDirectory() + @"\update\Logger\DB\LoggerUpdate.sql");
-                    
+
                     log.Info($"Opening file: {openFileDialog.FileName}");
 
                     ZipFile.ExtractToDirectory(openFileDialog.FileName, Directory.GetCurrentDirectory() + @"\update");
@@ -70,8 +64,6 @@ namespace Logger
             uploadUpdates();
 
             lblUploadMessage.Text = "Updates Installed ...";
-
-            addRegistryInfo();
 
             this.Close();
         }
@@ -160,15 +152,6 @@ namespace Logger
 
             // execute script 
             db.crudToDb(inputScript);
-        }
-
-        internal void addRegistryInfo()
-        {
-            // Adding Registry information
-            RegistryManager RM = new RegistryManager();
-            RM.CreateKey(@"SOFTWARE\Logger", "Updated", "1");
-            RM.CreateKey(@"SOFTWARE\Logger", "UpdatedDate", DateTime.Today.ToString());
-
         }
     }
 }

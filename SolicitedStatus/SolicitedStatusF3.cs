@@ -62,8 +62,8 @@ namespace Logger
 
         public solicitedStaF3 parseData(string r)
         {
-            log.Info($"Parsing {this.GetType().Name}"); 
-            
+            log.Info($"Parsing {this.GetType().Name}");
+
             solicitedStaF3 ss = new solicitedStaF3();
 
             string[] tmpTypes = r.Split((char)0x1c);

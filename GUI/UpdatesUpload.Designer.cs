@@ -43,7 +43,6 @@ namespace Logger
             this.lblUpdateSelectFile.Size = new System.Drawing.Size(121, 13);
             this.lblUpdateSelectFile.TabIndex = 0;
             this.lblUpdateSelectFile.Text = "Select Update Package";
-            this.lblUpdateSelectFile.Click += new System.EventHandler(this.label1_Click);
             // 
             // btnSelectFile
             // 

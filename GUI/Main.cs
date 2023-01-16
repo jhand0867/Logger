@@ -1,5 +1,4 @@
 ﻿using LoggerUtil;
-using Microsoft.Win32;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -13,6 +12,8 @@ namespace Logger
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
             System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        private static readonly int MIN_BACKUP_DAYS = 5;
 
         public MainW()
         {
@@ -66,9 +67,6 @@ namespace Logger
                 "LogView Logs Options: 11100000\n" +
                 "LogView Files Options: 11111000\n" +
                 "LogView Filter Options: 11000000\n";
-
-            
-                
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -111,25 +109,33 @@ namespace Logger
             splasWindow.BringToFront();
             Cursor.Hide();
             splasWindow.ShowDialog();
+
             // check if recent update was done
-
-            string strUp = getUpdateFlag();
-
+            // Compare the staging folder existance and check creation date
+            // Compute weekend days and add to the minimum 
 
             string message = @"Logger recent update kept a backup, Would you like to remove the backup?";
 
-            if (strUp == "1")
+            if (Directory.Exists(Directory.GetCurrentDirectory() + @"\update"))
             {
-                DialogResult result = MessageBox.Show(message, "Backup Copy", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
+                DateTime checkLastUpdate = Directory.GetCreationTime(Directory.GetCurrentDirectory() + @"\update");
+
+                int nonWorkingDays = 0;
+
+                for (int i = 0; i <= MIN_BACKUP_DAYS; i++)
                 {
-                    //Directory.Delete(Directory.GetCurrentDirectory() + @"\update", true);
-
-                    RegistryManager rm = new RegistryManager();
-
-                    bool updated = rm.UpdateKey(@"SOFTWARE\Logger", "0", "Updated");
-
+                    if ((checkLastUpdate.AddDays(i).DayOfWeek == DayOfWeek.Saturday) ||
+                        (checkLastUpdate.AddDays(i).DayOfWeek == DayOfWeek.Sunday))
+                        nonWorkingDays++;
                 }
+
+                DialogResult result = MessageBox.Show(message, "Backup Copy", MessageBoxButtons.YesNo);
+                if ((result == DialogResult.Yes) ||
+                   (DateTime.Compare(checkLastUpdate.AddDays(MIN_BACKUP_DAYS + nonWorkingDays), DateTime.Now) < 0))
+                {
+                    Directory.Delete(Directory.GetCurrentDirectory() + @"\update", true);
+                }
+
             }
         }
 
@@ -194,7 +200,7 @@ namespace Logger
 
         private void uploadUpdates(string updateFile)
         {
-            log.Info("Open ZIP archive for update") ;
+            log.Info("Open ZIP archive for update");
 
 
             log.Info("Updating Logger");
