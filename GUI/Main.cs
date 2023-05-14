@@ -62,7 +62,7 @@ namespace Logger
                 "Starts on: \n" +
                 "Ends on: \n" +
                 "Project Options: 01100000\n" +
-                "Data Options: 01100000\n" +
+                "Data Options: 11100000\n" +
                 "Scan Options: 00000000\n" +
                 "LogView Logs Options: 11100000\n" +
                 "LogView Files Options: 11111000\n" +

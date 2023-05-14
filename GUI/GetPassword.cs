@@ -27,7 +27,7 @@ namespace Logger
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (textBox1.Text == "Joe1234")
+                if (textBox1.Text == "J")
                 {
                     App.Prj.Admin = true;
                     log.Info("Password correct, access granted");
