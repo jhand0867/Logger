@@ -17,7 +17,10 @@ namespace Logger
             {
                 license.UploadLicense(txtLicenseFile.Text);
                 MessageBox.Show("Upload Successful");
-                license.GetPermissions();
+                //license.GetPermissions();
+                //MLH 
+                App.Prj.Permissions = license.GetPermissions();
+                App.Prj.LicenseKey = license.VerifyLicenseRegistry();
                 this.Close();
             }
             else
