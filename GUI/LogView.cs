@@ -860,9 +860,10 @@ namespace Logger
                 {
                     //string sqlFromSqlike = sql.SqlLike.Substring(sql.SqlLike.IndexOf("'") + 1, sql.SqlLike.Length - sql.SqlLike.IndexOf("'") - 3);
                     dgvLog.DataSource = App.Prj.getALogByIDWithCriteria(ProjectData.logID, "", sql.SqlLike);
-                }
-                dgvLog.ClearSelection();
-                dgvLog.Refresh();
+                    if (dgvLog.DataSource == null)                 
+                        dgvLog.DataSource = dtCopy.Copy().Clone();
+                 }
+                doDgvColumns();
             }
 
 
