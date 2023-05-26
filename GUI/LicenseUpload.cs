@@ -19,8 +19,9 @@ namespace Logger
                 MessageBox.Show("Upload Successful");
                 //license.GetPermissions();
                 //MLH 
-                App.Prj.Permissions = license.GetPermissions();
                 App.Prj.LicenseKey = license.VerifyLicenseRegistry();
+                App.Prj.Permissions = license.GetPermissions(App.Prj.LicenseKey);
+
                 this.Close();
             }
             else

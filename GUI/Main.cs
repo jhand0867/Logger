@@ -45,8 +45,10 @@ namespace Logger
             log.Info("Checking License");
 
             License license = new License();
-            App.Prj.Permissions = license.GetPermissions();
+
             App.Prj.LicenseKey = license.VerifyLicenseRegistry();
+            App.Prj.Permissions = license.GetPermissions(App.Prj.LicenseKey);
+
             double num = new JulianDate().JD(DateTime.Now);
             if (App.Prj.LicenseKey != null && Convert.ToDouble(App.Prj.LicenseKey.EndDate) >= num)
             {

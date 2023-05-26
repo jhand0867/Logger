@@ -245,7 +245,7 @@ namespace Logger
         public bool Admin { get => pAdmin; set => pAdmin = value; }
         public string Version { get => pVersion; set => pVersion = value; }
 
-        private License getLicense() => new License().VerifyLicenseRegistry();
+        // private License getLicense() => new License().VerifyLicenseRegistry();
 
         public Project()
         {
