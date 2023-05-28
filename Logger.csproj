@@ -484,7 +484,7 @@
       <Project>{9D99844A-F55A-460B-B505-B8FE803FADCE}</Project>
       <Name>LoggerProgressBar1</Name>
     </ProjectReference>
-    <ProjectReference Include="LoggerUtils\LoggerUtils.csproj">
+    <ProjectReference Include="..\LoggerUtils\LoggerUtils.csproj">
       <Project>{8ddbc7e7-5299-4e79-8293-fab95a2f0ca3}</Project>
       <Name>LoggerUtils</Name>
     </ProjectReference>
