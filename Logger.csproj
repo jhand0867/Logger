@@ -468,12 +468,12 @@
     <Content Include="System Notes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\472\LoggerCrypto\LoggerCrypto\LoggerCrypto.csproj">
-      <Project>{7eb5144a-1aa9-4dbb-b62d-4d206b4f81e4}</Project>
+    <ProjectReference Include="..\..\.Net Core 6\LoggerCrypto\LoggerCrypto.csproj">
+      <Project>{4cefa427-7cd2-44f6-81e8-6b09eea988ef}</Project>
       <Name>LoggerCrypto</Name>
     </ProjectReference>
-    <ProjectReference Include="..\472\LoggerRegistry\LoggerRegistry\LoggerRegistry.csproj">
-      <Project>{90f8fbaa-3e21-4441-863e-b2b392c0d052}</Project>
+    <ProjectReference Include="..\..\.Net Core 6\LoggerRegistry\LoggerRegistry.csproj">
+      <Project>{eeee4d6c-735a-4e5e-8d51-d08adcecd051}</Project>
       <Name>LoggerRegistry</Name>
     </ProjectReference>
     <ProjectReference Include="..\LoggerLicense\LoggerLicense.csproj">
