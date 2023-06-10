@@ -95,7 +95,7 @@ namespace Logger
 
             for (int x = 0; x < tmpAids.Length; x++)
             {
-                if (tmpAids[x].Length == 2) continue;
+                if (tmpAids[x].Length <= 2) continue;
 
                 iccApp.Rectype = "85";
                 int offset = 0;
