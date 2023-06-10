@@ -63,12 +63,13 @@ namespace Logger
             connectionString = ConfigurationManager.ConnectionStrings["LoggerSQLite"].ConnectionString;
             cnn = new OdbcConnection(connectionString);
             DataTable dt = new DataTable();
+            var tempDt = dt;
 
             try
             {
                 cnn.Open();
                 OdbcDataAdapter sda = new OdbcDataAdapter(sql, cnn);
-                await Task.Run(() => sda.Fill(dt));
+                await Task.Run(() => sda.Fill(tempDt));
                 cnn.Close();
             }
             catch (Exception dbEx)
@@ -80,7 +81,7 @@ namespace Logger
                 log.Error("Database Error: " + dbEx.ToString());
                 return null;
             }
-
+            dt = tempDt;
             return dt;
 
         }
@@ -98,12 +99,13 @@ namespace Logger
             connectionString = ConfigurationManager.ConnectionStrings["LoggerSQLite"].ConnectionString;
             cnn = new OdbcConnection(connectionString);
             DataTable dt = new DataTable();
+            var tempDt = dt;
 
             try
             {
                 cnn.Open();
                 OdbcDataAdapter sda = new OdbcDataAdapter(sql, cnn);
-                sda.Fill(dt);
+                sda.Fill(tempDt);
                 cnn.Close();
             }
             catch (Exception dbEx)
@@ -115,7 +117,7 @@ namespace Logger
                 log.Error("Database Error: " + dbEx.ToString());
                 return null;
             }
-
+            dt= tempDt;
             return dt;
 
         }
