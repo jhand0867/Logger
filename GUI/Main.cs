@@ -15,6 +15,7 @@ namespace Logger
             System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private static readonly int MIN_BACKUP_DAYS = 5;
+        private static readonly string SQL_UPD_FOLDER = @"C:\Logger Update Build\sources\Data";
 
         public MainW()
         {
@@ -389,9 +390,10 @@ namespace Logger
         {
             generateUpdates();
         }
-
+        #region SQL Update
         private void generateUpdates()
         {
+
             DbCrud db = new DbCrud();
             db.crudToDb(@"drop table if exists sqlDetailUpdate;
             create table sqlDetailUpdate as
@@ -425,7 +427,8 @@ namespace Logger
             pI.UseShellExecute = false;
             pI.RedirectStandardOutput = true;
             pI.RedirectStandardError = true;
-            pI.WorkingDirectory = @"data";
+            
+            pI.WorkingDirectory = SQL_UPD_FOLDER;
 
             try
             {
@@ -445,5 +448,28 @@ namespace Logger
             }
 
         }
+        #endregion
+
+        #region App Update
+
+        // What to do to update the appplication
+        // if there is a zip in the Logger Update Build folder sources\App
+        //      Include that file in the Logger Updata archive with its version
+        //
+        // 
+        internal bool CheckForAppBuildFolder( string path)
+        {
+            return File.Exists( path );
+
+
+        }
+
+
+
+
+
+
+
+        #endregion
     }
 }

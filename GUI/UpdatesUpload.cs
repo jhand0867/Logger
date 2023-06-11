@@ -27,7 +27,7 @@ namespace Logger
             {
                 if (openFileDialog.ShowDialog((IWin32Window)this) == DialogResult.OK)
                 {
-                    log.Info($"Cleaning stagging area");
+                    log.Info($"Cleaning stagging area, making sure there is no previous sql");
 
                     if (File.Exists(Directory.GetCurrentDirectory() + @"\update\Logger\DB\LoggerUpdate.sql"))
                         File.Delete(Directory.GetCurrentDirectory() + @"\update\Logger\DB\LoggerUpdate.sql");
@@ -68,6 +68,10 @@ namespace Logger
 
         private void uploadUpdates()
         {
+            #region SQL Update
+            ////
+            /// Applying the INSERTS to the needed tables 
+            /// 
             log.Info("Updating Logger");
 
             // AdvancedFilter
@@ -151,5 +155,7 @@ namespace Logger
             // execute script 
             db.crudToDb(inputScript);
         }
+
+        #endregion 
     }
 }
