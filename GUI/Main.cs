@@ -4,7 +4,6 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Security.Principal;
 using System.Windows.Forms;
 
 namespace Logger
@@ -16,6 +15,9 @@ namespace Logger
 
         private static readonly int MIN_BACKUP_DAYS = 5;
         private static readonly string SQL_UPD_FOLDER = @"C:\Logger Update Build\sources\Data";
+        private static readonly string APP_UPD_FOLDER = @"C:\Logger Update Build\sources\App";
+        private static readonly string SQL_OUT_FOLDER = @"C:\Logger Update Build\output\Data";
+        private static readonly string APP_OUT_FOLDER = @"C:\Logger Update Build\output\App";
 
         public MainW()
         {
@@ -388,10 +390,12 @@ namespace Logger
 
         private void genrateUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            generateUpdates();
+            //generateDataUpdates();
+            generateAppUpdates();
+
         }
         #region SQL Update
-        private void generateUpdates()
+        private void generateDataUpdates()
         {
 
             DbCrud db = new DbCrud();
@@ -427,7 +431,7 @@ namespace Logger
             pI.UseShellExecute = false;
             pI.RedirectStandardOutput = true;
             pI.RedirectStandardError = true;
-            
+
             pI.WorkingDirectory = SQL_UPD_FOLDER;
 
             try
@@ -453,19 +457,44 @@ namespace Logger
         #region App Update
 
         // What to do to update the appplication
-        // if there is a zip in the Logger Update Build folder sources\App
+        // if there are any files in the path
+        // - Drop the needed members in the  a new Update Build folder sources\App
         //      Include that file in the Logger Updata archive with its version
         //
         // 
-        internal bool CheckForAppBuildFolder( string path)
+        internal bool generateAppUpdates()
         {
-            return File.Exists( path );
+            // stage the area
 
 
+            if (Directory.Exists(SQL_UPD_FOLDER))
+            {
+                Directory.Delete(SQL_UPD_FOLDER, true);
+                Directory.CreateDirectory(SQL_UPD_FOLDER);
+            }
+
+            if (Directory.GetFileSystemEntries(APP_UPD_FOLDER).Length != 0)
+            {
+                if (Directory.Exists(SQL_OUT_FOLDER))
+                    Directory.Delete(SQL_OUT_FOLDER);
+                Directory.CreateDirectory(SQL_OUT_FOLDER);
+
+                if (Directory.Exists(APP_OUT_FOLDER))
+                    Directory.Delete(APP_OUT_FOLDER);
+                Directory.CreateDirectory(APP_OUT_FOLDER);
+            }
+            
+
+
+            // there are some files here, let's open a new archive
+            foreach (string item in (Directory.GetFileSystemEntries(APP_UPD_FOLDER)))
+            {
+                File.Copy(item, APP_OUT_FOLDER + "\\" + item.Substring(item.LastIndexOf("\\"),(item.Length) - (item.LastIndexOf("\\"))), true);
+
+            }
+
+            return false;
         }
-
-
-
 
 
 

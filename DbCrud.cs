@@ -117,7 +117,7 @@ namespace Logger
                 log.Error("Database Error: " + dbEx.ToString());
                 return null;
             }
-            dt= tempDt;
+            dt = tempDt;
             return dt;
 
         }
