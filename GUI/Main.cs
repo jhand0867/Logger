@@ -390,7 +390,7 @@ namespace Logger
 
         private void genrateUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //generateDataUpdates();
+            generateDataUpdates();
             generateAppUpdates();
 
         }
@@ -425,14 +425,18 @@ namespace Logger
             int exitCode;
             Process p;
 
-            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump sqlBuilderUpdate sqlDetailUpdate dataDescription\" > LoggerUpdate.sql");
-            //            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump dataDescription\" >> sqlBuilderUpdate.sql");
+
+            //            System.Diagnostics.Process.Start(Application.StartupPath + "\\Data\\LoggerUpdate.bat");
+
+            ProcessStartInfo pI = new ProcessStartInfo();
+            pI.FileName = Application.StartupPath + "\\Data\\LoggerUpdate.bat";
             pI.CreateNoWindow = true;
             pI.UseShellExecute = false;
             pI.RedirectStandardOutput = true;
             pI.RedirectStandardError = true;
 
-            pI.WorkingDirectory = SQL_UPD_FOLDER;
+            pI.WorkingDirectory = SQL_OUT_FOLDER;
+            
 
             try
             {
@@ -476,11 +480,11 @@ namespace Logger
             if (Directory.GetFileSystemEntries(APP_UPD_FOLDER).Length != 0)
             {
                 if (Directory.Exists(SQL_OUT_FOLDER))
-                    Directory.Delete(SQL_OUT_FOLDER);
+                    Directory.Delete(SQL_OUT_FOLDER, true);
                 Directory.CreateDirectory(SQL_OUT_FOLDER);
 
                 if (Directory.Exists(APP_OUT_FOLDER))
-                    Directory.Delete(APP_OUT_FOLDER);
+                    Directory.Delete(APP_OUT_FOLDER, true);
                 Directory.CreateDirectory(APP_OUT_FOLDER);
             }
             

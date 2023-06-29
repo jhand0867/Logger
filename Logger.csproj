@@ -80,6 +80,22 @@
     <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="LoggerCrypto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\.Net Core 6\LoggerLicense\bin\Debug\net472\LoggerCrypto.dll</HintPath>
+    </Reference>
+    <Reference Include="LoggerLicense, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\.Net Core 6\LoggerLicense\bin\Debug\net472\LoggerLicense.dll</HintPath>
+    </Reference>
+    <Reference Include="LoggerRegistry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\.Net Core 6\LoggerRegistry\bin\Debug\net472\LoggerRegistry.dll</HintPath>
+    </Reference>
+    <Reference Include="LoggerUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\.Net Core 6\LoggerRegistry\bin\Debug\net472\LoggerUtils.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -468,25 +484,9 @@
     <Content Include="System Notes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\.Net Core 6\LoggerCrypto\LoggerCrypto.csproj">
-      <Project>{4cefa427-7cd2-44f6-81e8-6b09eea988ef}</Project>
-      <Name>LoggerCrypto</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\.Net Core 6\LoggerRegistry\LoggerRegistry.csproj">
-      <Project>{eeee4d6c-735a-4e5e-8d51-d08adcecd051}</Project>
-      <Name>LoggerRegistry</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LoggerLicense\LoggerLicense.csproj">
-      <Project>{8dd5dcea-4725-4bea-a36d-fc16dd8c344e}</Project>
-      <Name>LoggerLicense</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LoggerProgressBar1\LoggerProgressBar1.csproj">
-      <Project>{9D99844A-F55A-460B-B505-B8FE803FADCE}</Project>
+      <Project>{9d99844a-f55a-460b-b505-b8fe803fadce}</Project>
       <Name>LoggerProgressBar1</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LoggerUtils\LoggerUtils.csproj">
-      <Project>{8ddbc7e7-5299-4e79-8293-fab95a2f0ca3}</Project>
-      <Name>LoggerUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
