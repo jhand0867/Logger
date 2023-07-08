@@ -14,8 +14,8 @@ namespace Logger
             System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private static readonly int MIN_BACKUP_DAYS = 5;
-        private static readonly string SQL_UPD_FOLDER = @"C:\Logger Update Build\sources\Data";
-        private static readonly string APP_UPD_FOLDER = @"C:\Logger Update Build\sources\App";
+        private static readonly string SQL_SRC_FOLDER = @"C:\Logger Update Build\sources\Data";
+        private static readonly string APP_SRC_FOLDER = @"C:\Logger Update Build\sources\App";
         private static readonly string SQL_OUT_FOLDER = @"C:\Logger Update Build\output\Data";
         private static readonly string APP_OUT_FOLDER = @"C:\Logger Update Build\output\App";
 
@@ -30,7 +30,7 @@ namespace Logger
             this.projectsToolStripMenuItem.Font = new Font("Arial", 10);
             this.aboutToolStripMenuItem.Font = new Font("Arial", 10);
             this.fileToolStripMenuItem.Font = new Font("Arial", 10);
-            this.Text = "Hello";
+            this.Text = "Logger NDC Inspector";
 
             // check if admin switch was included
             log.Info($"Checking for admin");
@@ -398,6 +398,19 @@ namespace Logger
         private void generateDataUpdates()
         {
 
+            if (Directory.Exists(SQL_SRC_FOLDER))
+            {
+                Directory.Delete(SQL_SRC_FOLDER, true);
+                Directory.CreateDirectory(SQL_SRC_FOLDER);
+            }
+
+            if (Directory.Exists(SQL_OUT_FOLDER))
+            {
+                Directory.Delete(SQL_OUT_FOLDER, true);
+                Directory.CreateDirectory(SQL_OUT_FOLDER);
+            }
+
+
             DbCrud db = new DbCrud();
             db.crudToDb(@"drop table if exists sqlDetailUpdate;
             create table sqlDetailUpdate as
@@ -435,11 +448,13 @@ namespace Logger
             pI.RedirectStandardOutput = true;
             pI.RedirectStandardError = true;
 
-            pI.WorkingDirectory = SQL_OUT_FOLDER;
+            //pI.WorkingDirectory = SQL_OUT_FOLDER;
             
 
             try
             {
+                log.Info($"Starting to process {pI.FileName} ");
+
                 p = Process.Start(pI);
                 p.WaitForExit();
 
@@ -453,6 +468,20 @@ namespace Logger
             catch (Exception ex)
             {
                 log.Error($"ERROR: Dump failed {ex.Message}");
+            }
+
+            try
+            {
+                foreach (string item in (Directory.GetFileSystemEntries(SQL_SRC_FOLDER)))
+                {
+                    File.Copy(item, SQL_OUT_FOLDER + "\\" + item.Substring(item.LastIndexOf("\\"), (item.Length) - (item.LastIndexOf("\\"))), true);
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                log.Error($"ERROR: Unable to copy SQL source to Output - Dump failed {ex.Message}");
             }
 
         }
@@ -471,33 +500,30 @@ namespace Logger
             // stage the area
 
 
-            if (Directory.Exists(SQL_UPD_FOLDER))
+            if (Directory.Exists( APP_OUT_FOLDER ))
             {
-                Directory.Delete(SQL_UPD_FOLDER, true);
-                Directory.CreateDirectory(SQL_UPD_FOLDER);
-            }
-
-            if (Directory.GetFileSystemEntries(APP_UPD_FOLDER).Length != 0)
-            {
-                if (Directory.Exists(SQL_OUT_FOLDER))
-                    Directory.Delete(SQL_OUT_FOLDER, true);
-                Directory.CreateDirectory(SQL_OUT_FOLDER);
-
-                if (Directory.Exists(APP_OUT_FOLDER))
-                    Directory.Delete(APP_OUT_FOLDER, true);
+                Directory.Delete(APP_OUT_FOLDER, true);
                 Directory.CreateDirectory(APP_OUT_FOLDER);
             }
-            
-
 
             // there are some files here, let's open a new archive
-            foreach (string item in (Directory.GetFileSystemEntries(APP_UPD_FOLDER)))
-            {
-                File.Copy(item, APP_OUT_FOLDER + "\\" + item.Substring(item.LastIndexOf("\\"),(item.Length) - (item.LastIndexOf("\\"))), true);
 
+            try
+            {
+                foreach (string item in (Directory.GetFileSystemEntries(APP_SRC_FOLDER)))
+                {
+                    File.Copy(item, APP_OUT_FOLDER + "\\" + item.Substring(item.LastIndexOf("\\"), (item.Length) - (item.LastIndexOf("\\"))), true);
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                log.Error($"ERROR: Unable to copy APP source to Output - Dump failed {ex.Message}");
             }
 
-            return false;
+
+            return true;
         }
 
 
