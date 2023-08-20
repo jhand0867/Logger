@@ -1,9 +1,12 @@
 ﻿using LoggerUtil;
+
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace Logger
@@ -22,14 +25,15 @@ namespace Logger
         public MainW()
         {
             log.Info($"Logger Started");
+
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
             InitializeComponent();
             this.BackColor = System.Drawing.Color.LightGray;
             mainMenu.ForeColor = System.Drawing.Color.White;
             //this.mainMenu.Font = new Font("Helvetica", 18);
-            this.projectsToolStripMenuItem.Font = new Font("Arial", 10);
-            this.aboutToolStripMenuItem.Font = new Font("Arial", 10);
-            this.fileToolStripMenuItem.Font = new Font("Arial", 10);
+            this.projectsToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10);
+            this.aboutToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10);
+            this.fileToolStripMenuItem.Font = new System.Drawing.Font("Arial", 10);
             this.Text = "Logger NDC Inspector";
 
             // check if admin switch was included
@@ -78,33 +82,28 @@ namespace Logger
 
         private void OnProcessExit(object sender, EventArgs e)
         {
+            log.Info("Checking out of Logger now bye bye");
 
-            string delname = "test.cmd";
-            string fileurl = Application.ExecutablePath;
-            string whatINeed = "*.dll";
-
-            System.IO.StreamWriter file = new System.IO.StreamWriter(delname);
-            file.WriteLine(":Repeat");
-            file.WriteLine("del \"" + whatINeed + "\"");
-            file.WriteLine("if exist \"" + whatINeed + "\" goto Repeat");
-            file.WriteLine("del \"" + delname + "\"");
-            file.Close();
+            string fileurl = System.Windows.Forms.Application.ExecutablePath;
 
 
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.CreateNoWindow = true;
-            startInfo.UseShellExecute = false;
-            startInfo.FileName = delname;
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " deldlls.cmd");
+            pI.CreateNoWindow = true;
+            pI.UseShellExecute = false;
+            pI.RedirectStandardOutput = true;
+            pI.RedirectStandardError = true;
+            pI.WorkingDirectory = fileurl.Substring(0, fileurl.LastIndexOf('\\'));
 
             Process p;
-            int exitCode;
-
+            int exitCode = 0;
             try
             {
-                p = Process.Start(startInfo);
+                p = Process.Start(pI);
+                p.WaitForExit();
 
-                //p.WaitForExit();
+                string output = p.StandardOutput.ReadToEnd();
+                string error = p.StandardError.ReadToEnd();
 
                 exitCode = p.ExitCode;
 
@@ -113,8 +112,73 @@ namespace Logger
             }
             catch (Exception ex)
             {
-                log.Error($"ERROR: operation failed {ex.Message}");
+                log.Error($"ERROR: Dump failed {ex.Message}");
             }
+
+
+
+            //string delname = "deldlls.cmd";
+            //string fileurl = System.Windows.Forms.Application.ExecutablePath;
+            //string whatINeed = "Logger*.dll";
+
+            //System.IO.StreamWriter file = new System.IO.StreamWriter(delname);
+            //file.WriteLine(":Repeat");
+            //file.WriteLine("del \"" + whatINeed + "\"");
+            //file.WriteLine("if % errorlevel % neq 0 goto exit1");
+            //file.WriteLine("if exist \"" + whatINeed + "\" goto Repeat");
+            //file.WriteLine("del \"" + delname + "\"");
+            //file.WriteLine("endlocal");
+            //file.WriteLine(":exit1");
+            //file.WriteLine("echo Error found: % errorlevel % >> errormsg.txt") ;
+            //file.Close();
+
+            //ProcessStartInfo startInfo = new ProcessStartInfo();
+            //startInfo.CreateNoWindow = true;
+            //startInfo.WorkingDirectory = fileurl.Substring(0, fileurl.LastIndexOf('\\'))  ;
+            //startInfo.UseShellExecute = false;
+            //startInfo.FileName = delname;
+            //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+            //log.Info($"Starting to process {startInfo.ToString()}");
+
+
+            //Process p;
+            //int exitCode;
+
+            //try
+            //{
+            //    log.Info($"Starting to process {startInfo.ToString()}" );
+
+            //    startInfo.RedirectStandardError = true;
+
+            //    startInfo.RedirectStandardOutput = true;
+
+
+            //    p = Process.Start(startInfo);
+
+            //    p.WaitForExit();
+
+
+            //    exitCode = p.ExitCode;
+
+            //    System.IO.StreamReader streamReader = p.StandardOutput;
+
+
+            //    log.Info($"Finish processing {startInfo.ToString()}");
+
+            //    p.Close();
+
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    log.Error($"ERROR: operation failed {ex.Message}");
+            //}
+            //finally
+            //{
+            //    log.Info($"Finished processing {startInfo.ToString()}");
+
+            //}
 
 
 
@@ -145,12 +209,12 @@ namespace Logger
 
         private void MainW_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            System.Windows.Forms.Application.Exit();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            System.Windows.Forms.Application.Exit();
         }
 
         private void MainW_Load(object sender, EventArgs e)
@@ -218,7 +282,7 @@ namespace Logger
 
             DbCrud DB = new DbCrud();
 
-            DataTable dt = DB.GetTableFromDb("SELECT * FROM generalInfo order by id desc");
+            System.Data.DataTable dt = DB.GetTableFromDb("SELECT * FROM generalInfo order by id desc");
             foreach (DataRow row in dt.Rows)
             {
                 ToolStripMenuItem MI = new ToolStripMenuItem();
@@ -442,7 +506,7 @@ namespace Logger
             //            System.Diagnostics.Process.Start(Application.StartupPath + "\\Data\\LoggerUpdate.bat");
 
             ProcessStartInfo pI = new ProcessStartInfo();
-            pI.FileName = Application.StartupPath + "\\Data\\LoggerUpdate.bat";
+            pI.FileName = System.Windows.Forms.Application.StartupPath + "\\Data\\LoggerUpdate.bat";
             pI.CreateNoWindow = true;
             pI.UseShellExecute = false;
             pI.RedirectStandardOutput = true;

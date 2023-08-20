@@ -196,7 +196,7 @@ namespace Logger
             // insert the Builder
 
             string sourceValue = "U";  // User defined
-            if (_queryDescription.Substring(0, 2) == "I-")
+            if (_queryDescription.StartsWith("I-"))
             {
                 sourceValue = "I";   // Internal 
             }

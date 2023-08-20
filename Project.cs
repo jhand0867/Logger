@@ -628,7 +628,7 @@ namespace Logger
                 "                           [group7] as 'Log'," +
                 "                           [group8] as 'Log Data',[group9]," +
                 "                           [prjKey],[logID] FROM [loginfo] " +
-                "                            WHERE logID =" + logID + " AND " + sqlLike + "' order by id asc";
+                "                            WHERE logID =" + logID + " AND " + sqlLike + " order by id asc";
             //            "                            WHERE logID =" + logID + " AND " + sqlLike.Substring(0, sqlLike.LastIndexOf("%") + 1) + "' order by id asc";
 
             DataTable tableFromDb = new DbCrud().GetTableFromDb(sql);
