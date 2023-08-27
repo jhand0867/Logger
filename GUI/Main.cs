@@ -507,14 +507,14 @@ namespace Logger
             if (Directory.Exists(SQL_SRC_FOLDER))
             {
                 Directory.Delete(SQL_SRC_FOLDER, true);
-                Directory.CreateDirectory(SQL_SRC_FOLDER);
             }
+            Directory.CreateDirectory(SQL_SRC_FOLDER);
 
             if (Directory.Exists(SQL_OUT_FOLDER))
             {
                 Directory.Delete(SQL_OUT_FOLDER, true);
-                Directory.CreateDirectory(SQL_OUT_FOLDER);
             }
+            Directory.CreateDirectory(SQL_OUT_FOLDER);
 
 
             DbCrud db = new DbCrud();
@@ -609,8 +609,8 @@ namespace Logger
             if (Directory.Exists( APP_OUT_FOLDER ))
             {
                 Directory.Delete(APP_OUT_FOLDER, true);
-                Directory.CreateDirectory(APP_OUT_FOLDER);
             }
+            Directory.CreateDirectory(APP_OUT_FOLDER);
 
             // there are some files here, let's open a new archive
 
