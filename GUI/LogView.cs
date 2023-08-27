@@ -153,7 +153,7 @@ namespace Logger
             {
                 dgvLog.Columns["Log Data"].DefaultCellStyle.Font = font;
             }
-            lblDGVMessage.Text = "Loading...";
+            lblDGVMessage.Text = "Cargando...";
 
             Task<DataTable> dtTask = App.Prj.getALogByIDAsync(ProjectData.logID);
             dt = await dtTask;

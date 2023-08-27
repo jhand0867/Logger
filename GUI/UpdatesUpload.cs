@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Logger.Properties;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace Logger
 {
@@ -59,14 +61,16 @@ namespace Logger
             }
             lblUploadMessage.Text = "Installing Updates ...";
 
-            uploadUpdates();
+            uploadDataUpdates();
 
-            lblUploadMessage.Text = "Updates Installed ...";
+            lblUploadMessage.Text = "Data Updates Installed ...";
+
+            lblUploadMessage.Text = "Application Updates Installed ...";
 
             this.Close();
         }
 
-        private void uploadUpdates()
+        private void uploadDataUpdates()
         {
             #region SQL Update
             ////
@@ -110,6 +114,7 @@ namespace Logger
             Process p;
 
             ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump sqlBuilderUpdate sqlDetailUpdate --data-only \"  > sqlBuilderUpdateU.sql");
+
             pI.CreateNoWindow = true;
             pI.UseShellExecute = false;
             pI.RedirectStandardOutput = true;
@@ -142,10 +147,103 @@ namespace Logger
             string inputScript = String.Empty;
             inputScript = @"drop table if exists dataDescription;
                             drop table if exists sqlBuilder;
-                            drop table if exists sqlDetail;" + Environment.NewLine;
+                            drop table if exists sqlDetail;"
+            + Environment.NewLine;
 
 
-            inputScript += System.IO.File.ReadAllText(@"data\LoggerUpdate.sql") + Environment.NewLine;
+            inputScript += System.IO.File.ReadAllText(@"update\sources\Data\LoggerUpdate.sql") + Environment.NewLine;
+
+            inputScript += System.IO.File.ReadAllText(@"data\sqlBuilderUpdateU.sql");
+
+            inputScript = inputScript.Replace("sqlDetailUpdate", "sqlDetail");
+            inputScript = inputScript.Replace("sqlBuilderUpdate", "sqlBuilder");
+
+            // execute script 
+            db.crudToDb(inputScript);
+        }
+        #endregion
+        private void uploadAppUpdates()
+        {
+            #region App Update
+            ////
+            /// Applying the INSERTS to the needed tables 
+            /// 
+            log.Info("Updating Logger");
+
+            // AdvancedFilter
+            // -- Select from sqlBuilder records source = 'U'
+            // -- Select from sqlDetail records belonging to the source U
+
+            log.Debug("Exporting to work tables sqlBuilderUpdate and sqlDetailUpdate User Filters");
+            DbCrud db = new DbCrud();
+            db.crudToDb(@"drop table if exists sqlDetailUpdate;
+            create table sqlDetailUpdate as
+            SELECT b.sqlId,
+                   b.fieldName,
+                   b.condition,
+                   b.fieldValue,
+                   b.andOr,
+                   b.fieldOutput,
+                   b.filterKey,
+                   b.lineNumber
+              FROM sqlBuilder as a JOIN sqlDetail as b
+              ON a.filterKey = b.filterKey
+              WHERE a.source='U';
+            drop table if exists sqlBuilderUpdate;
+            create table sqlBuilderUpdate as
+            SELECT name,
+                   description,
+                   date,
+                   source,
+                   filterKey
+              FROM sqlBuilder 
+              WHERE source='U';");
+
+            // start batch process
+
+            log.Debug("About to dump sqlBuilderUpdate sqlDetailUpdate tables to sqlBuilderUpdate.sql");
+            int exitCode;
+            Process p;
+
+            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump sqlBuilderUpdate sqlDetailUpdate --data-only \"  > sqlBuilderUpdateU.sql");
+
+            pI.CreateNoWindow = true;
+            pI.UseShellExecute = false;
+            pI.RedirectStandardOutput = true;
+            pI.RedirectStandardError = true;
+            pI.WorkingDirectory = @"data";
+
+            try
+            {
+                p = Process.Start(pI);
+                p.WaitForExit();
+
+                string output = p.StandardOutput.ReadToEnd();
+                string error = p.StandardError.ReadToEnd();
+
+                exitCode = p.ExitCode;
+
+                p.Close();
+
+            }
+            catch (Exception ex)
+            {
+                log.Error($"ERROR: Dump failed {ex.Message}");
+            }
+
+            // DataDescription
+            // -- run script to import the data dataDescriptionUpdate.sql
+            // -- run script to import sqlBuilderUpdate.sql and run script to add sqlBuilderUpdateU
+
+            log.Debug("About to drop tables if exist dataDescription, sqlBuilder and sqlDetail");
+            string inputScript = String.Empty;
+            inputScript = @"drop table if exists dataDescription;
+                            drop table if exists sqlBuilder;
+                            drop table if exists sqlDetail;"
+            + Environment.NewLine;
+
+
+            inputScript += System.IO.File.ReadAllText(@"update\sources\Data\LoggerUpdate.sql") + Environment.NewLine;
 
             inputScript += System.IO.File.ReadAllText(@"data\sqlBuilderUpdateU.sql");
 

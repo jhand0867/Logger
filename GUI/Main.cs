@@ -80,40 +80,82 @@ namespace Logger
                 "LogView Filter Options: 11000000\n";
         }
 
+        internal static bool deleteSelf()
+        {
+            try
+            {
+
+
+                Process.Start(new ProcessStartInfo()
+                {
+                    Arguments = "/C choice /C Y /N /D Y /T 3 & del  \"" + Process.GetCurrentProcess().MainModule.FileName + "\"",
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    CreateNoWindow = true,
+                    FileName = "cmd.exe"
+                });
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
         private void OnProcessExit(object sender, EventArgs e)
         {
             log.Info("Checking out of Logger now bye bye");
 
             string fileurl = System.Windows.Forms.Application.ExecutablePath;
 
-
-
-            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " deldlls.cmd");
-            pI.CreateNoWindow = true;
-            pI.UseShellExecute = false;
-            pI.RedirectStandardOutput = true;
-            pI.RedirectStandardError = true;
-            pI.WorkingDirectory = fileurl.Substring(0, fileurl.LastIndexOf('\\'));
-
-            Process p;
-            int exitCode = 0;
             try
             {
-                p = Process.Start(pI);
-                p.WaitForExit();
 
-                string output = p.StandardOutput.ReadToEnd();
-                string error = p.StandardError.ReadToEnd();
 
-                exitCode = p.ExitCode;
-
-                p.Close();
-
+                Process.Start(new ProcessStartInfo()
+                //  {Environment.NewLine}copy Update\Output\App\*.* /Y 
+                {
+                    Arguments = "/C choice /C Y /N /D Y /T 3 & copy Update\\Output\\App\\*.*  >> test01.txt ",
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    CreateNoWindow = true,
+                    FileName = "cmd.exe"
+                });
+                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                log.Error($"ERROR: Dump failed {ex.Message}");
+                return;
             }
+
+
+
+            //ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " test01.cmd");
+            //pI.Arguments = "";
+            //pI.CreateNoWindow = true;
+            //pI.UseShellExecute = false;
+            //pI.RedirectStandardOutput = true;
+            //pI.RedirectStandardError = true;
+            //pI.WorkingDirectory = fileurl.Substring(0, fileurl.LastIndexOf('\\'));
+
+            //Process p;
+            //int exitCode = 0;
+            //try
+            //{
+            //    p = Process.Start(pI);
+            //    p.WaitForExit(100);
+
+            //    string output = p.StandardOutput.ReadToEnd();
+            //    string error = p.StandardError.ReadToEnd();
+
+            //    exitCode = p.ExitCode;
+
+            //    p.Close();
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    log.Error($"ERROR: Dump failed {ex.Message}");
+            //}
 
 
 
