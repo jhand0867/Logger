@@ -3,6 +3,8 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
@@ -31,8 +33,16 @@ namespace Logger
                 {
                     log.Info($"Cleaning stagging area, making sure there is no previous sql");
 
-                    if (File.Exists(Directory.GetCurrentDirectory() + @"\update\Logger\DB\LoggerUpdate.sql"))
-                        File.Delete(Directory.GetCurrentDirectory() + @"\update\Logger\DB\LoggerUpdate.sql");
+                    if (Directory.Exists(Directory.GetCurrentDirectory() + @"\update"))
+                        Directory.Delete(Directory.GetCurrentDirectory() + @"\update", true);
+                    //Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\update");
+
+                    DirectoryInfo di = System.IO.Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\update");
+
+                    DirectoryInfo dInfo = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\update");
+                    DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                    dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                    dInfo.SetAccessControl(dSecurity);
 
                     log.Info($"Opening file: {openFileDialog.FileName}");
 
@@ -65,7 +75,9 @@ namespace Logger
 
             lblUploadMessage.Text = "Data Updates Installed ...";
 
-            lblUploadMessage.Text = "Application Updates Installed ...";
+            lblUploadMessage.Text = "Application Updates Staged ...";
+
+            uploadAppUpdates();
 
             this.Close();
         }
@@ -113,17 +125,19 @@ namespace Logger
             int exitCode;
             Process p;
 
-            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump sqlBuilderUpdate sqlDetailUpdate --data-only \"  > sqlBuilderUpdateU.sql");
+            ProcessStartInfo installDataUpdates = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump sqlBuilderUpdate sqlDetailUpdate --data-only \"  > sqlBuilderUpdateU.sql");
 
-            pI.CreateNoWindow = true;
-            pI.UseShellExecute = false;
-            pI.RedirectStandardOutput = true;
-            pI.RedirectStandardError = true;
-            pI.WorkingDirectory = @"data";
+            installDataUpdates.CreateNoWindow = true;
+            installDataUpdates.UseShellExecute = false;
+            installDataUpdates.RedirectStandardOutput = true;
+            installDataUpdates.RedirectStandardError = true;
+            installDataUpdates.WorkingDirectory = @"data";
+            //pI.Verb = "runas";
+            //pI.UseShellExecute = true;
 
             try
             {
-                p = Process.Start(pI);
+                p = Process.Start(installDataUpdates);
                 p.WaitForExit();
 
                 string output = p.StandardOutput.ReadToEnd();
@@ -151,7 +165,7 @@ namespace Logger
             + Environment.NewLine;
 
 
-            inputScript += System.IO.File.ReadAllText(@"update\sources\Data\LoggerUpdate.sql") + Environment.NewLine;
+            inputScript += System.IO.File.ReadAllText(@"update\Data\LoggerUpdate.sql") + Environment.NewLine;
 
             inputScript += System.IO.File.ReadAllText(@"data\sqlBuilderUpdateU.sql");
 
@@ -165,61 +179,29 @@ namespace Logger
         private void uploadAppUpdates()
         {
             #region App Update
-            ////
-            /// Applying the INSERTS to the needed tables 
-            /// 
-            log.Info("Updating Logger");
-
-            // AdvancedFilter
-            // -- Select from sqlBuilder records source = 'U'
-            // -- Select from sqlDetail records belonging to the source U
-
-            log.Debug("Exporting to work tables sqlBuilderUpdate and sqlDetailUpdate User Filters");
-            DbCrud db = new DbCrud();
-            db.crudToDb(@"drop table if exists sqlDetailUpdate;
-            create table sqlDetailUpdate as
-            SELECT b.sqlId,
-                   b.fieldName,
-                   b.condition,
-                   b.fieldValue,
-                   b.andOr,
-                   b.fieldOutput,
-                   b.filterKey,
-                   b.lineNumber
-              FROM sqlBuilder as a JOIN sqlDetail as b
-              ON a.filterKey = b.filterKey
-              WHERE a.source='U';
-            drop table if exists sqlBuilderUpdate;
-            create table sqlBuilderUpdate as
-            SELECT name,
-                   description,
-                   date,
-                   source,
-                   filterKey
-              FROM sqlBuilder 
-              WHERE source='U';");
-
-            // start batch process
+            
 
             log.Debug("About to dump sqlBuilderUpdate sqlDetailUpdate tables to sqlBuilderUpdate.sql");
             int exitCode;
             Process p;
 
-            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump sqlBuilderUpdate sqlDetailUpdate --data-only \"  > sqlBuilderUpdateU.sql");
+            ProcessStartInfo installAppUpdates = new ProcessStartInfo("loggerinstaller.exe");
 
-            pI.CreateNoWindow = true;
-            pI.UseShellExecute = false;
-            pI.RedirectStandardOutput = true;
-            pI.RedirectStandardError = true;
-            pI.WorkingDirectory = @"data";
+            installAppUpdates.CreateNoWindow = true;
+            installAppUpdates.UseShellExecute = false;
+            //installAppUpdates.RedirectStandardOutput = true;
+            //installAppUpdates.RedirectStandardError = true;
+            installAppUpdates.WorkingDirectory = "..\\..\\..\\loggerInstaller\\loggerinstaller\\bin\\debug";
+            installAppUpdates.Verb = "RUNAS";
+            installAppUpdates.UseShellExecute = true;
 
             try
             {
-                p = Process.Start(pI);
+                p = Process.Start(installAppUpdates);
                 p.WaitForExit();
 
-                string output = p.StandardOutput.ReadToEnd();
-                string error = p.StandardError.ReadToEnd();
+                //string output = p.StandardOutput.ReadToEnd();
+                //string error = p.StandardError.ReadToEnd();
 
                 exitCode = p.ExitCode;
 
@@ -231,27 +213,7 @@ namespace Logger
                 log.Error($"ERROR: Dump failed {ex.Message}");
             }
 
-            // DataDescription
-            // -- run script to import the data dataDescriptionUpdate.sql
-            // -- run script to import sqlBuilderUpdate.sql and run script to add sqlBuilderUpdateU
 
-            log.Debug("About to drop tables if exist dataDescription, sqlBuilder and sqlDetail");
-            string inputScript = String.Empty;
-            inputScript = @"drop table if exists dataDescription;
-                            drop table if exists sqlBuilder;
-                            drop table if exists sqlDetail;"
-            + Environment.NewLine;
-
-
-            inputScript += System.IO.File.ReadAllText(@"update\sources\Data\LoggerUpdate.sql") + Environment.NewLine;
-
-            inputScript += System.IO.File.ReadAllText(@"data\sqlBuilderUpdateU.sql");
-
-            inputScript = inputScript.Replace("sqlDetailUpdate", "sqlDetail");
-            inputScript = inputScript.Replace("sqlBuilderUpdate", "sqlBuilder");
-
-            // execute script 
-            db.crudToDb(inputScript);
         }
 
         #endregion 

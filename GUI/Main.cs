@@ -105,125 +105,6 @@ namespace Logger
         private void OnProcessExit(object sender, EventArgs e)
         {
             log.Info("Checking out of Logger now bye bye");
-
-            string fileurl = System.Windows.Forms.Application.ExecutablePath;
-
-            try
-            {
-
-
-                Process.Start(new ProcessStartInfo()
-                //  {Environment.NewLine}copy Update\Output\App\*.* /Y 
-                {
-                    Arguments = "/C choice /C Y /N /D Y /T 3 & copy Update\\Output\\App\\*.*  >> test01.txt ",
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    CreateNoWindow = true,
-                    FileName = "cmd.exe"
-                });
-                
-            }
-            catch (Exception)
-            {
-                return;
-            }
-
-
-
-            //ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " test01.cmd");
-            //pI.Arguments = "";
-            //pI.CreateNoWindow = true;
-            //pI.UseShellExecute = false;
-            //pI.RedirectStandardOutput = true;
-            //pI.RedirectStandardError = true;
-            //pI.WorkingDirectory = fileurl.Substring(0, fileurl.LastIndexOf('\\'));
-
-            //Process p;
-            //int exitCode = 0;
-            //try
-            //{
-            //    p = Process.Start(pI);
-            //    p.WaitForExit(100);
-
-            //    string output = p.StandardOutput.ReadToEnd();
-            //    string error = p.StandardError.ReadToEnd();
-
-            //    exitCode = p.ExitCode;
-
-            //    p.Close();
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    log.Error($"ERROR: Dump failed {ex.Message}");
-            //}
-
-
-
-            //string delname = "deldlls.cmd";
-            //string fileurl = System.Windows.Forms.Application.ExecutablePath;
-            //string whatINeed = "Logger*.dll";
-
-            //System.IO.StreamWriter file = new System.IO.StreamWriter(delname);
-            //file.WriteLine(":Repeat");
-            //file.WriteLine("del \"" + whatINeed + "\"");
-            //file.WriteLine("if % errorlevel % neq 0 goto exit1");
-            //file.WriteLine("if exist \"" + whatINeed + "\" goto Repeat");
-            //file.WriteLine("del \"" + delname + "\"");
-            //file.WriteLine("endlocal");
-            //file.WriteLine(":exit1");
-            //file.WriteLine("echo Error found: % errorlevel % >> errormsg.txt") ;
-            //file.Close();
-
-            //ProcessStartInfo startInfo = new ProcessStartInfo();
-            //startInfo.CreateNoWindow = true;
-            //startInfo.WorkingDirectory = fileurl.Substring(0, fileurl.LastIndexOf('\\'))  ;
-            //startInfo.UseShellExecute = false;
-            //startInfo.FileName = delname;
-            //startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-
-            //log.Info($"Starting to process {startInfo.ToString()}");
-
-
-            //Process p;
-            //int exitCode;
-
-            //try
-            //{
-            //    log.Info($"Starting to process {startInfo.ToString()}" );
-
-            //    startInfo.RedirectStandardError = true;
-
-            //    startInfo.RedirectStandardOutput = true;
-
-
-            //    p = Process.Start(startInfo);
-
-            //    p.WaitForExit();
-
-
-            //    exitCode = p.ExitCode;
-
-            //    System.IO.StreamReader streamReader = p.StandardOutput;
-
-
-            //    log.Info($"Finish processing {startInfo.ToString()}");
-
-            //    p.Close();
-
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    log.Error($"ERROR: operation failed {ex.Message}");
-            //}
-            //finally
-            //{
-            //    log.Info($"Finished processing {startInfo.ToString()}");
-
-            //}
-
-
-
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -351,66 +232,27 @@ namespace Logger
 
         private void updatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UpdatesUpload uploads = new UpdatesUpload();
-            uploads.ShowDialog();
-        }
-
-        private void uploadUpdates(string updateFile)
-        {
-            log.Info("Open ZIP archive for update");
-
-
-            log.Info("Updating Logger");
-
-            // AdvancedFilter
-            // -- Select from sqlBuilder records source = 'U'
-            // -- Select from sqlDetail records belonging to the source U
-
-            log.Debug("Exporting to work tables sqlBuilderUpdate and sqlDetailUpdate User Filters");
-            DbCrud db = new DbCrud();
-            db.crudToDb(@"drop table if exists sqlDetailUpdate;
-            create table sqlDetailUpdate as
-            SELECT b.sqlId,
-                   b.fieldName,
-                   b.condition,
-                   b.fieldValue,
-                   b.andOr,
-                   b.fieldOutput,
-                   b.filterKey,
-                   b.lineNumber
-              FROM sqlBuilder as a JOIN sqlDetail as b
-              ON a.filterKey = b.filterKey
-              WHERE a.source='U';
-            drop table if exists sqlBuilderUpdate;
-            create table sqlBuilderUpdate as
-            SELECT name,
-                   description,
-                   date,
-                   source,
-                   filterKey
-              FROM sqlBuilder 
-              WHERE source='U';");
-
-            // start batch process
-
-            log.Debug("About to dump sqlBuilderUpdate sqlDetailUpdate tables to sqlBuilderUpdate.sql");
+            log.Debug("About to Update Logger");
             int exitCode;
             Process p;
 
-            ProcessStartInfo pI = new ProcessStartInfo("cmd", "/c" + " sqlite3.exe logger.db \".dump sqlBuilderUpdate sqlDetailUpdate --data-only \"  > sqlBuilderUpdateU.sql");
-            pI.CreateNoWindow = true;
-            pI.UseShellExecute = false;
-            pI.RedirectStandardOutput = true;
-            pI.RedirectStandardError = true;
-            pI.WorkingDirectory = @"data";
+            ProcessStartInfo installAppUpdates = new ProcessStartInfo(Directory.GetCurrentDirectory() + @"\update.exe");
+
+            installAppUpdates.CreateNoWindow = true;
+            installAppUpdates.UseShellExecute = false;
+            //installAppUpdates.RedirectStandardOutput = true;
+            //installAppUpdates.RedirectStandardError = true;
+            installAppUpdates.WorkingDirectory = "Update";
+            installAppUpdates.Verb = "RUNAS";
+            installAppUpdates.UseShellExecute = true;
 
             try
             {
-                p = Process.Start(pI);
+                p = Process.Start(installAppUpdates);
                 p.WaitForExit();
 
-                string output = p.StandardOutput.ReadToEnd();
-                string error = p.StandardError.ReadToEnd();
+                //string output = p.StandardOutput.ReadToEnd();
+                //string error = p.StandardError.ReadToEnd();
 
                 exitCode = p.ExitCode;
 
@@ -421,28 +263,6 @@ namespace Logger
             {
                 log.Error($"ERROR: Dump failed {ex.Message}");
             }
-
-            // DataDescription
-            // -- run script to import the data dataDescriptionUpdate.sql
-            // -- run script to import sqlBuilderUpdate.sql and run script to add sqlBuilderUpdateU
-
-            log.Debug("About to drop tables if exist dataDescription, sqlBuilder and sqlDetail");
-            string inputScript = String.Empty;
-            inputScript = @"drop table if exists dataDescription;
-                            drop table if exists sqlBuilder;
-                            drop table if exists sqlDetail;" + Environment.NewLine;
-
-
-            inputScript += System.IO.File.ReadAllText(@"data\LoggerUpdate.sql") + Environment.NewLine;
-
-            inputScript += System.IO.File.ReadAllText(@"data\sqlBuilderUpdateU.sql");
-
-            inputScript = inputScript.Replace("sqlDetailUpdate", "sqlDetail");
-            inputScript = inputScript.Replace("sqlBuilderUpdate", "sqlBuilder");
-
-            // execute script 
-            db.crudToDb(inputScript);
-
         }
 
         private string getVersion()
@@ -545,7 +365,7 @@ namespace Logger
             Process p;
 
 
-            //            System.Diagnostics.Process.Start(Application.StartupPath + "\\Data\\LoggerUpdate.bat");
+            //System.Diagnostics.Process.Start(Application.StartupPath + "\\Data\\LoggerUpdate.bat");
 
             ProcessStartInfo pI = new ProcessStartInfo();
             pI.FileName = System.Windows.Forms.Application.StartupPath + "\\Data\\LoggerUpdate.bat";
