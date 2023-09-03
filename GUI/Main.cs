@@ -6,6 +6,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
@@ -267,21 +268,19 @@ namespace Logger
 
         private string getVersion()
         {
-            int offset = 0;
-            int keyLenght = 0;
+            //int offset = 0;
+            //int keyLenght = 0;
 
-            RegistryManager rm = new RegistryManager();
-            string keyContent = rm.ReadKey(@"SOFTWARE\Logger");
-            string[] subKeys = keyContent.Split('\n');
+            //RegistryManager rm = new RegistryManager();
+            //string keyContent = rm.ReadKey(@"SOFTWARE\Logger");
+            //string[] subKeys = keyContent.Split('\n');
 
-            offset = subKeys[0].IndexOf("=") + 1;
-            keyLenght = subKeys[0].Length;
+            //offset = subKeys[0].IndexOf("=") + 1;
+            //keyLenght = subKeys[0].Length;
 
+            //return subKeys[0].Substring(offset, keyLenght - offset);
 
-
-
-
-            return subKeys[0].Substring(offset, keyLenght - offset);
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         }
 

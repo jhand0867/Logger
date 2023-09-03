@@ -116,21 +116,21 @@
             // aboutLoggerToolStripMenuItem
             // 
             this.aboutLoggerToolStripMenuItem.Name = "aboutLoggerToolStripMenuItem";
-            this.aboutLoggerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutLoggerToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.aboutLoggerToolStripMenuItem.Text = "About Logger";
             this.aboutLoggerToolStripMenuItem.Click += new System.EventHandler(this.aboutLoggerToolStripMenuItem_Click);
             // 
             // licenseToolStripMenuItem
             // 
             this.licenseToolStripMenuItem.Name = "licenseToolStripMenuItem";
-            this.licenseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.licenseToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.licenseToolStripMenuItem.Text = "License";
             this.licenseToolStripMenuItem.Click += new System.EventHandler(this.licenseToolStripMenuItem_Click);
             // 
             // updatesToolStripMenuItem
             // 
             this.updatesToolStripMenuItem.Name = "updatesToolStripMenuItem";
-            this.updatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updatesToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.updatesToolStripMenuItem.Text = "Updates";
             this.updatesToolStripMenuItem.Click += new System.EventHandler(this.updatesToolStripMenuItem_Click);
             // 
@@ -147,7 +147,7 @@
             // genrateUpdatesToolStripMenuItem
             // 
             this.genrateUpdatesToolStripMenuItem.Name = "genrateUpdatesToolStripMenuItem";
-            this.genrateUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.genrateUpdatesToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.genrateUpdatesToolStripMenuItem.Text = "Genrate Updates";
             this.genrateUpdatesToolStripMenuItem.Click += new System.EventHandler(this.genrateUpdatesToolStripMenuItem_Click);
             // 
@@ -161,7 +161,7 @@
             this.lblVersion.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.lblVersion.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVersion.ForeColor = System.Drawing.Color.Red;
-            this.lblVersion.Location = new System.Drawing.Point(860, 5);
+            this.lblVersion.Location = new System.Drawing.Point(853, 5);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(72, 16);
             this.lblVersion.TabIndex = 2;
