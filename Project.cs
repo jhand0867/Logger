@@ -514,7 +514,7 @@ namespace Logger
                                                 str1 = str3;
                                                 flag2 = true;
                                             }
-                                            catch (ArgumentException ex)
+                                            catch (ArgumentException)
                                             {
                                                 ++num1;
                                             }

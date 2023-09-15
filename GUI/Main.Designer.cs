@@ -42,6 +42,8 @@
             this.adminToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.genrateUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblVersion = new System.Windows.Forms.Label();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -105,7 +107,8 @@
             this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutLoggerToolStripMenuItem,
             this.licenseToolStripMenuItem,
-            this.updatesToolStripMenuItem});
+            this.updatesToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.aboutToolStripMenuItem.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Window;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
@@ -116,21 +119,21 @@
             // aboutLoggerToolStripMenuItem
             // 
             this.aboutLoggerToolStripMenuItem.Name = "aboutLoggerToolStripMenuItem";
-            this.aboutLoggerToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.aboutLoggerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutLoggerToolStripMenuItem.Text = "About Logger";
             this.aboutLoggerToolStripMenuItem.Click += new System.EventHandler(this.aboutLoggerToolStripMenuItem_Click);
             // 
             // licenseToolStripMenuItem
             // 
             this.licenseToolStripMenuItem.Name = "licenseToolStripMenuItem";
-            this.licenseToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.licenseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.licenseToolStripMenuItem.Text = "License";
             this.licenseToolStripMenuItem.Click += new System.EventHandler(this.licenseToolStripMenuItem_Click);
             // 
             // updatesToolStripMenuItem
             // 
             this.updatesToolStripMenuItem.Name = "updatesToolStripMenuItem";
-            this.updatesToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.updatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.updatesToolStripMenuItem.Text = "Updates";
             this.updatesToolStripMenuItem.Click += new System.EventHandler(this.updatesToolStripMenuItem_Click);
             // 
@@ -167,6 +170,17 @@
             this.lblVersion.TabIndex = 2;
             this.lblVersion.Text = "Version 1.0";
             // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
+            // 
+            // helpProvider1
+            // 
+            this.helpProvider1.HelpNamespace = "manualtest.chm";
+            // 
             // MainW
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -177,8 +191,10 @@
             this.Controls.Add(this.mainMenu);
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
+            this.HelpButton = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainW";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -186,6 +202,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainW_FormClosing);
             this.Load += new System.EventHandler(this.MainW_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainW_KeyDown);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
@@ -208,6 +225,8 @@
         private System.Windows.Forms.ToolStripMenuItem adminToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem genrateUpdatesToolStripMenuItem;
         private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.HelpProvider helpProvider1;
     }
 }
 

@@ -27,6 +27,12 @@ namespace Logger
             this.menuStrip1.Font = new Font("Arial", 10);
             this.contextMenuStrip1.Font = new Font("Arial", 10);
             this.contextMenuStrip2.Font = new Font("Arial", 10);
+
+            // settings for application help
+            this.KeyPreview = true;
+            KeyListener.CustomKeyEvent += CustomKeyEventHandler;
+
+
         }
 
 
@@ -44,6 +50,13 @@ namespace Logger
 
             bool result = await loadInfoAsync();
 
+
+        }
+
+        private void CustomKeyEventHandler(object sender, KeyEventArgs e)
+        {
+            if(Equals(e.KeyValue,112))
+                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
         }
 
         //internal void loadInfo()
@@ -606,6 +619,14 @@ namespace Logger
                     continue;
                 }
             }
+        }
+
+        private void Projects_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == 112)
+                // Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
+                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm", "LoggerBuildProcess\\LoggerBuildProcess.html");
+                //Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm", HelpNavigator.);
         }
     }
 }

@@ -117,7 +117,7 @@ namespace Logger
             {
                 return stateTypeDic[stateType]();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

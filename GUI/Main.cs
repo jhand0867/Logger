@@ -1,13 +1,9 @@
 ﻿using LoggerUtil;
-
-using Microsoft.Office.Interop.Excel;
 using System;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Reflection;
-using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace Logger
@@ -29,6 +25,7 @@ namespace Logger
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
             InitializeComponent();
+
             this.BackColor = System.Drawing.Color.LightGray;
             mainMenu.ForeColor = System.Drawing.Color.White;
             //this.mainMenu.Font = new Font("Helvetica", 18);
@@ -85,8 +82,6 @@ namespace Logger
         {
             try
             {
-
-
                 Process.Start(new ProcessStartInfo()
                 {
                     Arguments = "/C choice /C Y /N /D Y /T 3 & del  \"" + Process.GetCurrentProcess().MainModule.FileName + "\"",
@@ -95,13 +90,11 @@ namespace Logger
                     FileName = "cmd.exe"
                 });
                 return true;
-
             }
             catch (Exception)
             {
                 return false;
             }
-
         }
         private void OnProcessExit(object sender, EventArgs e)
         {
@@ -176,6 +169,14 @@ namespace Logger
                 }
 
             }
+
+        }
+
+        private void CustomKeyEventHandler(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == 112)
+                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
+
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -374,7 +375,7 @@ namespace Logger
             pI.RedirectStandardError = true;
 
             //pI.WorkingDirectory = SQL_OUT_FOLDER;
-            
+
 
             try
             {
@@ -425,7 +426,7 @@ namespace Logger
             // stage the area
 
 
-            if (Directory.Exists( APP_OUT_FOLDER ))
+            if (Directory.Exists(APP_OUT_FOLDER))
             {
                 Directory.Delete(APP_OUT_FOLDER, true);
             }
@@ -455,5 +456,25 @@ namespace Logger
 
 
         #endregion
+
+        #region Help listener
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            log.Debug("About to launch Logger Help");
+            Help.ShowHelp(this, $"{Directory.GetCurrentDirectory()}\\manualtest.chm");
+        }
+
+
+
+
+        #endregion Help listener
+
+        private void MainW_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == 112)
+                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm","LoggerManual/LoggerManual.htm");
+        }
     }
+
 }

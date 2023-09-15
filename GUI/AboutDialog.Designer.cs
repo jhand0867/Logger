@@ -102,6 +102,7 @@ namespace Logger
             this.Text = "AboutDialog";
             this.Load += new System.EventHandler(this.AboutDialog_Load);
             this.Click += new System.EventHandler(this.AboutDialog_Click);
+            //this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AboutDialog_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

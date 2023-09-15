@@ -54,6 +54,11 @@ namespace Logger
             viewToolStripMenuItem.Font = new Font("Arial", 10);
             searchToolStripMenuItem.Font = new Font("Arial", 10);
             contextMenuStrip1.Font = new Font("Arial", 10);
+
+            // settings for application help
+            this.KeyPreview = true;
+            KeyListener.CustomKeyEvent += CustomKeyEventHandler;
+
         }
 
         private void LogView_FormClosing(object sender, FormClosingEventArgs e)
@@ -65,6 +70,7 @@ namespace Logger
 
         private async void LogView_Load(object sender, EventArgs e)
         {
+
             dgvLog.Visible = false;
             bool tagFlag = false;
             DataTable dt = new DataTable();
@@ -165,6 +171,12 @@ namespace Logger
 
             dtCopy = dt.Copy();
 
+        }
+
+        private void CustomKeyEventHandler(object sender, KeyEventArgs e)
+        {
+            if (Equals(e.KeyCode, Keys.F1))
+                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
         }
 
         private void writeGeneralInfo(string logID)

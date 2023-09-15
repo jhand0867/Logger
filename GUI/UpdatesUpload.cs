@@ -1,12 +1,10 @@
-﻿using Logger.Properties;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace Logger
 {
@@ -179,7 +177,7 @@ namespace Logger
         private void uploadAppUpdates()
         {
             #region App Update
-            
+
 
             log.Debug("About to dump sqlBuilderUpdate sqlDetailUpdate tables to sqlBuilderUpdate.sql");
             int exitCode;

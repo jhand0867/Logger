@@ -86,6 +86,13 @@ namespace Logger
                 idx = Array.IndexOf(andOr, gridrows[x].SQLAndOr);
                 cb.SelectedIndex = idx;
             }
+
+        }
+
+        private void CustomKeyEventHandler(object sender, KeyEventArgs e)
+        {
+            if (Equals(e.KeyCode,Keys.F1))
+                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
         }
 
         /// <summary>
@@ -417,6 +424,14 @@ namespace Logger
                 dg.Refresh();
 
             }
+        }
+
+        private void AdvancedFilterw_Load(object sender, EventArgs e)
+        {
+            // setting application help
+            this.KeyPreview = true;
+            KeyListener.CustomKeyEvent += CustomKeyEventHandler;
+
         }
     }
 }

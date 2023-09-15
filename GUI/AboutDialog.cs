@@ -15,6 +15,11 @@ namespace Logger
             this.Text = String.Format("About {0}", AssemblyTitle);
             T.Tick += T_Tick;
             this.lblVersion.Text = AssemblyVersion;
+
+            // setting application help
+            this.KeyPreview = true;
+            KeyListener.CustomKeyEvent += CustomKeyEventHandler;
+
         }
 
         private void T_Tick(object sender, EventArgs e)
@@ -104,6 +109,13 @@ namespace Logger
         private void AboutDialog_Load(object sender, EventArgs e)
         {
             T.Enabled = true;
+
+        }
+
+        private void CustomKeyEventHandler(object sender, KeyEventArgs e)
+        {
+            if(Equals(e.KeyCode,Keys.F1))
+                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
         }
 
         private void AboutDialog_Click(object sender, EventArgs e)
@@ -120,5 +132,12 @@ namespace Logger
         {
 
         }
+
+        //private void AboutDialog_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.KeyValue == 112)
+        //        Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
+
+        //}
     }
 }
