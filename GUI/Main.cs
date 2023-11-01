@@ -18,6 +18,7 @@ namespace Logger
         private static readonly string APP_SRC_FOLDER = @"C:\Logger Update Build\sources\App";
         private static readonly string SQL_OUT_FOLDER = @"C:\Logger Update Build\output\Data";
         private static readonly string APP_OUT_FOLDER = @"C:\Logger Update Build\output\App";
+        private static readonly string HELP_TOPIC = "LoggerManual/LoggerManual.htm";
 
         public MainW()
         {
@@ -473,7 +474,7 @@ namespace Logger
         private void MainW_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyValue == 112)
-                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm","LoggerManual/LoggerManual.htm");
+                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm",HELP_TOPIC);
         }
     }
 

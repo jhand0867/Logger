@@ -7,6 +7,7 @@ namespace Logger
     partial class AboutDialog : Form
     {
         internal Timer T = new Timer();
+        private static readonly string HELP_TOPIC = "help";
 
         public AboutDialog()
         {
@@ -18,7 +19,7 @@ namespace Logger
 
             // setting application help
             this.KeyPreview = true;
-            KeyListener.CustomKeyEvent += CustomKeyEventHandler;
+            
 
         }
 
@@ -111,13 +112,6 @@ namespace Logger
             T.Enabled = true;
 
         }
-
-        private void CustomKeyEventHandler(object sender, KeyEventArgs e)
-        {
-            if(Equals(e.KeyCode,Keys.F1))
-                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
-        }
-
         private void AboutDialog_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -133,11 +127,10 @@ namespace Logger
 
         }
 
-        //private void AboutDialog_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (e.KeyValue == 112)
-        //        Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
-
-        //}
+        private void AboutDialog_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == 112)
+                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm", HELP_TOPIC);
+        }
     }
 }

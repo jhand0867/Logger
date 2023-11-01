@@ -31,6 +31,8 @@ namespace Logger
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
             System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        private static readonly string HELP_TOPIC = "LoggerBuildProcess\\LoggerBuildProcess.html";
+
         // needed to set the column's width of the datagridview.
         public const int TIMESTAMP_COLUMN_WIDTH = 165;
 
@@ -57,8 +59,6 @@ namespace Logger
 
             // settings for application help
             this.KeyPreview = true;
-            KeyListener.CustomKeyEvent += CustomKeyEventHandler;
-
         }
 
         private void LogView_FormClosing(object sender, FormClosingEventArgs e)
@@ -176,7 +176,7 @@ namespace Logger
         private void CustomKeyEventHandler(object sender, KeyEventArgs e)
         {
             if (Equals(e.KeyCode, Keys.F1))
-                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
+                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm",HELP_TOPIC);
         }
 
         private void writeGeneralInfo(string logID)

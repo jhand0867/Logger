@@ -17,6 +17,8 @@ namespace Logger
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
                         System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        private static readonly string HELP_TOPIC = "LoggerBuildProcess\\LoggerBuildProcess.html";
+
         // adding a list for the hamburger menu
         private ListBox hamburguerMenuOptions;
 
@@ -30,9 +32,6 @@ namespace Logger
 
             // settings for application help
             this.KeyPreview = true;
-            KeyListener.CustomKeyEvent += CustomKeyEventHandler;
-
-
         }
 
 
@@ -625,7 +624,7 @@ namespace Logger
         {
             if (e.KeyValue == 112)
                 // Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
-                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm", "LoggerBuildProcess\\LoggerBuildProcess.html");
+                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm", HELP_TOPIC);
                 //Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm", HelpNavigator.);
         }
     }

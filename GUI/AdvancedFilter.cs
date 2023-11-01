@@ -14,6 +14,7 @@ namespace Logger
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
             System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly string HELP_TOPIC = "help.htm";
 
         public ToPassDataGridView PassDataGridView;
 
@@ -430,7 +431,6 @@ namespace Logger
         {
             // setting application help
             this.KeyPreview = true;
-            KeyListener.CustomKeyEvent += CustomKeyEventHandler;
 
         }
     }
