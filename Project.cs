@@ -30,7 +30,7 @@ namespace Logger
         private string pName;
         private string pBrief;
         private int pLogs;
-        private License pLicense;
+        private LoggerLicense.LoggerLic pLicense;
         private string pPermissions;
         private string pVersion;
         private bool pAdmin;
@@ -231,7 +231,7 @@ namespace Logger
 
         public string[,] RecordTypes => this.recordTypes;
 
-        public License LicenseKey
+        public LoggerLicense.LoggerLic LicenseKey
         {
             get => this.pLicense;
             set => this.pLicense = value;

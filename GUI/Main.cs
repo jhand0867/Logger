@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Logger.LoggerLicense;
 
 namespace Logger
 {
@@ -38,8 +39,9 @@ namespace Logger
 
 
             // display version
-
             lblVersion.Text = "Version " + getVersion();
+
+
             //lblVersion.ForeColor = System.Drawing.Color.White;
 
             log.Info($"Logger Version {lblVersion.Text}");
@@ -49,12 +51,20 @@ namespace Logger
 
             log.Info("Checking License");
 
-            License license = new License();
+            //LoggerLicense.LoggerLic license = new LoggerLicense.LoggerLic();
+            LoggerLic license = new LoggerLic();    
 
             App.Prj.LicenseKey = license.VerifyLicenseRegistry();
+            if (App.Prj.LicenseKey.Customer == "0000")
+            {
+                MessageBox.Show("License is not valid ... contact your provider");
+                Environment.Exit(0);
+            }
+
+
             App.Prj.Permissions = license.GetPermissions(App.Prj.LicenseKey);
 
-            double num = new JulianDate().JD(DateTime.Now);
+            double num = new LoggerLicense.JulianDate().JD(DateTime.Now);
             if (App.Prj.LicenseKey != null && Convert.ToDouble(App.Prj.LicenseKey.EndDate) >= num)
             {
                 log.Info("Licesense is current");

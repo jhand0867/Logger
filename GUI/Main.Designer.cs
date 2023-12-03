@@ -116,21 +116,21 @@
             // aboutLoggerToolStripMenuItem
             // 
             this.aboutLoggerToolStripMenuItem.Name = "aboutLoggerToolStripMenuItem";
-            this.aboutLoggerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutLoggerToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.aboutLoggerToolStripMenuItem.Text = "About Logger";
             this.aboutLoggerToolStripMenuItem.Click += new System.EventHandler(this.aboutLoggerToolStripMenuItem_Click);
             // 
             // licenseToolStripMenuItem
             // 
             this.licenseToolStripMenuItem.Name = "licenseToolStripMenuItem";
-            this.licenseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.licenseToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.licenseToolStripMenuItem.Text = "License";
             this.licenseToolStripMenuItem.Click += new System.EventHandler(this.licenseToolStripMenuItem_Click);
             // 
             // updatesToolStripMenuItem
             // 
             this.updatesToolStripMenuItem.Name = "updatesToolStripMenuItem";
-            this.updatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.updatesToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.updatesToolStripMenuItem.Text = "Updates";
             this.updatesToolStripMenuItem.Click += new System.EventHandler(this.updatesToolStripMenuItem_Click);
             // 
@@ -147,7 +147,7 @@
             // genrateUpdatesToolStripMenuItem
             // 
             this.genrateUpdatesToolStripMenuItem.Name = "genrateUpdatesToolStripMenuItem";
-            this.genrateUpdatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.genrateUpdatesToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.genrateUpdatesToolStripMenuItem.Text = "Genrate Updates";
             this.genrateUpdatesToolStripMenuItem.Click += new System.EventHandler(this.genrateUpdatesToolStripMenuItem_Click);
             // 
