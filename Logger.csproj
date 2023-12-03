@@ -87,11 +87,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="LoggerDB">
-      <HintPath>..\..\.Net Core 6\LoggerDB\bin\Debug\net6.0\LoggerDB.dll</HintPath>
+      <HintPath>..\..\.Net Core 6\LoggerDB\bin\Debug\net472\LoggerDB.dll</HintPath>
     </Reference>
     <Reference Include="LoggerLicense">
       <HintPath>..\..\.Net Core 6\LoggerLicense\bin\Debug\net472\LoggerLicense.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="LoggerProgressBar1, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
@@ -152,7 +151,6 @@
     <Compile Include="StateRecords\StateV.cs" />
     <Compile Include="StateRecords\State62.cs" />
     <Compile Include="VoiceGuidance.cs" />
-    <Compile Include="DbCrud.cs" />
     <Compile Include="EncryptorInitData\EncryptorInitData5.cs" />
     <Compile Include="Filters\FilterDescriptionWithScriptAndTable.cs" />
     <Compile Include="Filters\FilterDescriptionWithScript.cs" />
