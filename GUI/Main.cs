@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Logger.LoggerLicense;
 
 namespace Logger
 {
@@ -39,10 +40,12 @@ namespace Logger
             log.Info($"Checking for admin");
             App.Prj.ValidateUser(this.adminToolStripMenuItem1);
 
+            LoggerLic license = new LoggerLic();
 
             // display version
+            lblVersion.Text = "Version " + license.getVersion();
 
-            lblVersion.Text = "Version " + getVersion();
+
             //lblVersion.ForeColor = System.Drawing.Color.White;
 
             log.Info($"Logger Version {lblVersion.Text}");
@@ -52,51 +55,59 @@ namespace Logger
 
             log.Info("Checking License");
 
-            License license = new License();
+            //LoggerLicense.LoggerLic license = new LoggerLicense.LoggerLic();
+              
 
             App.Prj.LicenseKey = license.VerifyLicenseRegistry();
+
+            if (App.Prj.LicenseKey.Customer == "0000")
+            {
+                log.Info("License is not current");
+                log.Debug($"License: {license.ToString()}");
+
+                App.Prj.Permissions = "Customer: 0001\n" +
+                    "LicenseType: \n" +
+                    "Starts on: \n" +
+                    "Ends on: \n" +
+                    "Project Options: 01100000\n" +
+                    "Data Options: 11100000\n" +
+                    "Scan Options: 00000000\n" +
+                    "LogView Logs Options: 11100000\n" +
+                    "LogView Files Options: 11111000\n" +
+                    "LogView Filter Options: 11000000\n";
+
+                return;
+            }
+
+
             App.Prj.Permissions = license.GetPermissions(App.Prj.LicenseKey);
 
-            double num = new JulianDate().JD(DateTime.Now);
+            double num = new LoggerLicense.JulianDate().JD(DateTime.Now);
             if (App.Prj.LicenseKey != null && Convert.ToDouble(App.Prj.LicenseKey.EndDate) >= num)
             {
                 log.Info("Licesense is current");
                 return;
             }
-
-            log.Info("License is not current");
-            log.Debug($"License: {license.ToString()}");
-
-            App.Prj.Permissions = "Customer: 0001\n" +
-                "LicenseType: \n" +
-                "Starts on: \n" +
-                "Ends on: \n" +
-                "Project Options: 01100000\n" +
-                "Data Options: 11100000\n" +
-                "Scan Options: 00000000\n" +
-                "LogView Logs Options: 11100000\n" +
-                "LogView Files Options: 11111000\n" +
-                "LogView Filter Options: 11000000\n";
         }
 
-        internal static bool deleteSelf()
-        {
-            try
-            {
-                Process.Start(new ProcessStartInfo()
-                {
-                    Arguments = "/C choice /C Y /N /D Y /T 3 & del  \"" + Process.GetCurrentProcess().MainModule.FileName + "\"",
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    CreateNoWindow = true,
-                    FileName = "cmd.exe"
-                });
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+        //private void OnProcessExit(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        Process.Start(new ProcessStartInfo()
+        //        {
+        //            Arguments = "/C choice /C Y /N /D Y /T 3 & del  \"" + Process.GetCurrentProcess().MainModule.FileName + "\"",
+        //            WindowStyle = ProcessWindowStyle.Hidden,
+        //            CreateNoWindow = true,
+        //            FileName = "cmd.exe"
+        //        });
+        //        return true;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return false;
+        //    }
+        //}
         private void OnProcessExit(object sender, EventArgs e)
         {
             log.Info("Checking out of Logger now bye bye");
@@ -266,48 +277,6 @@ namespace Logger
             {
                 log.Error($"ERROR: Dump failed {ex.Message}");
             }
-        }
-
-        private string getVersion()
-        {
-            //int offset = 0;
-            //int keyLenght = 0;
-
-            //RegistryManager rm = new RegistryManager();
-            //string keyContent = rm.ReadKey(@"SOFTWARE\Logger");
-            //string[] subKeys = keyContent.Split('\n');
-
-            //offset = subKeys[0].IndexOf("=") + 1;
-            //keyLenght = subKeys[0].Length;
-
-            //return subKeys[0].Substring(offset, keyLenght - offset);
-
-            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-        }
-
-        private string getUpdateFlag()
-        {
-            int offset = 0;
-            int keyLenght = 0;
-
-            RegistryManager rm = new RegistryManager();
-            string keyContent = rm.ReadKey(@"SOFTWARE\Logger");
-            string[] subKeys = keyContent.Split('\n');
-            string keyValue = string.Empty;
-            foreach (string subKey in subKeys)
-            {
-                if (subKey.Contains("Updated="))
-                {
-                    offset = subKey.IndexOf("=") + 1;
-                    keyLenght = subKey.Length;
-                    keyValue = subKey.Substring(offset, keyLenght - offset);
-                }
-            }
-
-
-            return keyValue;
-
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)

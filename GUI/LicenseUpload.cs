@@ -12,7 +12,7 @@ namespace Logger
 
         private void btnLicenseUpload_Click(object sender, EventArgs e)
         {
-            License license = new License();
+            LoggerLicense.LoggerLic license = new LoggerLicense.LoggerLic();
             if (txtLicenseFile.Text.Contains("Logger.Lic"))
             {
                 license.UploadLicense(txtLicenseFile.Text);

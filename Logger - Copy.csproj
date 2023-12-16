@@ -79,6 +79,7 @@
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
+<<<<<<< HEAD
     </Reference>
     <Reference Include="LoggerCrypto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -90,19 +91,42 @@
     </Reference>
     <Reference Include="LoggerLicense, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+=======
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LoggerCrypto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\.Net Core 6\LoggerCrypto\bin\Debug\net472\Out\LoggerCrypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LoggerDB">
+      <HintPath>..\..\.Net Core 6\LoggerDB\bin\Debug\net472\LoggerDB.dll</HintPath>
+    </Reference>
+    <Reference Include="LoggerLicense">
+>>>>>>> CreatingFirstRelease
       <HintPath>..\..\.Net Core 6\LoggerLicense\bin\Debug\net472\LoggerLicense.dll</HintPath>
     </Reference>
     <Reference Include="LoggerProgressBar1, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LoggerProgressBar1\bin\Debug\LoggerProgressBar1.dll</HintPath>
+<<<<<<< HEAD
     </Reference>
     <Reference Include="LoggerRegistry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+=======
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LoggerRegistry">
+>>>>>>> CreatingFirstRelease
       <HintPath>..\..\.Net Core 6\LoggerRegistry\bin\Debug\net472\LoggerRegistry.dll</HintPath>
     </Reference>
     <Reference Include="LoggerUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\.Net Core 6\LoggerUtils\bin\Debug\net472\LoggerUtils.dll</HintPath>
+<<<<<<< HEAD
+=======
+      <Private>True</Private>
+>>>>>>> CreatingFirstRelease
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -111,9 +135,12 @@
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Management" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.CSharp">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -386,7 +413,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\MessageWindow.resx">
       <DependentUpon>MessageWindow.cs</DependentUpon>

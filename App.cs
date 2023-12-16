@@ -276,7 +276,7 @@ namespace Logger
           ToolStripItemCollection menuItemsCollection,
           menusTypes menuType)
         {
-            if (permissions == null || menuItemsCollection == null)
+            if (permissions == string.Empty || menuItemsCollection == null)
                 return;
             string[] strArray = permissions.Split('\n');
             string str1 = strArray[(int)menuType].Substring(strArray[(int)menuType].IndexOf(":") + 2, 8);
