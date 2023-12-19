@@ -84,10 +84,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\.Net Core 6\LoggerCrypto\bin\Debug\net472\LoggerCrypto.dll</HintPath>
     </Reference>
-    <Reference Include="LoggerDB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\.Net Core 6\LoggerDB\bin\Debug\net472\LoggerDB.dll</HintPath>
-    </Reference>
     <Reference Include="LoggerLicense, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\.Net Core 6\LoggerLicense\bin\Debug\net472\LoggerLicense.dll</HintPath>
@@ -111,6 +107,7 @@
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Management" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -490,6 +487,15 @@
     <Content Include="GUI\Icon1.ico" />
     <Content Include="Logger01.ico" />
     <Content Include="System Notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\.Net Core 6\LoggerDB\LoggerDB.csproj">
+      <Project>{f2f7905e-7315-475d-a752-874ded9a38cd}</Project>
+      <Name>LoggerDB</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

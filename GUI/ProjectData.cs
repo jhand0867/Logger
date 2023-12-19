@@ -262,6 +262,7 @@ namespace Logger
             if (option >= 0)
             {
                 string regExStr = App.Prj.RecordTypes[option, 0] + "%";
+//                string regExStr = App.Prj.RecordTypes[option, 0] + ".*";
                 string recordType = App.Prj.RecordTypes[option, 3];
 
                 log.Info($"Scanning for '{recordType}' records started");
@@ -449,63 +450,63 @@ namespace Logger
         private void allToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // MLH changed here to allow ALL when at least one is still to SCAN
-            log.Debug("All options selected for Scan");
-            if (dataGridView1.Rows.Count == 0)
-                return;
+            //log.Debug("All options selected for Scan");
+            //if (dataGridView1.Rows.Count == 0)
+            //    return;
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+            //DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            if (optionDbfieldMatch.Count == 0)
-            {
-                //optionDbfieldMatch.Add(#column in Log table, #entry in RecordTypes);       
+            //if (optionDbfieldMatch.Count == 0)
+            //{
+            //    //optionDbfieldMatch.Add(#column in Log table, #entry in RecordTypes);       
 
-                optionDbfieldMatch.Add(09, 07);     // enhancedParametersLoad
-                optionDbfieldMatch.Add(05, 03);     // states
-                optionDbfieldMatch.Add(06, 04);     // configParametersLoad
-                optionDbfieldMatch.Add(07, 05);     // fit
-                optionDbfieldMatch.Add(08, 06);     // configID
-                optionDbfieldMatch.Add(04, 02);     // screens
-                optionDbfieldMatch.Add(10, 08);     // mac
-                optionDbfieldMatch.Add(11, 09);     // dateandtime
-                optionDbfieldMatch.Add(12, 10);     // dispenserCurrency
-                optionDbfieldMatch.Add(13, 01);     // treply
-                optionDbfieldMatch.Add(14, 25);     // interactiveTranResponse
-                optionDbfieldMatch.Add(15, 23);     // extendedEncrypKeyChange
-                optionDbfieldMatch.Add(16, 20);     // ejAckBlock
-                optionDbfieldMatch.Add(17, 21);     // ejAckStop
-                optionDbfieldMatch.Add(18, 22);     // ejOptionsTimers
-                optionDbfieldMatch.Add(19, 99);        // hostToExit
-                optionDbfieldMatch.Add(20, 24);     // terminalCommands
-                optionDbfieldMatch.Add(21, 26);     // voiceGuidance
-                optionDbfieldMatch.Add(22, 00);     // treq
-                optionDbfieldMatch.Add(23, 16);     // solicitedStatus
-                optionDbfieldMatch.Add(24, 17);     // unsolicitedStatus
-                optionDbfieldMatch.Add(25, 18);     // encryptorInitData
-                optionDbfieldMatch.Add(26, 99);        // exitToHost
-                optionDbfieldMatch.Add(27, 19);     // uploadEjData
-                optionDbfieldMatch.Add(28, 11);     // iccCurrencyDOT
-                optionDbfieldMatch.Add(29, 12);     // iccTransactionDOT
-                optionDbfieldMatch.Add(30, 13);     // iccLanguageSupportT
-                optionDbfieldMatch.Add(31, 14);     // iccTerminalDOT
-                optionDbfieldMatch.Add(32, 15);     // iccApplicationIDT
+            //    optionDbfieldMatch.Add(09, 07);     // enhancedParametersLoad
+            //    optionDbfieldMatch.Add(05, 03);     // states
+            //    optionDbfieldMatch.Add(06, 04);     // configParametersLoad
+            //    optionDbfieldMatch.Add(07, 05);     // fit
+            //    optionDbfieldMatch.Add(08, 06);     // configID
+            //    optionDbfieldMatch.Add(04, 02);     // screens
+            //    optionDbfieldMatch.Add(10, 08);     // mac
+            //    optionDbfieldMatch.Add(11, 09);     // dateandtime
+            //    optionDbfieldMatch.Add(12, 10);     // dispenserCurrency
+            //    optionDbfieldMatch.Add(13, 01);     // treply
+            //    optionDbfieldMatch.Add(14, 25);     // interactiveTranResponse
+            //    optionDbfieldMatch.Add(15, 23);     // extendedEncrypKeyChange
+            //    optionDbfieldMatch.Add(16, 20);     // ejAckBlock
+            //    optionDbfieldMatch.Add(17, 21);     // ejAckStop
+            //    optionDbfieldMatch.Add(18, 22);     // ejOptionsTimers
+            //    optionDbfieldMatch.Add(19, 99);        // hostToExit
+            //    optionDbfieldMatch.Add(20, 24);     // terminalCommands
+            //    optionDbfieldMatch.Add(21, 26);     // voiceGuidance
+            //    optionDbfieldMatch.Add(22, 00);     // treq
+            //    optionDbfieldMatch.Add(23, 16);     // solicitedStatus
+            //    optionDbfieldMatch.Add(24, 17);     // unsolicitedStatus
+            //    optionDbfieldMatch.Add(25, 18);     // encryptorInitData
+            //    optionDbfieldMatch.Add(26, 99);        // exitToHost
+            //    optionDbfieldMatch.Add(27, 19);     // uploadEjData
+            //    optionDbfieldMatch.Add(28, 11);     // iccCurrencyDOT
+            //    optionDbfieldMatch.Add(29, 12);     // iccTransactionDOT
+            //    optionDbfieldMatch.Add(30, 13);     // iccLanguageSupportT
+            //    optionDbfieldMatch.Add(31, 14);     // iccTerminalDOT
+            //    optionDbfieldMatch.Add(32, 15);     // iccApplicationIDT
 
-            }
+            //}
 
-            // using Dictionary order
+            //// using Dictionary order
 
-            foreach (int recKey in optionDbfieldMatch.Keys)
-            {
-                int recType = optionDbfieldMatch[recKey];
+            //foreach (int recKey in optionDbfieldMatch.Keys)
+            //{
+            //    int recType = optionDbfieldMatch[recKey];
 
-                if (recType == 99) continue;
+            //    if (recType == 99) continue;
 
-                if (dgvr.Cells[recKey].Value.ToString() != "True" && dgvr.Cells[recKey].Value.ToString() != "true")
-                {
-                    optionSelected(recType, false);
-                }
-            }
+            //    if (dgvr.Cells[recKey].Value.ToString() != "True" && dgvr.Cells[recKey].Value.ToString() != "true")
+            //    {
+            //        optionSelected(recType, false);
+            //    }
+            //}
 
-            optionSelected(-1, true);
+            //optionSelected(-1, true);
 
         }
 

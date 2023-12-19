@@ -3,11 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Odbc;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Logger
 {
@@ -415,6 +417,8 @@ namespace Logger
 
         public DataTable getLogDetailByID(string logID) => new DbCrud().GetTableFromDb("SELECT * FROM logDetail WHERE logID = '" + logID + "'");
 
+        (OdbcConnection connection, OdbcCommand command, OdbcTransaction transaction) trandata;
+
         public void uploadLog(string filename)
         {
             int project = this.attachLogToProject(this.pKey, filename);
@@ -433,6 +437,9 @@ namespace Logger
             string str1 = "";
             long index1 = 0;
             bool flag1 = false;
+            
+            trandata = new DbCrud().initConnection("select * from loginfo");
+
             while (index1 < (long)strArray.Length)
             {
                 string str2 = strArray[index1];
@@ -478,7 +485,7 @@ namespace Logger
                             if (str2.Length != current.Value.Length)
                                 str4 = str2.Substring(current.Value.Length, str2.Length - current.Value.Length);
                             int index2 = 0;
-                            foreach (Group group in current.Groups)
+                            foreach (System.Text.RegularExpressions.Group group in current.Groups)
                             {
                                 if (group.Value + str4 == str2)
                                 {
@@ -509,7 +516,7 @@ namespace Logger
                                                 string str5 = str3 + "-" + num1.ToString();
                                                 dictionary.Add(str5, data);
                                                 int count = dictionary.Count;
-                                                if (this.writeData(str5, data, project))
+                                                if (this.writeData(str5, data, project, trandata.connection))
                                                     flag1 = true;
                                                 str1 = str3;
                                                 flag2 = true;
@@ -531,7 +538,12 @@ namespace Logger
                     }
                 }
             }
+            bool resp = new DbCrud().dropConnection(trandata.connection, trandata.transaction);
+
             this.addLogToProject(this.pKey);
+            this.extractNDCData(project);
+            this.processNDCRecords(project);
+
             loggerProgressBar.Visible = false;
             if (!flag1)
                 this.detachLogByID(project.ToString());
@@ -541,7 +553,91 @@ namespace Logger
             Project.log.Info((object)string.Format("Records Extended {0}", (object)num4));
         }
 
-        public bool writeData(string recKey, dataLine data, int logID)
+        private void extractNDCData(int project)
+        {
+            DbCrud db = new DbCrud();
+            bool created =  db.crudToDb("DROP TABLE IF EXISTS [NDCRecords];CREATE TABLE [NDCRecords] as " +
+                        "SELECT * from [loginfo]" +
+                        "WHERE group8 like 'HOST2ATM%' AND logID =" + project +
+                        " or group8 like 'ATM2HOST%' AND logID =" + project);
+            if (!created)
+            {
+                log.Error("Error!!!!");
+            }
+                
+        }
+
+        internal void processNDCRecords(int project)
+        {
+            Dictionary<int, int> optionDbfieldMatch = new Dictionary<int, int>();
+
+            // MLH changed here to allow ALL when at least one is still to SCAN
+            log.Debug("All options selected for Scan");
+            
+            //optionDbfieldMatch.Add(#column in Log table, #entry in RecordTypes);       
+
+            optionDbfieldMatch.Add(09, 07);     // enhancedParametersLoad
+            optionDbfieldMatch.Add(05, 03);     // states
+            optionDbfieldMatch.Add(06, 04);     // configParametersLoad
+            optionDbfieldMatch.Add(07, 05);     // fit
+            optionDbfieldMatch.Add(08, 06);     // configID
+            optionDbfieldMatch.Add(04, 02);     // screens
+            optionDbfieldMatch.Add(10, 08);     // mac
+            optionDbfieldMatch.Add(11, 09);     // dateandtime
+            optionDbfieldMatch.Add(12, 10);     // dispenserCurrency
+            optionDbfieldMatch.Add(13, 01);     // treply
+            optionDbfieldMatch.Add(14, 25);     // interactiveTranResponse
+            optionDbfieldMatch.Add(15, 23);     // extendedEncrypKeyChange
+            optionDbfieldMatch.Add(16, 20);     // ejAckBlock
+            optionDbfieldMatch.Add(17, 21);     // ejAckStop
+            optionDbfieldMatch.Add(18, 22);     // ejOptionsTimers
+            optionDbfieldMatch.Add(19, 99);     // hostToExit
+            optionDbfieldMatch.Add(20, 24);     // terminalCommands
+            optionDbfieldMatch.Add(21, 26);     // voiceGuidance
+            optionDbfieldMatch.Add(22, 00);     // treq
+            optionDbfieldMatch.Add(23, 16);     // solicitedStatus
+            optionDbfieldMatch.Add(24, 17);     // unsolicitedStatus
+            optionDbfieldMatch.Add(25, 18);     // encryptorInitData
+            optionDbfieldMatch.Add(26, 99);     // exitToHost
+            optionDbfieldMatch.Add(27, 19);     // uploadEjData
+            optionDbfieldMatch.Add(28, 11);     // iccCurrencyDOT
+            optionDbfieldMatch.Add(29, 12);     // iccTransactionDOT
+            optionDbfieldMatch.Add(30, 13);     // iccLanguageSupportT
+            optionDbfieldMatch.Add(31, 14);     // iccTerminalDOT
+            optionDbfieldMatch.Add(32, 15);     // iccApplicationIDT
+
+
+            // using Dictionary order
+
+            foreach (int recKey in optionDbfieldMatch.Keys)
+            {
+                int recType = optionDbfieldMatch[recKey];
+
+                if (recType == 99) continue;
+
+                processNDCMessages(recType, project, false);
+
+            }
+            //processNDCMessages(-1, project, true);
+        }
+
+        public void processNDCMessages(int option, int logID, bool value)
+        {
+            // MLH changed here to allow ALL when at least one is still to SCAN
+            // option is the entry position in the RecordTypes array
+
+            
+                string regExStr = App.Prj.RecordTypes[option, 0] + "%";
+                string recordType = App.Prj.RecordTypes[option, 3];
+
+                log.Info($"Scanning for '{recordType}' records started");
+
+                App.Prj.getData(regExStr, recordType, logID.ToString(), option);
+                log.Info($"Scanning for '{recordType}' records completed");
+
+
+        }
+        public bool writeData(string recKey, dataLine data, int logID, OdbcConnection conn)
         {
             if (data.allGroups[6].IndexOf("]") != data.allGroups[6].LastIndexOf("]"))
             {
@@ -558,16 +654,27 @@ namespace Logger
             }
             if (data.allGroups[1].Length > 100 || data.allGroups[2].Length > 100 || data.allGroups[3].Length > 100 || data.allGroups[4].Length > 100 || data.allGroups[5].Length > 100 || data.allGroups[7].Length > 100)
                 Console.WriteLine("error");
-            return new DbCrud().crudToDb("INSERT INTO loginfo(logkey, group1, group2, group3, group4, group5, group6, group7, group8,prjKey, logID) \r\n                        VALUES('" + recKey + "','" + data.allGroups[1] + "','" + data.allGroups[2] + "','" + data.allGroups[3] + "','" + data.allGroups[4] + "','" + data.allGroups[5] + "','" + data.allGroups[6] + "','" + data.allGroups[7] + "','" + WebUtility.HtmlEncode(data.allGroups[8] + data.allGroups[9]) + "','" + this.Key + "','" + logID.ToString() + "')");
+            string sql = "INSERT INTO loginfo(logkey, group1, group2, group3, group4, group5, group6, group7, group8, prjKey, logID) \r\n VALUES('" + recKey + "','" + data.allGroups[1] + "','" + data.allGroups[2] + "','" + data.allGroups[3] + "','" + data.allGroups[4] + "','" + data.allGroups[5] + "','" + data.allGroups[6] + "','" + data.allGroups[7] + "','" + WebUtility.HtmlEncode(data.allGroups[8] + data.allGroups[9]) + "','" + this.Key + "','" + logID.ToString() + "')";
+
+            return new DbCrud().executeSQL(trandata.command,sql,trandata.transaction);
+            //    return new DbCrud().crudToDb("INSERT INTO loginfo(logkey, group1, group2, group3, group4, group5, group6, group7, group8,prjKey, logID) \r\n                        VALUES('" + recKey + "','" + data.allGroups[1] + "','" + data.allGroups[2] + "','" + data.allGroups[3] + "','" + data.allGroups[4] + "','" + data.allGroups[5] + "','" + data.allGroups[6] + "','" + data.allGroups[7] + "','" + WebUtility.HtmlEncode(data.allGroups[8] + data.allGroups[9]) + "','" + this.Key + "','" + logID.ToString() + "')");
         }
-
         public bool writeLogDetail(string recKey, string data, int logID) => new DbCrud().crudToDb("INSERT INTO logDetail(logkey,detailInfo,prjKey, logID) \r\n                        VALUES('" + recKey + "','" + data + "','" + this.Key + "','" + logID.ToString() + "')");
-
         public string ReadFile(string fileName, string path) => System.IO.File.ReadAllText(path + fileName);
-
         public void getData(string regExStr, string recordType, string logID, int option)
         {
-            Dictionary<string, string> dictionary = this.readData("SELECT logkey,id,group8 from [loginfo] WHERE group8 like '" + regExStr + "' AND logID =" + logID);
+            //            Dictionary<string, string> dictionary = this.readData("SELECT logkey,id,group8 from [loginfo] WHERE group8 like '" + regExStr + "' AND logID =" + logID);
+            Dictionary<string, string> dictionary = this.readData("SELECT logkey,id,group8 from [NDCRecords] WHERE group8 like '" + regExStr + "' AND logID =" + logID);
+            //DbCrud db = new DbCrud();
+
+            ////string readFile =
+            ////    (string)System.IO.File.ReadAllText(db.GetScalarStrFromDb($"select logFile from logs where id ='{logID}'"));
+            ////Console.WriteLine(readFile);
+
+            //Console.WriteLine(DateTime.Now.ToString());
+            //Regex regex2 = new Regex(regExStr);
+            //MatchCollection matchCollection1 = regex2.Matches(readFile);
+
             if (dictionary == null)
                 return;
             List<typeRec> typeRecs = new List<typeRec>();
