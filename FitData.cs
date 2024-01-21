@@ -238,7 +238,7 @@ namespace Logger
 
             foreach (DataTable dt in dts)
             {
-                if (dt.Rows.Count > 0)
+                if (dt != null && dt.Rows.Count > 0)
                     if (dtFirst == true)
                     {
                         for (int colNum = 3; colNum < dt.Columns.Count - 3; colNum++)

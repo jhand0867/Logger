@@ -169,7 +169,7 @@ namespace Logger
             if (!tagFlag)
                 dgvLog.DataSource = dt;
 
-            dtCopy = dt.Copy();
+            if (dt != null ) dtCopy = dt.Copy();
 
         }
 
