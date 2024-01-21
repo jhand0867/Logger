@@ -261,43 +261,43 @@
             this.toolStripSeparator3,
             this.printToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 126);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(172, 104);
             // 
             // showInContextToolStripMenuItem
             // 
             this.showInContextToolStripMenuItem.Name = "showInContextToolStripMenuItem";
-            this.showInContextToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showInContextToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.showInContextToolStripMenuItem.Text = "Show in Context";
             this.showInContextToolStripMenuItem.Click += new System.EventHandler(this.showInContextToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(168, 6);
             // 
             // dataWrappingToolStripMenuItem
             // 
             this.dataWrappingToolStripMenuItem.Name = "dataWrappingToolStripMenuItem";
-            this.dataWrappingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dataWrappingToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.dataWrappingToolStripMenuItem.Text = "Data Wrapping";
             this.dataWrappingToolStripMenuItem.Click += new System.EventHandler(this.dataWrappingToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.copyToolStripMenuItem.Text = "Copy to Clipboard";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(168, 6);
             // 
             // printToolStripMenuItem1
             // 
             this.printToolStripMenuItem1.Name = "printToolStripMenuItem1";
-            this.printToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.printToolStripMenuItem1.Size = new System.Drawing.Size(171, 22);
             this.printToolStripMenuItem1.Text = "Print";
             // 
             // btExport

@@ -291,32 +291,8 @@ namespace Logger
             //MessageBox.Show(e.RowIndex.ToString());
         }
 
-        private void scanToolStripMenuItem_MouseDown(object sender, MouseEventArgs e)
-        {
-
-        }
-
         private void scanToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // MLH changed here to allow ALL when at least one message type is still to SCAN
-
-            if (dataGridView1.Rows.Count == 0)
-                return;
-
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
-
-            scanToolStripMenuItem.DropDownItems[0].Enabled = false;
-
-            for (int i = 4; i < dgvr.Cells.Count - 1; i++)
-            {
-                if (i == EXITTOHOST || i == HOSTTOEXIT) continue;
-
-                if (dgvr.Cells[i].Value.ToString() != "True" && dgvr.Cells[i].Value.ToString() != "true")
-                {
-                    scanToolStripMenuItem.DropDownItems[0].Enabled = true;
-                    break;
-                }
-            }
 
         }
 
@@ -331,65 +307,65 @@ namespace Logger
 
         }
 
-        private void hostToATMToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.Rows.Count == 0)
-                return;
+        //private void hostToATMToolStripMenuItem1_Click(object sender, EventArgs e)
+        //{
+        //    if (dataGridView1.Rows.Count == 0)
+        //        return;
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+        //    DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            for (int x = 0, i = HOSTTOATMOPT; i < dgvr.Cells.Count - HOSTTOATMOPTTOSKIP; i++, x++)
-            {
-                if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
-                {
-                    hostToATMToolStripMenuItem1.DropDownItems[x].Enabled = false;
-                }
-                else
-                {
-                    hostToATMToolStripMenuItem1.DropDownItems[x].Enabled = true;
-                }
-            }
-        }
+        //    for (int x = 0, i = HOSTTOATMOPT; i < dgvr.Cells.Count - HOSTTOATMOPTTOSKIP; i++, x++)
+        //    {
+        //        if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
+        //        {
+        //            hostToATMToolStripMenuItem1.DropDownItems[x].Enabled = false;
+        //        }
+        //        else
+        //        {
+        //            hostToATMToolStripMenuItem1.DropDownItems[x].Enabled = true;
+        //        }
+        //    }
+        //}
 
-        private void aTMToHostToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.Rows.Count == 0)
-                return;
+        //private void aTMToHostToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    if (dataGridView1.Rows.Count == 0)
+        //        return;
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+        //    DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            for (int x = 0, i = ATMTOHOSTOPT; i < dgvr.Cells.Count - ATMTOHOSTOPTTOSKIP; i++, x++)
-            {
-                if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
-                {
-                    aTMToHostToolStripMenuItem.DropDownItems[x].Enabled = false;
-                }
-                else
-                {
-                    aTMToHostToolStripMenuItem.DropDownItems[x].Enabled = true;
-                }
-            }
-        }
+        //    for (int x = 0, i = ATMTOHOSTOPT; i < dgvr.Cells.Count - ATMTOHOSTOPTTOSKIP; i++, x++)
+        //    {
+        //        if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
+        //        {
+        //            aTMToHostToolStripMenuItem.DropDownItems[x].Enabled = false;
+        //        }
+        //        else
+        //        {
+        //            aTMToHostToolStripMenuItem.DropDownItems[x].Enabled = true;
+        //        }
+        //    }
+        //}
 
-        private void eMVConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.Rows.Count == 0)
-                return;
+        //private void eMVConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    if (dataGridView1.Rows.Count == 0)
+        //        return;
 
-            DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
+        //    DataGridViewRow dgvr = dataGridView1.SelectedRows[0];
 
-            for (int x = 0, i = EMVOPT; i < dgvr.Cells.Count - 1; i++, x++)
-            {
-                if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
-                {
-                    eMVConfigurationToolStripMenuItem.DropDownItems[x].Enabled = false;
-                }
-                else
-                {
-                    eMVConfigurationToolStripMenuItem.DropDownItems[x].Enabled = true;
-                }
-            }
-        }
+        //    for (int x = 0, i = EMVOPT; i < dgvr.Cells.Count - 1; i++, x++)
+        //    {
+        //        if (dgvr.Cells[i].Value.ToString() == "True" || dgvr.Cells[i].Value.ToString() == "true")
+        //        {
+        //            eMVConfigurationToolStripMenuItem.DropDownItems[x].Enabled = false;
+        //        }
+        //        else
+        //        {
+        //            eMVConfigurationToolStripMenuItem.DropDownItems[x].Enabled = true;
+        //        }
+        //    }
+        //}
 
         private void solicitedStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
