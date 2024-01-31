@@ -11,9 +11,18 @@ namespace Logger
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainW());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainW());
+            }
+            catch (Exception appEx)
+            {
+
+                MessageBox.Show(appEx.Message);
+            }
+            
 
         }
     }

@@ -21,8 +21,12 @@ namespace Logger
         private static readonly string APP_OUT_FOLDER = @"C:\Logger Update Build\output\App";
         private static readonly string HELP_TOPIC = "LoggerManual/LoggerManual.htm";
 
+        
         public MainW()
         {
+            try
+            {
+            
             log.Info($"Logger Started");
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
@@ -87,6 +91,12 @@ namespace Logger
             {
                 log.Info("Licesense is current");
                 return;
+            }
+            }
+            catch (Exception error)
+            {
+
+                log.Info(error.Message);
             }
         }
 
