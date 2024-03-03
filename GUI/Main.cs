@@ -16,7 +16,7 @@ namespace Logger
 
         private static readonly int MIN_BACKUP_DAYS = 5;
         private static readonly string SQL_SRC_FOLDER = @"C:\Logger Update Build\sources\Data";
-        private static readonly string APP_SRC_FOLDER = @"C:\Logger Update Build\sources\App";
+        private static readonly string APP_SRC_FOLDER = @"C:\Users\jhand\source\repos-preprod\install-stick\Logger";
         private static readonly string SQL_OUT_FOLDER = @"C:\Logger Update Build\output\Data";
         private static readonly string APP_OUT_FOLDER = @"C:\Logger Update Build\output\App";
         private static readonly string HELP_TOPIC = "LoggerManual/LoggerManual.htm";
@@ -197,7 +197,7 @@ namespace Logger
         private void CustomKeyEventHandler(object sender, KeyEventArgs e)
         {
             if (e.KeyValue == 112)
-                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
+                Help.ShowHelp(this, System.Windows.Forms.Application.StartupPath + "\\manualtest.chm");
 
         }
 
@@ -294,14 +294,25 @@ namespace Logger
 
         }
 
+
+        /// <summary>
+        /// Method to generate updates to be delivered to customers.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void genrateUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            generateDataUpdates();
-            generateAppUpdates();
+            if (!generateDataUpdates())
+                MessageBox.Show("Generate Data updates failed, please check the log for more information");
+
+            if (!generateAppUpdates())
+                MessageBox.Show("Generate Application updates failed, please check the log for more information");
 
         }
+
         #region SQL Update
-        private void generateDataUpdates()
+        private bool generateDataUpdates()
         {
 
             if (Directory.Exists(SQL_SRC_FOLDER))
@@ -374,6 +385,7 @@ namespace Logger
             catch (Exception ex)
             {
                 log.Error($"ERROR: Dump failed {ex.Message}");
+                return false;
             }
 
             try
@@ -388,7 +400,9 @@ namespace Logger
             {
 
                 log.Error($"ERROR: Unable to copy SQL source to Output - Dump failed {ex.Message}");
+                return false;   
             }
+            return true;
 
         }
         #endregion
@@ -426,6 +440,7 @@ namespace Logger
             {
 
                 log.Error($"ERROR: Unable to copy APP source to Output - Dump failed {ex.Message}");
+                return false;
             }
 
 
@@ -453,7 +468,7 @@ namespace Logger
         private void MainW_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyValue == 112)
-                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm",HELP_TOPIC);
+                Help.ShowHelp(this, System.Windows.Forms.Application.StartupPath + "\\manualtest.chm",HELP_TOPIC);
         }
     }
 

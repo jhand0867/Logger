@@ -8,6 +8,10 @@ using System.Windows.Forms;
 
 namespace Logger
 {
+
+    /// <summary>
+    /// MLH  I believe this was moved/implemented in the update.exe module. Therefore, this is obsolete.
+    /// </summary>
     public partial class UpdatesUpload : Form
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(

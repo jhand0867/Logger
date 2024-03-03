@@ -93,7 +93,7 @@ namespace Logger
         private void CustomKeyEventHandler(object sender, KeyEventArgs e)
         {
             if (Equals(e.KeyCode,Keys.F1))
-                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
+                Help.ShowHelp(this, System.Windows.Forms.Application.StartupPath + "\\manualtest.chm");
         }
 
         /// <summary>

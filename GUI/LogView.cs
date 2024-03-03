@@ -176,7 +176,7 @@ namespace Logger
         private void CustomKeyEventHandler(object sender, KeyEventArgs e)
         {
             if (Equals(e.KeyCode, Keys.F1))
-                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm",HELP_TOPIC);
+                Help.ShowHelp(this, System.Windows.Forms.Application.StartupPath + "\\manualtest.chm",HELP_TOPIC);
         }
 
         private void writeGeneralInfo(string logID)

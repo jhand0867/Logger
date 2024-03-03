@@ -130,7 +130,7 @@ namespace Logger
         private void AboutDialog_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyValue == 112)
-                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm", HELP_TOPIC);
+                Help.ShowHelp(this, System.Windows.Forms.Application.StartupPath + "\\manualtest.chm", HELP_TOPIC);
         }
     }
 }

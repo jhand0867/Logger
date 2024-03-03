@@ -55,7 +55,7 @@ namespace Logger
         private void CustomKeyEventHandler(object sender, KeyEventArgs e)
         {
             if(Equals(e.KeyValue,112))
-                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
+                Help.ShowHelp(this, System.Windows.Forms.Application.StartupPath + "\\manualtest.chm");
         }
 
         //internal void loadInfo()
@@ -624,7 +624,7 @@ namespace Logger
         {
             if (e.KeyValue == 112)
                 // Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm");
-                Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm", HELP_TOPIC);
+                Help.ShowHelp(this, System.Windows.Forms.Application.StartupPath + "\\manualtest.chm", HELP_TOPIC);
                 //Help.ShowHelp(this, "C:\\Users\\jhand\\Downloads\\manualTest\\manualtest.chm", HelpNavigator.);
         }
     }
