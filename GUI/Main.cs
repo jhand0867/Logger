@@ -17,6 +17,7 @@ namespace Logger
         private static readonly int MIN_BACKUP_DAYS = 5;
         private static readonly string SQL_SRC_FOLDER = @"C:\Logger Update Build\sources\Data";
         private static readonly string APP_SRC_FOLDER = @"C:\Users\jhand\source\repos-preprod\install-stick\Logger";
+        //private static readonly string APP_SRC_FOLDER = @"C:\Logger Update Build\sources\App";
         private static readonly string SQL_OUT_FOLDER = @"C:\Logger Update Build\output\Data";
         private static readonly string APP_OUT_FOLDER = @"C:\Logger Update Build\output\App";
         private static readonly string HELP_TOPIC = "LoggerManual/LoggerManual.htm";
@@ -304,11 +305,18 @@ namespace Logger
         private void genrateUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!generateDataUpdates())
+            {
                 MessageBox.Show("Generate Data updates failed, please check the log for more information");
-
-            if (!generateAppUpdates())
-                MessageBox.Show("Generate Application updates failed, please check the log for more information");
-
+            }
+            else
+            {
+                if (!generateAppUpdates())
+                    MessageBox.Show("Generate Application updates failed, please check the log for more information");
+                else
+                {
+                    MessageBox.Show($"Updates successfully created.\r\nData Update: {SQL_OUT_FOLDER}\r\nApplication Update: {APP_OUT_FOLDER}");
+                }
+            }
         }
 
         #region SQL Update
@@ -364,7 +372,6 @@ namespace Logger
             pI.UseShellExecute = false;
             pI.RedirectStandardOutput = true;
             pI.RedirectStandardError = true;
-
             //pI.WorkingDirectory = SQL_OUT_FOLDER;
 
 
@@ -430,10 +437,9 @@ namespace Logger
 
             try
             {
-                foreach (string item in (Directory.GetFileSystemEntries(APP_SRC_FOLDER)))
+                foreach (var item in (Directory.GetFiles(APP_SRC_FOLDER)))
                 {
                     File.Copy(item, APP_OUT_FOLDER + "\\" + item.Substring(item.LastIndexOf("\\"), (item.Length) - (item.LastIndexOf("\\"))), true);
-
                 }
             }
             catch (Exception ex)
@@ -450,7 +456,7 @@ namespace Logger
 
 
 
-        #endregion
+#endregion
 
         #region Help listener
 
